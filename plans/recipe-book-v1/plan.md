@@ -194,7 +194,7 @@ create index idx_cook_logs_recipe      on cook_logs(recipe_id, cooked_at desc);
 
 ### Стартовые данные
 
-Лежат в **миграции** `supabase/migrations/0002_reference_data.sql`, а не в `supabase/seed.sql`. Причина: `supabase db push` seed-файл не выполняет — он применяется только при локальном `db reset`. Категории и базовые продукты это не тестовые данные, а часть начального состояния прода, поэтому им место в миграции.
+Лежат в **миграции** `<timestamp>_reference_data.sql`, а не в `supabase/seed.sql`. Причина: `supabase db push` seed-файл не выполняет — он применяется только при локальном `db reset`. Категории и базовые продукты это не тестовые данные, а часть начального состояния прода, поэтому им место в миграции.
 
 Содержимое:
 
@@ -392,8 +392,12 @@ src/
 
 **Файлы**
 
-- `supabase/migrations/0001_init.sql` — вся схема выше + триггер `touch_updated_at` + RLS-политики + бакет `recipe-photos`
-- `supabase/migrations/0002_reference_data.sql` — категории и ~60 продуктов (миграцией, не seed-файлом — см. «Стартовые данные»)
+- `supabase/migrations/<timestamp>_init.sql` — вся схема выше + триггер `touch_updated_at` + RLS-политики + бакет `recipe-photos`
+- `supabase/migrations/<timestamp>_reference_data.sql` — категории и ~60 продуктов (миграцией, не seed-файлом — см. «Стартовые данные»)
+
+Имена файлов генерирует `supabase migration new <имя>`, префикс — дата-время создания; он же задаёт порядок применения. Руками файлы миграций не создавать.
+
+Разбор этой фазы с объяснением каждой конструкции — `phase-1-tutorial.md` (писался для прохождения вручную, но как справка по «почему схема такая» годится и исполнителю).
 - `supabase/config.toml` — локальная конфигурация CLI
 - `src/api/database.types.ts` — генерация через `supabase gen types typescript`
 - `package.json` — **создаётся здесь**, минимальный: `supabase` в `devDependencies` + скрипты `db:reset`, `db:types`. Фаза 2 добавляет Vite и остальное в **этот** файл, а не скаффолдит проект с нуля поверх него
