@@ -18,7 +18,7 @@
 
 - `supabase/**` — миграции, конфиг, seed
 - `.env` — можно только `.env.example`
-- `src/api/database.types.ts` — генерируется из схемы
+- `src/types/database.types.ts` — генерируется из схемы
 - `src/api/repositories/**`
 
 **Не выполнять целиком:** Фазу 1 (база данных) и часть Фазы 5 (репозитории). Кто что делает по фазам — таблица в `plans/recipe-book-v1/plan.md`, раздел «Кто что выполняет»; полный список работ владельца — `plans/recipe-book-v1/backend-track.md`.
@@ -72,7 +72,7 @@ pnpm build          # прод-сборка
 pnpm lint           # линт
 pnpm test           # vitest
 pnpm db:reset       # пересоздать локальную БД из миграций + seed
-pnpm db:types       # перегенерировать src/api/database.types.ts
+pnpm db:types       # перегенерировать src/types/database.types.ts
 ```
 
 После правки схемы БД **всегда** перегенерировать типы — руками `database.types.ts` не редактировать.
