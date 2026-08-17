@@ -230,6 +230,36 @@ export type Database = {
           },
         ]
       }
+      recipe_dish_categories: {
+        Row: {
+          dish_category_id: string
+          recipe_id: string
+        }
+        Insert: {
+          dish_category_id: string
+          recipe_id: string
+        }
+        Update: {
+          dish_category_id?: string
+          recipe_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipe_dish_categories_dish_category_id_fkey"
+            columns: ["dish_category_id"]
+            isOneToOne: false
+            referencedRelation: "dish_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipe_dish_categories_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       recipe_ingredients: {
         Row: {
           amount_grams: number
@@ -320,7 +350,6 @@ export type Database = {
           carbs_100_override: number | null
           cook_time_min: number | null
           created_at: string
-          dish_category_id: string
           fat_100_override: number | null
           freezable: boolean
           freezer_days: number | null
@@ -341,7 +370,6 @@ export type Database = {
           carbs_100_override?: number | null
           cook_time_min?: number | null
           created_at?: string
-          dish_category_id: string
           fat_100_override?: number | null
           freezable?: boolean
           freezer_days?: number | null
@@ -362,7 +390,6 @@ export type Database = {
           carbs_100_override?: number | null
           cook_time_min?: number | null
           created_at?: string
-          dish_category_id?: string
           fat_100_override?: number | null
           freezable?: boolean
           freezer_days?: number | null
@@ -378,15 +405,7 @@ export type Database = {
           video_urls?: string[]
           yield_grams?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "recipes_dish_category_id_fkey"
-            columns: ["dish_category_id"]
-            isOneToOne: false
-            referencedRelation: "dish_categories"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
