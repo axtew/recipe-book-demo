@@ -106,7 +106,6 @@ alter table products
 create table recipes (
   id                  uuid primary key default gen_random_uuid(),
   name                text not null,
-  dish_category_id    uuid not null references dish_categories(id) on delete restrict,
   servings_base       integer not null default 1 check (servings_base > 0),
   yield_grams         numeric(8,1) check (yield_grams > 0),
   cook_time_min       integer check (cook_time_min > 0),
@@ -130,6 +129,17 @@ create table recipe_steps (
   recipe_id  uuid not null references recipes(id) on delete cascade,
   sort_order integer not null,
   text       text not null
+);
+
+-- Категории блюда — много-ко-многим: блины это и завтрак, и десерт.
+-- Составной первичный ключ запрещает дубли и даёт индекс с ведущим recipe_id,
+-- то есть выборка «категории этого рецепта» уже покрыта. Обратное направление
+-- («рецепты этой категории», для группировки на главном экране) требует своего
+-- индекса — составной индекс работает только слева направо.
+create table recipe_dish_categories (
+  recipe_id        uuid not null references recipes(id)         on delete cascade,
+  dish_category_id uuid not null references dish_categories(id) on delete restrict,
+  primary key (recipe_id, dish_category_id)
 );
 
 create table recipe_ingredients (
@@ -167,15 +177,30 @@ create index idx_variants_product      on product_variants(product_id);
 create index idx_ingredients_recipe    on recipe_ingredients(recipe_id);
 create index idx_ingredients_product   on recipe_ingredients(product_id);
 create index idx_steps_recipe          on recipe_steps(recipe_id);
+create index idx_rdc_category          on recipe_dish_categories(dish_category_id);
 create index idx_cook_logs_recipe      on cook_logs(recipe_id, cooked_at desc);
 
 -- ── updated_at ─────────────────────────────────────────────────────
 -- Триггерная функция touch_updated_at() на products, product_variants, recipes.
 
--- ── RLS ────────────────────────────────────────────────────────────
--- На каждой таблице: enable row level security + одна политика
---   for all to authenticated using (true) with check (true)
--- Приложение однопользовательское, разграничения по владельцу нет.
+-- ── Доступ: гранты + RLS ───────────────────────────────────────────
+-- Запрос проходит ДВЕ независимые проверки, в этом порядке:
+--   1) grant  — имеет ли роль право обращаться к таблице (иначе 42501);
+--   2) политика RLS — какие строки видны.
+-- Забыть можно любую, и симптомы разные: без политики — пустой список без
+-- ошибки, без гранта — явная 42501. Нужны обе, на КАЖДОЙ из 9 таблиц.
+--
+-- Политика: for all to authenticated using (true) with check (true).
+-- Разграничения по владельцу нет — база общая семейная. Роли anon — ничего.
+--
+-- Гранты избирательные: право DELETE НЕ выдано на products, product_variants,
+-- recipes и таблицы категорий — так инвариант «удалений нет, только
+-- archived_at» становится невыполнимым действием, а не соглашением. DELETE
+-- выдан там, где строка живёт внутри родителя и архивировать нечего:
+-- recipe_steps, recipe_ingredients, recipe_dish_categories, cook_logs.
+--
+-- alter default privileges НЕ используется намеренно: новая таблица должна
+-- падать с внятной 42501, а не получать права молча.
 ```
 
 ### Ключевые решения по схеме
@@ -194,13 +219,11 @@ create index idx_cook_logs_recipe      on cook_logs(recipe_id, cooked_at desc);
 
 ### Стартовые данные
 
-Лежат в **миграции** `<timestamp>_reference_data.sql`, а не в `supabase/seed.sql`. Причина: `supabase db push` seed-файл не выполняет — он применяется только при локальном `db reset`. Категории и базовые продукты это не тестовые данные, а часть начального состояния прода, поэтому им место в миграции.
+Предзаполняются **только категории блюд**: завтраки, обеды, ужины, супы, выпечка, десерты, заготовки. Лежат в **миграции** `<timestamp>_reference_data.sql`, а не в `supabase/seed.sql` — `db push` seed-файл не выполняет, он применяется только при локальном `db reset`, и в проде база осталась бы пустой.
 
-Содержимое:
+**Справочник продуктов и категории продуктов не предзаполняются** (решение от 2026-08-18). Заполняется вручную тем, что реально покупается в местном магазине: усреднённый справочник всё равно пришлось бы заменять на реальные покупки, а до тех пор он висел бы мусором и путал — непонятно, проверенные это цифры или ещё нет.
 
-- 13 категорий продуктов с `sort_order` по порядку отделов в магазине: молочное, мясо и птица, рыба, овощи, фрукты, крупы и макароны, мука и выпечка, масла и соусы, специи, орехи и сухофрукты, консервы, напитки, прочее.
-- Категории блюд: завтраки, обеды, ужины, супы, выпечка, десерты, заготовки.
-- 50–80 продуктов, у каждого один вариант с `name = null`, `is_approximate = true`, `source = 'seed'`, усреднённое КБЖУ; `active_variant_id` проставлен.
+**Следствие для Фаз 6–7:** на старте `product_categories` и `products` **пустые**. Экраны обязаны показывать внятное пустое состояние, а не ломаться и не подразумевать, что справочник заполнен. Свои категории и продукты владелец добавляет напрямую в базе (`phase-1-tutorial.md`, часть 4), пока не появится экран управления справочником.
 
 ---
 
@@ -310,6 +333,8 @@ scaleAmount(grams: number, multiplier: number): number
 ### 1. Список рецептов
 
 Карточка: фото или плейсхолдер, название, время готовки, ккал на 100 г, снежинка если `freezable`. Группы категорий сворачиваются, состояние свёрнутости живёт в localStorage.
+
+**Категорий у рецепта может быть несколько или ни одной** (связь много-ко-многим). Рецепт показывается **в каждой** своей группе — это нормально и полезно: заглянула в «Завтраки», нашла блины. Рецепт без категорий попадает в группу **«Без категории»** в конце списка. Счётчики «всего рецептов» из-за этого считаются по уникальным рецептам, а не суммированием по группам.
 
 Поиск сверху ищет **и по названию рецепта, и по названиям продуктов в его составе** — сценарий «что приготовить из того, что есть». Нормализация: lowercase + `ё` → `е` с обеих сторон сравнения, иначе «гречка» не найдёт «Гречка» и «мёд» не найдёт «мед».
 
