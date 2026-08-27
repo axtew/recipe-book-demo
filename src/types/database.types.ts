@@ -293,11 +293,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "recipe_ingredients_pinned_variant_id_fkey"
-            columns: ["pinned_variant_id"]
+            foreignKeyName: "fk_pinned_variant"
+            columns: ["product_id", "pinned_variant_id"]
             isOneToOne: false
             referencedRelation: "product_variants"
-            referencedColumns: ["id"]
+            referencedColumns: ["product_id", "id"]
           },
           {
             foreignKeyName: "recipe_ingredients_product_id_fkey"
