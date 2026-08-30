@@ -19,7 +19,7 @@ Defined in `CLAUDE.md` → «Жёсткие инварианты» (nutrition ar
 
 ### File naming
 
-- Components: PascalCase folder with an `index.ts` barrel export (`RecipeCard/`, `NutritionTable/`); nested parts in `fragments/`.
+- Components: PascalCase folder with an `index.ts` barrel export (`RecipeCard/`, `NutritionTable/`); nested parts in `_internal/`.
 - Internal files: leading underscore (`_styles.ts`, `_types.ts`, `_helpers.ts`, `_Recipe.tsx`, `_useRecipe.ts`).
 - Pages: PascalCase + `Page` suffix (`RecipePage/`, `JournalPage/`).
 - Path aliases: `@/` → `src/`.
@@ -47,11 +47,25 @@ A comment is written only where the code is genuinely non-obvious, and it descri
 
 A comment states what the code **does**, not what was intended. A comment that claims a property the code lacks is worse than the defect: it outlives both the bug and the next refactor. When a requirement could not be met, document the residual gap honestly instead of the wished-for behaviour.
 
-### Types placement
+### Placement — one ladder for everything extracted
 
-- **Shared types** — `src/types/`, one file per concern (`common`, `i18n`, …); enumerate the folder.
-- **Entity types** — `src/types/data/`, one file per domain (`products.types.ts`, `recipes.types.ts`, …). Domain enums and entity interfaces consumed across features live here.
-- **Component-local types** — `_types.ts` next to the component. Inline in the TSX is fine only when the component has at most one `type`/`interface`/`enum` declaration **and** it has fewer than 10 fields. Trigger to move them into a colocated `<ComponentName>/_types.ts`: **≥2 declarations, or one declaration with ≥10 fields.** When `_types.ts` exists, **all** component-local types live there — including the props type; splitting type-blocks between TSX and `_types.ts` is exactly what this rule forbids. **Export discipline:** see the general rule below — component-local types default to `internal`, and the barrel exports the component itself.
+Types, helpers, constants, hooks and sub-components all obey the same rule: **an entity lives at the lowest level that covers all of its current consumers, and moves up only when a real second consumer appears.** Never place something shared speculatively.
+
+The ladder, from the bottom:
+
+1. **Inside the file that uses it** — while it stays within the size limits below.
+2. **Beside the component, underscore-prefixed** — `_types.ts`, `_helpers.ts`, `_constants.ts`, `_use<Name>.ts`, `_<Sub>.tsx`.
+3. **The component's own root** — when a second consumer appears inside its `_internal/`, the shared entity moves up: `SomeComponent/_internal/SomeSub/_types.ts` → `SomeComponent/_types.ts`.
+4. **The group root** — when several sibling components of one group share it, it goes to that group's own folder (an icon set, a page's `components/charts/`, a page's `_internal/`).
+5. **Global** — `src/types/`, `src/utils/helpers/`, `src/components/` — only once consumers span two or more features or pages.
+
+**Leaving the file (step 1 → 2).** A type stays inline while the file declares at most one `type` / `interface` / `enum` **and** it has fewer than 10 fields. Trigger to move: **≥2 declarations, or one declaration with ≥10 fields.** Once `_types.ts` exists, **all** component-local types live there, the props type included — splitting type blocks between the TSX and `_types.ts` is exactly what this rule forbids.
+
+**Global types** live in `src/types/`, one file per domain or concern: `products.types.ts`, `recipes.types.ts`, `common.types.ts`, `i18n.types.ts`. Group them by **the domain a concept belongs to**, never by where the concept came from. An "API types" folder looks tidy right up until a response shape becomes an entity that a form also needs — then everything drifts into one place anyway to dodge circular imports, because "API vs not-API" is not a property a type keeps. Domain is. A domain that outgrows a single file graduates to a folder: the same ladder, one level up.
+
+**Handlers obey it too.** A handler used by exactly one child is declared **in that child**, not lifted into the feature hook and threaded down through props. A feature hook that resolves "everything the feature touches" looks like a tidy single entry point but pulls in logic whose only consumer is one leaf — the hook grows, the leaf becomes prop-plumbing. The feature hook holds what two or more children share, or what the feature root itself needs.
+
+**Export discipline** applies at every step of the ladder — see the next section.
 
 ### Export discipline — an export needs an importer, not a hope
 
@@ -67,19 +81,11 @@ Applies to reviewers too: an export with no importer outside its module is a `co
 
 **The one exception — a symbol that completes the contract the phase itself defines.** When a phase moves an existing behaviour out of a structure (e.g. replaces a function-valued field on an interface with plain data plus a free function next to it), the free function has no importer until the next phase — yet withholding the export would hand over a structure whose meaning is described nowhere. That is a transferred implementation, not a speculative "might be useful". The developer names the symbol and the reason in the report; the reviewer checks the justification rather than only counting importers. An export with neither an importer nor such a justification stays a `code` finding.
 
-### Component size & where extracted code lives
+### Component size
 
-**Keep components thin.** A component's render body is JSX + trivial glue. Data fetching, derivation, transforms, and non-trivial helper logic belong in the colocated hook (`_use<Name>.ts`) or `_helpers.ts`, never inline in the render body. A `.tsx` whose body carries substantial non-JSX logic — or runs past ~150–200 lines — is a smell: extract. (Project norm: nearly every component is < 200 lines; a new one over that needs justification.)
+**Keep components thin.** A component's render body is JSX + trivial glue. Data fetching, derivation, transforms, and non-trivial helper logic belong in the colocated hook (`_use<Name>.ts`) or `_helpers.ts`, never inline in the render body. A `.tsx` whose body carries substantial non-JSX logic — or runs past ~150–200 lines — is a smell: extract it, then place it by the ladder above.
 
-**Where an extracted file lands — the lowest level that covers all current consumers; promote only on a real 2nd consumer** (same discipline as Types placement above; no speculative shared placement):
-
-- used by one component → colocate underscore-prefixed next to it: `_constants.ts` / `_helpers.ts` / `_use<Name>.ts` / `_<Sub>.tsx`;
-- used by several components of one feature / page → that feature's own root (a page's `_internal/`, a feature folder's `_constants.ts`);
-- used across ≥2 features / pages → shared (`src/utils/helpers/`, `src/types/`, `src/components/`).
-
-Concretely: a derivation extracted from a render body goes to the component-local hook or `_helpers.ts`, not promoted to `utils/helpers/` until a second feature actually needs it.
-
-**The same rule applies downward, to handlers.** A handler used by exactly one child component is declared **in that child**, not lifted into the feature hook and threaded down through props. A feature hook that resolves "everything the feature touches" looks like a tidy single entry point but pulls in logic whose only consumer is one leaf — the hook grows, the leaf becomes prop-plumbing. The feature hook holds what two or more children share, or what the feature root itself needs.
+(Project norm: nearly every component is < 200 lines; a new one over that needs justification.)
 
 ### Compound components — for composable shells only
 
@@ -134,7 +140,7 @@ const l = useI18nSelector(({ l }) => ({
 
 A component with no primary branch (a shared fragment) skips the spread and keeps only named keys. Two shapes are defects: renaming the selector argument (`({ l: localization }) => …`) and destructuring the result into several names (`const { l, units } = …`). Both break the one convention that makes i18n reads greppable — `l` is the dictionary slice, everywhere.
 
-**`src/types/i18n.types.ts` exports exactly one thing — the `I18n` interface.** That file is the shape of the dictionaries and nothing else. Helper types that happen to be used *inside* it — key unions, enum aliases, anything a dictionary branch is keyed by — are declared in the domain file that owns the concept (entity types in `src/types/data/`) and imported here. Declaring them in `i18n.types.ts` inverts the dependency: consumers start importing domain vocabulary from the translations file, and the concept ends up owned by whichever layer first needed a dictionary key. Type placement rules from the section above apply unchanged; this is only the reminder that the dictionary file is never a shortcut home for a type.
+**`src/types/i18n.types.ts` exports exactly one thing — the `I18n` interface.** That file is the shape of the dictionaries and nothing else. Helper types that happen to be used *inside* it — key unions, enum aliases, anything a dictionary branch is keyed by — are declared in the domain file that owns the concept (entity types in `src/types/<domain>.types.ts`) and imported here. Declaring them in `i18n.types.ts` inverts the dependency: consumers start importing domain vocabulary from the translations file, and the concept ends up owned by whichever layer first needed a dictionary key. Type placement rules from the section above apply unchanged; this is only the reminder that the dictionary file is never a shortcut home for a type.
 
 ### Data access — the only path to the backend
 
@@ -175,7 +181,7 @@ Adding a dependency requires the owner's permission (`CLAUDE.md`). These are the
 Routing is TanStack Router with file-based routes.
 
 - `src/routes/` — route files only: path definition, typed params and search params, loaders, guards, and rendering the corresponding page component. A route file stays thin; markup does not live here.
-- `src/pages/<Name>Page/` — the screen itself, following the component conventions above. Sub-components of a page go in its `_internal/`; nested parts of a component go in `fragments/`.
+- `src/pages/<Name>Page/` — the screen itself, following the component conventions above. Sub-components of a page go in its `_internal/`; nested parts of a component go in `_internal/`.
 
 ### Styling — project specifics
 

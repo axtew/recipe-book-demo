@@ -408,16 +408,19 @@ src/
     repositories/       запросы к PostgREST, по файлу на домен; владелец
     queries/            хуки TanStack Query + ключи кэша
     mutations/          хуки мутаций с инвалидацией
-  types/
+  types/                глобальные типы, по файлу на домен или предмет
     database.types.ts   генерируется из схемы, руками не редактируется
-    data/               интерфейсы сущностей: products, recipes, cookLogs
+    products.types.ts   IProduct, IProductVariant, IProductCategory
+    recipes.types.ts    IRecipe, IRecipeIngredient, IRecipeStep, IDishCategory
+    cookLogs.types.ts   ICookLog
+    common.types.ts
     i18n.types.ts       интерфейс I18n — и ничего больше
   domain/
     nutrition/          чистый модуль расчёта + его внутренние типы
     schemas/            zod-схемы сущностей
     stats/              агрегаты по журналу готовки
     backup/             сериализация и валидация JSON-бэкапа
-  components/           общие компоненты; вложенные части в fragments/
+  components/           общие компоненты; вложенные части в _internal/
   pages/                экраны PageNamePage/; подкомпоненты в _internal/
   routes/               файловые роуты TanStack Router — тонкие, без вёрстки
   context/              I18nContext и useI18nSelector
@@ -432,9 +435,9 @@ public/
 
 Три вещи, в которых легко ошибиться:
 
-- **Типы сущностей — в `src/types/data/`**, а не в `src/domain/`. В `domain/nutrition/` остаются только внутренние типы модуля расчёта (`INutrients`, `IRecipeNutrition`, `INutritionSnapshot`): за его пределами они почти не нужны.
+- **Типы сущностей — в `src/types/`, по файлу на домен**, а не в `src/domain/`. Группируем по домену, к которому относится понятие, а не по происхождению: признак «пришло из API» у типа не держится, домен держится. В `domain/nutrition/` остаются только внутренние типы модуля расчёта (`INutrients`, `IRecipeNutrition`, `INutritionSnapshot`): за его пределами они почти не нужны.
 - **Роут не содержит вёрстки.** `src/routes/` — путь, типизированные params/search, загрузка, guard и рендер страницы. Экран целиком живёт в `src/pages/`.
-- **Подкомпоненты страницы — в `_internal/`**, вложенные части компонента — в `fragments/`. Это два разных уровня, как в Carbon-spa.
+- **Подкомпоненты страницы — в `_internal/`**, вложенные части компонента — в `_internal/`. Это два разных уровня, как в Carbon-spa.
 
 ## Фазы реализации
 
@@ -684,8 +687,8 @@ public/
 Живут в `.github/copilot-instructions.md`, отдельно здесь не дублируются. Что важно помнить именно при выполнении этого плана:
 
 - **Путь к данным:** компонент → хук TanStack Query → репозиторий → клиент Supabase. Прямой `supabase.from(...)` вне `src/api/repositories/` — дефект.
-- **Типы сущностей** в `src/types/data/`, внутренние типы модуля расчёта — в `src/domain/nutrition/_types.ts`.
-- **Роут тонкий**, экран в `src/pages/`; подкомпоненты страницы в `_internal/`, части компонента в `fragments/`.
+- **Типы сущностей** в `src/types/`, внутренние типы модуля расчёта — в `src/domain/nutrition/_types.ts`.
+- **Роут тонкий**, экран в `src/pages/`; подкомпоненты страницы в `_internal/`, части компонента в `_internal/`.
 - **Все видимые тексты — через словарь** `public/dictionaries/ru.json`, ни одной строки в JSX.
 - **Округление только при отображении**; домен возвращает сырые числа.
 - **`numeric` из PostgREST — строка** до границы репозитория.

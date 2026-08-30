@@ -37,7 +37,7 @@ Adding a dependency requires the owner's permission (`CLAUDE.md`). These are the
 Routing is TanStack Router with file-based routes.
 
 - `src/routes/` — route files only: path definition, typed params and search params, loaders, guards, and rendering the corresponding page component. A route file stays thin; markup does not live here.
-- `src/pages/<Name>Page/` — the screen itself, following the component conventions above. Sub-components of a page go in its `_internal/`; nested parts of a component go in `fragments/`.
+- `src/pages/<Name>Page/` — the screen itself, following the component conventions above. Sub-components of a page go in its `_internal/`; nested parts of a component go in `_internal/`.
 
 ### Styling — project specifics
 
