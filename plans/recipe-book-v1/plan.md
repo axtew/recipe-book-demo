@@ -397,25 +397,44 @@ scaleAmount(grams: number, multiplier: number): number
 
 ## Структура проекта
 
-Конвенции взяты из `Carbon-spa` / `aramco`, чтобы не переучиваться: приватные файлы компонента с префиксом `_`, публичный `index.ts`-баррель, вложенные части в `fragments/`, алиас `@/` на `src/`.
+Конвенции перенесены из `Carbon-spa` и живут в `.github/copilot-instructions.md` (собирается из `.github/instructions/`). Здесь — только раскладка папок этого проекта.
 
 ```
 supabase/
-  migrations/0001_init.sql
-  seed.sql
+  migrations/           миграции; владелец, агенты не трогают
 src/
-  api/                  supabase client, репозитории, генерируемые типы БД
-  domain/               доменные типы, zod-схемы, nutrition/ (чистый модуль расчёта)
-  components/           общие компоненты на styled-components
-  pages/                экраны: PageName/{_PageName.tsx,_styles.ts,fragments/,index.ts}
-  routes/               файловые роуты TanStack Router
+  api/
+    supabase.ts         клиент
+    repositories/       запросы к PostgREST, по файлу на домен; владелец
+    queries/            хуки TanStack Query + ключи кэша
+    mutations/          хуки мутаций с инвалидацией
+  types/
+    database.types.ts   генерируется из схемы, руками не редактируется
+    data/               интерфейсы сущностей: products, recipes, cookLogs
+    i18n.types.ts       интерфейс I18n — и ничего больше
+  domain/
+    nutrition/          чистый модуль расчёта + его внутренние типы
+    schemas/            zod-схемы сущностей
+    stats/              агрегаты по журналу готовки
+    backup/             сериализация и валидация JSON-бэкапа
+  components/           общие компоненты; вложенные части в fragments/
+  pages/                экраны PageNamePage/; подкомпоненты в _internal/
+  routes/               файловые роуты TanStack Router — тонкие, без вёрстки
+  context/              I18nContext и useI18nSelector
   hooks/                общие хуки, в т.ч. useForm
-  utils/                хелперы (форматирование, нормализация строк, сжатие изображений)
+  utils/                хелперы: форматирование, нормализация строк, сжатие фото
   theme/                тема styled-components + провайдер темы Mantine
   app/                  провайдеры, queryClient, точка входа
+public/
+  dictionaries/ru.json  единственный словарь
+  _redirects            SPA-fallback для Cloudflare Pages
 ```
 
----
+Три вещи, в которых легко ошибиться:
+
+- **Типы сущностей — в `src/types/data/`**, а не в `src/domain/`. В `domain/nutrition/` остаются только внутренние типы модуля расчёта (`INutrients`, `IRecipeNutrition`, `INutritionSnapshot`): за его пределами они почти не нужны.
+- **Роут не содержит вёрстки.** `src/routes/` — путь, типизированные params/search, загрузка, guard и рендер страницы. Экран целиком живёт в `src/pages/`.
+- **Подкомпоненты страницы — в `_internal/`**, вложенные части компонента — в `fragments/`. Это два разных уровня, как в Carbon-spa.
 
 ## Фазы реализации
 
@@ -469,7 +488,7 @@ src/
 
 **Цель.** Проект собирается и запускается, провайдеры на месте, PWA устанавливается.
 
-**Бюджет.** Операций: 9. Категории: `config`, `ui`.
+**Бюджет.** Операций: 12. Категории: `config`, `ui`.
 
 **Файлы**
 
@@ -481,8 +500,10 @@ src/
 - `src/utils/env.ts` — типизированный доступ к `import.meta.env`
 - `public/manifest` + иконки, `.env.example`, `README.md`
 - `public/_redirects` — строка `/*    /index.html   200`. Без неё Cloudflare Pages отдаёт 404 при прямом заходе на вложенный роут (`DEPLOY.md`)
+- **ESLint + Prettier** — команды `pnpm lint` и `pnpm prettier` объявлены в `.github/pipeline-profile.md`, значит должны существовать. `eqeqeq: always` обязателен: конвенции запрещают `==` / `!=`, включая сравнение с `null`
+- **i18n-инфраструктура**: `public/dictionaries/ru.json`, `src/types/i18n.types.ts` (экспортирует только интерфейс `I18n`), `src/context/I18nContext` с `useI18nSelector`. Язык один, но тексты с самого начала живут в словаре — вытаскивать их из готового JSX потом дороже (`decisions.md §1`). Реализацию контекста и селектора можно перенести из `Carbon-spa`
 
-**Проверка.** `pnpm build` и `pnpm lint` чистые; приложение открывается; Lighthouse видит установочный манифест; на телефоне ставится на домашний экран и открывается в standalone.
+**Проверка.** `pnpm build` и `pnpm lint` чистые; приложение открывается; Lighthouse видит установочный манифест; на телефоне ставится на домашний экран и открывается в standalone; `useI18nSelector` отдаёт значение из `ru.json`, ни одной видимой строки в JSX не осталось.
 
 ### Фаза 3 — Авторизация и навигация
 
@@ -540,9 +561,9 @@ src/
 **Файлы**
 
 - `src/pages/ProductsPage/` — список по категориям, поиск
-- `src/pages/ProductPage/` — карточка продукта, `fragments/VariantList`, `fragments/UsedInRecipes`
+- `src/pages/ProductPage/` — карточка продукта, `_internal/{VariantList,UsedInRecipes}`
 - `src/components/NutrientsRow/` — переиспользуемый блок «ккал / Б / Ж / У»
-- `src/pages/ProductPage/fragments/ArchiveConfirm`
+- `src/pages/ProductPage/_internal/ArchiveConfirm`
 
 **Проверка.** Переключение активного варианта в один тап и оно сохраняется; продукт с одним вариантом не показывает вложенности; усреднённые варианты помечены; список «где используется» пуст (рецептов ещё нет) и не падает; архивированный продукт пропадает из списка.
 
@@ -568,7 +589,7 @@ src/
 
 **Файлы**
 
-- `src/pages/RecipeEditorPage/` + `fragments/{IngredientRow,IngredientList,StepList,StorageFields,VideoLinks,NutritionBar,PhotoField}`
+- `src/pages/RecipeEditorPage/` + `_internal/{IngredientRow,IngredientList,StepList,StorageFields,VideoLinks,NutritionBar,PhotoField}`
 - `src/hooks/useRecipeDraft.hook.ts` — автосохранение в localStorage
 - `src/utils/image.ts` — сжатие перед загрузкой
 - `src/routes/recipes.new.tsx`, `src/routes/recipes.$recipeId.edit.tsx`
@@ -583,7 +604,7 @@ src/
 
 **Файлы**
 
-- `src/pages/RecipePage/` + `fragments/{NutritionBlock,IncompleteWarning,StorageBlock,IngredientsBlock,StepsBlock,VideoBlock,CookStats}`
+- `src/pages/RecipePage/` + `_internal/{NutritionBlock,IncompleteWarning,StorageBlock,IngredientsBlock,StepsBlock,VideoBlock,CookStats}`
 - `src/routes/recipes.$recipeId.tsx`
 
 **Проверка.** Порядок блоков совпадает с ТЗ; продукт без КБЖУ даёт предупреждение со ссылкой, а не нули; рецепт без `yield_grams` показывает подсказку про уварку; блок хранения скрыт при `freezable = false`; override помечен и кнопка «пересчитать» его сбрасывает; имя варианта показано только у продуктов с несколькими вариантами; видео открывается во внешнем приложении.
@@ -596,7 +617,7 @@ src/
 
 **Файлы**
 
-- `src/pages/RecipesPage/` + `fragments/{RecipeCard,CategoryGroup,SearchBar,FiltersSheet}`
+- `src/pages/RecipesPage/` + `_internal/{RecipeCard,CategoryGroup,SearchBar,FiltersSheet}`
 - `src/utils/search.ts` — нормализация и матчинг
 - `src/routes/index.tsx` — типизированные search-params
 
@@ -611,7 +632,7 @@ src/
 **Файлы**
 
 - `src/components/CookLogSheet/` — быстрое добавление
-- `src/pages/LogPage/` + `fragments/{LogEntry,MonthGroup}`
+- `src/pages/LogPage/` + `_internal/{LogEntry,MonthGroup}`
 - `src/domain/stats/` — агрегаты по рецепту (сколько раз, когда последний, средний выход, среднее число дней)
 
 **Проверка.** Запись создаётся в два тапа с дефолтами; в `snapshot` лежит валидный по zod `INutritionSnapshot`; смена активного варианта продукта **не** меняет цифры в уже существующей записи, но **меняет** текущее КБЖУ рецепта; «доели» проставляет дату; статистика в карточке рецепта считается корректно и не падает при единственной записи и при нулевых значениях.
@@ -624,7 +645,7 @@ src/
 
 **Файлы**
 
-- `src/pages/SettingsPage/` + `fragments/{ExportBlock,ImportBlock,CategoriesEditor}`
+- `src/pages/SettingsPage/` + `_internal/{ExportBlock,ImportBlock,CategoriesEditor}`
 - `src/domain/backup/` — сериализация всей базы в JSON с версией схемы и валидация импорта через zod
 
 **Проверка.** Экспорт скачивает файл со всеми таблицами и полем `version`; импорт битого файла отклоняется с внятным сообщением и **ничего не пишет в базу**; импорт валидного файла на пустой базе восстанавливает состояние один в один; категории переименовываются и переупорядочиваются, `sort_order` сохраняется.
@@ -660,13 +681,16 @@ src/
 
 ## Конвенции
 
-- Приватные файлы компонента с префиксом `_`, публичный `index.ts`-баррель, вложенные части в `fragments/` — как в `Carbon-spa` и `aramco`.
-- Интерфейсы с префиксом `I`, типы-алиасы с `T`, enum'ы с `E`.
-- Округление только на уровне отображения: ккал до целых, БЖУ до одного знака. В домене — сырые числа.
-- Числа в БД — `numeric`, в TS приходят строками через PostgREST: репозиторий обязан приводить их к `number` на границе, чтобы дальше в приложении не было строкочисел.
-- Даты `cooked_at` / `finished_at` — `date` без времени, в TS строки `YYYY-MM-DD`, без `Date` и без часовых поясов.
-- Mantine только для тяжёлых компонентов (Combobox, Drawer, DatePicker, Rating, NumberInput, Dropzone, Notifications, Skeleton). Вёрстка экранов, карточки, заголовки, отступы — styled-components.
-- Любой экран, читающий данные, имеет явное состояние загрузки (Skeleton), а не прочерки, которые потом подменяются.
+Живут в `.github/copilot-instructions.md`, отдельно здесь не дублируются. Что важно помнить именно при выполнении этого плана:
+
+- **Путь к данным:** компонент → хук TanStack Query → репозиторий → клиент Supabase. Прямой `supabase.from(...)` вне `src/api/repositories/` — дефект.
+- **Типы сущностей** в `src/types/data/`, внутренние типы модуля расчёта — в `src/domain/nutrition/_types.ts`.
+- **Роут тонкий**, экран в `src/pages/`; подкомпоненты страницы в `_internal/`, части компонента в `fragments/`.
+- **Все видимые тексты — через словарь** `public/dictionaries/ru.json`, ни одной строки в JSX.
+- **Округление только при отображении**; домен возвращает сырые числа.
+- **`numeric` из PostgREST — строка** до границы репозитория.
+- **Даты** `cooked_at` / `finished_at` — строки `YYYY-MM-DD`, без `Date`.
+- **Mantine только для тяжёлых компонентов**, специфичность над ними — через `&&`, не `!important`.
 
 ## Подводные камни
 
