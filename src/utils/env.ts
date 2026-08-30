@@ -5,7 +5,7 @@ interface IEnv {
 
 function readEnvVar(key: keyof ImportMetaEnv): string {
   const value = import.meta.env[key];
-  if (value.length === 0) {
+  if (typeof value !== "string" || value.length === 0) {
     throw new Error(`Переменная окружения ${key} не задана`);
   }
   return value;
