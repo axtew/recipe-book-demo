@@ -35,12 +35,15 @@ Adding a dependency requires the owner's permission (`CLAUDE.md`). These are the
 
 ### Routes and pages are different layers
 
-Routing is TanStack Router with file-based routes.
+Routing is TanStack Router in **code-based** mode — the route tree is written out explicitly, there is no codegen and no `routeTree.gen.ts`.
 
-- `src/routes/` — route files only: path definition, typed params and search params, loaders, guards, and rendering the corresponding page component. A route file stays thin; markup does not live here.
+- `src/routes/` — the tree and nothing else: `_paths.ts` (every path as a named constant — no path string literals in components), `_routes.tsx` (`commonRoutes` / `protectedRoutes`), `AppRouter.tsx` (tree assembly + `createRouter`), `layouts/` (route-level wrappers). Markup does not live here.
+- **The auth guard is `beforeLoad` on the protected layout route**, not a `<ProtectedRoute>` component: it runs before render, so there is no flash of a protected screen before the redirect.
 - `src/pages/<Name>Page/` — the screen itself, following the component conventions above. Sub-components of a page go in its `_internal/`; nested parts of a component go in `_internal/`.
 
 ### Styling — project specifics
+
+Typography is a set of project components in `src/components/Typography/` — `H1`–`H3`, `B1`–`B3`, `Caption1`–`Caption2`, `Numbers`. **A screen never sets `font-size` itself.** A new size means: first a token in `src/theme/_typography.ts`, then a component, then usage — in that order. This is what keeps screens looking like one application instead of each one inventing its own headings.
 
 Styled Components for layout, cards, headings, spacing — the project's own. **Mantine only for heavy components**: `Combobox`, `Drawer`, `DatePicker`, `Rating`, `NumberInput`, `Dropzone`, `Notifications`, `Skeleton`. Raising specificity over a Mantine component goes through `&&` in the styled wrapper — never `!important`. There is no in-repo UI kit: a primitive is either Mantine (for the list above) or a project component under `src/components/`.
 
