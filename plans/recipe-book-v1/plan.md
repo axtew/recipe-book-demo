@@ -548,6 +548,7 @@ public/
 
 **Файлы**
 
+- **Зависимости, которые ставит эта фаза:** `zod`. Больше ничего — модуль расчёта чистый.
 - `src/domain/nutrition/{_types.ts,_resolve.ts,_calculate.ts,_snapshot.ts,index.ts}`
 - `src/domain/nutrition/__tests__/calculate.test.ts`
 - `src/domain/schemas/` — zod-схемы всех сущностей
@@ -564,6 +565,7 @@ public/
 
 **Файлы**
 
+- **Зависимости, которые ставит эта фаза:** `@mantine/notifications` (тосты об ошибках мутаций). Больше ничего.
 - 🔒 `src/api/repositories/{products,recipes,cookLogs,categories}.repository.ts` — **владелец**
 - `src/api/queries/` — ключи запросов и хуки `useProductsQuery`, `useRecipesQuery`, `useCookLogsQuery`
 - `src/api/mutations/` — базовый хук мутации с инвалидацией и тостом об ошибке
@@ -608,6 +610,7 @@ public/
 
 **Файлы**
 
+- **Зависимости, которые ставит эта фаза:** `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` (последний нужен для `CSS.Transform` в перетаскиваемой строке), `browser-image-compression`.
 - `src/pages/RecipeEditorPage/` + `_internal/{IngredientRow,IngredientList,StepList,StorageFields,VideoLinks,NutritionBar,PhotoField}`
 - `src/hooks/useRecipeDraft.hook.ts` — автосохранение в localStorage
 - `src/utils/image.ts` — сжатие перед загрузкой
@@ -650,6 +653,7 @@ public/
 
 **Файлы**
 
+- **Зависимости, которые ставит эта фаза:** `@mantine/dates` (DatePicker) и `dayjs` — он peer-зависимость `@mantine/dates`, без него компонент не заведётся.
 - `src/components/CookLogSheet/` — быстрое добавление
 - `src/pages/LogPage/` + `_internal/{LogEntry,MonthGroup}`
 - `src/domain/stats/` — агрегаты по рецепту (сколько раз, когда последний, средний выход, среднее число дней)
@@ -739,6 +743,12 @@ public/
 ## Дополнения
 
 <!-- Журнал правок плана по ходу выполнения. Дописывать, не переписывать. -->
+
+### Фазы 4, 5, 8, 11 — добавлено 2026-08-31
+
+**Триггер:** правило «закрытый список зависимостей на фазу» было введено после Фазы 2, но список написан только для неё. Фаза 4 упёрлась бы в `zod` и по правилу остановилась бы спрашивать.
+
+**Правка.** Списки дописаны во все фазы, где появляются новые пакеты: Фаза 4 — `zod`; Фаза 5 — `@mantine/notifications`; Фаза 8 — три пакета `@dnd-kit/*` и `browser-image-compression`; Фаза 11 — `@mantine/dates` с обязательным `dayjs`. В остальных фазах новых зависимостей нет, и это тоже означает «ставить нечего».
 
 ### Фаза 2 — добавлено 2026-08-31
 
