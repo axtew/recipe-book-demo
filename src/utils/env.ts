@@ -3,7 +3,7 @@ interface IEnv {
   supabasePublishableKey: string;
 }
 
-function readEnvVar(key: keyof ImportMetaEnv): string {
+export function readEnvVar(key: keyof ImportMetaEnv): string {
   const value = import.meta.env[key];
   if (typeof value !== "string" || value.length === 0) {
     throw new Error(`Переменная окружения ${key} не задана`);
