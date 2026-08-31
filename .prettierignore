@@ -4,3 +4,4 @@ node_modules
 pnpm-lock.yaml
 supabase/migrations
 src/types/database.types.ts
+src/routeTree.gen.ts

@@ -1,10 +1,11 @@
 import "@mantine/core/styles.css";
 
+import { RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { App } from "@/app/App";
 import { AppProviders } from "@/app/providers";
+import { router } from "@/app/router";
 
 const rootElement = document.getElementById("root");
 if (rootElement === null) {
@@ -14,7 +15,7 @@ if (rootElement === null) {
 createRoot(rootElement).render(
   <StrictMode>
     <AppProviders>
-      <App />
+      <RouterProvider router={router} />
     </AppProviders>
   </StrictMode>,
 );

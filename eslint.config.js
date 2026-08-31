@@ -23,4 +23,12 @@ export default tseslint.config(
       eqeqeq: ["error", "always"],
     },
   },
+  {
+    // Файловый роутинг TanStack Router обязывает каждый файл роута экспортировать
+    // константу `Route` рядом с компонентом — предупреждение здесь неустранимо самим паттерном.
+    files: ["src/routes/**/*.tsx"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
 );

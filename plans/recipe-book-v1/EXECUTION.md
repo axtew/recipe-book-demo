@@ -134,3 +134,94 @@ RLS включена на всех 8 таблицах, но **политика �
 - Предложения владельца по схеме: `dish_category_id` списком — принято (Р-5, миграция `20260817172518`); разделение весов — отклонено, вес сырья производный (`decisions.md §6.7`).
 - **`package.json` не создан**, хотя по плану он относится к Фазе 1 (шаг `B4`: `supabase` в `devDependencies` + скрипты `db:reset` / `db:types`). Передано в Фазу 2 — см. «Дополнения» в `plan.md`.
 - **`.env` не создан.** Нужен до старта Фазы 2, иначе клиент Supabase упадёт при инициализации. Шаг `B5`, выполняется владельцем.
+
+---
+
+## Фаза 2 — Каркас приложения
+
+- **Дата:** 2026-08-30 — 2026-08-31
+- **Статус:** выполнена
+- **Исполнитель:** пайплайн `frontend-run` (frontend-developer / frontend-reviewer), 3 итерации. Артефакты: `phase-2/iter-1..3/{DEV-REPORT,REVIEW}.md`
+
+### Файлы
+
+- Конфигурация: `package.json`, `vite.config.ts`, `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json`, `eslint.config.js` (flat config, `eqeqeq: always`), `.prettierrc.json`, `.prettierignore`, `index.html`
+- Провайдеры и тема: `src/main.tsx`, `src/app/{App.tsx,providers.tsx,_queryClient.ts}`, `src/theme/{_palette,_typography,_breakpoints,_theme,_mantineTheme,_GlobalStyle,styled.d,index}.ts`
+- Данные и окружение: `src/api/supabase.ts`, `src/utils/env.ts`, `src/utils/__tests__/env.test.ts`
+- i18n: `public/dictionaries/ru.json`, `src/types/i18n.types.ts`, `src/context/I18nContext/{_context.ts,_I18nContext.tsx,_useI18nSelector.ts,index.ts}`
+- PWA и хостинг: `public/{favicon.svg,pwa-192x192.png,pwa-512x512.png,_redirects}`, манифест в `vite.config.ts`
+- Прочее: `README.md`, `.env.example`, правка `.gitignore`
+
+### Проверка
+
+| Пункт | Результат |
+|---|---|
+| `pnpm build` чистый | ✅ `tsc -b && vite build`, exit 0, 890 модулей, `manifest.webmanifest` + `sw.js` сгенерированы |
+| `pnpm lint` чистый | ✅ exit 0, 0 ошибок |
+| `pnpm test` | ✅ 1 файл, 3/3 теста зелёные |
+| Контракт `readEnvVar` (3 случая, `vi.stubEnv`) | ✅ ключа нет / пустая строка → «Переменная окружения … не задана»; значение есть → возвращается. Ревьюер проверил, что кейс «ключа нет» не имитируется пустой строкой: `vi.stubEnv(key, undefined)` реально удаляет ключ |
+| `useI18nSelector` отдаёт значение из `ru.json` | ⬜ по коду цепочка сходится и типизируется, вживую в браузере не проверялось |
+| Приложение открывается | ⬜ за владельцем |
+| Lighthouse видит манифест | ⬜ за владельцем |
+| Установка на телефон, standalone | ⬜ за владельцем |
+
+### Отклонения от плана
+
+- Итерация 1 поставила `idb-keyval` без спроса — нарушение инварианта «новые зависимости только с разрешения». Владелец одобрил задним числом (`decisions.md §2`) и добавил в план закрытый список зависимостей на фазу, чтобы это стало сверкой, а не суждением исполнителя.
+- `readEnvVar` проверял только `value.length`. Vite подставляет `import.meta.env` статическим объектом, и отсутствующего ключа в нём нет — проверка падала сырым `TypeError`. Исправлено на `typeof value !== "string" || value.length === 0`.
+- Пункт проверки «сборка с убранной переменной падает» оказался невыполнимым (ветка `env.ts` ← `api/supabase.ts` в этой фазе недостижима из `main.tsx`). План поправлен: в Фазе 2 — юнит-тест, сквозная проверка перенесена в Фазу 3.
+- `src/api/supabase.ts` экспортирует клиент без импортёра — названо исключением в плане, первый потребитель `useAuth` в Фазе 3.
+
+### Замечено вне фазы
+
+- **`pnpm prettier` в профиле и в `package.json` расходятся.** `.github/pipeline-profile.md` описывает команду как `pnpm prettier --write <files>`, а скрипт в `package.json` жёстко задан как `prettier --write .` и переданные пути игнорирует — вызов с файлами форматирует весь репозиторий. На iter-3 это отформатировало кучу уже закоммиченных `.md` (CRLF→LF); исполнитель заметил и откатил постороннее. Починить: либо убрать `<files>` из профиля, либо снять `.` из скрипта.
+- **`@tanstack/query-persist-client-core` лишний в прямых зависимостях** — транзитивный для двух пакетов TanStack. Подтверждено ревьюером, не блокер.
+- Названное исключение по экспорту в плане шире нужного: `queryClient` и `theme` импортируются внутри самой фазы в `providers.tsx`, исключение реально нужно только `supabase`.
+- Иконки и favicon — программные заглушки, дизайн-источника нет.
+
+---
+
+## Фаза 3 — Авторизация и навигация
+
+- **Дата:** 2026-08-31
+- **Статус:** выполнена
+- **Исполнитель:** пайплайн `frontend-run` (frontend-developer / frontend-reviewer), 2 итерации. Артефакты: `phase-3/iter-1..2/{DEV-REPORT,REVIEW}.md`
+
+### Файлы
+
+- Роутинг: `src/routes/{__root.tsx,login.tsx,index.tsx,products.tsx,log.tsx,settings.tsx}`, `src/routeTree.gen.ts` (сгенерирован), `src/app/router.ts`
+- Компоненты: `src/components/AppLayout/{_AppLayout.tsx,_styles.ts,index.ts}`, `src/components/TabBar/{_TabBar.tsx,_styles.ts,_constants.ts,index.ts}`, `src/components/RouteStub/{_RouteStub.tsx,_styles.ts,index.ts}`
+- Страница входа: `src/pages/LoginPage/{_LoginPage.tsx,_useLoginForm.ts,_styles.ts,index.ts}`
+- Авторизация: `src/hooks/useAuth.hook.ts`
+- i18n: `src/types/i18n.types.ts`, `public/dictionaries/ru.json` — добавлены `auth.login.*`, `navigation.*`, `routeStub.placeholder`; удалён неиспользуемый `app.title`
+- Конфигурация: `vite.config.ts` (плагин `tanstackRouter`), `package.json` (новые зависимости `@tanstack/react-router`, `@tanstack/router-plugin`; порядок скрипта `build` → `vite build && tsc -b`), `pnpm-lock.yaml`, `eslint.config.js` (точечное отключение `react-refresh/only-export-components` для `src/routes/**/*.tsx`), `.prettierignore` (исключён `routeTree.gen.ts`)
+- `src/main.tsx` — `RouterProvider` вместо `<App/>`; **удалён** `src/app/App.tsx` (временный вход)
+
+### Проверка
+
+| Пункт | Результат |
+|---|---|
+| `pnpm lint` | ✅ exit 0, 0 ошибок, 0 предупреждений |
+| `pnpm build` (`vite build && tsc -b`) | ✅ exit 0 |
+| `pnpm test run` | ✅ 1 файл, 3/3 теста зелёные |
+| Контракт `readEnvVar` — сквозная проверка (ветка стала достижимой) | ✅ сборка с временным конфигом без `.env` и `vite preview`: в консоли ровно «Переменная окружения VITE_SUPABASE_URL не задана», без `TypeError`, приложение не грузится молча |
+| Guard `beforeLoad` без сессии редиректит на `/login` с `?redirect=` | ✅ проверено в браузере (Playwright, `pnpm dev`): `/` → `/login?redirect=%2F`, `/products` (холодная загрузка) → `/login?redirect=%2Fproducts`, `/login` напрямую — без цикла редиректов, консоль чистая |
+| Экспорты — у каждого есть импортёр вне модуля | ✅ проверено `grep` |
+| Реальный вход, возврат на запрошенный роут после логина | ⬜ не выполнялось разработчиком — нужен реальный аккаунт Supabase, `visual_verification.enabled: false` |
+| Сессия переживает перезагрузку страницы | ⬜ не выполнялось разработчиком — то же основание |
+| Таб-бар не перекрывается клавиатурой / системной полосой жестов на реальном iOS | ⬜ не выполнялось разработчиком — нужен физический iPhone |
+
+### Отклонения от плана
+
+- `src/app/router.ts` не значился в списке файлов фазы, но необходим как связующий код между сгенерированным деревом роутов и `RouterProvider` (аналог уже существующего `_queryClient.ts` в `src/app/`).
+- Порядок скрипта `build` изменён на `vite build && tsc -b` (было `tsc -b && vite build`) — по официальной рекомендации TanStack Router коммитить `routeTree.gen.ts`, при обратном порядке `tsc -b` на чистом клоне падал бы раньше, чем плагин успевал бы его сгенерировать. Проверено экспериментально: тип-ошибка по-прежнему валит `pnpm build`.
+- Итерация 2 (это исправление): в `plans/recipe-book-v1/phase-3/iter-1/DEV-REPORT.md` было ошибочно заявлено, что запись по Фазе 3 в этот файл уже добавлена — на деле не была; исправлено данной записью.
+- Итерация 2: четыре роут-заглушки (`index.tsx`, `products.tsx`, `log.tsx`, `settings.tsx`) связывали результат `useI18nSelector` с `const title`, а не с `const l`, как требует конвенция «один `l` на компонент» — исправлено на `const l`. Остальные компоненты фазы (`LoginPage`, `TabBar`, `RouteStub`) этой ошибки не содержали.
+
+### Замечено вне фазы
+
+- **`src/routeTree.gen.ts` коммитится, а не игнорируется** — сознательный выбор по официальной рекомендации TanStack Router (аналогично `database.types.ts`), но решение по факту принял исполнитель; владельцу стоит явно подтвердить или пересмотреть эту стратегию (альтернатива — `.gitignore` + генерация на `postinstall`/CI).
+- **`getAuthSession()` глотает `error` из `getSession()`.** Функция сейчас читает только `data.session` и не различает «сессии нет» от «сеть недоступна, Supabase не ответил» — обе ветки выглядят как разлогиненный пользователь и ведут на `/login`. Не блокирует фазу, но стоит завести отдельную обработку сетевой ошибки при появлении реального использования офлайн/на плохой связи.
+- **`__root.tsx` определяет обёртку `AppLayout` веткой по пути (`pathname !== "/login"`).** Работает для двух состояний сейчас, но это место, которое придётся расширять при каждом новом роуте без таб-бара; более устойчивый вариант — pathless authenticated layout route (группа роутов TanStack Router), а не ветвление по строке пути.
+- Ранее замеченное (Фаза 2, не переделывалось): расхождение `pnpm prettier` (в `package.json` — `prettier --write .`, форматирует весь репозиторий, а не переданные файлы) — из-за этого форматирование фазы делалось точечно через `npx prettier --write <файлы>`.
+- **`@tanstack/query-persist-client-core` всё ещё лишний в прямых зависимостях** (отмечено в Фазе 2, не трогалось — вне списка файлов Фазы 3).

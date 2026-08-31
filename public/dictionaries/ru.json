@@ -1,5 +1,20 @@
 {
-  "app": {
-    "title": "Книга рецептов"
+  "auth": {
+    "login": {
+      "title": "Вход",
+      "emailLabel": "Email",
+      "passwordLabel": "Пароль",
+      "submitButton": "Войти",
+      "error": "Неверный email или пароль"
+    }
+  },
+  "navigation": {
+    "recipes": "Рецепты",
+    "products": "Продукты",
+    "log": "Журнал",
+    "settings": "Настройки"
+  },
+  "routeStub": {
+    "placeholder": "Экран в разработке"
   }
 }
