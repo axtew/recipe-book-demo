@@ -1,4 +1,6 @@
+import { Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
+import { routerPaths } from "@/routes/_paths";
 
 import { SBar, SLink } from "./_styles";
 
@@ -8,17 +10,21 @@ export function TabBar() {
 
   return (
     <SBar>
-      <SLink to="/" activeOptions={{ exact: true }} activeProps={{ className: "active" }}>
-        {l.recipes}
+      <SLink
+        to={routerPaths.home}
+        activeOptions={{ exact: true }}
+        activeProps={{ className: "active" }}
+      >
+        <Caption2 as="span">{l.recipes}</Caption2>
       </SLink>
-      <SLink to="/products" activeProps={{ className: "active" }}>
-        {l.products}
+      <SLink to={routerPaths.products} activeProps={{ className: "active" }}>
+        <Caption2 as="span">{l.products}</Caption2>
       </SLink>
-      <SLink to="/log" activeProps={{ className: "active" }}>
-        {l.log}
+      <SLink to={routerPaths.log} activeProps={{ className: "active" }}>
+        <Caption2 as="span">{l.log}</Caption2>
       </SLink>
-      <SLink to="/settings" activeProps={{ className: "active" }}>
-        {l.settings}
+      <SLink to={routerPaths.settings} activeProps={{ className: "active" }}>
+        <Caption2 as="span">{l.settings}</Caption2>
       </SLink>
     </SBar>
   );

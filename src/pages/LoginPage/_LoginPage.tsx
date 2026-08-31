@@ -1,6 +1,7 @@
+import { B2, B3, Caption2, H1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SError, SField, SForm, SInput, SSubmit, STitle, SWrapper } from "./_styles";
+import { SField, SForm, SInput, SSubmit, SWrapper } from "./_styles";
 import { useLoginForm } from "./_useLoginForm";
 
 /** Экран входа. Регистрации нет — аккаунты заводятся в дашборде Supabase. */
@@ -11,10 +12,10 @@ export function LoginPage() {
 
   return (
     <SWrapper>
-      <STitle>{l.title}</STitle>
+      <H1 textAlign="center">{l.title}</H1>
       <SForm onSubmit={handleSubmit}>
         <SField>
-          {l.emailLabel}
+          <Caption2 color="textMuted">{l.emailLabel}</Caption2>
           <SInput
             type="email"
             autoComplete="username"
@@ -24,7 +25,7 @@ export function LoginPage() {
           />
         </SField>
         <SField>
-          {l.passwordLabel}
+          <Caption2 color="textMuted">{l.passwordLabel}</Caption2>
           <SInput
             type="password"
             autoComplete="current-password"
@@ -33,9 +34,9 @@ export function LoginPage() {
             onChange={(event) => setPassword(event.target.value)}
           />
         </SField>
-        {hasError && <SError>{l.error}</SError>}
+        {hasError && <B3 color="danger">{l.error}</B3>}
         <SSubmit type="submit" disabled={isPending}>
-          {l.submitButton}
+          <B2 as="span">{l.submitButton}</B2>
         </SSubmit>
       </SForm>
     </SWrapper>

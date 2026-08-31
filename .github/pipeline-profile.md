@@ -16,7 +16,7 @@ pipeline_spec: none                                # no pipeline-spec.md here: s
 plans_dir: plans/                                  # plans/<slug>/plan.md, baseline/, <phase>/iter-<N>/
 commands:
   dev: pnpm dev
-  format: pnpm prettier --write <files>
+  format: pnpm format                              # scoped to `src` via package.json script; args ignored
   lint: pnpm lint                                  # full run, never per-file
   build: pnpm build
   test: pnpm test                                  # vitest; the domain module must pass in Node without DOM

@@ -1,6 +1,7 @@
+import { B1, H1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SPlaceholder, SStub, STitle } from "./_styles";
+import { SStub } from "./_styles";
 
 interface IProps {
   title: string;
@@ -12,8 +13,8 @@ export function RouteStub({ title }: IProps) {
 
   return (
     <SStub>
-      <STitle>{title}</STitle>
-      <SPlaceholder>{l.placeholder}</SPlaceholder>
+      <H1>{title}</H1>
+      <B1 color="textMuted">{l.placeholder}</B1>
     </SStub>
   );
 }

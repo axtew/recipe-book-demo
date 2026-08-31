@@ -8,25 +8,17 @@ export const SWrapper = styled.div`
   padding: 24px;
 `;
 
-export const STitle = styled.h1`
-  margin: 0 0 24px;
-  font-size: ${({ theme }) => theme.typography.fontSizes.xl};
-  color: ${({ theme }) => theme.palette.text};
-  text-align: center;
-`;
-
 export const SForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 24px;
 `;
 
 export const SField = styled.label`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: ${({ theme }) => theme.typography.fontSizes.sm};
-  color: ${({ theme }) => theme.palette.textMuted};
 `;
 
 export const SInput = styled.input`
@@ -34,7 +26,8 @@ export const SInput = styled.input`
   padding: 0 12px;
   border: 1px solid ${({ theme }) => theme.palette.border};
   border-radius: 8px;
-  /* 16px — иначе Safari на iOS зумит страницу при фокусе на поле. */
+  /* 16px — иначе Safari на iOS зумит страницу при фокусе на поле. Не токен
+     типографики: техническое ограничение платформы, а не размер из шкалы. */
   font-size: 16px;
   color: ${({ theme }) => theme.palette.text};
   background: ${({ theme }) => theme.palette.surface};
@@ -52,18 +45,10 @@ export const SSubmit = styled.button`
   border-radius: 8px;
   background: ${({ theme }) => theme.palette.primary};
   color: ${({ theme }) => theme.palette.surface};
-  font-size: ${({ theme }) => theme.typography.fontSizes.md};
-  font-weight: 600;
   cursor: pointer;
 
   &:disabled {
     opacity: 0.6;
     cursor: default;
   }
-`;
-
-export const SError = styled.p`
-  margin: 0;
-  font-size: ${({ theme }) => theme.typography.fontSizes.sm};
-  color: ${({ theme }) => theme.palette.danger};
 `;

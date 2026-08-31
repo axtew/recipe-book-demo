@@ -201,7 +201,7 @@ Routing is TanStack Router in **code-based** mode — the route tree is written 
 
 ### Styling — project specifics
 
-Typography is a set of project components in `src/components/Typography/` — `H1`–`H3`, `B1`–`B3`, `Caption1`–`Caption2`, `Numbers`. **A screen never sets `font-size` itself.** A new size means: first a token in `src/theme/_typography.ts`, then a component, then usage — in that order. This is what keeps screens looking like one application instead of each one inventing its own headings.
+Typography is a set of project components in `src/components/Typography/` — `H1`–`H3`, `B1`–`B3`, `Caption1`–`Caption2`, `Numbers`. **A screen never sets `font-size` itself** — with exactly one exception: a form input carries `font-size: 16px`, because Safari on iOS zooms the page when a focused field's font is smaller than that. It is a platform constraint, not a size from the scale, and it stays with a comment saying so. Do not "fix" it by routing it through a typography component. A new size means: first a token in `src/theme/_typography.ts`, then a component, then usage — in that order. This is what keeps screens looking like one application instead of each one inventing its own headings.
 
 Styled Components for layout, cards, headings, spacing — the project's own. **Mantine only for heavy components**: `Combobox`, `Drawer`, `DatePicker`, `Rating`, `NumberInput`, `Dropzone`, `Notifications`, `Skeleton`. Raising specificity over a Mantine component goes through `&&` in the styled wrapper — never `!important`. There is no in-repo UI kit: a primitive is either Mantine (for the list above) or a project component under `src/components/`.
 

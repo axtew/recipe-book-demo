@@ -6,11 +6,17 @@ import { supabase } from "@/api/supabase";
 /**
  * Текущая сессия Supabase из локального хранилища.
  *
- * Обычная функция, а не хук — вызывается из `beforeLoad` корневого роута,
- * который выполняется вне рендера React.
+ * Обычная функция, а не хук — вызывается из `beforeLoad` роутов, который
+ * выполняется вне рендера React.
  */
 export async function getAuthSession(): Promise<Session | null> {
-  const { data } = await supabase.auth.getSession();
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) {
+    // Отсутствие сессии и сетевая ошибка иначе неотличимы — обе ведут на /login молча.
+    console.warn("Не удалось получить сессию Supabase", error);
+  }
+
   return data.session;
 }
 

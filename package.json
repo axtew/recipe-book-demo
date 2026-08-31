@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "prettier": "prettier --write .",
+    "format": "prettier --write src",
     "test": "vitest",
     "db:reset": "npx supabase db reset",
     "db:types": "npx supabase gen types typescript --local > src/types/database.types.ts"
@@ -29,7 +30,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tanstack/router-plugin": "^1.168.35",
     "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",

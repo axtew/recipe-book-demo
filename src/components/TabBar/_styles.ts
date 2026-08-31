@@ -25,7 +25,6 @@ export const SLink = styled(Link)`
   justify-content: center;
   min-height: ${TAB_BAR_HEIGHT_PX}px;
   color: ${({ theme }) => theme.palette.textMuted};
-  font-size: ${({ theme }) => theme.typography.fontSizes.sm};
   text-decoration: none;
 
   &.active {
