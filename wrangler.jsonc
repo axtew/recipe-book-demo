@@ -1,0 +1,18 @@
+{
+  // Конфиг деплоя на Cloudflare Workers Static Assets. Воркер-скрипта здесь нет —
+  // раздаётся только статика из `dist`, поэтому поля `main` тоже нет.
+  "name": "recipe-book",
+  "compatibility_date": "2026-09-03",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "dist",
+    // SPA-роутинг: любой путь, под который нет файла в `dist`, отдаёт `index.html`
+    // со статусом 200, и дальше маршрут разбирает TanStack Router уже в браузере.
+    // Раньше за это отвечал `public/_redirects` с правилом `/* /index.html 200` —
+    // на Workers так нельзя: платформа сама отрезает `/index` и `.html` от путей,
+    // видит в таком правиле бесконечный цикл и отклоняет весь деплой.
+    "not_found_handling": "single-page-application"
+  }
+}
