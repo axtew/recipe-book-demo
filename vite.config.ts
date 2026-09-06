@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from "node:url";
-
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
@@ -10,7 +9,11 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.svg"],
+      // Словари попадают в precache явно: дефолтные globPatterns Workbox
+      // покрывают только js/css/html, а json проходит мимо service worker'а и
+      // кэшируется браузером эвристически. Тогда новый код может встретиться со
+      // старым словарём, и экран падает на отсутствующем ключе.
+      includeAssets: ["favicon.svg", "dictionaries/*.json"],
       manifest: {
         name: "Книга рецептов",
         short_name: "Рецепты",

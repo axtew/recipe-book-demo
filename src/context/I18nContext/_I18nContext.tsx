@@ -1,5 +1,5 @@
 import { Center, Loader } from "@mantine/core";
-import { useEffect, useState, type ReactNode } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 import type { I18n } from "@/types/i18n.types";
 
