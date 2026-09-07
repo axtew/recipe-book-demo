@@ -10,7 +10,7 @@ Machine-readable facts the global frontend pipeline (skills `frontend-plan` / `f
 
 ```yaml
 project: recipe-book
-repo_root: C:/Users/stevv/Desktop/recipre-book   # frontend-run читает этот ключ явно; при переносе папки поправить
+repo_root: C:/Users/stevv/Desktop/recipe-book   # frontend-run читает этот ключ явно; при переносе папки поправить
 conventions: .github/copilot-instructions.md      # generated from .github/instructions/*.md by build-instructions.ps1
 pipeline_spec: none                                # no pipeline-spec.md here: status vocabulary and commit protocol come from the skills' defaults
 plans_dir: plans/                                  # plans/<slug>/plan.md, baseline/, <phase>/iter-<N>/
