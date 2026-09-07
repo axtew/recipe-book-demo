@@ -7,12 +7,12 @@ import { I18nProvider } from "@/context/I18nContext";
 import { router } from "@/routes/AppRouter";
 import { GlobalStyle, mantineTheme, theme } from "@/theme";
 
-import { queryClient, queryPersister } from "./_queryClient";
+import { persistOptions, queryClient } from "./_queryClient";
 
 /** Композиция приложения: провайдеры (кэш запросов, UI-кит, тема, словарь) и роутер под ними. */
 export function App() {
   return (
-    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: queryPersister }}>
+    <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
       <MantineProvider theme={mantineTheme}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
