@@ -5,7 +5,7 @@
 
 ## Project Overview
 
-Personal mobile-first app for two people: product reference, recipes with nutrition (КБЖУ) calculation, search, cooking journal. Russian UI. The product boundaries, data model and stack decisions live in `decisions.md` (source of truth), the implementation plan in `plans/recipe-book-v1/plan.md`, the working-split rules (what the owner does by hand: `supabase/**`, `.env`, `src/types/database.types.ts`, `src/api/repositories/**`) in `CLAUDE.md`. This file holds only code conventions.
+Personal mobile-first app for two people: product reference, recipes with nutrition (КБЖУ) calculation, search, cooking journal. Russian UI. The product boundaries, data model and stack decisions live in `decisions.md` (source of truth), the implementation plan in `plans/recipe-book-v1/plan.md`, the working-split rules (what the owner does by hand: `supabase/**`, `.env`, `src/types/database.types.ts`, all of `src/api/**`) in `CLAUDE.md`. This file holds only code conventions.
 
 ## Build & environment
 
@@ -13,7 +13,7 @@ Stack and scripts are in `package.json` — read it rather than a list here. The
 
 ## Hard invariants
 
-Defined in `CLAUDE.md` → «Жёсткие инварианты» (nutrition arithmetic only in `src/domain/nutrition/`; no deletes, only `archived_at`; no silent zeros; rounding only at display; `numeric` from PostgREST is a string until the repository boundary; dates as `YYYY-MM-DD` strings; iOS first; new dependencies only with permission; data loaded whole into the client). A violation is a defect even when the code works — the reviewer treats each as `Issue source: code`.
+Defined in `CLAUDE.md` → «Жёсткие инварианты» (nutrition arithmetic only in `src/domain/nutrition/`; no deletes, only `archived_at`; no silent zeros; rounding only at display; the generated row shape never leaves the service layer; dates as `YYYY-MM-DD` strings; iOS first; new dependencies only with permission; data loaded whole into the client). A violation is a defect even when the code works — the reviewer treats each as `Issue source: code`.
 
 ## Conventions
 
@@ -163,22 +163,23 @@ There is no application server: the client talks to Supabase (PostgREST + GoTrue
 The path is fixed, and every step of it is mandatory:
 
 ```
-component → TanStack Query hook (src/api/queries|mutations) → repository (src/api/repositories) → supabase client
+component → TanStack Query hook (src/api/queries|mutations) → service (src/api/services) → supabase client
 ```
 
-- **A component never imports the Supabase client.** Not for a "quick" read, not in a `useEffect`. A component that needs data uses a query hook; one that writes uses a mutation hook. A direct `supabase.from(...)` outside `src/api/repositories/` is a defect.
-- **Repositories are the only place that knows PostgREST.** Table names, `select()` strings with embedded relations, `.is('archived_at', null)` filters — all of it lives there and nowhere else.
-- **Repositories are the type boundary.** `numeric` arrives from PostgREST as a **string**; the repository converts it to `number` and maps the generated row type into the project's own entity interface. Past this boundary a numeric string is a defect.
+- **A component never imports the Supabase client.** Not for a "quick" read, not in a `useEffect`. A component that needs data uses a query hook; one that writes uses a mutation hook. A direct `supabase.from(...)` outside `src/api/services/` is a defect.
+- **Services are the only place that knows PostgREST.** Table names and `select()` strings with embedded relations live there and nowhere else.
+- **Services are the type boundary.** A service maps the generated row type into the project's own entity interface — camelCase names, only the fields consumers need, nested relations resolved. The generated row shape does not leave this layer. Verify the runtime type of every `numeric` column once against the generated type and convert if they disagree; a numeric string past this boundary is a defect.
 - **The generated types are the contract.** `src/types/database.types.ts` holds the real column set, nullability and row / insert / update shapes for every table — read it before declaring a type for anything that comes out of the database, instead of inferring the shape from a call site (see `Strong typing` above). It is regenerated with `pnpm db:types` after every migration and is never edited by hand.
-- **One file per domain**, mirroring the service-per-domain layout: `products.repository.ts`, `recipes.repository.ts`, `cookLogs.repository.ts`, `categories.repository.ts`. Plain exported functions — there is no per-domain state to inject, so no base class.
+- **One file per domain**, as in `Carbon-spa`: `products.service.ts`, `recipes.service.ts`, `cookLogs.service.ts`, `categories.service.ts`. Plain exported functions, **not** a class with methods — there is no per-domain state to inject, and `supabase-js` is already the client.
 - **Query keys and hooks** live in `src/api/queries/` and `src/api/mutations/`, one module per domain. A mutation invalidates by key; no manual refetch calls from components.
+- **Archived rows are loaded too.** The dataset must be internally consistent: the nutrition module throws on a dangling reference, and a recipe may well point at an archived product. Filtering `archived_at` in the query would crash that recipe's screen. Archived rows are hidden by the selectors and screens that list things, not by the query.
 - **The whole dataset is loaded up front.** No server-side search, no pagination, no filtering pushed to the database — searching and filtering run over the in-memory dataset. A phase that adds a filtered request to the backend is contradicting the architecture, not optimising it.
 
-`supabase/**`, `.env`, `src/types/database.types.ts` and `src/api/repositories/**` are **owner-only** (`CLAUDE.md` → «Разделение работ»). A phase needing a schema change stops and reports — no migrations, no workarounds, no stubs.
+`supabase/**`, `.env`, `src/types/database.types.ts`, the whole of `src/api/` (`services/`, `queries/`, `mutations/`), `src/domain/schemas/**` and `src/domain/backup/**` are **owner-only** (`CLAUDE.md` → «Разделение работ»). A phase needing a database migration, a new query hook, a new service function, or a new/changed zod schema stops and reports — no migrations, no workarounds, no stubs. Phases **use** the schemas in `src/domain/schemas/`; they do not author them.
 
 ### Domain module purity
 
-`src/domain/nutrition/` holds every arithmetic operation on nutrition values, and it must run in Node with no DOM. It imports **nothing** from React, Supabase or Mantine — pure functions over plain data. No component, hook or repository computes nutrition itself.
+`src/domain/nutrition/` holds every arithmetic operation on nutrition values, and it must run in Node with no DOM. It imports **nothing** from React, Supabase or Mantine — pure functions over plain data. No component, hook or service computes nutrition itself.
 
 The module returns raw numbers; rounding is the UI's job (kcal to integers, macros to one decimal). A rounding call inside the domain module is a defect.
 
@@ -188,7 +189,7 @@ Adding a dependency requires the owner's permission (`CLAUDE.md`). These are the
 
 - **Forms** — the project's own hook. Do not add `react-hook-form`, `formik` or similar.
 - **Sortable lists** — `@dnd-kit/core` + `@dnd-kit/sortable`. Do not hand-roll pointer-event dragging, and do not use the HTML5 drag-and-drop API — it does not work on touch devices at all.
-- **Validation** — `zod`. Schemas live in `src/domain/schemas/`, one module per entity, and are reused for form validation, for validating an imported JSON backup, and later as structured-output schemas.
+- **Validation** — `zod`. Schemas live in `src/domain/schemas/`, one module per entity, and are reused for form validation, for validating an imported JSON backup, and later as structured-output schemas. They are **not** applied to PostgREST responses: that shape is fixed by our own schema and already typed by the generated file. The one exception is a `jsonb` column, whose generated type is the field-less `Json` union.
 - **Heavy UI** — Mantine, for the components listed under Styling. Everything else is a project component.
 
 ### Routes and pages are different layers

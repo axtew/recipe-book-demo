@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-Personal mobile-first app for two people: product reference, recipes with nutrition (КБЖУ) calculation, search, cooking journal. Russian UI. The product boundaries, data model and stack decisions live in `decisions.md` (source of truth), the implementation plan in `plans/recipe-book-v1/plan.md`, the working-split rules (what the owner does by hand: `supabase/**`, `.env`, `src/types/database.types.ts`, `src/api/repositories/**`) in `CLAUDE.md`. This file holds only code conventions.
+Personal mobile-first app for two people: product reference, recipes with nutrition (КБЖУ) calculation, search, cooking journal. Russian UI. The product boundaries, data model and stack decisions live in `decisions.md` (source of truth), the implementation plan in `plans/recipe-book-v1/plan.md`, the working-split rules (what the owner does by hand: `supabase/**`, `.env`, `src/types/database.types.ts`, all of `src/api/**`) in `CLAUDE.md`. This file holds only code conventions.
 
 ## Build & environment
 
@@ -12,4 +12,4 @@ Stack and scripts are in `package.json` — read it rather than a list here. The
 
 ## Hard invariants
 
-Defined in `CLAUDE.md` → «Жёсткие инварианты» (nutrition arithmetic only in `src/domain/nutrition/`; no deletes, only `archived_at`; no silent zeros; rounding only at display; `numeric` from PostgREST is a string until the repository boundary; dates as `YYYY-MM-DD` strings; iOS first; new dependencies only with permission; data loaded whole into the client). A violation is a defect even when the code works — the reviewer treats each as `Issue source: code`.
+Defined in `CLAUDE.md` → «Жёсткие инварианты» (nutrition arithmetic only in `src/domain/nutrition/`; no deletes, only `archived_at`; no silent zeros; rounding only at display; the generated row shape never leaves the service layer; dates as `YYYY-MM-DD` strings; iOS first; new dependencies only with permission; data loaded whole into the client). A violation is a defect even when the code works — the reviewer treats each as `Issue source: code`.
