@@ -427,14 +427,15 @@ src/
     _paths.ts           routerPaths: пути одним объектом
     _routes.tsx         commonRoutes / protectedRoutes рядом с единственным потребителем
     layouts/AppLayout/  обёртка залогиненной части: колонка 600px, safe-area, таб-бар
+  constants/            значения, общие для нескольких модулей (сроки кэширования)
   context/              I18nContext и useI18nSelector
   hooks/                общие хуки, в т.ч. useForm
   utils/                хелперы: форматирование, нормализация строк, сжатие фото
   theme/                тема styled-components + провайдер темы Mantine
   app/                  провайдеры, queryClient, точка входа
 public/
-  dictionaries/ru.json  единственный словарь
-  _redirects            SPA-fallback для Cloudflare Pages
+  dictionaries/ru.json  единственный словарь; входит в precache service worker'а
+wrangler.jsonc          конфиг Workers; SPA-fallback задан not_found_handling
 ```
 
 Три вещи, в которых легко ошибиться:
