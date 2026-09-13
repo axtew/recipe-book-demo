@@ -17,4 +17,12 @@ export interface I18n {
   routeStub: {
     placeholder: string;
   };
+  mutation: {
+    error: string;
+  };
+  appData: {
+    errorTitle: string;
+    errorHint: string;
+    retryButton: string;
+  };
 }

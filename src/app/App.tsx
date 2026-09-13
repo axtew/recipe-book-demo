@@ -1,4 +1,6 @@
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { RouterProvider } from "@tanstack/react-router";
 import { ThemeProvider } from "styled-components";
@@ -13,9 +15,14 @@ import { persistOptions, queryClient } from "./_queryClient";
 export function App() {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+      <ReactQueryDevtoolsPanel />
+
       <MantineProvider theme={mantineTheme}>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
+
+          <Notifications position="top-center" />
+
           <I18nProvider>
             <RouterProvider router={router} />
           </I18nProvider>

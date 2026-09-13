@@ -41,3 +41,21 @@ function mapProduct(product: TDBProduct): IProduct {
     })),
   };
 }
+
+export async function setActiveProductVariant({
+  productId,
+  variantId,
+}: {
+  productId: string;
+  variantId: string;
+}): Promise<void> {
+  const { error } = await supabase
+    .from("products")
+    .update({ active_variant_id: variantId })
+    .eq("id", productId);
+
+  if (error)
+    throw new Error("Произошла ошибка при изменении активного варианта продукта.", {
+      cause: error,
+    });
+}

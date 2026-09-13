@@ -12,3 +12,24 @@ export const SShell = styled.div`
   /* Резерв под таб-бар, зафиксированный поверх контента, плюс системная полоса жестов iOS. */
   padding-bottom: calc(${TAB_BAR_HEIGHT_PX}px + env(safe-area-inset-bottom));
 `;
+
+export const SCenter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 100dvh;
+  padding: 24px;
+`;
+
+export const SRetry = styled.button`
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.palette.primary};
+  color: ${({ theme }) => theme.palette.surface};
+  cursor: pointer;
+`;

@@ -1,32 +1,26 @@
+import { notifications } from "@mantine/notifications";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-import { QueryClient } from "@tanstack/react-query";
+import { MutationCache, QueryClient } from "@tanstack/react-query";
 import type { PersistQueryClientProviderProps } from "@tanstack/react-query-persist-client";
 import { del, get, set } from "idb-keyval";
 
-/**
- * Срок жизни данных — и в памяти, и в снапшоте на диске.
- *
- * Неделя, а не дефолтные 5 минут: данные должны переживать многодневные обрывы
- * международной связности (`decisions.md §3`). Константа одна на обе настройки
- * намеренно — это два независимых параметра с разными дефолтами, и заданные по
- * отдельности они однажды разъедутся.
- */
-const CACHE_MAX_AGE = 1000 * 60 * 60 * 24 * 7;
-
-/**
- * Версия формы персистируемых данных — не версия приложения.
- *
- * Поднимать при изменении сущностей, попадающих в кэш: снапшот старой формы
- * будет выброшен целиком, вместо того чтобы гидрироваться в новый код и сломать
- * экран на отсутствующем поле. Шаг `B7` в `backend-track.md` напоминает об этом
- * в чек-листе правки схемы.
- *
- * Не привязывать к версии сборки или хэшу: выкатки идут на каждый пуш, и тогда
- * офлайн-кэш обнулялся бы каждый раз — ровно то, ради чего он и заведён.
- */
-const CACHE_BUSTER = "v1";
+import { CACHE_BUSTER, CACHE_MAX_AGE } from "@/constants/caching.constants";
+import { getDictionary } from "@/context/I18nContext";
 
 export const queryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      // Общее сообщение на любую неудавшуюся запись. Частные случаи вроде
+      // «продукт с таким именем уже есть» разбираются в onError самой мутации.
+      console.error(error);
+
+      const l = getDictionary();
+
+      if (l !== null) {
+        notifications.show({ color: "danger", message: l.mutation.error });
+      }
+    },
+  }),
   defaultOptions: {
     queries: {
       gcTime: CACHE_MAX_AGE,

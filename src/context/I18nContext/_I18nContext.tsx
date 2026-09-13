@@ -4,6 +4,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import type { I18n } from "@/types/i18n.types";
 
 import { I18nContext } from "./_context";
+import { setDictionary as storeDictionary } from "./_dictionary";
 
 interface IProps {
   children: ReactNode;
@@ -26,6 +27,7 @@ export function I18nProvider({ children }: IProps) {
       .then((response) => response.json() as Promise<I18n>)
       .then((data) => {
         if (!isCancelled) {
+          storeDictionary(data);
           setDictionary(data);
         }
       })

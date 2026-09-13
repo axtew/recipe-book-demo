@@ -18,11 +18,25 @@ const primaryShades: MantineColorsTuple = [
   palette.primary,
 ];
 
+const dangerShades: MantineColorsTuple = [
+  palette.danger,
+  palette.danger,
+  palette.danger,
+  palette.danger,
+  palette.danger,
+  palette.danger,
+  palette.danger,
+  palette.danger,
+  palette.danger,
+  palette.danger,
+];
+
 export const mantineTheme = createTheme({
   fontFamily: typography.fontFamily,
   primaryColor: "primary",
   colors: {
     primary: primaryShades,
+    danger: dangerShades,
   },
   breakpoints: {
     sm: breakpoints.contentMaxWidth,
