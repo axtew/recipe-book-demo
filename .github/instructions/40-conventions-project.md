@@ -17,7 +17,9 @@ component → TanStack Query hook (src/api/queries|mutations) → service (src/a
 - **Archived rows are loaded too.** The dataset must be internally consistent: the nutrition module throws on a dangling reference, and a recipe may well point at an archived product. Filtering `archived_at` in the query would crash that recipe's screen. Archived rows are hidden by the selectors and screens that list things, not by the query.
 - **The whole dataset is loaded up front.** No server-side search, no pagination, no filtering pushed to the database — searching and filtering run over the in-memory dataset. A phase that adds a filtered request to the backend is contradicting the architecture, not optimising it.
 
-`supabase/**`, `.env`, `src/types/database.types.ts`, the whole of `src/api/` (`services/`, `queries/`, `mutations/`), `src/domain/schemas/**` and `src/domain/backup/**` are **owner-only** (`CLAUDE.md` → «Разделение работ»). A phase needing a database migration, a new query hook, a new service function, or a new/changed zod schema stops and reports — no migrations, no workarounds, no stubs. Phases **use** the schemas in `src/domain/schemas/`; they do not author them.
+`supabase/**`, `.env`, `src/types/database.types.ts`, the whole of `src/api/` (`services/`, `queries/`, `mutations/`), `src/domain/schemas/**` and `src/domain/backup/**` are **owner-only** (`CLAUDE.md` → «Разделение работ»). A phase needing a database migration, a new query hook, a new read service function, or a new/changed zod schema stops and reports — no migrations, no workarounds, no stubs.
+
+**One carve-out for mutations.** A phase may add a mutation that writes to **exactly one table** — a single `update` or `insert` plus an invalidation of the matching key — by following the pattern already in `src/api/mutations/`. Anything that writes to more than one table, needs several sequential requests, or uploads to Storage stops and reports: those are where a partial failure leaves the database inconsistent, and the owner decides how to handle it. Phases **use** the schemas in `src/domain/schemas/`; they do not author them.
 
 ### Domain module purity
 
