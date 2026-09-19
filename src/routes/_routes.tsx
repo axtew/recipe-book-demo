@@ -4,6 +4,8 @@ import { RouteStub } from "@/components/RouteStub";
 import { useI18nSelector } from "@/context/I18nContext";
 import { getAuthSession } from "@/hooks/useAuth.hook";
 import { LoginPage } from "@/pages/LoginPage";
+import { ProductPage } from "@/pages/ProductPage";
+import { ProductsPage } from "@/pages/ProductsPage";
 
 import { routerPaths } from "./_paths";
 
@@ -49,7 +51,19 @@ export function createProtectedRoutes(protectedLayoutRoute: AnyRoute) {
   const productsRoute = createRoute({
     getParentRoute: () => protectedLayoutRoute,
     path: routerPaths.products,
-    component: ProductsStub,
+    component: ProductsPage,
+  });
+
+  function ProductCardRoute() {
+    const { productId } = productCardRoute.useParams();
+
+    return <ProductPage productId={productId} />;
+  }
+
+  const productCardRoute = createRoute({
+    getParentRoute: () => protectedLayoutRoute,
+    path: routerPaths.productCard,
+    component: ProductCardRoute,
   });
 
   const logRoute = createRoute({
@@ -64,16 +78,11 @@ export function createProtectedRoutes(protectedLayoutRoute: AnyRoute) {
     component: SettingsStub,
   });
 
-  return [recipesRoute, productsRoute, logRoute, settingsRoute] as const;
+  return [recipesRoute, productsRoute, productCardRoute, logRoute, settingsRoute] as const;
 }
 
 function RecipesStub() {
   const l = useI18nSelector(({ l }) => l.navigation.recipes);
-  return <RouteStub title={l} />;
-}
-
-function ProductsStub() {
-  const l = useI18nSelector(({ l }) => l.navigation.products);
   return <RouteStub title={l} />;
 }
 

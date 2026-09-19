@@ -24,5 +24,44 @@
   },
   "mutation": {
     "error": "Не удалось сохранить изменения"
+  },
+  "nutrients": {
+    "kcal": "ккал",
+    "protein": "Б",
+    "fat": "Ж",
+    "carbs": "У",
+    "empty": "—",
+    "incomplete": "КБЖУ заполнено не полностью"
+  },
+  "products": {
+    "list": {
+      "title": "Продукты",
+      "searchPlaceholder": "Поиск по названию",
+      "emptyTitle": "Продуктов пока нет",
+      "emptyHint": "Первый появится, когда вы добавите ингредиент в рецепт",
+      "nothingFound": "Ничего не нашлось",
+      "variantsLabel": "вариантов"
+    },
+    "card": {
+      "backLink": "← К списку продуктов",
+      "notFoundTitle": "Продукт не найден",
+      "notFoundHint": "Возможно, ссылка устарела",
+      "archivedBadge": "В архиве",
+      "variantsTitle": "КБЖУ на 100 г",
+      "unnamedVariant": "Без названия",
+      "activeLabel": "активный",
+      "approximateLabel": "усреднённое, стоит заменить",
+      "makeActive": "Сделать активным",
+      "usedInTitle": "Где используется",
+      "usedInEmpty": "Пока ни в одном рецепте",
+      "archiveButton": "Архивировать продукт"
+    },
+    "archiveConfirm": {
+      "title": "Архивировать продукт?",
+      "description": "Он пропадёт из справочника и из выбора, но останется в рецептах, где уже используется. Удаления в приложении нет.",
+      "usedInWarning": "Продукт используется в рецептах:",
+      "confirmButton": "Архивировать",
+      "cancelButton": "Отмена"
+    }
   }
 }

@@ -3,6 +3,7 @@ export const routerPaths = {
   login: "/login",
   home: "/",
   products: "/products",
+  productCard: "/products/$productId",
   log: "/log",
   settings: "/settings",
 } as const;

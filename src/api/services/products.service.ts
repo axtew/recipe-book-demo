@@ -59,3 +59,15 @@ export async function setActiveProductVariant({
       cause: error,
     });
 }
+
+export async function archiveProduct(productId: string): Promise<void> {
+  const { error } = await supabase
+    .from("products")
+    .update({ archived_at: new Date().toISOString() })
+    .eq("id", productId);
+
+  if (error)
+    throw new Error("Произошла ошибка при архивировании продукта.", {
+      cause: error,
+    });
+}
