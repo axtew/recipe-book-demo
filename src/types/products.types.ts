@@ -7,6 +7,7 @@ export interface IProductCategory {
 interface IProductVariant {
   archivedAt: string | null;
   carbs100: number | null;
+  createdAt: string;
   fat100: number | null;
   id: string;
   isApproximate: boolean;
@@ -26,4 +27,20 @@ export interface IProduct {
   name: string;
   note: string | null;
   variants: IProductVariant[];
+}
+
+export interface IProductInput {
+  name: string;
+  categoryId: string;
+  note: string | null;
+}
+
+export interface IProductVariantInput {
+  name: string | null;
+  kcal100: number | null;
+  protein100: number | null;
+  fat100: number | null;
+  carbs100: number | null;
+  isApproximate: boolean;
+  note: string | null;
 }

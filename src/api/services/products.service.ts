@@ -1,6 +1,6 @@
 import type { QueryData } from "@supabase/supabase-js";
 
-import type { IProduct } from "@/types/products.types";
+import type { IProduct, IProductInput, IProductVariantInput } from "@/types/products.types";
 
 import { supabase } from "../supabase";
 
@@ -29,6 +29,7 @@ function mapProduct(product: TDBProduct): IProduct {
     variants: product.product_variants.map((variant) => ({
       archivedAt: variant.archived_at,
       carbs100: variant.carbs_100,
+      createdAt: variant.created_at,
       fat100: variant.fat_100,
       id: variant.id,
       isApproximate: variant.is_approximate,
@@ -70,4 +71,32 @@ export async function archiveProduct(productId: string): Promise<void> {
     throw new Error("Произошла ошибка при архивировании продукта.", {
       cause: error,
     });
+}
+
+export async function createProductWithVariant({
+  product,
+  variant,
+}: {
+  product: IProductInput;
+  variant: IProductVariantInput;
+}): Promise<string> {
+  const { data, error } = await supabase.rpc("create_product_with_variant", {
+    p_product_name: product.name,
+    p_category_id: product.categoryId,
+    p_product_note: product.note ?? undefined,
+    p_variant_name: variant.name ?? undefined,
+    p_kcal_100: variant.kcal100 ?? undefined,
+    p_protein_100: variant.protein100 ?? undefined,
+    p_fat_100: variant.fat100 ?? undefined,
+    p_carbs_100: variant.carbs100 ?? undefined,
+    p_is_approximate: variant.isApproximate,
+    p_variant_note: variant.note ?? undefined,
+  });
+
+  if (error)
+    throw new Error("Произошла ошибка при создании продукта.", {
+      cause: error,
+    });
+
+  return data;
 }

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import type { IProductInput, IProductVariantInput } from "@/types/products.types";
+
 import { idSchema, nameSchema, nutrientPer100Schema } from "./_common";
 
 export const productCategoryInputSchema = z.object({
@@ -17,7 +19,7 @@ export const productInputSchema = z.object({
   name: nameSchema,
   categoryId: idSchema,
   note: z.string().nullable(),
-});
+}) satisfies z.ZodType<IProductInput>;
 
 /** Вариант продукта. Все четыре числа nullable — продукт заводится быстро, цифры дописываются потом. */
 export const productVariantInputSchema = z.object({
@@ -29,4 +31,4 @@ export const productVariantInputSchema = z.object({
   isApproximate: z.boolean(),
   source: z.enum(["seed", "manual", "label", "llm"]),
   note: z.string().nullable(),
-});
+}) satisfies z.ZodType<IProductVariantInput>;

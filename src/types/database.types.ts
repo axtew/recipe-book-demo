@@ -412,7 +412,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_product_with_variant: {
+        Args: {
+          p_carbs_100?: number
+          p_category_id: string
+          p_fat_100?: number
+          p_is_approximate?: boolean
+          p_kcal_100?: number
+          p_product_name: string
+          p_product_note?: string
+          p_protein_100?: number
+          p_variant_name?: string
+          p_variant_note?: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
