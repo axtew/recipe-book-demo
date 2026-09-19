@@ -8,6 +8,8 @@ Machine-readable facts the global frontend pipeline (skills `frontend-plan` / `f
 
 **`pipeline_spec: none`.** Разделы, на которые ссылается `frontend-run` («Status & routing vocabulary», «Artifact layout», «Review scopes»), скилл описывает у себя по тексту, а «Commit & EXECUTION.md protocol» здесь не нужен — при `commit_policy: owner` в пайплайне никто не коммитит. Если на первом прогоне чего-то не хватит — завести минимальный `pipeline-spec.md` и прописать путь сюда.
 
+**Живые проверки — только на локальном стеке Supabase.** `pnpm dev` смотрит в него сам (`.env.development`); облако — рабочая база, писать туда нельзя. Если Docker или стек не запущены — поднять самостоятельно, порядок и учётные данные дев-пользователя в `CLAUDE.md` → «Локальное окружение».
+
 ```yaml
 project: recipe-book
 repo_root: C:/Users/stevv/Desktop/recipe-book   # frontend-run читает этот ключ явно; при переносе папки поправить
@@ -15,7 +17,7 @@ conventions: .github/copilot-instructions.md      # generated from .github/instr
 pipeline_spec: none                                # no pipeline-spec.md here: status vocabulary and commit protocol come from the skills' defaults
 plans_dir: plans/                                  # plans/<slug>/plan.md, baseline/, <phase>/iter-<N>/
 commands:
-  dev: pnpm dev
+  dev: pnpm dev                                    # local Supabase via .env.development; bring Docker + `npx supabase start` up first (CLAUDE.md → «Локальное окружение»)
   format: pnpm format                              # scoped to `src` via package.json script; args ignored
   lint: pnpm lint                                  # full run, never per-file
   build: pnpm build

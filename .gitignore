@@ -6,8 +6,8 @@ dev-dist/
 *.tsbuildinfo
 
 .env
-.env.*
-!.env.example
+# .env.development и .env.production коммитятся: в них нет секретов.
+# Личные переопределения — в .env.local / .env.*.local (их покрывает *.local).
 
 .vscode/*
 !.vscode/extensions.json

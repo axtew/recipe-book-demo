@@ -8,8 +8,8 @@
 
 ```bash
 pnpm install
-cp .env.example .env   # заполнить VITE_SUPABASE_URL и VITE_SUPABASE_PUBLISHABLE_KEY
-pnpm dev
+npx supabase start      # локальная база; нужен запущенный Docker
+pnpm dev                # смотрит в локальную базу (.env.development)
 ```
 
 ## Команды
