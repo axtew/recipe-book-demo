@@ -63,5 +63,29 @@ export interface I18n {
       confirmButton: string;
       cancelButton: string;
     };
+    picker: {
+      placeholder: string;
+      nothingFound: string;
+      createOption: string;
+    };
+    createSheet: {
+      title: string;
+      nameLabel: string;
+      categoryLabel: string;
+      categoryPlaceholder: string;
+      submitButton: string;
+      cancelButton: string;
+      validationError: string;
+      submitError: string;
+    };
+    addVariantSheet: {
+      title: string;
+      nameLabel: string;
+      namePlaceholder: string;
+      submitButton: string;
+      cancelButton: string;
+      validationError: string;
+      submitError: string;
+    };
   };
 }

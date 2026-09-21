@@ -62,6 +62,30 @@
       "usedInWarning": "Продукт используется в рецептах:",
       "confirmButton": "Архивировать",
       "cancelButton": "Отмена"
+    },
+    "picker": {
+      "placeholder": "Название продукта",
+      "nothingFound": "Ничего не нашлось",
+      "createOption": "Создать «{query}»"
+    },
+    "createSheet": {
+      "title": "Новый продукт",
+      "nameLabel": "Название",
+      "categoryLabel": "Категория",
+      "categoryPlaceholder": "Выберите категорию",
+      "submitButton": "Создать",
+      "cancelButton": "Отмена",
+      "validationError": "Проверьте название и категорию",
+      "submitError": "Не удалось создать продукт"
+    },
+    "addVariantSheet": {
+      "title": "Новый вариант",
+      "nameLabel": "Название варианта",
+      "namePlaceholder": "Например, «Простоквашино»",
+      "submitButton": "Добавить",
+      "cancelButton": "Отмена",
+      "validationError": "Проверьте введённые числа",
+      "submitError": "Не удалось добавить вариант"
     }
   }
 }

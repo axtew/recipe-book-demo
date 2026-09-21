@@ -73,6 +73,31 @@ export async function archiveProduct(productId: string): Promise<void> {
     });
 }
 
+export async function addProductVariant({
+  productId,
+  variant,
+}: {
+  productId: string;
+  variant: IProductVariantInput;
+}): Promise<void> {
+  const { error } = await supabase.from("product_variants").insert({
+    product_id: productId,
+    name: variant.name,
+    kcal_100: variant.kcal100,
+    protein_100: variant.protein100,
+    fat_100: variant.fat100,
+    carbs_100: variant.carbs100,
+    is_approximate: variant.isApproximate,
+    note: variant.note,
+    source: "manual",
+  });
+
+  if (error)
+    throw new Error("Произошла ошибка при добавлении варианта продукта.", {
+      cause: error,
+    });
+}
+
 export async function createProductWithVariant({
   product,
   variant,

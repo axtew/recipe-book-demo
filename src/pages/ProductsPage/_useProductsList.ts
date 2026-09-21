@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 
 import { useProductCategories, useProducts } from "@/hooks/useAppData.hook";
+import { filterProducts } from "@/utils/helpers/products";
 
-import { filterProducts, groupProducts } from "./_helpers";
+import { groupProducts } from "./_helpers";
 
 /** Поиск по справочнику и раскладка результата по категориям. */
 export function useProductsList() {
