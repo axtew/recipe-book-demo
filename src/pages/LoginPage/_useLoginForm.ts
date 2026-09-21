@@ -1,5 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { type FormEvent, useState } from "react";
+import { type SubmitEvent, useState } from "react";
 
 import { useSignIn } from "@/hooks/useAuth.hook";
 
@@ -10,7 +10,7 @@ interface IUseLoginFormResult {
   hasError: boolean;
   setEmail: (value: string) => void;
   setPassword: (value: string) => void;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (event: SubmitEvent<HTMLFormElement>) => void;
 }
 
 /** Состояние формы входа и переход на запрошенный роут после успешного входа. */
@@ -21,7 +21,7 @@ export function useLoginForm(): IUseLoginFormResult {
   const navigate = useNavigate();
   const { redirect } = useSearch({ from: "/login" });
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>): void {
     event.preventDefault();
 
     void signIn(email, password).then((success) => {
