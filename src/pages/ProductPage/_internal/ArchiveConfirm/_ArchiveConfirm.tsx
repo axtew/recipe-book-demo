@@ -1,9 +1,10 @@
 import { useArchiveProductMutation } from "@/api/mutations/products.mutations";
+import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
 import { B2, Caption1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import type { IRecipe } from "@/types/recipes.types";
 
-import { SActions, SCancel, SConfirm, SContent, SDrawer, SRecipes } from "./_styles";
+import { SActions, SCancel, SConfirm, SContent, SRecipes } from "./_styles";
 
 interface IProps {
   isOpened: boolean;
@@ -28,7 +29,7 @@ export function ArchiveConfirm({ isOpened, productId, usedInRecipes, onClose }: 
   };
 
   return (
-    <SDrawer opened={isOpened} onClose={onClose} position="bottom" title={l.title}>
+    <SBottomSheetDrawer opened={isOpened} onClose={onClose} position="bottom" title={l.title}>
       <SContent>
         <B2 color="textMuted">{l.description}</B2>
 
@@ -54,6 +55,6 @@ export function ArchiveConfirm({ isOpened, productId, usedInRecipes, onClose }: 
           </SConfirm>
         </SActions>
       </SContent>
-    </SDrawer>
+    </SBottomSheetDrawer>
   );
 }

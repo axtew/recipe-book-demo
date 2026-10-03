@@ -1,19 +1,4 @@
-import { Drawer } from "@mantine/core";
 import styled from "styled-components";
-
-/**
- * Лист снизу под высоту содержимого.
- *
- * Mantine задаёт нижнему Drawer'у фиксированную высоту из своей шкалы размеров,
- * а здесь содержимое меняется: список рецептов бывает пустым и бывает длинным.
- * Специфичность поднимается через `&&`, как и для любого переопределения кита.
- */
-export const SDrawer = styled(Drawer)`
-  && .mantine-Drawer-content {
-    height: auto;
-    max-height: 90dvh;
-  }
-`;
 
 export const SContent = styled.div`
   display: flex;

@@ -30,22 +30,6 @@ export const SInput = styled.input`
   }
 `;
 
-export const SSelect = styled.select`
-  min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid ${({ theme }) => theme.palette.border};
-  border-radius: 8px;
-  /* Тот же технический порог, что у SInput. */
-  font-size: 16px;
-  color: ${({ theme }) => theme.palette.text};
-  background: ${({ theme }) => theme.palette.surface};
-
-  &:focus {
-    outline: 2px solid ${({ theme }) => theme.palette.primary};
-    outline-offset: 1px;
-  }
-`;
-
 export const SActions = styled.div`
   display: flex;
   gap: 8px;

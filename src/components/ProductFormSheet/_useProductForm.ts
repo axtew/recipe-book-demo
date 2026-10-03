@@ -1,9 +1,10 @@
-import { type SubmitEvent, useState } from "react";
+import { useState } from "react";
 
 import { useCreateProductWithVariantMutation } from "@/api/mutations/products.mutations";
 import { productInputSchema, productVariantInputSchema } from "@/domain/schemas";
+import { useForm } from "@/hooks/useForm";
 
-import type { IUseProductFormProps, IUseProductFormResult } from "./_types";
+import type { IUseProductFormProps, IUseProductFormResult, TProductFields } from "./_types";
 
 /** Состояние формы создания продукта с первым вариантом и сброс при открытии листа. */
 export function useProductForm({
@@ -13,79 +14,76 @@ export function useProductForm({
   submitError,
   onCreated,
 }: IUseProductFormProps): IUseProductFormResult {
-  const { mutate, isPending } = useCreateProductWithVariantMutation();
-
-  const [name, setName] = useState(initialName);
-  const [categoryId, setCategoryId] = useState("");
-  const [kcal, setKcal] = useState<number | "">("");
-  const [protein, setProtein] = useState<number | "">("");
-  const [fat, setFat] = useState<number | "">("");
-  const [carbs, setCarbs] = useState<number | "">("");
+  const { mutateAsync } = useCreateProductWithVariantMutation();
   const [error, setError] = useState<string | null>(null);
 
-  // Сброс формы на открытии — сравнение во время рендера, а не в эффекте:
-  // React рекомендует именно так подстраивать состояние под смену пропа.
+  // Баннер общей ошибки формы живёт вне useForm — переживает открытие/закрытие
+  // листа отдельно от полей, сбрасывается тем же сравнением во время рендера.
   const [wasOpened, setWasOpened] = useState(isOpened);
   if (isOpened !== wasOpened) {
     setWasOpened(isOpened);
-    if (isOpened) {
-      setName(initialName);
-      setCategoryId("");
-      setKcal("");
-      setProtein("");
-      setFat("");
-      setCarbs("");
-      setError(null);
-    }
-  }
-
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>): void {
-    event.preventDefault();
     setError(null);
-
-    const productResult = productInputSchema.safeParse({ name, categoryId, note: null });
-    const variantResult = productVariantInputSchema.safeParse({
-      name: null,
-      kcal100: kcal === "" ? null : kcal,
-      protein100: protein === "" ? null : protein,
-      fat100: fat === "" ? null : fat,
-      carbs100: carbs === "" ? null : carbs,
-      isApproximate: false,
-      source: "manual",
-      note: null,
-    });
-
-    if (!productResult.success || !variantResult.success) {
-      setError(validationError);
-      return;
-    }
-
-    mutate(
-      { product: productResult.data, variant: variantResult.data },
-      {
-        onSuccess: (productId) => {
-          onCreated({ id: productId, name: productResult.data.name });
-        },
-        onError: () => setError(submitError),
-      },
-    );
   }
+
+  const { form, isPending, updateFieldValue, onSubmit } = useForm<TProductFields>(
+    { name: initialName, categoryId: "", kcal: "", protein: "", fat: "", carbs: "" },
+    async (state) => {
+      setError(null);
+
+      const productResult = productInputSchema.safeParse({
+        name: state.name.value,
+        categoryId: state.categoryId.value,
+        note: null,
+      });
+      const variantResult = productVariantInputSchema.safeParse({
+        name: null,
+        kcal100: state.kcal.value === "" ? null : state.kcal.value,
+        protein100: state.protein.value === "" ? null : state.protein.value,
+        fat100: state.fat.value === "" ? null : state.fat.value,
+        carbs100: state.carbs.value === "" ? null : state.carbs.value,
+        isApproximate: false,
+        source: "manual",
+        note: null,
+      });
+
+      if (!productResult.success || !variantResult.success) {
+        setError(validationError);
+        // Бросаем, чтобы useForm не пометил форму «сохранённой» — иначе
+        // повторная отправка тех же (всё ещё невалидных) значений ничего не
+        // отправит, пока пользователь не поменяет хоть одно поле.
+        throw new Error("Продукт или вариант не прошли валидацию");
+      }
+
+      try {
+        const productId = await mutateAsync({
+          product: productResult.data,
+          variant: variantResult.data,
+        });
+        onCreated({ id: productId, name: productResult.data.name });
+      } catch (mutationError) {
+        setError(submitError);
+        throw mutationError;
+      }
+    },
+    false,
+    isOpened,
+  );
 
   return {
-    name,
-    categoryId,
-    kcal,
-    protein,
-    fat,
-    carbs,
+    name: form.name.value,
+    categoryId: form.categoryId.value,
+    kcal: form.kcal.value,
+    protein: form.protein.value,
+    fat: form.fat.value,
+    carbs: form.carbs.value,
     error,
     isPending,
-    setName,
-    setCategoryId,
-    setKcal,
-    setProtein,
-    setFat,
-    setCarbs,
-    handleSubmit,
+    setName: (value) => updateFieldValue("name", value),
+    setCategoryId: (value) => updateFieldValue("categoryId", value),
+    setKcal: (value) => updateFieldValue("kcal", value),
+    setProtein: (value) => updateFieldValue("protein", value),
+    setFat: (value) => updateFieldValue("fat", value),
+    setCarbs: (value) => updateFieldValue("carbs", value),
+    handleSubmit: onSubmit,
   };
 }

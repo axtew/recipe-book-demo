@@ -1,9 +1,10 @@
-import { type SubmitEvent, useState } from "react";
+import { useState } from "react";
 
 import { useAddProductVariantMutation } from "@/api/mutations/products.mutations";
 import { productVariantInputSchema } from "@/domain/schemas";
+import { useForm } from "@/hooks/useForm";
 
-import type { IUseVariantFormProps, IUseVariantFormResult } from "./_types";
+import type { IUseVariantFormProps, IUseVariantFormResult, TVariantFields } from "./_types";
 
 /** Состояние формы добавления варианта существующему продукту и сброс при открытии листа. */
 export function useVariantForm({
@@ -13,72 +14,66 @@ export function useVariantForm({
   submitError,
   onClose,
 }: IUseVariantFormProps): IUseVariantFormResult {
-  const { mutate, isPending } = useAddProductVariantMutation();
-
-  const [name, setName] = useState("");
-  const [kcal, setKcal] = useState<number | "">("");
-  const [protein, setProtein] = useState<number | "">("");
-  const [fat, setFat] = useState<number | "">("");
-  const [carbs, setCarbs] = useState<number | "">("");
+  const { mutateAsync } = useAddProductVariantMutation();
   const [error, setError] = useState<string | null>(null);
 
-  // Сброс формы на открытии — сравнение во время рендера, а не в эффекте:
-  // React рекомендует именно так подстраивать состояние под смену пропа.
+  // Баннер общей ошибки формы живёт вне useForm — переживает открытие/закрытие
+  // листа отдельно от полей, сбрасывается тем же сравнением во время рендера.
   const [wasOpened, setWasOpened] = useState(isOpened);
   if (isOpened !== wasOpened) {
     setWasOpened(isOpened);
-    if (isOpened) {
-      setName("");
-      setKcal("");
-      setProtein("");
-      setFat("");
-      setCarbs("");
-      setError(null);
-    }
-  }
-
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>): void {
-    event.preventDefault();
     setError(null);
-
-    const variantResult = productVariantInputSchema.safeParse({
-      name: name.trim() === "" ? null : name,
-      kcal100: kcal === "" ? null : kcal,
-      protein100: protein === "" ? null : protein,
-      fat100: fat === "" ? null : fat,
-      carbs100: carbs === "" ? null : carbs,
-      isApproximate: false,
-      source: "manual",
-      note: null,
-    });
-
-    if (!variantResult.success) {
-      setError(validationError);
-      return;
-    }
-
-    mutate(
-      { productId, variant: variantResult.data },
-      {
-        onSuccess: onClose,
-        onError: () => setError(submitError),
-      },
-    );
   }
+
+  const { form, isPending, updateFieldValue, onSubmit } = useForm<TVariantFields>(
+    { name: "", kcal: "", protein: "", fat: "", carbs: "" },
+    async (state) => {
+      setError(null);
+
+      const variantResult = productVariantInputSchema.safeParse({
+        name: state.name.value.trim() === "" ? null : state.name.value,
+        kcal100: state.kcal.value === "" ? null : state.kcal.value,
+        protein100: state.protein.value === "" ? null : state.protein.value,
+        fat100: state.fat.value === "" ? null : state.fat.value,
+        carbs100: state.carbs.value === "" ? null : state.carbs.value,
+        isApproximate: false,
+        source: "manual",
+        note: null,
+      });
+
+      if (!variantResult.success) {
+        setError(validationError);
+        // Бросаем, чтобы useForm не пометил форму «сохранённой» — иначе
+        // повторная отправка тех же (всё ещё невалидных) значений ничего не
+        // отправит, пока пользователь не поменяет хоть одно поле.
+        throw new Error("Вариант не прошёл валидацию");
+      }
+
+      try {
+        await mutateAsync({ productId, variant: variantResult.data });
+        onClose();
+      } catch (mutationError) {
+        setError(submitError);
+        throw mutationError;
+      }
+    },
+    false,
+    isOpened,
+  );
 
   return {
-    name,
-    kcal,
-    protein,
-    fat,
-    carbs,
+    name: form.name.value,
+    kcal: form.kcal.value,
+    protein: form.protein.value,
+    fat: form.fat.value,
+    carbs: form.carbs.value,
     error,
     isPending,
-    setName,
-    setKcal,
-    setProtein,
-    setFat,
-    setCarbs,
-    handleSubmit,
+    setName: (value) => updateFieldValue("name", value),
+    setKcal: (value) => updateFieldValue("kcal", value),
+    setProtein: (value) => updateFieldValue("protein", value),
+    setFat: (value) => updateFieldValue("fat", value),
+    setCarbs: (value) => updateFieldValue("carbs", value),
+    handleSubmit: onSubmit,
   };
 }

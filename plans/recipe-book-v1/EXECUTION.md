@@ -492,3 +492,76 @@ RLS включена на всех 8 таблицах, но **политика �
 - **Сборка предупреждает о чанке 778 кБ** (было 777 кБ в Фазе 6) — порог перейдён раньше, кандидат в `BACKLOG.md`.
 - **`STATUS.md` не тронут** — его закрывает ревью владельца, не исполнитель.
 - Реальная работа на iPhone (tap targets, свайп по листу, открытие поверх другого листа) не проверялась: физического устройства и живого прогона в этой среде нет (см. «Проверка» выше).
+
+## Фаза 7.5 — Общий `useForm` и примитивы форм
+
+- **Дата:** 2026-09-21
+- **Статус:** выполнена
+- **Модель:** sonnet-5
+
+### Файлы
+
+- `src/hooks/useLatest.hook.ts` — перенесён из `Carbon-spa` без изменений
+- `src/utils/helpers/objectGetters.ts` — перенесён `getEntries` (единственный используемый геттер; `getKeys`/`getValues` не переносились — импортёра нет)
+- `src/types/common.types.ts` — создан, экспортирует только `TSetState` (единственное, что нужно хуку)
+- `src/hooks/useForm/{_types.ts,_helpers.ts,_useForm.hook.ts,index.ts}` — перенос хука из `Carbon-spa` с девятью адаптациями из плана и четырьмя комментариями `FIXME` на местах, помеченных «странно, но не меняется»
+- `src/pages/LoginPage/_useLoginForm.ts` — переведён на `useForm`; `email`/`password`/`setEmail`/`setPassword`/`handleSubmit` — прежний внешний контракт, `_LoginPage.tsx` не тронут
+- `src/components/ProductFormSheet/_useProductForm.ts` — переведён на `useForm`; общая ошибка формы (`error`) осталась вне хука — второй уровень валидации (zod-схемы) в `useForm` не переносится
+- `src/components/VariantFormSheet/_useVariantForm.ts` — то же самое
+- `src/components/Select/{_styles.ts,index.ts}` — общий нативный `<select>` (`SSelect`), перенесён из `ProductFormSheet/_styles.ts`
+- `src/components/ProductFormSheet/{_ProductFormSheet.tsx,_styles.ts}` — используют общий `SSelect` вместо локального
+- `src/pages/ProductPage/_internal/ArchiveConfirm/{_ArchiveConfirm.tsx,_styles.ts}` — переведены на общий `SBottomSheetDrawer` из `src/components/BottomSheetDrawer`, локальный `SDrawer` убран
+
+Новых зависимостей фаза не добавляет.
+
+### Итерация 2 — правки по ревью
+
+Ревью нашло, что `TProductFieldName`/`TProductFields` и `TVariantFieldName`/`TVariantFields` объявлены прямо в `_useProductForm.ts`/`_useVariantForm.ts`, хотя рядом уже есть `_types.ts` с тремя интерфейсами каждый — по конвенции («Placement — one ladder for everything extracted») при существующем `_types.ts` все локальные типы компонента живут там, разбивать типовые блоки между файлами нельзя.
+
+- `src/components/ProductFormSheet/_types.ts` — добавлены `TProductFieldName` (не экспортируется, используется только внутри файла для построения `TProductFields`) и `TProductFields` (экспортируется, импортируется в `_useProductForm.ts`)
+- `src/components/ProductFormSheet/_useProductForm.ts` — оба типа убраны, `TProductFields` импортируется из `./_types`
+- `src/components/VariantFormSheet/_types.ts` — то же самое: `TVariantFieldName` (не экспортируется), `TVariantFields` (экспортируется)
+- `src/components/VariantFormSheet/_useVariantForm.ts` — то же самое
+
+`src/pages/LoginPage/_useLoginForm.ts` не тронут — единственный `type TLoginFields` с двумя полями, `_types.ts` у `LoginPage/` нет, порог переноса («≥2 объявлений или ≥10 полей») не превышен.
+
+`pnpm lint`, `pnpm build`, `pnpm test` — чистые после правки (см. «Проверка» ниже, без изменений относительно итерации 1).
+
+### Проверка
+
+| Пункт | Результат |
+|---|---|
+| API хука совпадает с оригиналом из Carbon-spa, отличия — только перечисленные адаптации | ✅ сверено построчно: `TFieldType` расширен `number`, `required`-проверка переписана (`value === null \|\| value === ""`), зависимости перенесены (`useLatest`, `getEntries`, `TSetState`), `NodeJS.Timeout` → `ReturnType<typeof setTimeout>`, `onChange` принимает `HTMLInputElement \| HTMLSelectElement \| HTMLTextAreaElement`, файлы разложены по конвенции (`_useForm.hook.ts`/`_types.ts`/`_helpers.ts`/`index.ts`), `IUseFormReturn` объявлен как `interface`, добавлен `resetOn` (4-й позиционный параметр), лишние `!!` убраны, неудачная отправка не запирает форму (`try/catch/finally`, `prevValue` обновляется только при успехе), инициализация `useState(() => initState(inputs))` — ленивая |
+| Четыре `FIXME`-комментария на месте, поведение этих мест не изменено | ✅ `grep -c FIXME src/hooks/useForm/_useForm.hook.ts` → 4: общий `isDirty` считается иначе, чем полевой; `validator` видит значение до `formatter`; нетронутую форму нельзя отправить; правки во время `saveOnChange` помечаются сохранёнными вместе со всей формой |
+| Поведение трёх форм не изменилось: вход работает, продукт создаётся с пустым КБЖУ и возвращается выбранным, вариант добавляется | ✅ вход — живой прогон в браузере на локальном стеке (см. ниже); продукт/вариант — по коду и типам, живого прогона не было (см. «Отклонения от плана») |
+| Ни один хук формы не содержит собственного сравнения для сброса — оно только в `useForm` | ✅ по коду: `resetOn` в `useForm` — единственное место сравнения `isOpened`/предыдущего значения ради сброса полей; локальный `wasOpened` в `_useProductForm.ts`/`_useVariantForm.ts` остался только для баннера `error` (сущность вне `useForm` по дизайну — «два уровня валидации» в плане), сами поля формы он не трогает |
+| `grep` по `styled.select` и по переопределению высоты `Drawer` даёт по одному совпадению на проект | ✅ `styled.select` → 1 (`src/components/Select/_styles.ts`); `mantine-Drawer-content` → 1 файл (`src/components/BottomSheetDrawer/_styles.ts`) |
+| `pnpm lint`, `pnpm build`, `pnpm test` чистые | ✅ `pnpm lint` exit 0, без предупреждений; `pnpm build` (`vite build && tsc -b`) exit 0, то же предупреждение о чанке 780 кБ, что и в Фазе 7; `pnpm test` — 2 файла, 32/32 |
+
+Дополнительно, живой прогон на локальном стеке Supabase (`docker`, `npx supabase start`, пользователь `dev@recipe-book.local`):
+
+| Сценарий | Результат |
+|---|---|
+| `LoginPage`: неверный пароль | ✅ баннер «Неверный email или пароль» появляется, кнопка «Войти» остаётся кликабельной без изменения полей (проверяет правку FORM-адаптации №8 — нетронутая после неудачи форма не запирается) |
+| `LoginPage`: верный пароль | ✅ редирект на `/` |
+| `ProductFormSheet` / `VariantFormSheet` | не проверялись живым прогоном — у обоих по-прежнему нет потребителя, монтирующего их в дереве (`ProductPicker` и сам `VariantFormSheet` подключаются в Фазе 8, см. «Замечено вне фазы» Фазы 7); открыть лист через UI не из чего |
+
+### Решения, принятые по ходу
+
+1. **`TUseFormState` не вынесен в барrel `src/hooks/useForm/index.ts`.** У Carbon-spa он экспортируется, потому что тамошние потребители явно аннотируют им возвращаемый тип (`form: TUseFormState<TForm>`). Ни один из трёх здешних потребителей так не делает — вывод типов работает без аннотации. По правилу экспорта («добавлять экспорт в том же изменении, что и импортёра») барrel-строка не добавлена; при появлении первого потребителя (вероятно, Фаза 8) — одна строка.
+2. **`resetOn` — 4-й позиционный параметр `useForm`, тип `unknown`.** Сравнивается только через `!==`, содержимое не разбирается — `unknown` в generic-утилите такого рода допустим по конвенции («Strong typing»).
+3. **Общая ошибка формы (`error`) намеренно осталась вне `useForm`** в `_useProductForm.ts`/`_useVariantForm.ts` — план прямо разводит два уровня валидации: пер-полевой `validator` внутри хука и zod-схемы в `submitHandler`. Баннер `error` — не поле формы, а исход второго уровня; его сброс при открытии листа — свой маленький `wasOpened`, конкретно под эту одну переменную, а не под весь набор полей (те сбрасывает `resetOn`).
+4. **`onSubmit` из `useForm` подставлен в `handleSubmit` напрямую**, без обёртки: `(e?: SubmitEvent<HTMLFormElement>) => Promise<void>` структурно совместим с ожидаемым `(event: SubmitEvent<HTMLFormElement>) => void` (необязательный параметр и `Promise<void>` в позиции `void` — обе валidные сужения в TS).
+5. **Схема-валидация и мутация внутри `submitHandler` обе бросают при неудаче**, а не просто выставляют `error` и возвращаются. Без этого второй сабмит с теми же (ещё невалидными или ещё не изменёнными) значениями молча ничего не делает — `useForm` считает форму «сохранённой» после первого прохода `try`, если тот не бросил, и `isDirty` становится `false`. Это прямое следствие адаптации №8 из плана, распространённое с ошибки мутации также на ошибку схемы — в плане описан только случай мутации, но тот же механизм ломает повторную отправку и при провале валидации.
+6. **Поля `TProductFields`/`TVariantFields`/`TLoginFields` объявлены как mapped-типы по литеральному union ключей** (`{[K in "a"|"b"]: ...}`), а не как `interface`. Интерфейс с явными полями не получает неявную индексную сигнатуру и не удовлетворяет ограничению `T extends TFields` дженерика `useForm` (`TFields = {[K: string]: TFieldType}`); mapped-тип по литеральным ключам её получает и при этом не теряет точные литеральные имена в `keyof` (в отличие от интерфейса с явной индексной сигнатурой, где `keyof` схлопывается до `string`). Тот же приём, что даёт Carbon-spa `Record<keyof IUserCreds, string>` — там сработало только потому, что у всех полей один тип; здесь типы полей разные (`string` у имени/категории, `number | ""` у КБЖУ), поэтому вместо `Record` — условный mapped-тип.
+
+### Отклонения от плана
+
+1. **Живой прогон `ProductFormSheet`/`VariantFormSheet` не проводился** — не изменение плана, а то же ограничение, что унаследовано от Фазы 7 (см. её «Замечено вне фазы»): у обоих узлов до сих пор нет потребителя, монтирующего их в дерево роутов (появится в Фазе 8). Локальный стенд Supabase в этой фазе уже был поднят и использован для `LoginPage`.
+2. **Тип обработчика `onSubmit` — `SubmitEvent<HTMLFormElement>`, не `React.FormEvent<HTMLFormElement>`, как в оригинале Carbon-spa.** План не называет это явно среди девяти адаптаций, но `<form onSubmit>` в установленной версии `@types/react` (19.2) типизирован через `SubmitEventHandler`, ожидающий `SubmitEvent`, а весь проект уже перешёл на этот тип (коммит `7966414`, три формы Фазы 7). Оставить `FormEvent` значило бы не собраться.
+
+### Замечено вне фазы
+
+- **`STATUS.md` не тронут** — закрывает ревью владельца, не исполнитель.
+- **`@tanstack/query-persist-client-core` по-прежнему в прямых зависимостях** — отмечено начиная с Фазы 2, снова не тронуто.
+- **`ProductPicker` и `VariantFormSheet` по-прежнему без потребителя** (названное исключение ещё с Фазы 7) — подключаются в Фазе 8.

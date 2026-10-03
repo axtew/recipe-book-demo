@@ -15,6 +15,12 @@ export interface IUseProductFormProps {
   onCreated: (product: { id: string; name: string }) => void;
 }
 
+type TProductFieldName = "name" | "categoryId" | "kcal" | "protein" | "fat" | "carbs";
+
+export type TProductFields = {
+  [K in TProductFieldName]: K extends "name" | "categoryId" ? string : number | "";
+};
+
 export interface IUseProductFormResult {
   name: string;
   categoryId: string;

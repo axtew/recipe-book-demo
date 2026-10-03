@@ -1,11 +1,12 @@
 import { NumberInput } from "@mantine/core";
 
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
+import { SSelect } from "@/components/Select";
 import { B2, B3, Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useProductCategories } from "@/hooks/useAppData.hook";
 
-import { SActions, SCancel, SField, SForm, SInput, SSelect, SSubmit } from "./_styles";
+import { SActions, SCancel, SField, SForm, SInput, SSubmit } from "./_styles";
 import type { IProductFormSheetProps } from "./_types";
 import { useProductForm } from "./_useProductForm";
 

@@ -14,6 +14,12 @@ export interface IUseVariantFormProps {
   onClose: () => void;
 }
 
+type TVariantFieldName = "name" | "kcal" | "protein" | "fat" | "carbs";
+
+export type TVariantFields = {
+  [K in TVariantFieldName]: K extends "name" ? string : number | "";
+};
+
 export interface IUseVariantFormResult {
   name: string;
   kcal: number | "";
