@@ -5,11 +5,11 @@
 
 ## Project Overview
 
-Personal mobile-first app for two people: product reference, recipes with nutrition (КБЖУ) calculation, search, cooking journal. Russian UI. The product boundaries, data model and stack decisions live in `decisions.md` (source of truth), the implementation plan in `plans/recipe-book-v1/plan.md`, the working-split rules (what the owner does by hand: `supabase/**`, `.env`, `src/types/database.types.ts`, all of `src/api/**`) in `CLAUDE.md`. This file holds only code conventions.
+Personal mobile-first app for two people: product reference, recipes with nutrition (КБЖУ) calculation, search, cooking journal. Russian UI. The product boundaries, data model and stack decisions live in `decisions.md` (source of truth), the implementation plan in `plans/recipe-book-v1/plan.md`, the working-split rules (executors write everything, including migrations; the owner keeps only `db push` to the cloud and the `.env*` files) in `CLAUDE.md`. This file holds only code conventions.
 
 ## Build & environment
 
-Stack and scripts are in `package.json` — read it rather than a list here. The pipeline verifies against `pnpm lint` and `pnpm build`; `pnpm test` runs vitest. After any schema change the owner regenerates `src/types/database.types.ts` — never edit it by hand.
+Stack and scripts are in `package.json` — read it rather than a list here. The pipeline verifies against `pnpm lint` and `pnpm build`; `pnpm test` runs vitest. After any schema change `src/types/database.types.ts` is regenerated with `pnpm db:types` — never edited by hand.
 
 ## Hard invariants
 
@@ -175,9 +175,9 @@ component → TanStack Query hook (src/api/queries|mutations) → service (src/a
 - **Archived rows are loaded too.** The dataset must be internally consistent: the nutrition module throws on a dangling reference, and a recipe may well point at an archived product. Filtering `archived_at` in the query would crash that recipe's screen. Archived rows are hidden by the selectors and screens that list things, not by the query.
 - **The whole dataset is loaded up front.** No server-side search, no pagination, no filtering pushed to the database — searching and filtering run over the in-memory dataset. A phase that adds a filtered request to the backend is contradicting the architecture, not optimising it.
 
-`supabase/**`, `.env`, `src/types/database.types.ts`, the whole of `src/api/` (`services/`, `queries/`, `mutations/`), `src/domain/schemas/**` and `src/domain/backup/**` are **owner-only** (`CLAUDE.md` → «Разделение работ»). A phase needing a database migration, a new query hook, a new read service function, or a new/changed zod schema stops and reports — no migrations, no workarounds, no stubs.
+**Executors write the whole data layer** — migrations, services, query and mutation hooks, zod schemas (since 2026-10-18; see `CLAUDE.md` → «Разделение работ»). Two things stay with the owner: `npx supabase db push` to the cloud project, and the `.env*` files. A phase that adds a migration applies it **locally** (`npx supabase migration up`), regenerates types (`pnpm db:types`), and reports that the migration must be pushed.
 
-**One carve-out for mutations.** A phase may add a mutation that writes to **exactly one table** — a single `update` or `insert` plus an invalidation of the matching key — by following the pattern already in `src/api/mutations/`. Anything that writes to more than one table, needs several sequential requests, or uploads to Storage stops and reports: those are where a partial failure leaves the database inconsistent, and the owner decides how to handle it. Phases **use** the schemas in `src/domain/schemas/`; they do not author them.
+**A write that touches more than one table, or needs several sequential requests, is a PL/pgSQL function called through `rpc`** — never a chain of client requests. PostgREST gives one transaction per request, so a chain that fails half-way leaves half a record behind. Follow the existing function migration: `security invoker`, `set search_path = ''`, schema-qualified table names, `revoke execute … from public, anon`, `grant execute … to authenticated`.
 
 ### Domain module purity
 
