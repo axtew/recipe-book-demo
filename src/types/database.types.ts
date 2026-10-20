@@ -427,6 +427,12 @@ export type Database = {
         }
         Returns: string
       }
+      export_backup: { Args: never; Returns: Json }
+      import_backup: { Args: { p_backup: Json }; Returns: Json }
+      reorder_categories: {
+        Args: { p_ids: string[]; p_kind: string }
+        Returns: undefined
+      }
       save_recipe: {
         Args: {
           p_carbs_100_override?: number

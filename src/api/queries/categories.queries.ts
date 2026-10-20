@@ -4,8 +4,8 @@ import { STALE_TIME } from "@/constants/caching.constants";
 
 import { getDishCategories, getProductCategories } from "../services/categories.service";
 
-const PRODUCT_CATEGORIES_QUERY_KEY = "product-categories";
-const DISH_CATEGORIES_QUERY_KEY = "dish-categories";
+export const PRODUCT_CATEGORIES_QUERY_KEY = "product-categories";
+export const DISH_CATEGORIES_QUERY_KEY = "dish-categories";
 
 export function useProductCategoriesQuery() {
   return useQuery({

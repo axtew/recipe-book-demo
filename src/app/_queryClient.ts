@@ -7,12 +7,26 @@ import { del, get, set } from "idb-keyval";
 import { CACHE_BUSTER, CACHE_MAX_AGE } from "@/constants/caching.constants";
 import { getDictionary } from "@/context/I18nContext";
 
+declare module "@tanstack/react-query" {
+  interface Register {
+    mutationMeta: {
+      /** Мутация сама показывает ошибку у своего блока: общее уведомление о сохранении не нужно. */
+      showsOwnError?: boolean;
+    };
+  }
+}
+
 export const queryClient = new QueryClient({
   mutationCache: new MutationCache({
-    onError: (error) => {
+    onError: (error, _variables, _onMutateResult, mutation) => {
       // Общее сообщение на любую неудавшуюся запись. Частные случаи вроде
       // «продукт с таким именем уже есть» разбираются в onError самой мутации.
       console.error(error);
+
+      // Мутации, которые сами показывают ошибку у своего блока (`meta.showsOwnError`),
+      // общее уведомление не получают: оно говорило бы про «сохранение» там,
+      // где ничего не сохранялось.
+      if (mutation.meta?.showsOwnError === true) return;
 
       const l = getDictionary();
 

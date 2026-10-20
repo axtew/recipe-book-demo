@@ -55,3 +55,25 @@ export function useSignIn(): IUseSignInResult {
 
   return { signIn, isPending, hasError };
 }
+
+interface IUseSignOutResult {
+  signOut: () => Promise<boolean>;
+  isPending: boolean;
+}
+
+/** Выход из аккаунта. Возвращает `false`, если Supabase выйти не дал. */
+export function useSignOut(): IUseSignOutResult {
+  const [isPending, setIsPending] = useState(false);
+
+  async function signOut(): Promise<boolean> {
+    setIsPending(true);
+
+    const { error } = await supabase.auth.signOut();
+
+    setIsPending(false);
+
+    return error === null;
+  }
+
+  return { signOut, isPending };
+}

@@ -7,8 +7,6 @@ import {
   useSearch,
 } from "@tanstack/react-router";
 
-import { RouteStub } from "@/components/RouteStub";
-import { useI18nSelector } from "@/context/I18nContext";
 import { getAuthSession } from "@/hooks/useAuth.hook";
 import { LoginPage } from "@/pages/LoginPage";
 import { LogPage } from "@/pages/LogPage";
@@ -17,6 +15,7 @@ import { ProductsPage } from "@/pages/ProductsPage";
 import { RecipeEditorPage } from "@/pages/RecipeEditorPage";
 import { RecipePage } from "@/pages/RecipePage";
 import { RecipesPage } from "@/pages/RecipesPage";
+import { SettingsPage } from "@/pages/SettingsPage";
 import { normalizeRecipesSearch } from "@/utils/helpers/recipes";
 
 import { routerPaths } from "./_paths";
@@ -136,7 +135,7 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
   const settingsRoute = createRoute({
     getParentRoute: () => protectedLayoutRoute,
     path: routerPaths.settings,
-    component: SettingsStub,
+    component: SettingsPage,
   });
 
   return [
@@ -149,9 +148,4 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
     logRoute,
     settingsRoute,
   ] as const;
-}
-
-function SettingsStub() {
-  const l = useI18nSelector(({ l }) => l.navigation.settings);
-  return <RouteStub title={l} />;
 }

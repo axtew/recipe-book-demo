@@ -16,9 +16,6 @@ export interface I18n {
     log: string;
     settings: string;
   };
-  routeStub: {
-    placeholder: string;
-  };
   mutation: {
     error: string;
   };
@@ -332,6 +329,45 @@ export interface I18n {
       title: string;
       submitButton: string;
       cancelButton: string;
+    };
+  };
+  settings: {
+    exportBlock: {
+      title: string;
+      description: string;
+      button: string;
+      /** Шаблон с `{fileName}`. */
+      success: string;
+      error: string;
+    };
+    importBlock: {
+      title: string;
+      description: string;
+      button: string;
+      /** Шаблон с `{products}`, `{recipes}`, `{cookLogs}`. */
+      success: string;
+      notEmpty: string;
+      notJson: string;
+      notBackup: string;
+      /** Шаблон с `{version}`. */
+      unsupportedVersion: string;
+      /** Шаблон с `{path}`. */
+      invalid: string;
+      readFailed: string;
+      importFailed: string;
+    };
+    categories: {
+      title: string;
+      productsTitle: string;
+      dishesTitle: string;
+      emptyHint: string;
+      nameLabel: string;
+      moveUp: string;
+      moveDown: string;
+    };
+    account: {
+      logoutButton: string;
+      logoutError: string;
     };
   };
 }
