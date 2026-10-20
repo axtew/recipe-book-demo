@@ -2,11 +2,12 @@ import { NumberInput } from "@mantine/core";
 
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
 import { SSelect } from "@/components/Select";
+import { STextInput } from "@/components/TextInput";
 import { B2, B3, Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useProductCategories } from "@/hooks/useAppData.hook";
 
-import { SActions, SCancel, SField, SForm, SInput, SSubmit } from "./_styles";
+import { SActions, SCancel, SField, SForm, SSubmit } from "./_styles";
 import type { IProductFormSheetProps } from "./_types";
 import { useProductForm } from "./_useProductForm";
 
@@ -56,7 +57,7 @@ export function ProductFormSheet({
       <SForm onSubmit={handleSubmit}>
         <SField>
           <Caption2 color="textMuted">{l.nameLabel}</Caption2>
-          <SInput
+          <STextInput
             type="text"
             required
             value={name}

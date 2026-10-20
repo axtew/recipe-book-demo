@@ -2,13 +2,14 @@ import { useState } from "react";
 
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
 import { SSelect } from "@/components/Select";
+import { STextInput } from "@/components/TextInput";
 import { B2, Caption2 } from "@/components/Typography";
 import { VariantFormSheet } from "@/components/VariantFormSheet";
 import { useI18nSelector } from "@/context/I18nContext";
 import type { IProduct } from "@/types/products.types";
 import type { IRecipeIngredientDraft } from "@/types/recipes.types";
 
-import { SDangerButton, SField, SInput, SSecondaryButton } from "../../../../_styles";
+import { SDangerButton, SField, SSecondaryButton } from "../../../../_styles";
 import { SActions, SCheckbox, SCheckboxLabel, SSheetBody } from "./_styles";
 
 interface IProps {
@@ -89,7 +90,7 @@ export function IngredientOptionsSheet({
 
         <SField>
           <Caption2 color="textMuted">{l.noteLabel}</Caption2>
-          <SInput
+          <STextInput
             type="text"
             placeholder={l.notePlaceholder}
             value={ingredient.note}

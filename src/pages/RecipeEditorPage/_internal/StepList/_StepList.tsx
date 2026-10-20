@@ -2,6 +2,7 @@ import { B2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import type { IRecipeStepDraft } from "@/types/recipes.types";
 
+import { createId } from "../../_helpers";
 import { SAddButton, SSection } from "../../_styles";
 import { SortableItem, SortableList } from "../SortableList";
 import { StepRow } from "./_StepRow";
@@ -35,7 +36,7 @@ export function StepList({ steps, onAdd, onChange, onRemove, onMove }: IProps) {
         ))}
       </SortableList>
 
-      <SAddButton type="button" onClick={() => onAdd({ key: crypto.randomUUID(), text: "" })}>
+      <SAddButton type="button" onClick={() => onAdd({ key: createId(), text: "" })}>
         <B2 as="span">{l.add}</B2>
       </SAddButton>
     </SSection>

@@ -1,7 +1,8 @@
+import { STextInput } from "@/components/TextInput";
 import { B2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SAddButton, SInput, SSection } from "../../_styles";
+import { SAddButton, SSection } from "../../_styles";
 import { RemoveButton } from "../RemoveButton";
 import { SVideoRow } from "./_styles";
 
@@ -22,9 +23,10 @@ export function VideoLinks({ urls, onChange }: IProps) {
         // Ссылки не переставляются и не имеют собственного id — индекс стабилен,
         // пока строки только добавляются в конец и удаляются.
         <SVideoRow key={index}>
-          <SInput
+          <STextInput
             type="url"
             inputMode="url"
+            enterKeyHint="done"
             placeholder={l.placeholder}
             aria-label={l.placeholder}
             value={url}

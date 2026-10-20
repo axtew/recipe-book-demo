@@ -13,23 +13,6 @@ export const SField = styled.label`
   gap: 6px;
 `;
 
-export const SInput = styled.input`
-  min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid ${({ theme }) => theme.palette.border};
-  border-radius: 8px;
-  /* 16px — иначе Safari на iOS зумит страницу при фокусе на поле. Не токен
-     типографики: техническое ограничение платформы, а не размер из шкалы. */
-  font-size: 16px;
-  color: ${({ theme }) => theme.palette.text};
-  background: ${({ theme }) => theme.palette.surface};
-
-  &:focus {
-    outline: 2px solid ${({ theme }) => theme.palette.primary};
-    outline-offset: 1px;
-  }
-`;
-
 export const SActions = styled.div`
   display: flex;
   gap: 8px;

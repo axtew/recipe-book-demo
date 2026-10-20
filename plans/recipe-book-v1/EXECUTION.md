@@ -660,3 +660,18 @@ RLS включена на всех 8 таблицах, но **политика �
 - **iOS:** все `SNumberInput` получили `size="md"` (шрифт 16px, без зума Safari при фокусе); обёртка с `min-height: 44px` осталась.
 - **Размещение:** `TDraftChoice` перенесён в `_types.ts`; `toggleDishCategory` переехал из `_useRecipeEditor` в `DishCategoryField`, хук отдаёт `setDishCategoryIds`.
 - Проверки: `pnpm lint` чисто, `pnpm build` проходит, `pnpm test` 32/32. Живая проверка «открыл и вышел — ключа в localStorage нет» разработчиком не выполнена (нет браузерного инструмента в этой сессии); сравнение ключ-независимо проверено в node. Пункт — владельцу/ревьюеру.
+
+## Фаза 8.5 — Доводка редактора и общие поля ввода
+
+Выполнена, не закоммичена (правки в рабочем дереве для ревью).
+
+- **Общие поля.** `src/components/TextInput/` (`STextInput`, плюс общий `css`-фрагмент `textFieldStyles`) и `src/components/TextArea/` (`STextArea` строится на том же фрагменте, а не `styled(STextInput)`: типы `textarea` и `input` не совпадают). Пять копий (`ProductFormSheet`, `VariantFormSheet`, `LoginPage`, `ProductsPage`, `RecipeEditorPage`) и `STextarea` редактора удалены; `font-size: 16px` с комментарием про Safari теперь только в `TextInput` и `Select`.
+- **Ссылки на видео.** `recipeInputSchema.videoUrls` — `z.httpUrl()`, текст ошибки в `ru.json` уточнён. Тест: `src/domain/schemas/__tests__/recipes.test.ts`.
+- **`createId`** в `RecipeEditorPage/_helpers.ts`: `randomUUID` либо UUID v4 из `getRandomValues`; три вызова в редакторе переведены.
+- **Тест `areDraftsEqual`** и `createId`: `RecipeEditorPage/_helpers.test.ts`.
+- **Enter.** `blurOnEnter` в `_helpers.ts`, повешен на `SForm` в `RecipeForm`: снимает фокус с однострочного `input`, пропускает `textarea`, чекбоксы и события, чья цель вне формы в DOM (листы-порталы). `enterKeyHint="done"` у названия, числовых полей, граммов и ссылок.
+- **Черновик после сохранения.** `useRecipeDraft` отдаёт `finishDraft` (удаляет ключ и отключает `saveDraft` и дозапись при размонтировании); `useRecipeSave` вызывает его вместо `clearDraft`. `clearDraft` для «Начать заново» не менялся. Проп формы `clearDraft` заменён на `finishDraft`.
+
+Не тронуто: `FIXME` в `useForm`, `useRecipePhotoUrl`. Миграций нет, `db push` не нужен.
+
+Проверка: `pnpm lint` чисто, `pnpm build` проходит, `pnpm test` 44/44 (было 32). Живая проверка на локальном стеке (синтетические DOM-события, не реальные клавиши): Enter в названии и числовом поле — `defaultPrevented`, фокус снят, остаёмся на экране; Enter в `textarea` — не перехвачен; `javascript:alert(1)` — под кнопкой «Ссылка на видео должна начинаться с http:// или https://», рецепт не сохранён; правка названия с пробелом в конце у существующего рецепта сохранилась, после перехода и 1.5 с ключа черновика в localStorage нет. Не проверено живьём: Enter в листе создания продукта (проверено только рассуждением: цель в портале вне формы редактора — обработчик её пропускает), внешний вид входа/поиска/листов (стили идентичны побайтно), проверка пальцем на iPhone.

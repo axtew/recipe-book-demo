@@ -1,10 +1,11 @@
 import { NumberInput } from "@mantine/core";
 
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
+import { STextInput } from "@/components/TextInput";
 import { B2, B3, Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SActions, SCancel, SField, SForm, SInput, SSubmit } from "./_styles";
+import { SActions, SCancel, SField, SForm, SSubmit } from "./_styles";
 import type { IVariantFormSheetProps } from "./_types";
 import { useVariantForm } from "./_useVariantForm";
 
@@ -45,7 +46,7 @@ export function VariantFormSheet({ isOpened, productId, onClose }: IVariantFormS
       <SForm onSubmit={handleSubmit}>
         <SField>
           <Caption2 color="textMuted">{l.nameLabel}</Caption2>
-          <SInput
+          <STextInput
             type="text"
             placeholder={l.namePlaceholder}
             value={name}

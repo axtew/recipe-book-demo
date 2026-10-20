@@ -50,41 +50,6 @@ export const SFieldRow = styled.div`
   gap: 12px;
 `;
 
-export const SInput = styled.input`
-  min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid ${({ theme }) => theme.palette.border};
-  border-radius: 8px;
-  /* 16px — иначе Safari на iOS зумит страницу при фокусе на поле. Не токен
-     типографики: техническое ограничение платформы, а не размер из шкалы. */
-  font-size: 16px;
-  color: ${({ theme }) => theme.palette.text};
-  background: ${({ theme }) => theme.palette.surface};
-
-  &:focus {
-    outline: 2px solid ${({ theme }) => theme.palette.primary};
-    outline-offset: 1px;
-  }
-`;
-
-export const STextarea = styled.textarea`
-  min-height: 88px;
-  padding: 10px 12px;
-  border: 1px solid ${({ theme }) => theme.palette.border};
-  border-radius: 8px;
-  /* Тот же порог iOS, что у SInput. */
-  font-size: 16px;
-  font-family: inherit;
-  color: ${({ theme }) => theme.palette.text};
-  background: ${({ theme }) => theme.palette.surface};
-  resize: vertical;
-
-  &:focus {
-    outline: 2px solid ${({ theme }) => theme.palette.primary};
-    outline-offset: 1px;
-  }
-`;
-
 /** Числовое поле Mantine с высотой тап-цели 44px: размеры из шкалы Mantine ниже порога. */
 export const SNumberInput = styled(NumberInput)`
   && input {

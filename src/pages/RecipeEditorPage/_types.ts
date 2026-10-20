@@ -15,7 +15,8 @@ export interface IRecipeFormProps {
   recipe: IRecipe | null;
   initialDraft: IRecipeDraft;
   saveDraft: (draft: IRecipeDraft) => void;
-  clearDraft: () => void;
+  /** Успешное сохранение: удаляет черновик и больше его не пишет. */
+  finishDraft: () => void;
 }
 
 type TRecipeFieldName =

@@ -5,6 +5,7 @@ import type { IRecipeDraft } from "@/types/recipes.types";
 
 import {
   areDraftsEqual,
+  createId,
   draftToFields,
   fieldsToDraftPart,
   getNutritionOverrides,
@@ -27,11 +28,11 @@ export function useRecipeEditor({
   recipe,
   initialDraft,
   saveDraft,
-  clearDraft,
+  finishDraft,
 }: IRecipeFormProps) {
   // Id нового рецепта выдаётся заранее: по нему фото ляжет в Storage до
   // сохранения, а повторная отправка после сбоя обновит тот же рецепт.
-  const [savedRecipeId] = useState(() => recipeId ?? crypto.randomUUID());
+  const [savedRecipeId] = useState(() => recipeId ?? createId());
 
   const { form, onChange, updateFieldValue } = useForm<TRecipeFields>(draftToFields(initialDraft));
 
@@ -76,7 +77,7 @@ export function useRecipeEditor({
     overrides,
   });
 
-  const save = useRecipeSave({ recipeId: savedRecipeId, recipe, draft, photoFile, clearDraft });
+  const save = useRecipeSave({ recipeId: savedRecipeId, recipe, draft, photoFile, finishDraft });
 
   return {
     form,

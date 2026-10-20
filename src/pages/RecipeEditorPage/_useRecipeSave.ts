@@ -18,7 +18,7 @@ interface IProps {
   draft: IRecipeDraft;
   /** Сжатое фото, выбранное в этой сессии и ещё не загруженное. */
   photoFile: File | null;
-  clearDraft: () => void;
+  finishDraft: () => void;
 }
 
 /**
@@ -29,7 +29,7 @@ interface IProps {
  * Ошибку мутации показывает общий `MutationCache` тостом; здесь она лишь
  * выставляет сообщение под кнопкой и не запирает форму для повтора.
  */
-export function useRecipeSave({ recipeId, recipe, draft, photoFile, clearDraft }: IProps) {
+export function useRecipeSave({ recipeId, recipe, draft, photoFile, finishDraft }: IProps) {
   const navigate = useNavigate();
   const { mutateAsync: saveRecipe } = useSaveRecipeMutation();
   const { mutateAsync: uploadPhoto } = useUploadRecipePhotoMutation();
@@ -69,7 +69,7 @@ export function useRecipeSave({ recipeId, recipe, draft, photoFile, clearDraft }
 
       await saveRecipe({ recipeId, recipe: { ...result.data, photoPath } });
 
-      clearDraft();
+      finishDraft();
       await navigate({ to: routerPaths.home });
     } catch {
       setError("submit");

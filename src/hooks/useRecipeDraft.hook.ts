@@ -39,6 +39,11 @@ function readDraft(key: string): IRecipeDraft | null {
  * вызов; несброшенная запись дописывается при уходе со страницы и при закрытии
  * вкладки. Хранилище может быть недоступно (приватный режим, переполнение) —
  * тогда запись молча пропускается: черновик это удобство, а не данные.
+ *
+ * `clearDraft` удаляет запись, но редактирование продолжается и черновик
+ * пишется дальше. `finishDraft` — для успешного сохранения: удаляет запись и
+ * отключает любую запись до размонтирования, иначе обновлённый после сохранения
+ * рецепт мог бы поставить в очередь новую запись, которую допишет размонтирование.
  */
 export function useRecipeDraft(recipeId: string | null) {
   const key = getDraftKey(recipeId);
@@ -46,6 +51,7 @@ export function useRecipeDraft(recipeId: string | null) {
   const [storedDraft] = useState(() => readDraft(key));
   const pendingRef = useRef<IRecipeDraft | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isFinishedRef = useRef(false);
 
   const writePending = useCallback(() => {
     if (timeoutRef.current !== null) {
@@ -53,7 +59,7 @@ export function useRecipeDraft(recipeId: string | null) {
       timeoutRef.current = null;
     }
 
-    if (pendingRef.current === null) return;
+    if (pendingRef.current === null || isFinishedRef.current) return;
 
     try {
       localStorage.setItem(key, JSON.stringify(pendingRef.current));
@@ -66,6 +72,8 @@ export function useRecipeDraft(recipeId: string | null) {
 
   const saveDraft = useCallback(
     (draft: IRecipeDraft) => {
+      if (isFinishedRef.current) return;
+
       pendingRef.current = draft;
 
       if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
@@ -89,6 +97,11 @@ export function useRecipeDraft(recipeId: string | null) {
     }
   }, [key]);
 
+  const finishDraft = useCallback(() => {
+    isFinishedRef.current = true;
+    clearDraft();
+  }, [clearDraft]);
+
   useEffect(() => {
     window.addEventListener("pagehide", writePending);
 
@@ -98,5 +111,5 @@ export function useRecipeDraft(recipeId: string | null) {
     };
   }, [writePending]);
 
-  return { storedDraft, saveDraft, clearDraft };
+  return { storedDraft, saveDraft, clearDraft, finishDraft };
 }

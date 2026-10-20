@@ -61,6 +61,7 @@ export function IngredientRow({ ingredient, onChange, onRemove }: IProps) {
         <SNumberInput
           size="md"
           hideControls
+          enterKeyHint="done"
           ref={gramsRef}
           aria-label={l.gramsLabel}
           placeholder={l.gramsPlaceholder}

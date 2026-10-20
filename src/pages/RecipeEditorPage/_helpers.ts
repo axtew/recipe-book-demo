@@ -1,9 +1,30 @@
+import type { KeyboardEvent } from "react";
+
 import type { INutrients } from "@/domain/nutrition";
 import type { IRecipe, IRecipeDraft } from "@/types/recipes.types";
 
 import type { TRecipeFields, TValidationKey } from "./_types";
 
 type TIngredientDraft = IRecipeDraft["ingredients"][number];
+
+/**
+ * Новый UUID v4.
+ *
+ * `crypto.randomUUID` есть только в безопасном контексте (HTTPS или localhost);
+ * на дев-сервере по `http://<IP>` его нет, поэтому запасной путь собирает UUID
+ * из `getRandomValues`, который доступен везде.
+ */
+export function createId(): string {
+  if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  // Версия 4 и вариант RFC 4122.
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+  const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
 
 export function createEmptyDraft(): IRecipeDraft {
   return {
@@ -25,7 +46,7 @@ export function createEmptyDraft(): IRecipeDraft {
 
 export function createEmptyIngredient(): TIngredientDraft {
   return {
-    key: crypto.randomUUID(),
+    key: createId(),
     productId: null,
     pinnedVariantId: null,
     amountGrams: null,
@@ -216,4 +237,26 @@ export function getNutritionOverrides(recipe: IRecipe | null): Partial<INutrient
   if (carbs100Override !== null) overrides.carbs = carbs100Override;
 
   return overrides;
+}
+
+const NON_TEXT_INPUT_TYPES = new Set(["checkbox", "radio", "file", "button", "submit", "reset"]);
+
+/**
+ * Enter в однострочном поле формы снимает с него фокус вместо отправки формы.
+ *
+ * Неявная отправка по Enter (на iPhone — кнопка «Перейти») сохранила бы
+ * недописанный рецепт. `textarea` не затрагивается: там Enter — перенос строки.
+ * Листы создания продукта и варианта рендерятся порталом, но события клавиатуры
+ * всплывают по дереву React; цель вне формы в DOM пропускается, чтобы в этих
+ * листах Enter по-прежнему отправлял их собственные формы.
+ */
+export function blurOnEnter(event: KeyboardEvent<HTMLFormElement>): void {
+  const { target } = event;
+
+  if (event.key !== "Enter" || event.nativeEvent.isComposing || event.defaultPrevented) return;
+  if (!(target instanceof HTMLInputElement) || NON_TEXT_INPUT_TYPES.has(target.type)) return;
+  if (!event.currentTarget.contains(target)) return;
+
+  event.preventDefault();
+  target.blur();
 }

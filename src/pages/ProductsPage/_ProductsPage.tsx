@@ -1,8 +1,9 @@
+import { STextInput } from "@/components/TextInput";
 import { B1, B2, H1, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
 import { ProductListItem } from "./_internal/ProductListItem";
-import { SGroup, SList, SPage, SPlaceholder, SSearch } from "./_styles";
+import { SGroup, SList, SPage, SPlaceholder } from "./_styles";
 import { useProductsList } from "./_useProductsList";
 
 /** Справочник продуктов: поиск по названию и список, сгруппированный по категориям. */
@@ -15,7 +16,7 @@ export function ProductsPage() {
       <H1>{l.title}</H1>
 
       {hasProducts && (
-        <SSearch
+        <STextInput
           type="search"
           value={query}
           placeholder={l.searchPlaceholder}

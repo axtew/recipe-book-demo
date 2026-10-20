@@ -1,16 +1,10 @@
+import { STextArea } from "@/components/TextArea";
+import { STextInput } from "@/components/TextInput";
 import { B2, B3, Caption2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import {
-  SField,
-  SFieldRow,
-  SForm,
-  SInput,
-  SNumberInput,
-  SSection,
-  SSubmit,
-  STextarea,
-} from "../../_styles";
+import { blurOnEnter } from "../../_helpers";
+import { SField, SFieldRow, SForm, SNumberInput, SSection, SSubmit } from "../../_styles";
 import type { IRecipeFormProps } from "../../_types";
 import { useRecipeEditor } from "../../_useRecipeEditor";
 import { DishCategoryField } from "../DishCategoryField";
@@ -37,10 +31,16 @@ export function RecipeForm(props: IRecipeFormProps) {
     save.error === null ? null : save.error === "submit" ? l.submitError : l.validation[save.error];
 
   return (
-    <SForm onSubmit={save.handleSubmit}>
+    <SForm onSubmit={save.handleSubmit} onKeyDown={blurOnEnter}>
       <SField>
         <Caption2 color="textMuted">{l.nameLabel}</Caption2>
-        <SInput type="text" name="name" value={form.name.value} onChange={onChange} />
+        <STextInput
+          type="text"
+          name="name"
+          enterKeyHint="done"
+          value={form.name.value}
+          onChange={onChange}
+        />
       </SField>
 
       <DishCategoryField
@@ -54,6 +54,7 @@ export function RecipeForm(props: IRecipeFormProps) {
           <SNumberInput
             size="md"
             hideControls
+            enterKeyHint="done"
             min={0}
             allowDecimal={false}
             value={form.cookTimeMin.value}
@@ -67,6 +68,7 @@ export function RecipeForm(props: IRecipeFormProps) {
           <SNumberInput
             size="md"
             hideControls
+            enterKeyHint="done"
             min={0}
             allowDecimal={false}
             value={form.servingsBase.value}
@@ -80,6 +82,7 @@ export function RecipeForm(props: IRecipeFormProps) {
           <SNumberInput
             size="md"
             hideControls
+            enterKeyHint="done"
             min={0}
             decimalScale={1}
             value={form.yieldGrams.value}
@@ -128,7 +131,7 @@ export function RecipeForm(props: IRecipeFormProps) {
 
       <SSection>
         <H3>{l.notesLabel}</H3>
-        <STextarea
+        <STextArea
           name="notes"
           value={form.notes.value}
           onChange={onChange}

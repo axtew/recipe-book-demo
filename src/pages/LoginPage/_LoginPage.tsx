@@ -1,7 +1,8 @@
+import { STextInput } from "@/components/TextInput";
 import { B2, B3, Caption2, H1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SField, SForm, SInput, SSubmit, SWrapper } from "./_styles";
+import { SField, SForm, SSubmit, SWrapper } from "./_styles";
 import { useLoginForm } from "./_useLoginForm";
 
 /** Экран входа. Регистрации нет — аккаунты заводятся в дашборде Supabase. */
@@ -16,7 +17,7 @@ export function LoginPage() {
       <SForm onSubmit={handleSubmit}>
         <SField>
           <Caption2 color="textMuted">{l.emailLabel}</Caption2>
-          <SInput
+          <STextInput
             type="email"
             autoComplete="username"
             required
@@ -26,7 +27,7 @@ export function LoginPage() {
         </SField>
         <SField>
           <Caption2 color="textMuted">{l.passwordLabel}</Caption2>
-          <SInput
+          <STextInput
             type="password"
             autoComplete="current-password"
             required

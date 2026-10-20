@@ -38,7 +38,7 @@ export const recipeInputSchema = z.object({
   cookTimeMin: z.int().positive().nullable(),
   photoPath: z.string().nullable(),
   notes: z.string().nullable(),
-  videoUrls: z.array(z.url()),
+  videoUrls: z.array(z.httpUrl()),
   freezable: z.boolean(),
   freezerDays: z.int().nonnegative().nullable(),
   fridgeDays: z.int().nonnegative().nullable(),

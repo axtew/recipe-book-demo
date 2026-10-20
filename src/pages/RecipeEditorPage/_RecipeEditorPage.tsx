@@ -23,7 +23,7 @@ import type { IRecipeEditorPageProps, TDraftChoice } from "./_types";
 export function RecipeEditorPage({ recipeId }: IRecipeEditorPageProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor);
   const recipes = useRecipes();
-  const { storedDraft, saveDraft, clearDraft } = useRecipeDraft(recipeId);
+  const { storedDraft, saveDraft, clearDraft, finishDraft } = useRecipeDraft(recipeId);
   const [choice, setChoice] = useState<TDraftChoice>(
     storedDraft === null ? "discarded" : "pending",
   );
@@ -73,7 +73,7 @@ export function RecipeEditorPage({ recipeId }: IRecipeEditorPageProps) {
           recipe={recipe}
           initialDraft={initialDraft}
           saveDraft={saveDraft}
-          clearDraft={clearDraft}
+          finishDraft={finishDraft}
         />
       )}
     </SPage>

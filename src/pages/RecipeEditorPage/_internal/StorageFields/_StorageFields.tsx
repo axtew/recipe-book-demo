@@ -37,6 +37,7 @@ export function StorageFields({ freezable, freezerDays, fridgeDays, onChange }: 
             <SNumberInput
               size="md"
               hideControls
+              enterKeyHint="done"
               min={0}
               allowDecimal={false}
               value={freezerDays}
@@ -48,6 +49,7 @@ export function StorageFields({ freezable, freezerDays, fridgeDays, onChange }: 
             <SNumberInput
               size="md"
               hideControls
+              enterKeyHint="done"
               min={0}
               allowDecimal={false}
               value={fridgeDays}

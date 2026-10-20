@@ -1,9 +1,9 @@
 import { useLayoutEffect, useRef } from "react";
 
+import { STextArea } from "@/components/TextArea";
 import { B2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { STextarea } from "../../_styles";
 import { RemoveButton } from "../RemoveButton";
 import { SNumber, SStepBody } from "./_styles";
 
@@ -36,7 +36,7 @@ export function StepRow({ number, text, onChange, onRemove }: IProps) {
           {number}
         </B2>
       </SNumber>
-      <STextarea
+      <STextArea
         ref={textareaRef}
         rows={2}
         placeholder={l.placeholder}
