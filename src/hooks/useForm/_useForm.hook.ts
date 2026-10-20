@@ -132,8 +132,9 @@ export function useForm<T extends TFields>(
           updatePrevValues();
         } catch {
           // Обработчик, вызванный отсюда, кидает при неудаче (так делает
-          // mutateAsync); сообщение об ошибке уже показывает общий
-          // MutationCache — здесь достаточно не запирать форму для повтора.
+          // mutateAsync); показать ошибку — забота вызывающего (общий
+          // MutationCache или onError мутации), здесь достаточно не запирать
+          // форму для повтора.
         } finally {
           setIsPending(false);
         }
