@@ -32,19 +32,3 @@ export const SCell = styled.div`
 export const SMarker = styled.span`
   color: ${({ theme }) => theme.palette.primary};
 `;
-
-export const SRecalculate = styled.button`
-  align-self: flex-start;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1px solid ${({ theme }) => theme.palette.primary};
-  border-radius: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.palette.primary};
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
-`;

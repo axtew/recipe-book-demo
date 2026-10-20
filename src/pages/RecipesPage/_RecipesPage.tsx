@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { Button } from "@/components/Button";
 import { B1, B2, Caption1, H1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { routerPaths } from "@/routes/_paths";
@@ -8,7 +9,7 @@ import type { IRecipesSearch } from "@/types/recipes.types";
 import { CategoryGroup } from "./_internal/CategoryGroup";
 import { FiltersSheet } from "./_internal/FiltersSheet";
 import { SearchBar } from "./_internal/SearchBar";
-import { SFab, SHeader, SPage, SPlaceholder, SResetButton } from "./_styles";
+import { SFab, SHeader, SPage, SPlaceholder } from "./_styles";
 import { useCollapsedGroups } from "./_useCollapsedGroups";
 import { useRecipesList } from "./_useRecipesList";
 
@@ -62,9 +63,9 @@ export function RecipesPage({ search, onSearchChange }: IProps) {
           <B1 color="textMuted">{l.nothingFoundTitle}</B1>
           <B2 color="textMuted">{l.nothingFoundHint}</B2>
           {list.isFiltered && (
-            <SResetButton type="button" onClick={list.reset}>
-              <B2 as="span">{l.resetButton}</B2>
-            </SResetButton>
+            <Button variant="primaryOutline" type="button" onClick={list.reset}>
+              {l.resetButton}
+            </Button>
           )}
         </SPlaceholder>
       )}

@@ -1,4 +1,5 @@
 import { useResetRecipeNutritionOverridesMutation } from "@/api/mutations/recipes.mutations";
+import { Button } from "@/components/Button";
 import { NutrientsRow } from "@/components/NutrientsRow";
 import { B2, Caption1, Caption2, H3, Num1, Num2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
@@ -6,7 +7,7 @@ import type { INutrients, IRecipeNutrition } from "@/domain/nutrition";
 import { formatKcal, formatMacro } from "@/utils/helpers/nutrients";
 import { isNutritionEmpty } from "@/utils/helpers/recipes";
 
-import { SBig, SCell, SLine, SMacros, SMarker, SRecalculate, SWrapper } from "./_styles";
+import { SBig, SCell, SLine, SMacros, SMarker, SWrapper } from "./_styles";
 
 interface IProps {
   recipeId: string;
@@ -72,9 +73,15 @@ export function NutritionBlock({ recipeId, nutrition }: IProps) {
               <Caption2 color="textMuted">
                 {`* ${l.overrideNote} ${overriddenFields.map((field) => l.nutrients[field]).join(", ")}`}
               </Caption2>
-              <SRecalculate type="button" disabled={isPending} onClick={() => mutate(recipeId)}>
-                <B2 as="span">{isPending ? l.recalculating : l.recalculate}</B2>
-              </SRecalculate>
+              <Button
+                variant="primaryOutline"
+                type="button"
+                isInline
+                disabled={isPending}
+                onClick={() => mutate(recipeId)}
+              >
+                {isPending ? l.recalculating : l.recalculate}
+              </Button>
             </SLine>
           )}
 

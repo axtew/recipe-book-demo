@@ -1,7 +1,9 @@
+import { NumberInput } from "@mantine/core";
+
 import { B2, Caption2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SField, SFieldRow, SNumberInput, SSection } from "../../_styles";
+import { SField, SFieldRow, SSection } from "../../_styles";
 import type { TUpdateField } from "../../_types";
 import { SSwitch, SSwitchLabel } from "./_styles";
 
@@ -34,9 +36,8 @@ export function StorageFields({ freezable, freezerDays, fridgeDays, onChange }: 
         <SFieldRow>
           <SField>
             <Caption2 color="textMuted">{l.freezerDaysLabel}</Caption2>
-            <SNumberInput
+            <NumberInput
               size="md"
-              hideControls
               enterKeyHint="done"
               min={0}
               allowDecimal={false}
@@ -46,9 +47,8 @@ export function StorageFields({ freezable, freezerDays, fridgeDays, onChange }: 
           </SField>
           <SField>
             <Caption2 color="textMuted">{l.fridgeDaysLabel}</Caption2>
-            <SNumberInput
+            <NumberInput
               size="md"
-              hideControls
               enterKeyHint="done"
               min={0}
               allowDecimal={false}

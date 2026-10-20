@@ -1,10 +1,12 @@
 import { useArchiveProductMutation } from "@/api/mutations/products.mutations";
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
+import { Button } from "@/components/Button";
+import { SSheetActions } from "@/components/SheetForm";
 import { B2, Caption1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import type { IRecipe } from "@/types/recipes.types";
 
-import { SActions, SCancel, SConfirm, SContent, SRecipes } from "./_styles";
+import { SContent, SRecipes } from "./_styles";
 
 interface IProps {
   isOpened: boolean;
@@ -46,14 +48,14 @@ export function ArchiveConfirm({ isOpened, productId, usedInRecipes, onClose }: 
           </>
         )}
 
-        <SActions>
-          <SCancel type="button" onClick={onClose}>
-            <B2 as="span">{l.cancelButton}</B2>
-          </SCancel>
-          <SConfirm type="button" disabled={isPending} onClick={handleConfirm}>
-            <B2 as="span">{l.confirmButton}</B2>
-          </SConfirm>
-        </SActions>
+        <SSheetActions>
+          <Button variant="secondary" type="button" onClick={onClose}>
+            {l.cancelButton}
+          </Button>
+          <Button variant="danger" type="button" disabled={isPending} onClick={handleConfirm}>
+            {l.confirmButton}
+          </Button>
+        </SSheetActions>
       </SContent>
     </SBottomSheetDrawer>
   );

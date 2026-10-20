@@ -2,6 +2,8 @@ import { NumberInput, Rating } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
+import { Button } from "@/components/Button";
+import { SSheetActions, SSheetField, SSheetForm } from "@/components/SheetForm";
 import { STextArea } from "@/components/TextArea";
 import { B2, B3, Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
@@ -9,17 +11,7 @@ import { MULTIPLIER_MAX } from "@/domain/schemas";
 import { getTodayDate } from "@/utils/helpers/dates";
 
 import { MULTIPLIER_PRESETS, RATING_STAR_SIZE_PX } from "./_constants";
-import {
-  SActions,
-  SCancel,
-  SClearRating,
-  SField,
-  SForm,
-  SPreset,
-  SPresets,
-  SRatingRow,
-  SSubmit,
-} from "./_styles";
+import { SClearRating, SPreset, SPresets, SRatingRow } from "./_styles";
 import type { ICookLogSheetProps } from "./_types";
 import { useCookLogForm } from "./_useCookLogForm";
 
@@ -61,8 +53,8 @@ export function CookLogSheet({ isOpened, recipeId, snapshot, onClose }: ICookLog
 
   return (
     <SBottomSheetDrawer opened={isOpened} onClose={onClose} position="bottom" title={l.title}>
-      <SForm onSubmit={handleSubmit}>
-        <SField>
+      <SSheetForm onSubmit={handleSubmit}>
+        <SSheetField as="div">
           <Caption2 color="textMuted">{l.dateLabel}</Caption2>
           <DatePickerInput
             size="md"
@@ -75,9 +67,9 @@ export function CookLogSheet({ isOpened, recipeId, snapshot, onClose }: ICookLog
               if (nextValue !== null) setCookedAt(nextValue);
             }}
           />
-        </SField>
+        </SSheetField>
 
-        <SField>
+        <SSheetField as="div">
           <Caption2 color="textMuted">{l.multiplierLabel}</Caption2>
           <SPresets>
             {MULTIPLIER_PRESETS.map((preset) => (
@@ -103,9 +95,9 @@ export function CookLogSheet({ isOpened, recipeId, snapshot, onClose }: ICookLog
             value={multiplier}
             onChange={(nextValue) => setMultiplier(typeof nextValue === "number" ? nextValue : "")}
           />
-        </SField>
+        </SSheetField>
 
-        <SField>
+        <SSheetField as="div">
           <Caption2 color="textMuted">{`${l.yieldLabel}, ${l.gramsUnit}`}</Caption2>
           <NumberInput
             size="md"
@@ -118,9 +110,9 @@ export function CookLogSheet({ isOpened, recipeId, snapshot, onClose }: ICookLog
               setActualYieldGrams(typeof nextValue === "number" ? nextValue : "")
             }
           />
-        </SField>
+        </SSheetField>
 
-        <SField>
+        <SSheetField as="div">
           <Caption2 color="textMuted">{l.containersLabel}</Caption2>
           <NumberInput
             size="md"
@@ -131,9 +123,9 @@ export function CookLogSheet({ isOpened, recipeId, snapshot, onClose }: ICookLog
             value={containers}
             onChange={(nextValue) => setContainers(typeof nextValue === "number" ? nextValue : "")}
           />
-        </SField>
+        </SSheetField>
 
-        <SField>
+        <SSheetField as="div">
           <Caption2 color="textMuted">{l.ratingLabel}</Caption2>
           <SRatingRow>
             <Rating
@@ -148,28 +140,28 @@ export function CookLogSheet({ isOpened, recipeId, snapshot, onClose }: ICookLog
               </SClearRating>
             )}
           </SRatingRow>
-        </SField>
+        </SSheetField>
 
-        <SField>
+        <SSheetField as="div">
           <Caption2 color="textMuted">{l.noteLabel}</Caption2>
           <STextArea
             aria-label={l.noteLabel}
             value={note}
             onChange={(event) => setNote(event.target.value)}
           />
-        </SField>
+        </SSheetField>
 
         {error !== null && <B3 color="danger">{error}</B3>}
 
-        <SActions>
-          <SCancel type="button" onClick={onClose}>
-            <B2 as="span">{l.cancelButton}</B2>
-          </SCancel>
-          <SSubmit type="submit" disabled={isSubmitDisabled}>
-            <B2 as="span">{l.submitButton}</B2>
-          </SSubmit>
-        </SActions>
-      </SForm>
+        <SSheetActions>
+          <Button variant="secondary" type="button" onClick={onClose}>
+            {l.cancelButton}
+          </Button>
+          <Button variant="primary" type="submit" disabled={isSubmitDisabled}>
+            {l.submitButton}
+          </Button>
+        </SSheetActions>
+      </SSheetForm>
     </SBottomSheetDrawer>
   );
 }

@@ -1,11 +1,10 @@
 import { useState } from "react";
 
-import { B1 } from "@/components/Typography";
+import { Button } from "@/components/Button";
 import { useI18nSelector } from "@/context/I18nContext";
 import type { INutritionSnapshot } from "@/domain/nutrition";
 
 import { CookLogSheet } from "./_internal/CookLogSheet";
-import { SButton } from "./_styles";
 
 interface IProps {
   recipeId: string;
@@ -19,9 +18,9 @@ export function CookLogAction({ recipeId, snapshot }: IProps) {
 
   return (
     <>
-      <SButton type="button" onClick={() => setIsOpened(true)}>
-        <B1 as="span">{l.recordCookButton}</B1>
-      </SButton>
+      <Button variant="primary" type="button" onClick={() => setIsOpened(true)}>
+        {l.recordCookButton}
+      </Button>
 
       <CookLogSheet
         isOpened={isOpened}

@@ -20,18 +20,3 @@ export const SField = styled.label`
   flex-direction: column;
   gap: 6px;
 `;
-
-export const SSubmit = styled.button`
-  min-height: 44px;
-  margin-top: 8px;
-  border: none;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.palette.primary};
-  color: ${({ theme }) => theme.palette.surface};
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
-`;

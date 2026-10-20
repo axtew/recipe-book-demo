@@ -1,10 +1,13 @@
+import { NumberInput } from "@mantine/core";
+
+import { Button } from "@/components/Button";
 import { STextArea } from "@/components/TextArea";
 import { STextInput } from "@/components/TextInput";
-import { B2, B3, Caption2, H3 } from "@/components/Typography";
+import { B3, Caption2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
 import { blurOnEnter } from "../../_helpers";
-import { SField, SFieldRow, SForm, SNumberInput, SSection, SSubmit } from "../../_styles";
+import { SField, SFieldRow, SForm, SSection } from "../../_styles";
 import type { IRecipeFormProps } from "../../_types";
 import { useRecipeEditor } from "../../_useRecipeEditor";
 import { DishCategoryField } from "../DishCategoryField";
@@ -57,9 +60,8 @@ export function RecipeForm(props: IRecipeFormProps) {
       <SFieldRow>
         <SField>
           <Caption2 color="textMuted">{l.cookTimeLabel}</Caption2>
-          <SNumberInput
+          <NumberInput
             size="md"
-            hideControls
             enterKeyHint="done"
             min={0}
             allowDecimal={false}
@@ -71,9 +73,8 @@ export function RecipeForm(props: IRecipeFormProps) {
         </SField>
         <SField>
           <Caption2 color="textMuted">{l.servingsLabel}</Caption2>
-          <SNumberInput
+          <NumberInput
             size="md"
-            hideControls
             enterKeyHint="done"
             min={0}
             allowDecimal={false}
@@ -85,9 +86,8 @@ export function RecipeForm(props: IRecipeFormProps) {
         </SField>
         <SField>
           <Caption2 color="textMuted">{l.yieldLabel}</Caption2>
-          <SNumberInput
+          <NumberInput
             size="md"
-            hideControls
             enterKeyHint="done"
             min={0}
             decimalScale={1}
@@ -147,9 +147,9 @@ export function RecipeForm(props: IRecipeFormProps) {
 
       {errorMessage !== null && <B3 color="danger">{errorMessage}</B3>}
 
-      <SSubmit type="submit" disabled={save.isPending}>
-        <B2 as="span">{save.isPending ? l.saving : l.saveButton}</B2>
-      </SSubmit>
+      <Button variant="primary" type="submit" disabled={save.isPending}>
+        {save.isPending ? l.saving : l.saveButton}
+      </Button>
 
       <NutritionBar
         nutrition={editor.nutrition.nutrition}

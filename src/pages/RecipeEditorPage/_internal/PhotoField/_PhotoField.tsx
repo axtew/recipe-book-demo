@@ -1,11 +1,12 @@
 import { FileInput } from "@mantine/core";
 import { useState } from "react";
 
-import { B2, Caption2, H3 } from "@/components/Typography";
+import { Button } from "@/components/Button";
+import { Caption2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { compressRecipePhoto, readAsDataUrl } from "@/utils/image";
 
-import { SDangerButton, SSection } from "../../_styles";
+import { SSection } from "../../_styles";
 import { SActions, SPlaceholder, SPreview } from "./_styles";
 
 interface IProps {
@@ -75,15 +76,16 @@ export function PhotoField({ savedUrl, photoFile, onPick, onRemove }: IProps) {
           onChange={handleChange}
         />
         {previewUrl !== null && (
-          <SDangerButton
+          <Button
+            variant="dangerOutline"
             type="button"
             onClick={() => {
               setFilePreviewUrl(null);
               onRemove();
             }}
           >
-            <B2 as="span">{l.remove}</B2>
-          </SDangerButton>
+            {l.remove}
+          </Button>
         )}
       </SActions>
 

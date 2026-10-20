@@ -1,7 +1,7 @@
+import { Button } from "@/components/Button";
 import { B2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SSecondaryButton, SSubmit } from "../../_styles";
 import { SCard } from "./_styles";
 
 interface IProps {
@@ -17,12 +17,12 @@ export function DraftPrompt({ onRestore, onDiscard }: IProps) {
     <SCard>
       <H3>{l.title}</H3>
       <B2 color="textMuted">{l.hint}</B2>
-      <SSubmit type="button" onClick={onRestore}>
-        <B2 as="span">{l.restore}</B2>
-      </SSubmit>
-      <SSecondaryButton type="button" onClick={onDiscard}>
-        <B2 as="span">{l.discard}</B2>
-      </SSecondaryButton>
+      <Button variant="primary" type="button" onClick={onRestore}>
+        {l.restore}
+      </Button>
+      <Button variant="secondary" type="button" onClick={onDiscard}>
+        {l.discard}
+      </Button>
     </SCard>
   );
 }

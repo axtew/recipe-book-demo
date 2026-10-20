@@ -30,16 +30,6 @@ export const SPlaceholder = styled.div`
   text-align: center;
 `;
 
-export const SResetButton = styled.button`
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1px solid ${({ theme }) => theme.palette.primary};
-  border-radius: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.palette.primary};
-  cursor: pointer;
-`;
-
 const SFabAnchor = styled.a`
   position: fixed;
   bottom: calc(${TAB_BAR_HEIGHT_PX}px + env(safe-area-inset-bottom) + ${FAB_OFFSET_PX}px);

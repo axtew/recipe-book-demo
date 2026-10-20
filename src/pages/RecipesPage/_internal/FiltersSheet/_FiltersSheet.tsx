@@ -1,10 +1,12 @@
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
-import { B1, B2, H3 } from "@/components/Typography";
+import { Button } from "@/components/Button";
+import { SSheetActions } from "@/components/SheetForm";
+import { B1, H3 } from "@/components/Typography";
 import { COOK_TIME_FILTERS } from "@/constants/recipes.constants";
 import { useI18nSelector } from "@/context/I18nContext";
 import type { IRecipesSearch } from "@/types/recipes.types";
 
-import { SActions, SContent, SDone, SLegend, SOption, SReset, SSection } from "./_styles";
+import { SContent, SLegend, SOption, SSection } from "./_styles";
 
 interface IProps {
   isOpened: boolean;
@@ -66,14 +68,18 @@ export function FiltersSheet({ isOpened, freezable, time, onChange, onClose }: I
           ))}
         </SSection>
 
-        <SActions>
-          <SReset type="button" onClick={() => onChange({ freezable: undefined, time: undefined })}>
-            <B2 as="span">{l.resetButton}</B2>
-          </SReset>
-          <SDone type="button" onClick={onClose}>
-            <B2 as="span">{l.doneButton}</B2>
-          </SDone>
-        </SActions>
+        <SSheetActions>
+          <Button
+            variant="secondary"
+            type="button"
+            onClick={() => onChange({ freezable: undefined, time: undefined })}
+          >
+            {l.resetButton}
+          </Button>
+          <Button variant="primary" type="button" onClick={onClose}>
+            {l.doneButton}
+          </Button>
+        </SSheetActions>
       </SContent>
     </SBottomSheetDrawer>
   );

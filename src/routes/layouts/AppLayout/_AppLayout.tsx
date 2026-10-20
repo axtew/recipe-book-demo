@@ -1,11 +1,12 @@
 import { Loader } from "@mantine/core";
 import type { ReactNode } from "react";
 
+import { Button } from "@/components/Button";
 import { B2, H2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useAppDataLoader } from "@/hooks/useAppData.hook";
 
-import { SCenter, SRetry, SShell } from "./_styles";
+import { SCenter, SShell } from "./_styles";
 
 interface IProps {
   children: ReactNode;
@@ -43,9 +44,9 @@ export function AppLayout({ children }: IProps) {
           <B2 color="textMuted" textAlign="center">
             {l.errorHint}
           </B2>
-          <SRetry type="button" onClick={refetch}>
-            <B2 as="span">{l.retryButton}</B2>
-          </SRetry>
+          <Button variant="primary" type="button" onClick={refetch}>
+            {l.retryButton}
+          </Button>
         </SCenter>
       </SShell>
     );

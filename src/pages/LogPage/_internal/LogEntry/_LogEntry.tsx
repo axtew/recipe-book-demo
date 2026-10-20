@@ -2,6 +2,7 @@ import { Rating } from "@mantine/core";
 import { useState } from "react";
 
 import { useFinishCookLogMutation } from "@/api/mutations/cookLogs.mutations";
+import { Button, SButtonRow } from "@/components/Button";
 import { B1, B2, Caption1, Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { routerPaths } from "@/routes/_paths";
@@ -10,16 +11,7 @@ import { formatCookDate, getTodayDate } from "@/utils/helpers/dates";
 import { formatDecimal, formatKcal, formatMultiplier } from "@/utils/helpers/nutrients";
 
 import { FinishSheet } from "../FinishSheet";
-import {
-  SActions,
-  SButton,
-  SHeader,
-  SItem,
-  SMeta,
-  SNote,
-  SOutlineButton,
-  SRecipeLink,
-} from "./_styles";
+import { SHeader, SItem, SMeta, SNote, SRecipeLink } from "./_styles";
 
 interface IProps {
   log: ICookLog;
@@ -88,24 +80,29 @@ export function LogEntry({ log, recipeName }: IProps) {
       )}
 
       {log.finishedAt === null ? (
-        <SActions>
-          <SButton
+        <SButtonRow>
+          <Button
+            variant="primary"
             type="button"
             disabled={isPending}
             onClick={() => mutate({ id: log.id, finishedAt: getTodayDate() })}
           >
-            <B2 as="span">{l.finishButton}</B2>
-          </SButton>
-          <SOutlineButton type="button" onClick={() => setIsFinishSheetOpened(true)}>
-            <B2 as="span">{l.otherDateButton}</B2>
-          </SOutlineButton>
+            {l.finishButton}
+          </Button>
+          <Button
+            variant="primaryOutline"
+            type="button"
+            onClick={() => setIsFinishSheetOpened(true)}
+          >
+            {l.otherDateButton}
+          </Button>
           <FinishSheet
             isOpened={isFinishSheetOpened}
             logId={log.id}
             cookedAt={log.cookedAt}
             onClose={() => setIsFinishSheetOpened(false)}
           />
-        </SActions>
+        </SButtonRow>
       ) : (
         <Caption1 color="textMuted">{`${l.finishedLabel}: ${formatCookDate(log.finishedAt)}`}</Caption1>
       )}

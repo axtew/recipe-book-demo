@@ -46,14 +46,3 @@ export const SSingle = styled.div`
   border-radius: 8px;
   background: ${({ theme }) => theme.palette.surface};
 `;
-
-export const SActivate = styled.button`
-  align-self: flex-start;
-  min-height: 44px;
-  padding: 0 16px;
-  border: 1px solid ${({ theme }) => theme.palette.primary};
-  border-radius: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.palette.primary};
-  cursor: pointer;
-`;

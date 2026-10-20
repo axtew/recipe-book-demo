@@ -1,13 +1,14 @@
 import { NumberInput } from "@mantine/core";
 
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
+import { Button } from "@/components/Button";
 import { SSelect } from "@/components/Select";
+import { SSheetActions, SSheetField, SSheetForm } from "@/components/SheetForm";
 import { STextInput } from "@/components/TextInput";
-import { B2, B3, Caption2 } from "@/components/Typography";
+import { B3, Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useProductCategories } from "@/hooks/useAppData.hook";
 
-import { SActions, SCancel, SField, SForm, SSubmit } from "./_styles";
 import type { IProductFormSheetProps } from "./_types";
 import { useProductForm } from "./_useProductForm";
 
@@ -54,8 +55,8 @@ export function ProductFormSheet({
 
   return (
     <SBottomSheetDrawer opened={isOpened} onClose={onClose} position="bottom" title={l.title}>
-      <SForm onSubmit={handleSubmit}>
-        <SField>
+      <SSheetForm onSubmit={handleSubmit}>
+        <SSheetField>
           <Caption2 color="textMuted">{l.nameLabel}</Caption2>
           <STextInput
             type="text"
@@ -63,9 +64,9 @@ export function ProductFormSheet({
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
-        </SField>
+        </SSheetField>
 
-        <SField>
+        <SSheetField>
           <Caption2 color="textMuted">{l.categoryLabel}</Caption2>
           <SSelect
             required
@@ -79,9 +80,9 @@ export function ProductFormSheet({
               </option>
             ))}
           </SSelect>
-        </SField>
+        </SSheetField>
 
-        <SField>
+        <SSheetField>
           <Caption2 color="textMuted">{l.nutrients.kcal}</Caption2>
           <NumberInput
             size="md"
@@ -89,8 +90,8 @@ export function ProductFormSheet({
             value={kcal}
             onChange={(nextValue) => setKcal(typeof nextValue === "number" ? nextValue : "")}
           />
-        </SField>
-        <SField>
+        </SSheetField>
+        <SSheetField>
           <Caption2 color="textMuted">{l.nutrients.protein}</Caption2>
           <NumberInput
             size="md"
@@ -99,8 +100,8 @@ export function ProductFormSheet({
             value={protein}
             onChange={(nextValue) => setProtein(typeof nextValue === "number" ? nextValue : "")}
           />
-        </SField>
-        <SField>
+        </SSheetField>
+        <SSheetField>
           <Caption2 color="textMuted">{l.nutrients.fat}</Caption2>
           <NumberInput
             size="md"
@@ -109,8 +110,8 @@ export function ProductFormSheet({
             value={fat}
             onChange={(nextValue) => setFat(typeof nextValue === "number" ? nextValue : "")}
           />
-        </SField>
-        <SField>
+        </SSheetField>
+        <SSheetField>
           <Caption2 color="textMuted">{l.nutrients.carbs}</Caption2>
           <NumberInput
             size="md"
@@ -119,19 +120,19 @@ export function ProductFormSheet({
             value={carbs}
             onChange={(nextValue) => setCarbs(typeof nextValue === "number" ? nextValue : "")}
           />
-        </SField>
+        </SSheetField>
 
         {error !== null && <B3 color="danger">{error}</B3>}
 
-        <SActions>
-          <SCancel type="button" onClick={onClose}>
-            <B2 as="span">{l.cancelButton}</B2>
-          </SCancel>
-          <SSubmit type="submit" disabled={isSubmitDisabled}>
-            <B2 as="span">{l.submitButton}</B2>
-          </SSubmit>
-        </SActions>
-      </SForm>
+        <SSheetActions>
+          <Button variant="secondary" type="button" onClick={onClose}>
+            {l.cancelButton}
+          </Button>
+          <Button variant="primary" type="submit" disabled={isSubmitDisabled}>
+            {l.submitButton}
+          </Button>
+        </SSheetActions>
+      </SSheetForm>
     </SBottomSheetDrawer>
   );
 }

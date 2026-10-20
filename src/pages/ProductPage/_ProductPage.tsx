@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { BackLink } from "@/components/BackLink";
+import { Button } from "@/components/Button";
 import { B2, Caption1, H1, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useProductCategories, useProductsById, useRecipes } from "@/hooks/useAppData.hook";
@@ -10,7 +11,7 @@ import { findRecipesUsingProduct } from "./_helpers";
 import { ArchiveConfirm } from "./_internal/ArchiveConfirm";
 import { UsedInRecipes } from "./_internal/UsedInRecipes";
 import { VariantList } from "./_internal/VariantList";
-import { SArchiveButton, SBadge, SHeader, SPage, SPlaceholder, SSection } from "./_styles";
+import { SBadge, SHeader, SPage, SPlaceholder, SSection } from "./_styles";
 
 interface IProductPage {
   productId: string;
@@ -78,9 +79,9 @@ export function ProductPage({ productId }: IProductPage) {
       </SSection>
 
       {product.archivedAt === null && (
-        <SArchiveButton type="button" onClick={() => setIsArchiveOpened(true)}>
-          <B2 as="span">{l.archiveButton}</B2>
-        </SArchiveButton>
+        <Button variant="dangerOutline" type="button" onClick={() => setIsArchiveOpened(true)}>
+          {l.archiveButton}
+        </Button>
       )}
 
       <ArchiveConfirm

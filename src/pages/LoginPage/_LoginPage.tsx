@@ -1,8 +1,9 @@
+import { Button } from "@/components/Button";
 import { STextInput } from "@/components/TextInput";
-import { B2, B3, Caption2, H1 } from "@/components/Typography";
+import { B3, Caption2, H1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 
-import { SField, SForm, SSubmit, SWrapper } from "./_styles";
+import { SField, SForm, SWrapper } from "./_styles";
 import { useLoginForm } from "./_useLoginForm";
 
 /** Экран входа. Регистрации нет — аккаунты заводятся в дашборде Supabase. */
@@ -36,9 +37,9 @@ export function LoginPage() {
           />
         </SField>
         {hasError && <B3 color="danger">{l.error}</B3>}
-        <SSubmit type="submit" disabled={isSubmitDisabled}>
-          <B2 as="span">{l.submitButton}</B2>
-        </SSubmit>
+        <Button variant="primary" type="submit" disabled={isSubmitDisabled}>
+          {l.submitButton}
+        </Button>
       </SForm>
     </SWrapper>
   );

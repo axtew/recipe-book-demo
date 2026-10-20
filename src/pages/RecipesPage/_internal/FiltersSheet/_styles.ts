@@ -33,27 +33,3 @@ export const SOption = styled.label`
     accent-color: ${({ theme }) => theme.palette.primary};
   }
 `;
-
-export const SActions = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-
-const SButton = styled.button`
-  flex: 1;
-  min-height: 44px;
-  border-radius: 8px;
-  cursor: pointer;
-`;
-
-export const SReset = styled(SButton)`
-  border: 1px solid ${({ theme }) => theme.palette.border};
-  background: ${({ theme }) => theme.palette.surface};
-  color: inherit;
-`;
-
-export const SDone = styled(SButton)`
-  border: none;
-  background: ${({ theme }) => theme.palette.primary};
-  color: ${({ theme }) => theme.palette.surface};
-`;

@@ -1,3 +1,4 @@
+import { NumberInput } from "@mantine/core";
 import { useRef, useState } from "react";
 
 import { ProductPicker } from "@/components/ProductPicker";
@@ -6,7 +7,6 @@ import { useI18nSelector } from "@/context/I18nContext";
 import { useProductsById } from "@/hooks/useAppData.hook";
 import type { IRecipeIngredientDraft } from "@/types/recipes.types";
 
-import { SNumberInput } from "../../_styles";
 import { IngredientOptionsSheet } from "./_internal/IngredientOptionsSheet";
 import { SBadges, SBody, SMenuButton, SMetaLine, SPickerLine } from "./_styles";
 
@@ -58,9 +58,8 @@ export function IngredientRow({ ingredient, onChange, onRemove }: IProps) {
       </SPickerLine>
 
       <SMetaLine>
-        <SNumberInput
+        <NumberInput
           size="md"
-          hideControls
           enterKeyHint="done"
           ref={gramsRef}
           aria-label={l.gramsLabel}

@@ -27,15 +27,6 @@ export const SSection = styled.section`
   gap: 8px;
 `;
 
-export const SArchiveButton = styled.button`
-  min-height: 44px;
-  border: 1px solid ${({ theme }) => theme.palette.danger};
-  border-radius: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.palette.danger};
-  cursor: pointer;
-`;
-
 export const SPlaceholder = styled.div`
   display: flex;
   flex-direction: column;

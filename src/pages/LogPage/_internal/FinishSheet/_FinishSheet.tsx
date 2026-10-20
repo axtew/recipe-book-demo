@@ -1,11 +1,12 @@
 import { DatePicker } from "@mantine/dates";
 
 import { SBottomSheetDrawer } from "@/components/BottomSheetDrawer";
-import { B2 } from "@/components/Typography";
+import { Button } from "@/components/Button";
+import { SSheetActions, SSheetForm } from "@/components/SheetForm";
 import { useI18nSelector } from "@/context/I18nContext";
 import { getTodayDate } from "@/utils/helpers/dates";
 
-import { SActions, SCancel, SForm, SPicker, SSubmit } from "./_styles";
+import { SPicker } from "./_styles";
 import type { IFinishSheetProps } from "./_types";
 import { useFinishForm } from "./_useFinishForm";
 
@@ -20,7 +21,7 @@ export function FinishSheet({ isOpened, logId, cookedAt, onClose }: IFinishSheet
 
   return (
     <SBottomSheetDrawer opened={isOpened} onClose={onClose} position="bottom" title={l.title}>
-      <SForm onSubmit={handleSubmit}>
+      <SSheetForm onSubmit={handleSubmit}>
         <SPicker>
           <DatePicker
             value={finishedAt}
@@ -32,15 +33,15 @@ export function FinishSheet({ isOpened, logId, cookedAt, onClose }: IFinishSheet
           />
         </SPicker>
 
-        <SActions>
-          <SCancel type="button" onClick={onClose}>
-            <B2 as="span">{l.cancelButton}</B2>
-          </SCancel>
-          <SSubmit type="submit" disabled={isSubmitDisabled}>
-            <B2 as="span">{l.submitButton}</B2>
-          </SSubmit>
-        </SActions>
-      </SForm>
+        <SSheetActions>
+          <Button variant="secondary" type="button" onClick={onClose}>
+            {l.cancelButton}
+          </Button>
+          <Button variant="primary" type="submit" disabled={isSubmitDisabled}>
+            {l.submitButton}
+          </Button>
+        </SSheetActions>
+      </SSheetForm>
     </SBottomSheetDrawer>
   );
 }

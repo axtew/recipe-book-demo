@@ -40,33 +40,3 @@ export const SMeta = styled.div`
 export const SNote = styled.div`
   white-space: pre-wrap;
 `;
-
-export const SActions = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-
-export const SButton = styled.button`
-  flex: 1;
-  min-height: 44px;
-  border: none;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.palette.primary};
-  color: ${({ theme }) => theme.palette.surface};
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: default;
-  }
-`;
-
-export const SOutlineButton = styled.button`
-  flex: 1;
-  min-height: 44px;
-  border: 1px solid ${({ theme }) => theme.palette.primary};
-  border-radius: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.palette.primary};
-  cursor: pointer;
-`;

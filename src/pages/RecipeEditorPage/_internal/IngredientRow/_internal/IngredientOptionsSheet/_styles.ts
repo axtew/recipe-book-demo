@@ -1,12 +1,5 @@
 import styled from "styled-components";
 
-export const SSheetBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-bottom: env(safe-area-inset-bottom);
-`;
-
 export const SCheckboxLabel = styled.label`
   display: flex;
   align-items: center;

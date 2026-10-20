@@ -1,10 +1,11 @@
 import { useSetActiveProductVariantMutation } from "@/api/mutations/products.mutations";
+import { Button } from "@/components/Button";
 import { NutrientsRow } from "@/components/NutrientsRow";
-import { B1, B2, Caption2 } from "@/components/Typography";
+import { B1, Caption2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import type { IProduct } from "@/types/products.types";
 
-import { SActivate, SHeading, SList, SSingle, SVariant } from "./_styles";
+import { SHeading, SList, SSingle, SVariant } from "./_styles";
 
 interface IProps {
   product: IProduct;
@@ -44,13 +45,15 @@ export function VariantList({ product }: IProps) {
         {firstVariant.isApproximate && <Caption2 color="textMuted">{l.approximateLabel}</Caption2>}
         {firstVariant.note !== null && <Caption2 color="textMuted">{firstVariant.note}</Caption2>}
         {firstVariant.id !== product.activeVariantId && (
-          <SActivate
+          <Button
+            variant="primaryOutline"
             type="button"
+            isInline
             disabled={isPending}
             onClick={() => mutate({ productId: product.id, variantId: firstVariant.id })}
           >
-            <B2 as="span">{l.makeActive}</B2>
-          </SActivate>
+            {l.makeActive}
+          </Button>
         )}
       </SSingle>
     );
