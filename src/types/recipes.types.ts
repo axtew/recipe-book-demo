@@ -1,3 +1,13 @@
+/** Верхняя граница времени готовки в фильтре списка рецептов; `over60` — дольше часа. */
+export type TCookTimeFilter = "upTo15" | "upTo30" | "upTo60" | "over60";
+
+/** Поиск и фильтры списка рецептов — то, что живёт в адресе главного экрана. */
+export interface IRecipesSearch {
+  q?: string;
+  freezable?: true;
+  time?: TCookTimeFilter;
+}
+
 export interface IDishCategory {
   id: string;
   name: string;

@@ -43,7 +43,7 @@
       "variantsLabel": "вариантов"
     },
     "card": {
-      "backLink": "← К списку продуктов",
+      "backLink": "← Назад",
       "notFoundTitle": "Продукт не найден",
       "notFoundHint": "Возможно, ссылка устарела",
       "archivedBadge": "В архиве",
@@ -89,7 +89,7 @@
     }
   },
   "recipeEditor": {
-    "backLink": "← К рецептам",
+    "backLink": "← Назад",
     "titleNew": "Новый рецепт",
     "titleEdit": "Редактирование рецепта",
     "notFoundTitle": "Рецепт не найден",
@@ -188,11 +188,44 @@
       "perServing": "На порцию",
       "servingsMissing": "укажите число порций",
       "incompleteProducts": "Нет КБЖУ у"
+    }
+  },
+  "recipeList": {
+    "searchPlaceholder": "Название или продукт",
+    "filtersButton": "Фильтры",
+    "total": "Всего рецептов",
+    "found": "Найдено",
+    "uncategorized": "Без категории",
+    "emptyTitle": "Рецептов пока нет",
+    "emptyHint": "Нажмите «＋», чтобы добавить первый",
+    "nothingFoundTitle": "Ничего не нашлось",
+    "nothingFoundHint": "Попробуйте изменить запрос или снять фильтры",
+    "resetButton": "Сбросить поиск и фильтры",
+    "addButton": "Добавить рецепт",
+    "expandGroup": "Развернуть",
+    "collapseGroup": "Свернуть",
+    "card": {
+      "minutesUnit": "мин",
+      "per100g": "на 100 г",
+      "freezable": "Можно замораживать"
     },
-    "backToRecipe": "← К рецепту"
+    "filters": {
+      "title": "Фильтры",
+      "freezableLabel": "Только замораживаемые",
+      "timeTitle": "Время готовки",
+      "timeAny": "Любое",
+      "time": {
+        "upTo15": "до 15 мин",
+        "upTo30": "до 30 мин",
+        "upTo60": "до 60 мин",
+        "over60": "дольше 60 мин"
+      },
+      "resetButton": "Сбросить",
+      "doneButton": "Готово"
+    }
   },
   "recipeCard": {
-    "backLink": "← К рецептам",
+    "backLink": "← Назад",
     "notFoundTitle": "Рецепт не найден",
     "notFoundHint": "Возможно, ссылка устарела",
     "archivedBadge": "В архиве",

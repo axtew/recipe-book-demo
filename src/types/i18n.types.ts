@@ -1,3 +1,5 @@
+import type { TCookTimeFilter } from "@/types/recipes.types";
+
 export interface I18n {
   auth: {
     login: {
@@ -90,7 +92,6 @@ export interface I18n {
   };
   recipeEditor: {
     backLink: string;
-    backToRecipe: string;
     titleNew: string;
     titleEdit: string;
     notFoundTitle: string;
@@ -189,6 +190,35 @@ export interface I18n {
       perServing: string;
       servingsMissing: string;
       incompleteProducts: string;
+    };
+  };
+  recipeList: {
+    searchPlaceholder: string;
+    filtersButton: string;
+    total: string;
+    found: string;
+    uncategorized: string;
+    emptyTitle: string;
+    emptyHint: string;
+    nothingFoundTitle: string;
+    nothingFoundHint: string;
+    resetButton: string;
+    addButton: string;
+    expandGroup: string;
+    collapseGroup: string;
+    card: {
+      minutesUnit: string;
+      per100g: string;
+      freezable: string;
+    };
+    filters: {
+      title: string;
+      freezableLabel: string;
+      timeTitle: string;
+      timeAny: string;
+      time: Record<TCookTimeFilter, string>;
+      resetButton: string;
+      doneButton: string;
     };
   };
   recipeCard: {

@@ -1,1 +1,1 @@
-export { BackLink } from "./_styles";
+export { BackLink } from "./_BackLink";

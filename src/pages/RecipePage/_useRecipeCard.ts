@@ -9,8 +9,7 @@ import {
   useProductsById,
   useRecipes,
 } from "@/hooks/useAppData.hook";
-
-import { getNutritionOverrides } from "./_helpers";
+import { getNutritionOverrides } from "@/utils/helpers/recipes";
 
 /**
  * Данные карточки рецепта: сам рецепт, его КБЖУ, разрешённые варианты

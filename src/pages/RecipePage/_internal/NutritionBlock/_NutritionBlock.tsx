@@ -4,6 +4,7 @@ import { B2, Caption1, Caption2, H3, Num1, Num2 } from "@/components/Typography"
 import { useI18nSelector } from "@/context/I18nContext";
 import type { INutrients, IRecipeNutrition } from "@/domain/nutrition";
 import { formatKcal, formatMacro } from "@/utils/helpers/nutrients";
+import { isNutritionEmpty } from "@/utils/helpers/recipes";
 
 import { SBig, SCell, SLine, SMacros, SMarker, SRecalculate, SWrapper } from "./_styles";
 
@@ -25,9 +26,9 @@ export function NutritionBlock({ recipeId, nutrition }: IProps) {
   const l = useI18nSelector(({ l }) => ({ ...l.recipeCard.nutrition, nutrients: l.nutrients }));
   const { mutate, isPending } = useResetRecipeNutritionOverridesMutation();
 
-  const { per100g, perServing, total, overriddenFields, basis, rawWeightGrams } = nutrition;
+  const { per100g, perServing, total, overriddenFields, basis } = nutrition;
 
-  const isEmpty = rawWeightGrams === 0 && overriddenFields.length === 0;
+  const isEmpty = isNutritionEmpty(nutrition);
 
   function renderMark(field: keyof INutrients) {
     return overriddenFields.includes(field) ? (

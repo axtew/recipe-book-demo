@@ -44,7 +44,7 @@ export function RecipeEditorPage({ recipeId }: IRecipeEditorPageProps) {
       </BackLink>
     ) : (
       <BackLink to={routerPaths.recipeCard} params={{ recipeId: recipe.id }}>
-        <B2 as="span">{l.backToRecipe}</B2>
+        <B2 as="span">{l.backLink}</B2>
       </BackLink>
     );
 

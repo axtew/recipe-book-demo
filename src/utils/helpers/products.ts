@@ -1,14 +1,5 @@
 import type { IProduct } from "@/types/products.types";
-
-/**
- * Приведение строки к виду, пригодному для сравнения.
- *
- * `ё` → `е` обязательна с обеих сторон сравнения: без неё «мед» не находит
- * «мёд», и наоборот — а набирают на телефоне обычно без точек.
- */
-export function normalizeSearch(value: string): string {
-  return value.toLowerCase().replaceAll("ё", "е").trim();
-}
+import { normalizeSearch } from "@/utils/search";
 
 /** Неархивные продукты, чьё название содержит запрос. Пустой запрос не фильтрует. */
 export function filterProducts(products: IProduct[], query: string): IProduct[] {

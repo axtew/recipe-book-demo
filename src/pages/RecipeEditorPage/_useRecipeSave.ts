@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useCanGoBack, useNavigate, useRouter } from "@tanstack/react-router";
 import { type SubmitEvent, useState } from "react";
 
 import {
@@ -31,6 +31,8 @@ interface IProps {
  */
 export function useRecipeSave({ recipeId, recipe, draft, photoFile, finishDraft }: IProps) {
   const navigate = useNavigate();
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
   const { mutateAsync: saveRecipe } = useSaveRecipeMutation();
   const { mutateAsync: uploadPhoto } = useUploadRecipePhotoMutation();
 
@@ -70,7 +72,15 @@ export function useRecipeSave({ recipeId, recipe, draft, photoFile, finishDraft 
       await saveRecipe({ recipeId, recipe: { ...result.data, photoPath } });
 
       finishDraft();
-      await navigate({ to: routerPaths.recipeCard, params: { recipeId } });
+
+      // Правка — шаг назад на карточку, с которой открыли редактор, чтобы в истории
+      // не оставалось пары «карточка → редактор → карточка». Новый рецепт заменяет
+      // собой страницу создания: «назад» с его карточки ведёт туда, откуда пришли.
+      if (recipe !== null && canGoBack) {
+        router.history.back();
+      } else {
+        await navigate({ to: routerPaths.recipeCard, params: { recipeId }, replace: true });
+      }
     } catch {
       setError("submit");
     } finally {

@@ -3,7 +3,8 @@ import { useState } from "react";
 
 import { useI18nSelector } from "@/context/I18nContext";
 import { useProducts } from "@/hooks/useAppData.hook";
-import { filterProducts, normalizeSearch } from "@/utils/helpers/products";
+import { filterProducts } from "@/utils/helpers/products";
+import { normalizeSearch } from "@/utils/search";
 
 import { ProductFormSheet } from "../ProductFormSheet";
 import { buildCreateOptionLabel } from "./_helpers";

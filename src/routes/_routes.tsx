@@ -1,4 +1,11 @@
-import { type AnyRoute, createRoute, redirect, useParams } from "@tanstack/react-router";
+import {
+  type AnyRoute,
+  createRoute,
+  redirect,
+  useNavigate,
+  useParams,
+  useSearch,
+} from "@tanstack/react-router";
 
 import { RouteStub } from "@/components/RouteStub";
 import { useI18nSelector } from "@/context/I18nContext";
@@ -8,6 +15,8 @@ import { ProductPage } from "@/pages/ProductPage";
 import { ProductsPage } from "@/pages/ProductsPage";
 import { RecipeEditorPage } from "@/pages/RecipeEditorPage";
 import { RecipePage } from "@/pages/RecipePage";
+import { RecipesPage } from "@/pages/RecipesPage";
+import { normalizeRecipesSearch } from "@/utils/helpers/recipes";
 
 import { routerPaths } from "./_paths";
 
@@ -44,10 +53,26 @@ export function createCommonRoutes<TRoot extends AnyRoute>(rootRoute: TRoot) {
 
 /** Роуты защищённой части — дети layout-роута с guard'ом в `beforeLoad`. */
 export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutRoute: TLayout) {
+  function RecipesRoute() {
+    const search = useSearch({ from: "/protected-layout/" });
+    const navigate = useNavigate();
+
+    // replace: набор текста не должен засорять историю, иначе «назад» шёл бы по буквам.
+    return (
+      <RecipesPage
+        search={search}
+        onSearchChange={(next) =>
+          void navigate({ to: routerPaths.home, search: next, replace: true })
+        }
+      />
+    );
+  }
+
   const recipesRoute = createRoute({
     getParentRoute: () => protectedLayoutRoute,
     path: routerPaths.home,
-    component: RecipesStub,
+    validateSearch: normalizeRecipesSearch,
+    component: RecipesRoute,
   });
 
   const recipeNewRoute = createRoute({
@@ -123,11 +148,6 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
     logRoute,
     settingsRoute,
   ] as const;
-}
-
-function RecipesStub() {
-  const l = useI18nSelector(({ l }) => l.navigation.recipes);
-  return <RouteStub title={l} />;
 }
 
 function LogStub() {
