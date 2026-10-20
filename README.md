@@ -2,7 +2,7 @@
 
 Личное mobile-first PWA-приложение: справочник продуктов, рецепты с расчётом КБЖУ, поиск, журнал готовки.
 
-Продуктовые и архитектурные решения — `decisions.md`, план реализации — `plans/recipe-book-v1/plan.md`, конвенции кода — `.github/copilot-instructions.md`.
+Как пользоваться приложением — `docs/user-guide.md`. Продуктовые и архитектурные решения — `decisions.md`, план реализации — `plans/recipe-book-v1/plan.md`, конвенции кода — `.github/copilot-instructions.md`.
 
 ## Запуск
 
