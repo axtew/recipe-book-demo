@@ -57,3 +57,5 @@ Mobile-first, single column `max-width: 600px`; **iOS Safari is the reference pl
 Dictionaries live in `public/dictionaries/`, one file per locale. Right now there is exactly one — `ru.json` — and the interface is Russian-only; the infrastructure exists so that user-visible text is collected in one place from the start rather than extracted from JSX later. Every rule in the generic i18n section applies to that single dictionary unchanged.
 
 The `I18n` interface is `src/types/i18n.types.ts`; the selector hook is `useI18nSelector` from `src/context/I18nContext`.
+
+**User-visible text is gender-neutral.** The app is used by two people of different genders, so Russian copy never addresses or describes the user in a gendered past tense («готовила», «добавил»). Use an impersonal or passive form («Пока ни разу не готовилось», «Приготовлено раз»), the plural («Готовили», «доели»), or a noun / infinitive label («Записать готовку»). The original spec `recipe-app-v1-prompt.md` is written in the feminine — do not copy its wording into the dictionary.
