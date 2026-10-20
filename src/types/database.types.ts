@@ -427,6 +427,29 @@ export type Database = {
         }
         Returns: string
       }
+      save_recipe: {
+        Args: {
+          p_carbs_100_override?: number
+          p_cook_time_min?: number
+          p_dish_category_ids?: Json
+          p_fat_100_override?: number
+          p_freezable?: boolean
+          p_freezer_days?: number
+          p_fridge_days?: number
+          p_ingredients?: Json
+          p_kcal_100_override?: number
+          p_name: string
+          p_notes?: string
+          p_photo_path?: string
+          p_protein_100_override?: number
+          p_recipe_id?: string
+          p_servings_base: number
+          p_steps?: Json
+          p_video_urls?: string[]
+          p_yield_grams?: number
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

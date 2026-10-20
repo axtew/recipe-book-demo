@@ -2,6 +2,8 @@
 export const routerPaths = {
   login: "/login",
   home: "/",
+  recipeNew: "/recipes/new",
+  recipeEdit: "/recipes/$recipeId/edit",
   products: "/products",
   productCard: "/products/$productId",
   log: "/log",

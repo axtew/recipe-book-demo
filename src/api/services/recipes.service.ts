@@ -1,6 +1,6 @@
 import type { QueryData } from "@supabase/supabase-js";
 
-import type { IRecipe } from "@/types/recipes.types";
+import type { IRecipe, IRecipeInput } from "@/types/recipes.types";
 
 import { supabase } from "../supabase";
 
@@ -59,4 +59,79 @@ function mapRecipe(recipe: TDBRecipe): IRecipe {
     })),
     dishCategoryIds: recipe.recipe_dish_categories.map(({ dish_category_id }) => dish_category_id),
   };
+}
+
+const RECIPE_PHOTOS_BUCKET = "recipe-photos";
+
+export async function saveRecipe({
+  recipeId,
+  recipe,
+}: {
+  recipeId: string;
+  recipe: IRecipeInput;
+}): Promise<string> {
+  const { data, error } = await supabase.rpc("save_recipe", {
+    p_recipe_id: recipeId,
+    p_name: recipe.name,
+    p_servings_base: recipe.servingsBase,
+    p_yield_grams: recipe.yieldGrams ?? undefined,
+    p_cook_time_min: recipe.cookTimeMin ?? undefined,
+    p_photo_path: recipe.photoPath ?? undefined,
+    p_notes: recipe.notes ?? undefined,
+    p_video_urls: recipe.videoUrls,
+    p_freezable: recipe.freezable,
+    p_freezer_days: recipe.freezerDays ?? undefined,
+    p_fridge_days: recipe.fridgeDays ?? undefined,
+    p_kcal_100_override: recipe.kcal100Override ?? undefined,
+    p_protein_100_override: recipe.protein100Override ?? undefined,
+    p_fat_100_override: recipe.fat100Override ?? undefined,
+    p_carbs_100_override: recipe.carbs100Override ?? undefined,
+    p_dish_category_ids: recipe.dishCategoryIds,
+    p_steps: recipe.steps.map((step) => ({ text: step.text })),
+    p_ingredients: recipe.ingredients.map((ingredient) => ({
+      product_id: ingredient.productId,
+      pinned_variant_id: ingredient.pinnedVariantId,
+      amount_grams: ingredient.amountGrams,
+      is_optional: ingredient.isOptional,
+      note: ingredient.note,
+    })),
+  });
+
+  if (error)
+    throw new Error("Произошла ошибка при сохранении рецепта.", {
+      cause: error,
+    });
+
+  return data;
+}
+
+/**
+ * Кладёт обложку рецепта в Storage и возвращает путь внутри бакета.
+ *
+ * Путь один на рецепт — замена фото перезаписывает файл, а не копит копии.
+ */
+export async function uploadRecipePhoto({
+  recipeId,
+  file,
+}: {
+  recipeId: string;
+  file: Blob;
+}): Promise<string> {
+  const path = `${recipeId}/cover.webp`;
+
+  const { error } = await supabase.storage
+    .from(RECIPE_PHOTOS_BUCKET)
+    .upload(path, file, { upsert: true, contentType: "image/webp" });
+
+  if (error)
+    throw new Error("Произошла ошибка при загрузке фото рецепта.", {
+      cause: error,
+    });
+
+  return path;
+}
+
+/** Публичный адрес фото по пути из `recipes.photo_path`. Сети не требует. */
+export function getRecipePhotoUrl(photoPath: string): string {
+  return supabase.storage.from(RECIPE_PHOTOS_BUCKET).getPublicUrl(photoPath).data.publicUrl;
 }

@@ -6,6 +6,7 @@ import { getAuthSession } from "@/hooks/useAuth.hook";
 import { LoginPage } from "@/pages/LoginPage";
 import { ProductPage } from "@/pages/ProductPage";
 import { ProductsPage } from "@/pages/ProductsPage";
+import { RecipeEditorPage } from "@/pages/RecipeEditorPage";
 
 import { routerPaths } from "./_paths";
 
@@ -48,6 +49,27 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
     component: RecipesStub,
   });
 
+  const recipeNewRoute = createRoute({
+    getParentRoute: () => protectedLayoutRoute,
+    path: routerPaths.recipeNew,
+    component: function RecipeNewRoute() {
+      return <RecipeEditorPage recipeId={null} />;
+    },
+  });
+
+  function RecipeEditRoute() {
+    const { recipeId } = useParams({ from: "/protected-layout/recipes/$recipeId/edit" });
+
+    // key пересоздаёт редактор целиком при смене рецепта: состояние формы не должно перетекать.
+    return <RecipeEditorPage key={recipeId} recipeId={recipeId} />;
+  }
+
+  const recipeEditRoute = createRoute({
+    getParentRoute: () => protectedLayoutRoute,
+    path: routerPaths.recipeEdit,
+    component: RecipeEditRoute,
+  });
+
   const productsRoute = createRoute({
     getParentRoute: () => protectedLayoutRoute,
     path: routerPaths.products,
@@ -78,7 +100,15 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
     component: SettingsStub,
   });
 
-  return [recipesRoute, productsRoute, productCardRoute, logRoute, settingsRoute] as const;
+  return [
+    recipesRoute,
+    recipeNewRoute,
+    recipeEditRoute,
+    productsRoute,
+    productCardRoute,
+    logRoute,
+    settingsRoute,
+  ] as const;
 }
 
 function RecipesStub() {

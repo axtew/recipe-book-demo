@@ -88,4 +88,106 @@ export interface I18n {
       submitError: string;
     };
   };
+  recipeEditor: {
+    backLink: string;
+    titleNew: string;
+    titleEdit: string;
+    notFoundTitle: string;
+    notFoundHint: string;
+    draftPrompt: {
+      title: string;
+      hint: string;
+      restore: string;
+      discard: string;
+    };
+    form: {
+      nameLabel: string;
+      cookTimeLabel: string;
+      servingsLabel: string;
+      yieldLabel: string;
+      yieldHint: string;
+      notesLabel: string;
+      saveButton: string;
+      saving: string;
+      submitError: string;
+    };
+    validation: {
+      name: string;
+      servingsBase: string;
+      yieldGrams: string;
+      cookTimeMin: string;
+      freezerDays: string;
+      fridgeDays: string;
+      videoUrls: string;
+      steps: string;
+      ingredients: string;
+      generic: string;
+    };
+    dishCategories: {
+      label: string;
+    };
+    photo: {
+      title: string;
+      empty: string;
+      alt: string;
+      choose: string;
+      replace: string;
+      remove: string;
+      processing: string;
+      error: string;
+    };
+    ingredients: {
+      title: string;
+      add: string;
+      moveHandle: string;
+    };
+    ingredient: {
+      menuLabel: string;
+      gramsLabel: string;
+      gramsPlaceholder: string;
+      gramsUnit: string;
+      optionalBadge: string;
+      pinnedBadge: string;
+      unnamedVariant: string;
+      sheet: {
+        title: string;
+        optionalLabel: string;
+        pinnedLabel: string;
+        pinnedAuto: string;
+        unnamedVariant: string;
+        addVariant: string;
+        noteLabel: string;
+        notePlaceholder: string;
+        remove: string;
+        done: string;
+      };
+    };
+    steps: {
+      title: string;
+      add: string;
+      moveHandle: string;
+      placeholder: string;
+      stepLabel: string;
+      remove: string;
+    };
+    storage: {
+      title: string;
+      freezableLabel: string;
+      freezerDaysLabel: string;
+      fridgeDaysLabel: string;
+    };
+    video: {
+      title: string;
+      placeholder: string;
+      add: string;
+      remove: string;
+    };
+    nutritionBar: {
+      empty: string;
+      per100g: string;
+      perServing: string;
+      servingsMissing: string;
+      incompleteProducts: string;
+    };
+  };
 }
