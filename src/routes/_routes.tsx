@@ -1,4 +1,4 @@
-import { type AnyRoute, createRoute, redirect } from "@tanstack/react-router";
+import { type AnyRoute, createRoute, redirect, useParams } from "@tanstack/react-router";
 
 import { RouteStub } from "@/components/RouteStub";
 import { useI18nSelector } from "@/context/I18nContext";
@@ -20,7 +20,7 @@ interface ILoginSearch {
  * `AppRouter.tsx`: тот сам собирает дерево из этого модуля, и обратный импорт
  * дал бы циклическую зависимость между двумя файлами.
  */
-export function createCommonRoutes(rootRoute: AnyRoute) {
+export function createCommonRoutes<TRoot extends AnyRoute>(rootRoute: TRoot) {
   const loginRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: routerPaths.login,
@@ -41,7 +41,7 @@ export function createCommonRoutes(rootRoute: AnyRoute) {
 }
 
 /** Роуты защищённой части — дети layout-роута с guard'ом в `beforeLoad`. */
-export function createProtectedRoutes(protectedLayoutRoute: AnyRoute) {
+export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutRoute: TLayout) {
   const recipesRoute = createRoute({
     getParentRoute: () => protectedLayoutRoute,
     path: routerPaths.home,
@@ -55,7 +55,7 @@ export function createProtectedRoutes(protectedLayoutRoute: AnyRoute) {
   });
 
   function ProductCardRoute() {
-    const { productId } = productCardRoute.useParams();
+    const { productId } = useParams({ from: "/protected-layout/products/$productId" });
 
     return <ProductPage productId={productId} />;
   }
