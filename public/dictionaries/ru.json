@@ -188,6 +188,70 @@
       "perServing": "На порцию",
       "servingsMissing": "укажите число порций",
       "incompleteProducts": "Нет КБЖУ у"
+    },
+    "backToRecipe": "← К рецепту"
+  },
+  "recipeCard": {
+    "backLink": "← К рецептам",
+    "notFoundTitle": "Рецепт не найден",
+    "notFoundHint": "Возможно, ссылка устарела",
+    "archivedBadge": "В архиве",
+    "editButton": "Редактировать",
+    "photoAlt": "Фото рецепта",
+    "minutesUnit": "мин",
+    "servingsLabel": "Порций",
+    "nutrition": {
+      "title": "КБЖУ",
+      "per100g": "На 100 г",
+      "perServing": "На порцию",
+      "total": "На всё блюдо",
+      "rawWeightHint": "Расчёт по весу сырья, уварка не учтена",
+      "emptyHint": "В рецепте нет ингредиентов — считать КБЖУ не из чего",
+      "overrideMark": "введено вручную",
+      "overrideNote": "Введено вручную:",
+      "recalculate": "Пересчитать",
+      "recalculating": "Пересчитываю…"
+    },
+    "incomplete": {
+      "title": "КБЖУ посчитано не полностью",
+      "hint": "У этих продуктов не заполнено КБЖУ, в сумму они не вошли:"
+    },
+    "storage": {
+      "title": "Хранение",
+      "freezable": "Можно замораживать",
+      "freezer": "В морозилке",
+      "fridge": "В холодильнике",
+      "daysUnit": "дн."
+    },
+    "ingredients": {
+      "title": "Ингредиенты",
+      "empty": "Ингредиентов пока нет",
+      "gramsUnit": "г",
+      "optionalBadge": "по желанию",
+      "pinnedLabel": "вариант закреплён",
+      "unnamedVariant": "Без названия"
+    },
+    "steps": {
+      "title": "Шаги",
+      "empty": "Шагов пока нет"
+    },
+    "video": {
+      "title": "Видео",
+      "linkLabel": "Видео"
+    },
+    "notes": {
+      "title": "Заметки"
+    },
+    "stats": {
+      "title": "История готовки",
+      "never": "Пока ни разу не готовилось",
+      "count": "Приготовлено раз",
+      "lastCooked": "В последний раз",
+      "averageYield": "Средний выход",
+      "averageDays": "Хватало в среднем",
+      "gramsUnit": "г",
+      "daysUnit": "дн.",
+      "empty": "—"
     }
   }
 }

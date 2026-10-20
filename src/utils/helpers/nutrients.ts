@@ -1,7 +1,7 @@
 /**
- * Форматирование чисел КБЖУ для показа.
+ * Форматирование чисел для показа: КБЖУ, граммы, дни.
  *
- * Домен возвращает сырые числа — округление живёт здесь и только здесь.
+ * Домен возвращает сырые числа — округление КБЖУ живёт здесь и только здесь.
  * Разделитель дробной части русский: интерфейс одноязычный.
  */
 const macroFormat = new Intl.NumberFormat("ru-RU", {
@@ -9,9 +9,16 @@ const macroFormat = new Intl.NumberFormat("ru-RU", {
   maximumFractionDigits: 1,
 });
 
+const decimalFormat = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 1 });
+
 /** Ккал — до целых. */
 export function formatKcal(value: number): string {
   return String(Math.round(value));
+}
+
+/** Число до одного знака, целые без дробной части (граммы, дни). */
+export function formatDecimal(value: number): string {
+  return decimalFormat.format(value);
 }
 
 /** Белки, жиры, углеводы — до одного знака. */

@@ -7,6 +7,7 @@ import { LoginPage } from "@/pages/LoginPage";
 import { ProductPage } from "@/pages/ProductPage";
 import { ProductsPage } from "@/pages/ProductsPage";
 import { RecipeEditorPage } from "@/pages/RecipeEditorPage";
+import { RecipePage } from "@/pages/RecipePage";
 
 import { routerPaths } from "./_paths";
 
@@ -57,6 +58,18 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
     },
   });
 
+  function RecipeCardRoute() {
+    const { recipeId } = useParams({ from: "/protected-layout/recipes/$recipeId" });
+
+    return <RecipePage recipeId={recipeId} />;
+  }
+
+  const recipeCardRoute = createRoute({
+    getParentRoute: () => protectedLayoutRoute,
+    path: routerPaths.recipeCard,
+    component: RecipeCardRoute,
+  });
+
   function RecipeEditRoute() {
     const { recipeId } = useParams({ from: "/protected-layout/recipes/$recipeId/edit" });
 
@@ -103,6 +116,7 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
   return [
     recipesRoute,
     recipeNewRoute,
+    recipeCardRoute,
     recipeEditRoute,
     productsRoute,
     productCardRoute,

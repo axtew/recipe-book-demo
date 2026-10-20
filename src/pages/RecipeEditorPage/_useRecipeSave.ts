@@ -70,7 +70,7 @@ export function useRecipeSave({ recipeId, recipe, draft, photoFile, finishDraft 
       await saveRecipe({ recipeId, recipe: { ...result.data, photoPath } });
 
       finishDraft();
-      await navigate({ to: routerPaths.home });
+      await navigate({ to: routerPaths.recipeCard, params: { recipeId } });
     } catch {
       setError("submit");
     } finally {

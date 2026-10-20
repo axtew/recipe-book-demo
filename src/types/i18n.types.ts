@@ -90,6 +90,7 @@ export interface I18n {
   };
   recipeEditor: {
     backLink: string;
+    backToRecipe: string;
     titleNew: string;
     titleEdit: string;
     notFoundTitle: string;
@@ -188,6 +189,69 @@ export interface I18n {
       perServing: string;
       servingsMissing: string;
       incompleteProducts: string;
+    };
+  };
+  recipeCard: {
+    backLink: string;
+    notFoundTitle: string;
+    notFoundHint: string;
+    archivedBadge: string;
+    editButton: string;
+    photoAlt: string;
+    minutesUnit: string;
+    servingsLabel: string;
+    nutrition: {
+      title: string;
+      per100g: string;
+      perServing: string;
+      total: string;
+      rawWeightHint: string;
+      emptyHint: string;
+      overrideMark: string;
+      overrideNote: string;
+      recalculate: string;
+      recalculating: string;
+    };
+    incomplete: {
+      title: string;
+      hint: string;
+    };
+    storage: {
+      title: string;
+      freezable: string;
+      freezer: string;
+      fridge: string;
+      daysUnit: string;
+    };
+    ingredients: {
+      title: string;
+      empty: string;
+      gramsUnit: string;
+      optionalBadge: string;
+      pinnedLabel: string;
+      unnamedVariant: string;
+    };
+    steps: {
+      title: string;
+      empty: string;
+    };
+    video: {
+      title: string;
+      linkLabel: string;
+    };
+    notes: {
+      title: string;
+    };
+    stats: {
+      title: string;
+      never: string;
+      count: string;
+      lastCooked: string;
+      averageYield: string;
+      averageDays: string;
+      gramsUnit: string;
+      daysUnit: string;
+      empty: string;
     };
   };
 }

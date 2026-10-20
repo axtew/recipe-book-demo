@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import { BackLink } from "@/components/BackLink";
 import { B2, Caption1, H1, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useProductCategories, useProductsById, useRecipes } from "@/hooks/useAppData.hook";
@@ -9,7 +10,7 @@ import { findRecipesUsingProduct } from "./_helpers";
 import { ArchiveConfirm } from "./_internal/ArchiveConfirm";
 import { UsedInRecipes } from "./_internal/UsedInRecipes";
 import { VariantList } from "./_internal/VariantList";
-import { SArchiveButton, SBack, SBadge, SHeader, SPage, SPlaceholder, SSection } from "./_styles";
+import { SArchiveButton, SBadge, SHeader, SPage, SPlaceholder, SSection } from "./_styles";
 
 interface IProductPage {
   productId: string;
@@ -33,9 +34,9 @@ export function ProductPage({ productId }: IProductPage) {
   if (product === null) {
     return (
       <SPage>
-        <SBack to={routerPaths.products}>
+        <BackLink to={routerPaths.products}>
           <B2 as="span">{l.backLink}</B2>
-        </SBack>
+        </BackLink>
         <SPlaceholder>
           <H3>{l.notFoundTitle}</H3>
           <B2 color="textMuted">{l.notFoundHint}</B2>
@@ -48,9 +49,9 @@ export function ProductPage({ productId }: IProductPage) {
 
   return (
     <SPage>
-      <SBack to={routerPaths.products}>
+      <BackLink to={routerPaths.products}>
         <B2 as="span">{l.backLink}</B2>
-      </SBack>
+      </BackLink>
 
       <SHeader>
         <H1>{product.name}</H1>

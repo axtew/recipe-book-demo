@@ -1,7 +1,7 @@
 import { Caption2, Num2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
+import { formatKcal, formatMacro } from "@/utils/helpers/nutrients";
 
-import { formatKcal, formatMacro } from "./_helpers";
 import { SCell, SRow, SWrapper } from "./_styles";
 
 interface IProps {

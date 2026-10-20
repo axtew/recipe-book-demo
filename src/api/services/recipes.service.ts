@@ -63,6 +63,29 @@ function mapRecipe(recipe: TDBRecipe): IRecipe {
   };
 }
 
+/**
+ * Сбрасывает ручные значения КБЖУ на 100 г: после этого цифры снова считаются
+ * из состава.
+ *
+ * Пишет в одну таблицу одним запросом, поэтому отдельная rpc-функция не нужна.
+ */
+export async function resetRecipeNutritionOverrides(recipeId: string): Promise<void> {
+  const { error } = await supabase
+    .from("recipes")
+    .update({
+      kcal_100_override: null,
+      protein_100_override: null,
+      fat_100_override: null,
+      carbs_100_override: null,
+    })
+    .eq("id", recipeId);
+
+  if (error)
+    throw new Error("Произошла ошибка при сбросе ручных значений КБЖУ.", {
+      cause: error,
+    });
+}
+
 const RECIPE_PHOTOS_BUCKET = "recipe-photos";
 
 export async function saveRecipe({

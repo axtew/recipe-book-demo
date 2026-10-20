@@ -1,5 +1,4 @@
 import { NumberInput } from "@mantine/core";
-import { Link } from "@tanstack/react-router";
 import styled from "styled-components";
 
 export const SPage = styled.div`
@@ -7,15 +6,6 @@ export const SPage = styled.div`
   flex-direction: column;
   gap: 20px;
   padding: 16px;
-`;
-
-export const SBack = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  min-height: 44px;
-  color: ${({ theme }) => theme.palette.primary};
-  text-decoration: none;
 `;
 
 export const SPlaceholder = styled.div`

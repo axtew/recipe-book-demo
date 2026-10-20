@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import { BackLink } from "@/components/BackLink";
 import { B2, H1, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useRecipes } from "@/hooks/useAppData.hook";
@@ -9,7 +10,7 @@ import { routerPaths } from "@/routes/_paths";
 import { createEmptyDraft, recipeToDraft } from "./_helpers";
 import { DraftPrompt } from "./_internal/DraftPrompt";
 import { RecipeForm } from "./_internal/RecipeForm";
-import { SBack, SPage, SPlaceholder } from "./_styles";
+import { SPage, SPlaceholder } from "./_styles";
 import type { IRecipeEditorPageProps, TDraftChoice } from "./_types";
 
 /**
@@ -36,11 +37,16 @@ export function RecipeEditorPage({ recipeId }: IRecipeEditorPageProps) {
     return recipe === null ? createEmptyDraft() : recipeToDraft(recipe);
   }, [choice, storedDraft, recipe]);
 
-  const backLink = (
-    <SBack to={routerPaths.home}>
-      <B2 as="span">{l.backLink}</B2>
-    </SBack>
-  );
+  const backLink =
+    recipe === null ? (
+      <BackLink to={routerPaths.home}>
+        <B2 as="span">{l.backLink}</B2>
+      </BackLink>
+    ) : (
+      <BackLink to={routerPaths.recipeCard} params={{ recipeId: recipe.id }}>
+        <B2 as="span">{l.backToRecipe}</B2>
+      </BackLink>
+    );
 
   if (recipeId !== null && recipe === null) {
     return (

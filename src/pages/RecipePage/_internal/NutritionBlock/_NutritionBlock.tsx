@@ -1,0 +1,103 @@
+import { useResetRecipeNutritionOverridesMutation } from "@/api/mutations/recipes.mutations";
+import { NutrientsRow } from "@/components/NutrientsRow";
+import { B2, Caption1, Caption2, H3, Num1, Num2 } from "@/components/Typography";
+import { useI18nSelector } from "@/context/I18nContext";
+import type { INutrients, IRecipeNutrition } from "@/domain/nutrition";
+import { formatKcal, formatMacro } from "@/utils/helpers/nutrients";
+
+import { SBig, SCell, SLine, SMacros, SMarker, SRecalculate, SWrapper } from "./_styles";
+
+interface IProps {
+  recipeId: string;
+  nutrition: IRecipeNutrition;
+}
+
+const MACRO_FIELDS = ["protein", "fat", "carbs"] as const;
+
+/**
+ * КБЖУ рецепта: крупно на 100 г, мельче на порцию и на всё блюдо.
+ *
+ * Значения, введённые вручную, помечены звёздочкой, под цифрами названы, а
+ * кнопка «Пересчитать» возвращает расчёт по составу. Без выхода блюда рядом
+ * с цифрой на 100 г стоит подсказка, что считано по весу сырья.
+ */
+export function NutritionBlock({ recipeId, nutrition }: IProps) {
+  const l = useI18nSelector(({ l }) => ({ ...l.recipeCard.nutrition, nutrients: l.nutrients }));
+  const { mutate, isPending } = useResetRecipeNutritionOverridesMutation();
+
+  const { per100g, perServing, total, overriddenFields, basis, rawWeightGrams } = nutrition;
+
+  const isEmpty = rawWeightGrams === 0 && overriddenFields.length === 0;
+
+  function renderMark(field: keyof INutrients) {
+    return overriddenFields.includes(field) ? (
+      <SMarker aria-label={l.overrideMark}>*</SMarker>
+    ) : null;
+  }
+
+  return (
+    <SWrapper>
+      <H3>{l.title}</H3>
+
+      {isEmpty ? (
+        <B2 color="textMuted">{l.emptyHint}</B2>
+      ) : (
+        <>
+          <SLine>
+            <Caption1 color="textMuted">{l.per100g}</Caption1>
+            <SBig>
+              <Num1>
+                {formatKcal(per100g.kcal)}
+                {renderMark("kcal")}
+              </Num1>
+              <Caption1 color="textMuted">{l.nutrients.kcal}</Caption1>
+            </SBig>
+            <SMacros>
+              {MACRO_FIELDS.map((field) => (
+                <SCell key={field}>
+                  <Num2>
+                    {formatMacro(per100g[field])}
+                    {renderMark(field)}
+                  </Num2>
+                  <Caption2 color="textMuted">{l.nutrients[field]}</Caption2>
+                </SCell>
+              ))}
+            </SMacros>
+            {basis === "rawWeight" && <Caption2 color="textMuted">{l.rawWeightHint}</Caption2>}
+          </SLine>
+
+          {overriddenFields.length > 0 && (
+            <SLine>
+              <Caption2 color="textMuted">
+                {`* ${l.overrideNote} ${overriddenFields.map((field) => l.nutrients[field]).join(", ")}`}
+              </Caption2>
+              <SRecalculate type="button" disabled={isPending} onClick={() => mutate(recipeId)}>
+                <B2 as="span">{isPending ? l.recalculating : l.recalculate}</B2>
+              </SRecalculate>
+            </SLine>
+          )}
+
+          <SLine>
+            <Caption1 color="textMuted">{l.perServing}</Caption1>
+            <NutrientsRow
+              kcal={perServing.kcal}
+              protein={perServing.protein}
+              fat={perServing.fat}
+              carbs={perServing.carbs}
+            />
+          </SLine>
+
+          <SLine>
+            <Caption1 color="textMuted">{l.total}</Caption1>
+            <NutrientsRow
+              kcal={total.kcal}
+              protein={total.protein}
+              fat={total.fat}
+              carbs={total.carbs}
+            />
+          </SLine>
+        </>
+      )}
+    </SWrapper>
+  );
+}
