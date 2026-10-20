@@ -11,6 +11,7 @@ import { RouteStub } from "@/components/RouteStub";
 import { useI18nSelector } from "@/context/I18nContext";
 import { getAuthSession } from "@/hooks/useAuth.hook";
 import { LoginPage } from "@/pages/LoginPage";
+import { LogPage } from "@/pages/LogPage";
 import { ProductPage } from "@/pages/ProductPage";
 import { ProductsPage } from "@/pages/ProductsPage";
 import { RecipeEditorPage } from "@/pages/RecipeEditorPage";
@@ -129,7 +130,7 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
   const logRoute = createRoute({
     getParentRoute: () => protectedLayoutRoute,
     path: routerPaths.log,
-    component: LogStub,
+    component: LogPage,
   });
 
   const settingsRoute = createRoute({
@@ -148,11 +149,6 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
     logRoute,
     settingsRoute,
   ] as const;
-}
-
-function LogStub() {
-  const l = useI18nSelector(({ l }) => l.navigation.log);
-  return <RouteStub title={l} />;
 }
 
 function SettingsStub() {

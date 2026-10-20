@@ -2,10 +2,11 @@ import { useMemo } from "react";
 
 import { B2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
+import { calculateCookStats } from "@/domain/stats";
 import type { ICookLog } from "@/types/cookLogs.types";
+import { formatCookDate } from "@/utils/helpers/dates";
 import { formatDecimal } from "@/utils/helpers/nutrients";
 
-import { calculateCookStats, formatCookDate } from "./_helpers";
 import { SRow, SSection } from "./_styles";
 
 interface IProps {

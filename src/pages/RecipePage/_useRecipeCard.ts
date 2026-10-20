@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { useI18nSelector } from "@/context/I18nContext";
-import { calculateNutrition, resolveIngredients } from "@/domain/nutrition";
+import { buildSnapshot, calculateNutrition, resolveIngredients } from "@/domain/nutrition";
 import {
   useCookLogs,
   useDishCategories,
@@ -12,8 +12,8 @@ import {
 import { getNutritionOverrides } from "@/utils/helpers/recipes";
 
 /**
- * Данные карточки рецепта: сам рецепт, его КБЖУ, разрешённые варианты
- * ингредиентов, строка с категориями, временем и порциями, записи журнала.
+ * Данные карточки рецепта: сам рецепт, его КБЖУ и снимок для записи в журнал,
+ * разрешённые варианты ингредиентов, строка с категориями, временем и порциями, записи журнала.
  *
  * Возвращает `null`, если рецепта с таким id нет. Расчёт целиком в доменном
  * модуле; здесь только подготовка входа.
@@ -37,13 +37,16 @@ export function useRecipeCard(recipeId: string) {
     const variants = products.flatMap((product) => product.variants);
     const resolved = resolveIngredients(recipe.ingredients, products, variants);
 
+    const nutrition = calculateNutrition(resolved, {
+      servingsBase: recipe.servingsBase,
+      yieldGrams: recipe.yieldGrams,
+      overrides: getNutritionOverrides(recipe),
+    });
+
     return {
       resolved,
-      nutrition: calculateNutrition(resolved, {
-        servingsBase: recipe.servingsBase,
-        yieldGrams: recipe.yieldGrams,
-        overrides: getNutritionOverrides(recipe),
-      }),
+      nutrition,
+      snapshot: buildSnapshot(nutrition, resolved, recipe.servingsBase),
     };
   }, [recipe, products]);
 
@@ -77,6 +80,7 @@ export function useRecipeCard(recipeId: string) {
     recipe,
     nutrition: calculation.nutrition,
     resolved: calculation.resolved,
+    snapshot: calculation.snapshot,
     productsById,
     metaParts,
     cookLogs: recipeCookLogs,

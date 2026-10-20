@@ -1,4 +1,4 @@
-export { cookLogInputSchema, nutritionSnapshotSchema } from "./_cookLogs";
+export { cookLogInputSchema, MULTIPLIER_MAX, nutritionSnapshotSchema } from "./_cookLogs";
 export {
   productCategoryInputSchema,
   productInputSchema,

@@ -1,5 +1,7 @@
 import type { ICookLog } from "@/types/cookLogs.types";
 
+type TStatsLog = Pick<ICookLog, "cookedAt" | "finishedAt" | "actualYieldGrams">;
+
 interface ICookStats {
   count: number;
   /** Дата последней готовки, `YYYY-MM-DD`. */
@@ -40,7 +42,7 @@ function average(values: number[]): number | null {
  * «доели». Записи без выхода или без даты «доели» в соответствующее среднее не
  * входят, а не считаются нулями.
  */
-export function calculateCookStats(logs: ICookLog[]): ICookStats {
+export function calculateCookStats(logs: TStatsLog[]): ICookStats {
   const lastCookedAt = logs.reduce<string | null>(
     (latest, log) => (latest === null || log.cookedAt > latest ? log.cookedAt : latest),
     null,
@@ -59,11 +61,4 @@ export function calculateCookStats(logs: ICookLog[]): ICookStats {
     averageYieldGrams: average(yields),
     averageDaysToFinish: average(daysToFinish),
   };
-}
-
-/** `YYYY-MM-DD` → `ДД.ММ.ГГГГ`, без `Date`. */
-export function formatCookDate(date: string): string {
-  const [year, month, day] = date.split("-");
-
-  return `${day}.${month}.${year}`;
 }

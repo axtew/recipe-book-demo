@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import type { INutritionSnapshot } from "@/domain/nutrition";
+import type { ICookLogInput } from "@/types/cookLogs.types";
 
 import { dateSchema, idSchema } from "./_common";
 
@@ -45,10 +46,13 @@ export const nutritionSnapshotSchema = z.object({
   ),
 }) satisfies z.ZodType<INutritionSnapshot>;
 
+/** Предел `numeric(4,2)` у `cook_logs.multiplier`: больше 99.99 в базу не поместится. */
+export const MULTIPLIER_MAX = 99.99;
+
 export const cookLogInputSchema = z
   .object({
     cookedAt: dateSchema,
-    multiplier: z.number().positive(),
+    multiplier: z.number().positive().max(MULTIPLIER_MAX),
     actualYieldGrams: z.number().positive().nullable(),
     containers: z.int().positive().nullable(),
     finishedAt: dateSchema.nullable(),
@@ -61,4 +65,4 @@ export const cookLogInputSchema = z
     // только в `public/dictionaries/`. Даты в формате `YYYY-MM-DD` сравнимы как строки.
     message: "finishedBeforeCooked",
     path: ["finishedAt"],
-  });
+  }) satisfies z.ZodType<ICookLogInput>;

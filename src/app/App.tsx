@@ -1,4 +1,5 @@
 import { MantineProvider } from "@mantine/core";
+import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
@@ -23,9 +24,12 @@ export function App() {
 
           <Notifications position="top-center" />
 
-          <I18nProvider>
-            <RouterProvider router={router} />
-          </I18nProvider>
+          {/* Локаль dayjs подключена в main.tsx; неделя в России начинается с понедельника. */}
+          <DatesProvider settings={{ locale: "ru", firstDayOfWeek: 1 }}>
+            <I18nProvider>
+              <RouterProvider router={router} />
+            </I18nProvider>
+          </DatesProvider>
         </ThemeProvider>
       </MantineProvider>
     </PersistQueryClientProvider>

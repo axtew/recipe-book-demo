@@ -3,6 +3,7 @@ import { B1, B2, Caption1, H1, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { routerPaths } from "@/routes/_paths";
 
+import { CookLogAction } from "./_internal/CookLogAction";
 import { CookStats } from "./_internal/CookStats";
 import { IncompleteWarning } from "./_internal/IncompleteWarning";
 import { IngredientsBlock } from "./_internal/IngredientsBlock";
@@ -51,7 +52,7 @@ export function RecipePage({ recipeId }: IProps) {
     );
   }
 
-  const { recipe, nutrition, resolved, productsById, metaParts, cookLogs } = card;
+  const { recipe, nutrition, resolved, snapshot, productsById, metaParts, cookLogs } = card;
 
   return (
     <SPage>
@@ -107,6 +108,8 @@ export function RecipePage({ recipeId }: IProps) {
       )}
 
       <CookStats cookLogs={cookLogs} />
+
+      <CookLogAction recipeId={recipe.id} snapshot={snapshot} />
     </SPage>
   );
 }

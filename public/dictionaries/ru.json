@@ -230,6 +230,7 @@
     "notFoundHint": "Возможно, ссылка устарела",
     "archivedBadge": "В архиве",
     "editButton": "Редактировать",
+    "recordCookButton": "Записать готовку",
     "photoAlt": "Фото рецепта",
     "minutesUnit": "мин",
     "servingsLabel": "Порций",
@@ -285,6 +286,54 @@
       "gramsUnit": "г",
       "daysUnit": "дн.",
       "empty": "—"
+    }
+  },
+  "cookLogSheet": {
+    "title": "Записать готовку",
+    "dateLabel": "Дата готовки",
+    "multiplierLabel": "Сколько порций рецепта",
+    "multiplierCustomLabel": "Другое значение",
+    "yieldLabel": "Фактический выход",
+    "containersLabel": "Контейнеров",
+    "ratingLabel": "Оценка",
+    "ratingClear": "Сбросить оценку",
+    "noteLabel": "Заметка",
+    "gramsUnit": "г",
+    "submitButton": "Записать",
+    "cancelButton": "Отмена",
+    "validationError": "Проверьте дату и множитель",
+    "submitError": "Не удалось записать готовку"
+  },
+  "cookLog": {
+    "emptyTitle": "Записей пока нет",
+    "emptyHint": "Первая появится после кнопки «Записать готовку» в карточке рецепта",
+    "months": [
+      "Январь",
+      "Февраль",
+      "Март",
+      "Апрель",
+      "Май",
+      "Июнь",
+      "Июль",
+      "Август",
+      "Сентябрь",
+      "Октябрь",
+      "Ноябрь",
+      "Декабрь"
+    ],
+    "unknownRecipe": "Рецепт не найден",
+    "gramsUnit": "г",
+    "multiplierLabel": "Множитель",
+    "yieldLabel": "Выход",
+    "containersLabel": "Контейнеров",
+    "per100g": "на 100 г",
+    "finishedLabel": "Доели",
+    "finishButton": "Доели",
+    "otherDateButton": "Другая дата",
+    "finishSheet": {
+      "title": "Когда доели",
+      "submitButton": "Готово",
+      "cancelButton": "Отмена"
     }
   }
 }

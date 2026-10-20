@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { calculateCookStats } from "@/domain/stats";
 import type { ICookLog } from "@/types/cookLogs.types";
-
-import { calculateCookStats, formatCookDate } from "./_helpers";
 
 function createLog(overrides: Partial<ICookLog>): ICookLog {
   return {
@@ -84,11 +83,5 @@ describe("calculateCookStats", () => {
 
     expect(stats.averageYieldGrams).toBe(500);
     expect(stats.averageDaysToFinish).toBe(1.5);
-  });
-});
-
-describe("formatCookDate", () => {
-  it("переставляет части даты", () => {
-    expect(formatCookDate("2026-10-05")).toBe("05.10.2026");
   });
 });

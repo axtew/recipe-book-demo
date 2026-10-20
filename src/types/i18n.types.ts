@@ -227,6 +227,7 @@ export interface I18n {
     notFoundHint: string;
     archivedBadge: string;
     editButton: string;
+    recordCookButton: string;
     photoAlt: string;
     minutesUnit: string;
     servingsLabel: string;
@@ -282,6 +283,55 @@ export interface I18n {
       gramsUnit: string;
       daysUnit: string;
       empty: string;
+    };
+  };
+  cookLogSheet: {
+    title: string;
+    dateLabel: string;
+    multiplierLabel: string;
+    multiplierCustomLabel: string;
+    yieldLabel: string;
+    containersLabel: string;
+    ratingLabel: string;
+    ratingClear: string;
+    noteLabel: string;
+    gramsUnit: string;
+    submitButton: string;
+    cancelButton: string;
+    validationError: string;
+    submitError: string;
+  };
+  cookLog: {
+    emptyTitle: string;
+    emptyHint: string;
+    /** Двенадцать названий месяцев в именительном падеже, с января. */
+    months: [
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+    ];
+    unknownRecipe: string;
+    gramsUnit: string;
+    multiplierLabel: string;
+    yieldLabel: string;
+    containersLabel: string;
+    per100g: string;
+    finishedLabel: string;
+    finishButton: string;
+    otherDateButton: string;
+    finishSheet: {
+      title: string;
+      submitButton: string;
+      cancelButton: string;
     };
   };
 }
