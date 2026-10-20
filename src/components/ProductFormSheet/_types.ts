@@ -29,7 +29,7 @@ export interface IUseProductFormResult {
   fat: number | "";
   carbs: number | "";
   error: string | null;
-  isPending: boolean;
+  isSubmitDisabled: boolean;
   setName: (value: string) => void;
   setCategoryId: (value: string) => void;
   setKcal: (value: number | "") => void;

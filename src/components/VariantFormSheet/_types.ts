@@ -27,7 +27,7 @@ export interface IUseVariantFormResult {
   fat: number | "";
   carbs: number | "";
   error: string | null;
-  isPending: boolean;
+  isSubmitDisabled: boolean;
   setName: (value: string) => void;
   setKcal: (value: number | "") => void;
   setProtein: (value: number | "") => void;

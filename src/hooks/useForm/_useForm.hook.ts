@@ -9,7 +9,7 @@ import {
 } from "react";
 
 import { useLatest } from "../useLatest.hook";
-import { formatValue, initState, validateValue } from "./_helpers";
+import { commitPrevValues, formatValue, initState, validateValue } from "./_helpers";
 import type { IUseFormReturn, TFields, TInputs, TSubmitHandler, TUseFormState } from "./_types";
 
 /**
@@ -111,17 +111,18 @@ export function useForm<T extends TFields>(
   );
 
   const updatePrevValues = useCallback(() => {
-    setForm((prev) => initState(prev));
+    setForm(commitPrevValues);
   }, []);
 
   const onSubmit = useCallback(
     async (e?: SubmitEvent<HTMLFormElement>) => {
       e?.preventDefault();
 
-      // FIXME: нетронутую форму отправить нельзя — отправка молча ничего не
-      // делает, пока ни одно поле не менялось (isDirty === false), даже если
-      // submitHandler имело бы смысл вызвать осознанно (например, повторная
-      // отправка того же значения после сбоя сети).
+      // Отправка заблокирована, пока все поля совпадают с prevValue: форма правки
+      // не отправляет неизменённые данные. Форма создания со значением по
+      // умолчанию задаёт prevValue в inputs явно и считается изменённой сразу.
+      // prevValue обновляется только после успешной отправки, поэтому повтор
+      // после сбоя доступен без правки полей.
       if (!isValid || !isDirty) return;
 
       if (submitHandler) {

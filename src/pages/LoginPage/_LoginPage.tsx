@@ -8,7 +8,7 @@ import { useLoginForm } from "./_useLoginForm";
 /** Экран входа. Регистрации нет — аккаунты заводятся в дашборде Supabase. */
 export function LoginPage() {
   const l = useI18nSelector(({ l }) => l.auth.login);
-  const { email, password, isPending, hasError, setEmail, setPassword, handleSubmit } =
+  const { email, password, isSubmitDisabled, hasError, setEmail, setPassword, handleSubmit } =
     useLoginForm();
 
   return (
@@ -36,7 +36,7 @@ export function LoginPage() {
           />
         </SField>
         {hasError && <B3 color="danger">{l.error}</B3>}
-        <SSubmit type="submit" disabled={isPending}>
+        <SSubmit type="submit" disabled={isSubmitDisabled}>
           <B2 as="span">{l.submitButton}</B2>
         </SSubmit>
       </SForm>

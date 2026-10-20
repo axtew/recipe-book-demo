@@ -25,8 +25,15 @@ export function useProductForm({
     setError(null);
   }
 
-  const { form, isPending, updateFieldValue, onSubmit } = useForm<TProductFields>(
-    { name: initialName, categoryId: "", kcal: "", protein: "", fat: "", carbs: "" },
+  const { form, disabled, isPending, updateFieldValue, onSubmit } = useForm<TProductFields>(
+    {
+      name: { value: initialName, prevValue: "" },
+      categoryId: "",
+      kcal: "",
+      protein: "",
+      fat: "",
+      carbs: "",
+    },
     async (state) => {
       setError(null);
 
@@ -77,7 +84,7 @@ export function useProductForm({
     fat: form.fat.value,
     carbs: form.carbs.value,
     error,
-    isPending,
+    isSubmitDisabled: disabled || isPending,
     setName: (value) => updateFieldValue("name", value),
     setCategoryId: (value) => updateFieldValue("categoryId", value),
     setKcal: (value) => updateFieldValue("kcal", value),

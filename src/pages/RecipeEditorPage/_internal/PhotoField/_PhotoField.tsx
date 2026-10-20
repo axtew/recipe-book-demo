@@ -1,7 +1,6 @@
 import { FileInput } from "@mantine/core";
 import { useState } from "react";
 
-import { useRecipePhotoUrl } from "@/api/queries/recipes.queries";
 import { B2, Caption2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { compressRecipePhoto, readAsDataUrl } from "@/utils/image";
@@ -10,8 +9,8 @@ import { SDangerButton, SSection } from "../../_styles";
 import { SActions, SPlaceholder, SPreview } from "./_styles";
 
 interface IProps {
-  /** Путь уже сохранённой обложки; null, если её нет или она убрана. */
-  photoPath: string | null;
+  /** Адрес уже сохранённой обложки; null, если её нет или она убрана. */
+  savedUrl: string | null;
   /** Новое фото, выбранное в этой сессии и ещё не загруженное. */
   photoFile: File | null;
   onPick: (file: File) => void;
@@ -25,14 +24,13 @@ interface IProps {
  * состояние: на сохранении в Storage уходит уже лёгкий файл. Само сохранение
  * фото — шаг отправки рецепта, не этого поля.
  */
-export function PhotoField({ photoPath, photoFile, onPick, onRemove }: IProps) {
+export function PhotoField({ savedUrl, photoFile, onPick, onRemove }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.photo);
   const [isProcessing, setIsProcessing] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   const [filePreviewUrl, setFilePreviewUrl] = useState<string | null>(null);
 
-  const savedUrl = useRecipePhotoUrl(photoPath);
   const previewUrl = (photoFile === null ? null : filePreviewUrl) ?? savedUrl;
 
   async function handleChange(file: File | null) {

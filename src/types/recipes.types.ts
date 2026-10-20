@@ -35,6 +35,8 @@ export interface IRecipe {
   name: string;
   notes: string | null;
   photoPath: string | null;
+  /** Публичный адрес обложки с версией; null, если фото нет. */
+  photoUrl: string | null;
   protein100Override: number | null;
   servingsBase: number;
   videoUrls: string[];

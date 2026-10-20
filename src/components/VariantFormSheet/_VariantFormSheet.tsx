@@ -26,7 +26,7 @@ export function VariantFormSheet({ isOpened, productId, onClose }: IVariantFormS
     fat,
     carbs,
     error,
-    isPending,
+    isSubmitDisabled,
     setName,
     setKcal,
     setProtein,
@@ -100,7 +100,7 @@ export function VariantFormSheet({ isOpened, productId, onClose }: IVariantFormS
           <SCancel type="button" onClick={onClose}>
             <B2 as="span">{l.cancelButton}</B2>
           </SCancel>
-          <SSubmit type="submit" disabled={isPending}>
+          <SSubmit type="submit" disabled={isSubmitDisabled}>
             <B2 as="span">{l.submitButton}</B2>
           </SSubmit>
         </SActions>

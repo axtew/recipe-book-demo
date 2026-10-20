@@ -25,7 +25,7 @@ export function useVariantForm({
     setError(null);
   }
 
-  const { form, isPending, updateFieldValue, onSubmit } = useForm<TVariantFields>(
+  const { form, disabled, isPending, updateFieldValue, onSubmit } = useForm<TVariantFields>(
     { name: "", kcal: "", protein: "", fat: "", carbs: "" },
     async (state) => {
       setError(null);
@@ -68,7 +68,7 @@ export function useVariantForm({
     fat: form.fat.value,
     carbs: form.carbs.value,
     error,
-    isPending,
+    isSubmitDisabled: disabled || isPending,
     setName: (value) => updateFieldValue("name", value),
     setKcal: (value) => updateFieldValue("kcal", value),
     setProtein: (value) => updateFieldValue("protein", value),

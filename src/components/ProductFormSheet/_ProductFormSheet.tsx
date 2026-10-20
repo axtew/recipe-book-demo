@@ -36,7 +36,7 @@ export function ProductFormSheet({
     fat,
     carbs,
     error,
-    isPending,
+    isSubmitDisabled,
     setName,
     setCategoryId,
     setKcal,
@@ -127,7 +127,7 @@ export function ProductFormSheet({
           <SCancel type="button" onClick={onClose}>
             <B2 as="span">{l.cancelButton}</B2>
           </SCancel>
-          <SSubmit type="submit" disabled={isPending}>
+          <SSubmit type="submit" disabled={isSubmitDisabled}>
             <B2 as="span">{l.submitButton}</B2>
           </SSubmit>
         </SActions>

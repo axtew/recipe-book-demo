@@ -53,7 +53,7 @@ export function initState<T extends TFields>(inputs: TInputs<T>): TUseFormState<
       inputState = {
         ...inputState,
         ...inputData,
-        prevValue: inputData.value,
+        prevValue: inputData.prevValue === undefined ? inputData.value : inputData.prevValue,
       };
     } else {
       inputState = {
@@ -67,6 +67,20 @@ export function initState<T extends TFields>(inputs: TInputs<T>): TUseFormState<
   });
 
   return initValue as TUseFormState<T>;
+}
+
+/**
+ * Фиксирует текущие значения как сохранённые: `prevValue` каждого поля
+ * становится равным `value`, остальное состояние поля не меняется.
+ */
+export function commitPrevValues<T extends TFields>(state: TUseFormState<T>): TUseFormState<T> {
+  const committed: Partial<TUseFormState<T>> = {};
+
+  getEntries(state).forEach(([name, field]) => {
+    committed[name] = { ...field, prevValue: field.value };
+  });
+
+  return committed as TUseFormState<T>;
 }
 
 export function formatValue(formatter: (value: string) => string, value: TFieldType): TFieldType {

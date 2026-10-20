@@ -27,6 +27,12 @@ export function RecipeForm(props: IRecipeFormProps) {
   const editor = useRecipeEditor(props);
   const { form, onChange, updateFieldValue, save } = editor;
 
+  // Черновик хранит путь фото рецепта либо null: адрес рецепта верен, только пока путь не менялся.
+  const savedPhotoUrl =
+    props.recipe !== null && editor.photoPath === props.recipe.photoPath
+      ? props.recipe.photoUrl
+      : null;
+
   const errorMessage =
     save.error === null ? null : save.error === "submit" ? l.submitError : l.validation[save.error];
 
@@ -95,7 +101,7 @@ export function RecipeForm(props: IRecipeFormProps) {
       <Caption2 color="textMuted">{l.yieldHint}</Caption2>
 
       <PhotoField
-        photoPath={editor.photoPath}
+        savedUrl={savedPhotoUrl}
         photoFile={editor.photoFile}
         onPick={editor.setPhotoFile}
         onRemove={() => {

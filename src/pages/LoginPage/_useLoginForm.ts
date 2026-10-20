@@ -9,7 +9,7 @@ type TLoginFields = Record<"email" | "password", string>;
 interface IUseLoginFormResult {
   email: string;
   password: string;
-  isPending: boolean;
+  isSubmitDisabled: boolean;
   hasError: boolean;
   setEmail: (value: string) => void;
   setPassword: (value: string) => void;
@@ -22,7 +22,7 @@ export function useLoginForm(): IUseLoginFormResult {
   const navigate = useNavigate();
   const { redirect } = useSearch({ from: "/login" });
 
-  const { form, updateFieldValue, onSubmit } = useForm<TLoginFields>(
+  const { form, disabled, updateFieldValue, onSubmit } = useForm<TLoginFields>(
     { email: "", password: "" },
     async (state) => {
       const success = await signIn(state.email.value, state.password.value);
@@ -41,7 +41,7 @@ export function useLoginForm(): IUseLoginFormResult {
   return {
     email: form.email.value,
     password: form.password.value,
-    isPending,
+    isSubmitDisabled: disabled || isPending,
     hasError,
     setEmail: (value) => updateFieldValue("email", value),
     setPassword: (value) => updateFieldValue("password", value),

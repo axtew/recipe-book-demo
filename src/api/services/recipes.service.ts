@@ -37,6 +37,8 @@ function mapRecipe(recipe: TDBRecipe): IRecipe {
     name: recipe.name,
     notes: recipe.notes,
     photoPath: recipe.photo_path,
+    photoUrl:
+      recipe.photo_path === null ? null : getRecipePhotoUrl(recipe.photo_path, recipe.updated_at),
     protein100Override: recipe.protein_100_override,
     servingsBase: recipe.servings_base,
     videoUrls: recipe.video_urls,
@@ -131,7 +133,15 @@ export async function uploadRecipePhoto({
   return path;
 }
 
-/** Публичный адрес фото по пути из `recipes.photo_path`. Сети не требует. */
-export function getRecipePhotoUrl(photoPath: string): string {
-  return supabase.storage.from(RECIPE_PHOTOS_BUCKET).getPublicUrl(photoPath).data.publicUrl;
+/**
+ * Публичный адрес фото по пути из `recipes.photo_path`. Сети не требует.
+ *
+ * Замена обложки пишет файл по тому же пути, а Storage отдаёт его с
+ * `max-age=3600`; параметр `v` от `updated_at` рецепта меняет адрес при каждом
+ * сохранении, и браузер не показывает прежнее фото из кэша.
+ */
+function getRecipePhotoUrl(photoPath: string, updatedAt: string): string {
+  const { publicUrl } = supabase.storage.from(RECIPE_PHOTOS_BUCKET).getPublicUrl(photoPath).data;
+
+  return `${publicUrl}?v=${new Date(updatedAt).getTime()}`;
 }
