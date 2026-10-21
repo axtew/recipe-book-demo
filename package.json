@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "dev:prod": "vite --mode production",
+    "dev:demo": "vite --mode demo-local",
     "build": "vite build && tsc -b",
+    "build:demo": "vite build --mode demo",
+    "deploy:demo": "pnpm build:demo && wrangler deploy -c wrangler.demo.jsonc",
     "preview": "vite preview",
     "lint": "eslint .",
     "prettier": "prettier --write .",

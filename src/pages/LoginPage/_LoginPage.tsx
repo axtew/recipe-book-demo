@@ -2,6 +2,7 @@ import { Button } from "@/components/Button";
 import { STextInput } from "@/components/TextInput";
 import { B3, Caption2, H1 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
+import { env } from "@/utils/env";
 
 import { SField, SForm, SWrapper } from "./_styles";
 import { useLoginForm } from "./_useLoginForm";
@@ -15,6 +16,11 @@ export function LoginPage() {
   return (
     <SWrapper>
       <H1 textAlign="center">{l.title}</H1>
+      {env.isDemo && (
+        <B3 color="textMuted" textAlign="center">
+          {l.demoHint}
+        </B3>
+      )}
       <SForm onSubmit={handleSubmit}>
         <SField>
           <Caption2 color="textMuted">{l.emailLabel}</Caption2>

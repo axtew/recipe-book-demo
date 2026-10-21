@@ -3,6 +3,7 @@ import type { SubmitEvent } from "react";
 
 import { useSignIn } from "@/hooks/useAuth.hook";
 import { useForm } from "@/hooks/useForm";
+import { env } from "@/utils/env";
 
 type TLoginFields = Record<"email" | "password", string>;
 
@@ -22,8 +23,13 @@ export function useLoginForm(): IUseLoginFormResult {
   const navigate = useNavigate();
   const { redirect } = useSearch({ from: "/login" });
 
+  // В демо поля подставлены, а пустой prevValue делает форму «изменённой» сразу:
+  // иначе «Войти» оставалась бы заблокированной, пока посетитель что-нибудь не изменит.
   const { form, disabled, updateFieldValue, onSubmit } = useForm<TLoginFields>(
-    { email: "", password: "" },
+    {
+      email: { value: env.demoCredentials?.email ?? "", prevValue: "" },
+      password: { value: env.demoCredentials?.password ?? "", prevValue: "" },
+    },
     async (state) => {
       const success = await signIn(state.email.value, state.password.value);
 

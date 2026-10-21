@@ -4,49 +4,55 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    VitePWA({
-      registerType: "autoUpdate",
-      // Словари попадают в precache явно: дефолтные globPatterns Workbox
-      // покрывают только js/css/html, а json проходит мимо service worker'а и
-      // кэшируется браузером эвристически. Тогда новый код может встретиться со
-      // старым словарём, и экран падает на отсутствующем ключе.
-      includeAssets: ["favicon.svg", "dictionaries/*.json"],
-      manifest: {
-        name: "Книга рецептов",
-        short_name: "Рецепты",
-        description: "Справочник продуктов, рецепты с расчётом КБЖУ, журнал готовки",
-        lang: "ru",
-        theme_color: "#1a1a1a",
-        background_color: "#ffffff",
-        display: "standalone",
-        start_url: "/",
-        icons: [
-          {
-            src: "pwa-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-          {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "maskable",
-          },
-        ],
+export default defineConfig(({ mode }) => {
+  // Демо-сборка ставит пометку в название, чтобы иконка стенда на телефоне не
+  // путалась с рабочим приложением.
+  const isDemoBuild = mode === "demo";
+
+  return {
+    plugins: [
+      react(),
+      VitePWA({
+        registerType: "autoUpdate",
+        // Словари попадают в precache явно: дефолтные globPatterns Workbox
+        // покрывают только js/css/html, а json проходит мимо service worker'а и
+        // кэшируется браузером эвристически. Тогда новый код может встретиться со
+        // старым словарём, и экран падает на отсутствующем ключе.
+        includeAssets: ["favicon.svg", "dictionaries/*.json"],
+        manifest: {
+          name: isDemoBuild ? "Книга рецептов (демо)" : "Книга рецептов",
+          short_name: isDemoBuild ? "Рецепты (демо)" : "Рецепты",
+          description: "Справочник продуктов, рецепты с расчётом КБЖУ, журнал готовки",
+          lang: "ru",
+          theme_color: "#1a1a1a",
+          background_color: "#ffffff",
+          display: "standalone",
+          start_url: "/",
+          icons: [
+            {
+              src: "pwa-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+            {
+              src: "pwa-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+            },
+            {
+              src: "pwa-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+              purpose: "maskable",
+            },
+          ],
+        },
+      }),
+    ],
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
-    }),
-  ],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-  },
+  };
 });

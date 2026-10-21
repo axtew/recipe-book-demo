@@ -8,7 +8,11 @@ export interface I18n {
       passwordLabel: string;
       submitButton: string;
       error: string;
+      demoHint: string;
     };
+  };
+  demo: {
+    banner: string;
   };
   navigation: {
     recipes: string;

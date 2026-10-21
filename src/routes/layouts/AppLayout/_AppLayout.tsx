@@ -5,7 +5,9 @@ import { Button } from "@/components/Button";
 import { B2, H2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
 import { useAppDataLoader } from "@/hooks/useAppData.hook";
+import { env } from "@/utils/env";
 
+import { DemoBanner } from "./_internal/DemoBanner";
 import { SCenter, SShell } from "./_styles";
 
 interface IProps {
@@ -18,7 +20,7 @@ interface IProps {
  *
  * Здесь же смонтирован загрузчик датасета — это единственное место под всей
  * залогиненной частью, поэтому данные приезжают целиком независимо от того,
- * какой экран открыли первым.
+ * какой экран открыли первым. В демо-сборке над экраном стоит плашка стенда.
  */
 export function AppLayout({ children }: IProps) {
   const l = useI18nSelector(({ l }) => l.appData);
@@ -52,5 +54,10 @@ export function AppLayout({ children }: IProps) {
     );
   }
 
-  return <SShell>{children}</SShell>;
+  return (
+    <SShell>
+      {env.isDemo && <DemoBanner />}
+      {children}
+    </SShell>
+  );
 }

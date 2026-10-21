@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/Button";
 import { Caption2, H3 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
+import { env } from "@/utils/env";
 import { compressRecipePhoto, readAsDataUrl } from "@/utils/image";
 
 import { SSection } from "../../_styles";
@@ -65,29 +66,32 @@ export function PhotoField({ savedUrl, photoFile, onPick, onRemove }: IProps) {
         <SPreview src={previewUrl} alt={l.alt} />
       )}
 
-      <SActions>
-        <FileInput
-          size="md"
-          accept="image/*"
-          value={null}
-          placeholder={previewUrl === null ? l.choose : l.replace}
-          aria-label={previewUrl === null ? l.choose : l.replace}
-          disabled={isProcessing}
-          onChange={handleChange}
-        />
-        {previewUrl !== null && (
-          <Button
-            variant="dangerOutline"
-            type="button"
-            onClick={() => {
-              setFilePreviewUrl(null);
-              onRemove();
-            }}
-          >
-            {l.remove}
-          </Button>
-        )}
-      </SActions>
+      {/* В демо загрузка закрыта: уже сохранённое фото показывается, менять его нельзя. */}
+      {!env.isDemo && (
+        <SActions>
+          <FileInput
+            size="md"
+            accept="image/*"
+            value={null}
+            placeholder={previewUrl === null ? l.choose : l.replace}
+            aria-label={previewUrl === null ? l.choose : l.replace}
+            disabled={isProcessing}
+            onChange={handleChange}
+          />
+          {previewUrl !== null && (
+            <Button
+              variant="dangerOutline"
+              type="button"
+              onClick={() => {
+                setFilePreviewUrl(null);
+                onRemove();
+              }}
+            >
+              {l.remove}
+            </Button>
+          )}
+        </SActions>
+      )}
 
       {isProcessing && <Caption2 color="textMuted">{l.processing}</Caption2>}
       {hasError && <Caption2 color="danger">{l.error}</Caption2>}
