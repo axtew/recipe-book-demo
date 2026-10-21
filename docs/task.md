@@ -1,3 +1,18 @@
+# Исходное ТЗ
+
+Ниже — исходное ТЗ дословно. Это историческая справка: часть его решений позже отменена или уточнена, действующими считаются [ADR](decisions/README.md). Что именно изменилось:
+
+- Пользователи: не один (жена), а двое; десктопа в v1 нет — [ADR 0001](decisions/0001-personal-app-for-two.md).
+- «Стек, хостинг, деплой не заданы» — решены: [ADR 0003](decisions/0003-spa-pwa-on-vite.md)–[0013](decisions/0013-cloudflare-hosting.md).
+- Единицы: только граммы, без миллилитров; `ProductVariant.is_active` убран (активный вариант — `Product.active_variant_id`); КБЖУ варианта nullable; добавлены `is_approximate` и `source`; предзаполняются только категории блюд, а не 50–80 продуктов — [ADR 0016](decisions/0016-variants-and-active-variant.md).
+- Удалений нет, только `archived_at` — [ADR 0014](decisions/0014-archiving-instead-of-deletes.md).
+- У рецепта несколько категорий блюд вместо одной (`dish_category_id` убран) — [ADR 0019](decisions/0019-dish-categories-many-to-many.md).
+- Шаги — отдельная таблица, фото одно, вес блюда — без новых полей, экспорт в JSON с первой версии — [ADR 0020](decisions/0020-recipe-content-and-backup.md).
+- `CookLog` хранит снимок КБЖУ, даты — строки `YYYY-MM-DD` — [ADR 0018](decisions/0018-cook-log-snapshot-and-dates.md).
+- Формулировки ТЗ написаны в женском роде; текст интерфейса не привязан к полу — [`conventions/i18n.md`](agents/conventions/i18n.md).
+
+---
+
 # Задача: приложение «Книга рецептов» — версия 1
 
 ## Контекст
