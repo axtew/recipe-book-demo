@@ -1,23 +1,23 @@
-# 0009. Пакетный менеджер — pnpm
+# 0009. Package manager is pnpm
 
-- Статус: принято
-- Дата: 2026-08-31
+- Status: accepted
+- Date: 2026-08-31
 
-## Контекст и проблема
+## Context and problem
 
-Выбор pnpm изначально был молчаливым дефолтом исполнителя, обсуждения не было; обосновано задним числом 2026-08-31. Рабочие проекты владельца (`Carbon-spa`, `ecovion`, `aramco`) на Yarn 4, и по принципу «как на работе, чтобы не переучиваться» логичнее было бы взять Yarn.
+The choice of pnpm was originally the executor's silent default, with no discussion; it was justified retroactively on 2026-08-31. The owner's work projects (`Carbon-spa`, `ecovion`, `aramco`) use Yarn 4, and by the principle "same as at work, so there is nothing to relearn" Yarn would be the logical choice.
 
-## Рассмотренные варианты
+## Considered options
 
 1. **pnpm.**
-2. Yarn 4 — как в рабочих проектах. При разборе выяснилось, что исходная причина выбора Yarn там — workspaces для репозитория с вложенными гит-проектами — больше не задействована: `workspaces` не объявлены ни в одном из трёх.
-3. Bun — как менеджер быстрее всех, но это лишний инструмент с иным поведением в краевых случаях и неочевидной поддержкой в сборщике Cloudflare Pages; всерьёз не рассматривался.
-4. Deno — рантайм, а не менеджер для Vite-проекта; всерьёз не рассматривался.
+2. Yarn 4 — as in the work projects. The analysis showed that the original reason for choosing Yarn there — workspaces for a repository with nested git projects — is no longer in use: `workspaces` is not declared in any of the three.
+3. Bun — the fastest as a manager, but it is an extra tool with different behaviour in edge cases and unclear support in the Cloudflare Pages builder; not seriously considered.
+4. Deno — a runtime, not a manager for a Vite project; not seriously considered.
 
-## Решение
+## Decision
 
-**pnpm.** Владелец решил, наоборот, перевести рабочие проекты на pnpm.
+**pnpm.** The owner decided, on the contrary, to move the work projects to pnpm.
 
-## Последствия
+## Consequences
 
-- На скорость **сборки** пакетный менеджер не влияет вообще — её делают Vite, esbuild/Rollup и `tsc`. Влияет только на время установки зависимостей и на место на диске (общее хранилище с хардлинками).
+- The package manager has no effect on **build** speed at all — that is determined by Vite, esbuild/Rollup and `tsc`. It affects only the dependency installation time and the disk space (a shared store with hardlinks).

@@ -1,33 +1,33 @@
-# 0025. Структура репозитория и конвенции кода — из `Carbon-spa`, с правками
+# 0025. Repository structure and code conventions come from `Carbon-spa`, with changes
 
-- Статус: принято
-- Дата: 2026-08-30
+- Status: accepted
+- Date: 2026-08-30
 
-## Контекст и проблема
+## Context and problem
 
-Конвенции и структура проекта переносятся из рабочего проекта `Carbon-spa` (перенос инструкций — 2026-08-29/30). Нужно решить, что берётся как есть, что меняется и что отбрасывается.
+The project conventions and structure are ported from the work project `Carbon-spa` (instruction port — 2026-08-29/30). We need to decide what is taken as is, what is changed and what is dropped.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Взять структуру и конвенции целиком, поправив точечно.**
-2. Писать собственные с нуля.
+1. **Take the structure and conventions whole, with targeted corrections.**
+2. Write our own from scratch.
 
-Точечные развилки:
-- «только `_internal/`» или `_internal/` + `fragments/`;
-- правило «no `&&` hacks»;
-- правило «border-width ≥ 2px и кратно 2»;
-- отдельный файл `50-code-style.md` для правил размещения.
+Targeted forks:
+- "only `_internal/`" or `_internal/` + `fragments/`;
+- the "no `&&` hacks" rule;
+- the "border-width ≥ 2px and a multiple of 2" rule;
+- a separate file `50-code-style.md` for the placement rules.
 
-## Решение
+## Decision
 
-- **Структура и конвенции берутся из `Carbon-spa` целиком.** (Исходно — сборка инструкций скриптом из частей; раскладка изменена в 2026-10-21, см. «Последствия».)
-- **Только `_internal/`, без `fragments/`.** В `Carbon-spa` `fragments/` — легаси из старых проектов, которое забыли вычистить; здесь фиксируем один термин сразу.
-- **Правила размещения собраны в один раздел** — «Размещение — одна лестница для всего вынесенного» ([`conventions/structure.md`](../agents/conventions/structure.md)). Лестница формулируется один раз и применяется к типам, хелперам, константам, хукам и подкомпонентам. До этого она была описана дважды и частично: шаги «подъём на уровень компонента» и «подъём на уровень группы» не были описаны вообще. Отдельный файл `50-code-style.md` заводить не стали: в общей части уже лежал именно code style целиком, переезжать туда было нечему.
-- **Страницы и роуты разведены:** `src/routes/` — только дерево, экран — в `src/pages/<Name>Page/` ([ADR 0006](0006-tanstack-router-code-based.md)).
-- **Правило «no `&&` hacks» не вводим** до первого реального случая. Задел под будущие shared-компоненты, которых пока нет; единственное текущее применение `&&` — повышение специфичности над Mantine, и оно санкционировано явно.
-- **Правило «border-width ≥ 2px и кратно 2» убрано** из перенесённого generic-ядра. Оно решало проблему исчезающих и мылящихся hairline-границ на дробных device pixel ratio и в трансформированных контейнерах; на современных iOS Safari при DPR 2–3 граница в 1px попадает ровно в 2–3 физических пикселя и рисуется чётко. Здесь дизайн-источника нет, а Mantine рисует границы в 1px — правило заставляло бы переопределять кит на каждом компоненте ради соответствия несуществующему макету. Если на реальном iPhone какая-то граница будет выглядеть плохо — лечим точечно. В `Carbon-spa` это правило не трогали: там оно про их дизайн-систему и их набор устройств, решение отдельное.
+- **The structure and conventions are taken from `Carbon-spa` whole.** (Originally the instructions were assembled by a script from parts; the layout was changed on 2026-10-21, see "Consequences".)
+- **Only `_internal/`, no `fragments/`.** In `Carbon-spa`, `fragments/` is legacy from old projects that nobody cleaned out; here we fix a single term right away.
+- **The placement rules are collected in one section** — "Placement — one ladder for everything extracted" ([`conventions/structure.md`](../agents/conventions/structure.md)). The ladder is stated once and applied to types, helpers, constants, hooks and subcomponents. Before that it was described twice and partially: the steps "lift to the component level" and "lift to the group level" were not described at all. We did not create a separate file `50-code-style.md`: the generic part already held the whole code style, so there was nothing to move there.
+- **Pages and routes are separated:** `src/routes/` holds only the tree, a screen lives in `src/pages/<Name>Page/` ([ADR 0006](0006-tanstack-router-code-based.md)).
+- **The "no `&&` hacks" rule is not introduced** until the first real case. It is a reserve for future shared components, which do not exist yet; the only current use of `&&` is raising specificity over Mantine, and it is explicitly sanctioned.
+- **The "border-width ≥ 2px and a multiple of 2" rule is removed** from the ported generic core. It solved the problem of disappearing and blurry hairline borders at fractional device pixel ratios and inside transformed containers; on modern iOS Safari at DPR 2–3 a 1px border lands on exactly 2–3 physical pixels and is drawn crisply. There is no design source here, and Mantine draws borders at 1px — the rule would force overriding the kit on every component to match a non-existent mockup. If some border looks bad on a real iPhone, we fix it point by point. In `Carbon-spa` the rule was not touched: there it concerns their design system and their set of devices, a separate decision.
 
-## Последствия
+## Consequences
 
-- Исходная раскладка: конвенции — отдельные части, которые генератор собирал в один файл, плюс профиль пайплайна для глобальных агентов (прежние имена — в таблице «Старое имя → новое» в [`plans/README.md`](../../plans/README.md)). С 2026-10-21 раскладка другая: [`AGENTS.md`](../../AGENTS.md) — карта, конвенции по темам в [`docs/agents/conventions/`](../agents/conventions/), профиль пайплайна — [`docs/agents/pipeline-profile.md`](../agents/pipeline-profile.md); генерация отменена.
-- Язык конвенций и документации — [ADR 0031](0031-russian-language-of-repository.md).
+- The original layout: conventions were separate parts that a generator assembled into one file, plus a pipeline profile for the global agents (the former names are in the "Old name → new" table in [`plans/README.md`](../../plans/README.md)). Since 2026-10-21 the layout is different: [`AGENTS.md`](../../AGENTS.md) is the map, conventions by topic are in [`docs/agents/conventions/`](../agents/conventions/), the pipeline profile is [`docs/agents/pipeline-profile.md`](../agents/pipeline-profile.md); generation is cancelled.
+- The language of conventions and documentation — [ADR 0031](0031-russian-language-of-repository.md).

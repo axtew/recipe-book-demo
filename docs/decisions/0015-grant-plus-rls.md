@@ -1,24 +1,24 @@
-# 0015. Доступ к данным = грант + политика RLS
+# 0015. Data access = grant + RLS policy
 
-- Статус: принято
-- Дата: 2026-08-18
+- Status: accepted
+- Date: 2026-08-18
 
-## Контекст и проблема
+## Context and problem
 
-Ревью Фазы 1 и миграции `20260817172518` нашли два дефекта: `RLS-1` (политики были только у `products`, забыты на 7 таблицах из 8) и `GRANT-1` (у `authenticated` не было прав `SELECT/INSERT/UPDATE` — запрос падал с `42501` ещё до RLS).
+The review of Phase 1 and of migration `20260817172518` found two defects: `RLS-1` (policies existed only on `products`, forgotten on 7 of 8 tables) and `GRANT-1` (`authenticated` had no `SELECT/INSERT/UPDATE` privileges — the query failed with `42501` even before RLS).
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Два независимых рубежа — грант и политика, с чек-листом на новую таблицу.**
-2. `alter default privileges` — чтобы новая таблица получала права автоматически.
+1. **Two independent barriers — grant and policy, with a checklist for a new table.**
+2. `alter default privileges` — so that a new table gets privileges automatically.
 
-## Решение
+## Decision
 
-**Доступ к данным = грант + политика RLS, два независимых рубежа.** Грант решает, можно ли обращаться к таблице (иначе `42501`), политика — какие строки видны. Забыть можно любой: без политики пустой список без ошибки, без гранта явная ошибка. Чек-лист на новую таблицу: `enable rls` + политика + `grant`.
+**Data access = grant + RLS policy, two independent barriers.** The grant decides whether the table can be accessed at all (otherwise `42501`), the policy decides which rows are visible. Either can be forgotten: without a policy the list is empty with no error, without a grant there is an explicit error. Checklist for a new table: `enable rls` + policy + `grant`.
 
-**`alter default privileges` не используется** намеренно: новая таблица должна падать с внятным `42501`, а не получать права молча.
+**`alter default privileges` is deliberately not used:** a new table should fail with a clear `42501`, not get privileges silently.
 
-## Последствия
+## Consequences
 
-- Право `DELETE` выдаётся избирательно — [ADR 0014](0014-archiving-instead-of-deletes.md).
-- Политики пишутся единообразно (`using (true)` для `authenticated`), чтобы замена на проверку членства была механической — [ADR 0029](0029-multi-tenancy-deferred.md). Регистрация при этом выключена — [ADR 0011](0011-manual-accounts-signup-off.md).
+- The `DELETE` privilege is granted selectively — [ADR 0014](0014-archiving-instead-of-deletes.md).
+- Policies are written uniformly (`using (true)` for `authenticated`) so that replacing them with a membership check is mechanical — [ADR 0029](0029-multi-tenancy-deferred.md). Sign-up is off meanwhile — [ADR 0011](0011-manual-accounts-signup-off.md).

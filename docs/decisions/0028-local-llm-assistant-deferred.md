@@ -1,29 +1,29 @@
-# 0028. Локальная LLM — задел под v2+, не делаем сейчас
+# 0028. Local LLM is a reserve for v2+, not doing now
 
-- Статус: отложено
-- Дата: 2026-08-02
+- Status: deferred
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Возможный ассистент (разбор рецепта, сопоставление продуктов, планирование меню) требует модели. Нужно заложить границы так, чтобы потом это было дёшево, и не делать ничего в v1.
+A possible assistant (recipe parsing, product matching, menu planning) needs a model. The boundaries must be laid down so that this is cheap later, and nothing is done in v1.
 
-Железо: RTX 3070 8 ГБ VRAM, 16 ГБ RAM, Windows. Реалистично: модели 7–9B в квантовании Q4 (~5 ГБ) с контекстом 8–16k, скорость бодрая. 12–14B уже не влезают целиком, частичная выгрузка в RAM резко замедляет. Запуск — через Ollama или LM Studio.
+Hardware: RTX 3070 with 8 GB VRAM, 16 GB RAM, Windows. Realistically: 7–9B models quantised to Q4 (~5 GB) with a context of 8–16k, the speed is brisk. 12–14B no longer fit entirely, and partial offloading to RAM slows things down sharply. Run through Ollama or LM Studio.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Не делать в v1, структуру закладываем.**
-2. Облачный API — как fallback для тяжёлых диалоговых задач (планирование меню): локальной 8B может не хватить; стоит копейки при таком объёме.
-3. RAG и векторная база — **не нужны**: двести рецептов целиком влезают в контекст. `pgvector` в Supabase есть, если вдруг понадобится.
+1. **Do not do it in v1, lay down the structure.**
+2. A cloud API — as a fallback for heavy conversational tasks (menu planning): a local 8B may not be enough; it costs pennies at this volume.
+3. RAG and a vector database — **not needed**: two hundred recipes fit into the context entirely. `pgvector` exists in Supabase if it is ever needed.
 
-## Решение
+## Decision
 
-- **LLM не считает КБЖУ** ([ADR 0017](0017-nutrition-module-purity.md)). Модели галлюцинируют числа, а неверные цифры хуже отсутствующих. LLM делает извлечение и сопоставление, детерминированный TS-модуль делает всю арифметику.
-- **Ассистент — ускоритель, а не зависимость.** Ноут спит → приложение работает полностью, просто без «заполни за меня». Никакой основной экран не должен требовать LLM.
-- Всё, что предложила модель, помечается `source: 'llm'` + `is_approximate` и требует подтверждения человеком.
-- Границы, которые надо соблюсти в v1, чтобы потом было дёшево: zod-схемы на все сущности, чистый модуль расчёта, слой доступа к данным отдельно от компонентов.
+- **The LLM does not calculate nutrition** ([ADR 0017](0017-nutrition-module-purity.md)). Models hallucinate numbers, and wrong numbers are worse than missing ones. The LLM does extraction and matching, a deterministic TS module does all the arithmetic.
+- **The assistant is an accelerator, not a dependency.** The laptop sleeps → the app works fully, just without "fill it in for me". No main screen must require an LLM.
+- Everything the model suggested is marked `source: 'llm'` + `is_approximate` and requires confirmation by a human.
+- The boundaries that must be kept in v1 so that it is cheap later: zod schemas for all entities, a pure calculation module, a data access layer separate from components.
 
-## Последствия
+## Consequences
 
-- Vision-модель 7B (класса Qwen-VL) в 8 ГБ влезает — это прямой путь к «перенести рецепт со скриншота», самой ценной фиче v2. Но распознавание этикетки решено через облачный API ([ADR 0027](0027-external-nutrition-sources.md)).
-- Если появится локальная LLM — понадобится проброс наружу без белого IP ([ADR 0013](0013-cloudflare-hosting.md)).
-- Идеи — [`BACKLOG.md`](../../BACKLOG.md) («Ассистент планирования», «Импорт рецепта из скриншота или по ссылке»).
+- A 7B vision model (of the Qwen-VL class) fits in 8 GB — a direct path to "import a recipe from a screenshot", the most valuable v2 feature. But label recognition was decided through a cloud API ([ADR 0027](0027-external-nutrition-sources.md)).
+- If a local LLM appears, exposing it to the outside without a public IP will be needed ([ADR 0013](0013-cloudflare-hosting.md)).
+- Ideas — [`BACKLOG.md`](../../BACKLOG.md) ("Planning assistant", "Recipe import from a screenshot or a link").

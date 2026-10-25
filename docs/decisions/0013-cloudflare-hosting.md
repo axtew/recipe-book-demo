@@ -1,26 +1,26 @@
-# 0013. Фронт хостится в облаке на Cloudflare
+# 0013. The frontend is hosted in the cloud on Cloudflare
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Нужно место, откуда отдаётся статика приложения. Дома ничего крутиться не должно.
+We need a place that serves the app's static files. Nothing should run at home.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Облако: статика на Cloudflare Pages или Vercel, деплой из гита.**
-2. Хостинг дома — потребовал бы белый IP и проброс наружу.
+1. **Cloud: static files on Cloudflare Pages or Vercel, deployed from git.**
+2. Hosting at home — would require a public IP and port forwarding.
 
-## Решение
+## Decision
 
-**Хостинг фронта — облако, не дома.** Статика на Cloudflare Pages или Vercel, деплой из гита. Дома ничего не крутится, белый IP не нужен.
+**The frontend is hosted in the cloud, not at home.** Static files on Cloudflare Pages or Vercel, deployed from git. Nothing runs at home, no public IP is needed.
 
-Открыто на момент решения:
+Open at the time of the decision:
 
-- **Домен** — пока `*.pages.dev`. Свой домен отложен вместе с локальным хостингом LLM.
-- **Проброс наружу без белого IP** — понадобится, только если когда-нибудь появится **локальная** LLM ([ADR 0028](0028-local-llm-assistant-deferred.md)). Варианты: Tailscale (приватная сеть, рекомендую) или Cloudflare Tunnel (публичный HTTPS + Cloudflare Access). Оба работают из-под CGNAT, порты пробрасывать не надо. Ни одна из запланированных фич домашнего хостинга не требует: распознавание этикетки ушло в облачный vision-API ([ADR 0027](0027-external-nutrition-sources.md)).
+- **Domain** — for now `*.pages.dev`. A custom domain is deferred together with local LLM hosting.
+- **Exposing to the outside without a public IP** — needed only if a **local** LLM ever appears ([ADR 0028](0028-local-llm-assistant-deferred.md)). Options: Tailscale (a private network, recommended) or Cloudflare Tunnel (public HTTPS + Cloudflare Access). Both work behind CGNAT, no ports need forwarding. None of the planned features requires home hosting: label recognition moved to a cloud vision API ([ADR 0027](0027-external-nutrition-sources.md)).
 
-## Последствия
+## Consequences
 
-- Приложение фактически выкачено на Cloudflare Workers (статические ассеты, `wrangler.jsonc`); порядок деплоя, домены и откат — `DEPLOY.md` (только в рабочем репозитории; для своего развёртывания — раздел [«Deploy your own»](../../README.md#deploy-your-own) в README).
+- The app is actually deployed on Cloudflare Workers (static assets, `wrangler.jsonc`); the deploy procedure, domains and rollback are in `DEPLOY.md` (working repository only; for your own deployment, see the ["Deploy your own"](../../README.md#deploy-your-own) section of the README).

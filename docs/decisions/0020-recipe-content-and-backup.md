@@ -1,34 +1,34 @@
-# 0020. Содержимое рецепта: шаги, одно фото, вес блюда; экспорт в JSON
+# 0020. Recipe content: steps, one photo, dish weight; export to JSON
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Нужно решить форму хранения шагов и фото рецепта, как учитывать вес сырья и готового блюда, и как делать бэкап. Вопрос веса обсуждался 2026-08-17: не нужны ли отдельные поля для веса сырья и веса готового блюда.
+We need to decide how recipe steps and photos are stored, how to account for the weight of raw ingredients and of the finished dish, and how to make a backup. The weight question was discussed on 2026-08-17: whether separate fields are needed for the raw weight and for the finished dish weight.
 
-## Рассмотренные варианты
+## Considered options
 
-Вес:
-1. **Без дополнительных полей** — три нужные величины уже есть (см. ниже).
-2. Отдельное поле веса сырья — отвергнуто: это производная величина, хранить её значило бы дублировать данные; правишь граммовку ингредиента — сохранённая сумма молча расходится с реальностью.
+Weight:
+1. **No extra fields** — the three needed values already exist (see below).
+2. A separate raw weight field — rejected: it is a derived value, storing it would duplicate data; if you edit an ingredient's grams, the saved sum silently diverges from reality.
 
-Шаги: jsonb в рецепте против отдельной таблицы.
+Steps: jsonb in the recipe versus a separate table.
 
-Бакет фото: публичный против signed URL.
+Photo bucket: public versus signed URL.
 
-## Решение
+## Decision
 
-- **Шаги приготовления — отдельная таблица** `RecipeStep(id, recipe_id, sort_order, text)`, не jsonb. Причина: `sort_order` для переупорядочивания, задел под таймеры в v2.
-- **Фото рецепта — одно**, обложка. Клиентское сжатие до ~1200px WebP перед загрузкой в Supabase Storage.
-- **Бакет `recipe-photos` публичный.** Стабильный URL кэшируется service worker'ом и фото видно офлайн; signed URL протухает и офлайн ломает. Риска нет — фото еды по адресу со случайным UUID.
-- **Вес блюда — три величины, дополнительных полей не нужно:**
-  - вес сырья — сумма `amount_grams` неопциональных ингредиентов, **производная величина**, считается в модуле расчёта;
-  - `recipes.yield_grams` — ожидаемый вес готового блюда по рецепту, nullable; делитель для КБЖУ на 100 г, если известен;
-  - `cook_logs.actual_yield_grams` — фактический выход конкретной готовки; из него в v2 берётся реальный средний коэффициент.
-- **Экспорт всей базы в JSON — с первой версии, для бэкапа.** Импорт валидируется через zod ([ADR 0007](0007-zod-and-own-form-hook.md)).
+- **Cooking steps are a separate table** `RecipeStep(id, recipe_id, sort_order, text)`, not jsonb. Reason: `sort_order` for reordering, a reserve for timers in v2.
+- **One recipe photo**, the cover. Client-side compression to ~1200px WebP before uploading to Supabase Storage.
+- **The `recipe-photos` bucket is public.** A stable URL is cached by the service worker and the photo is visible offline; a signed URL expires and breaks offline. There is no risk — it is a photo of food at an address with a random UUID.
+- **Dish weight is three values, no extra fields are needed:**
+  - raw weight — the sum of `amount_grams` of the non-optional ingredients, a **derived value**, calculated in the calculation module;
+  - `recipes.yield_grams` — the expected weight of the finished dish according to the recipe, nullable; the divisor for nutrition per 100 g, if known;
+  - `cook_logs.actual_yield_grams` — the actual output of a particular cook; in v2 the real average coefficient is taken from it.
+- **Export of the whole database to JSON — from the first version, for backup.** The import is validated through zod ([ADR 0007](0007-zod-and-own-form-hook.md)).
 
-## Последствия
+## Consequences
 
-- Вес не всегда уменьшается: крупы и макароны его набирают (рис ×2.5–3, паста ×2.2), у мяса уходит и вода, и вытопленный жир. Модель «ушедший вес = вода» неверна, и хорошо, что нигде на неё не заложились. Коэффициент `yield / вес сырья` получается из уже хранимых величин бесплатно.
-- Отложенные доработки бэкапа (автобэкап экспорта, бэкап вместе с фото, импорт в непустую базу) — в [`BACKLOG.md`](../../BACKLOG.md).
+- Weight does not always decrease: grains and pasta gain it (rice ×2.5–3, pasta ×2.2), meat loses both water and rendered fat. The model "lost weight = water" is wrong, and it is good that nothing was built on it. The coefficient `yield / raw weight` comes for free from the values already stored.
+- Deferred backup improvements (automatic export backup, backup together with photos, import into a non-empty database) are in [`BACKLOG.md`](../../BACKLOG.md).

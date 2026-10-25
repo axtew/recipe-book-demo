@@ -1,28 +1,28 @@
-# 0005. TanStack Query с кэшем в IndexedDB: чтение офлайн, запись только онлайн
+# 0005. TanStack Query with an IndexedDB cache: read offline, write online only
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Серверное состояние нужно кэшировать, инвалидировать по ключам и переживать пропадание сети. Пользователи живут в Дананге (Вьетнам), где связность нестабильна: подводные кабели AAG и APG рвутся по нескольку раз в год, международный трафик деградирует на дни.
+Server state must be cached, invalidated by keys and survive a dropped network. The users live in Da Nang (Vietnam), where connectivity is unstable: the AAG and APG submarine cables break several times a year, and international traffic degrades for days.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **TanStack Query v5** + `persistQueryClient` в IndexedDB.
-2. Синхронный `query-sync-storage-persister` (localStorage) — не подошёл: у localStorage лимит ~5 МБ и синхронный доступ, а мы грузим весь датасет целиком.
-3. Outbox-очередь мутаций для записи офлайн — отложено.
+1. **TanStack Query v5** + `persistQueryClient` into IndexedDB.
+2. The synchronous `query-sync-storage-persister` (localStorage) — did not fit: localStorage has a ~5 MB limit and synchronous access, while we load the whole dataset.
+3. An outbox queue of mutations for offline writes — deferred.
 
-## Решение
+## Decision
 
-- **TanStack Query v5** — кэш серверного состояния, инвалидация по ключам, `persistQueryClient` в IndexedDB (отсюда офлайн-чтение).
-- Персистентность: **`@tanstack/react-query-persist-client` + `@tanstack/query-async-storage-persister` + `idb-keyval`** (одобрено задним числом 2026-08-30). `idb-keyval` — тонкая обёртка над IndexedDB.
-- **Офлайн: чтение — да, запись — нет**, запись требует сети. Черновик рецепта автосохраняется в `localStorage` независимо от сети — это отдельный механизм, требование ТЗ.
-- Если выяснится, что ввод реально теряется на кухне без вайфая, — добавим outbox-очередь мутаций: локальная доработка, архитектуру не ломает.
+- **TanStack Query v5** — server state cache, invalidation by keys, `persistQueryClient` into IndexedDB (hence offline reading).
+- Persistence: **`@tanstack/react-query-persist-client` + `@tanstack/query-async-storage-persister` + `idb-keyval`** (approved retroactively on 2026-08-30). `idb-keyval` is a thin wrapper over IndexedDB.
+- **Offline: reading — yes, writing — no**; writing requires a network. The recipe draft is autosaved to `localStorage` regardless of the network — this is a separate mechanism, a requirement of the brief.
+- If it turns out that input is really lost in the kitchen without wifi, we will add an outbox queue of mutations: a local change that does not break the architecture.
 
-## Последствия
+## Consequences
 
-- Пакет `idb-keyval` был поставлен исполнителем без спроса, вопреки правилу о новых зависимостях. Выбор верный, нарушен процесс. Чтобы не повторялось, в план добавлен закрытый список зависимостей на фазу: теперь это сверка со списком, а не суждение исполнителя о том, что считать новой зависимостью.
-- `@tanstack/query-persist-client-core` в прямых зависимостях, скорее всего, лишний — он транзитивный для двух пакетов выше. Не блокер, чистка при случае.
-- Нестабильная связность — второй аргумент за persisted-кэш (и за регион Сингапур, [ADR 0010](0010-supabase-without-own-backend.md)).
-- Как это устроено — [`architecture.md`](../agents/architecture.md).
+- The `idb-keyval` package was installed by the executor without asking, against the rule about new dependencies. The choice was right, the process was violated. To prevent a repeat, a closed list of dependencies per phase was added to the plan: it is now a check against the list, not the executor's judgement of what counts as a new dependency.
+- `@tanstack/query-persist-client-core` in the direct dependencies is most likely redundant — it is transitive for the two packages above. Not a blocker, to be cleaned up when convenient.
+- Unstable connectivity is the second argument for a persisted cache (and for the Singapore region, [ADR 0010](0010-supabase-without-own-backend.md)).
+- How this works — [`architecture.md`](../agents/architecture.md).

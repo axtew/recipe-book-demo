@@ -1,23 +1,23 @@
-# 0019. Категории блюд — много-ко-многим
+# 0019. Dish categories are many-to-many
 
-- Статус: принято
-- Дата: 2026-08-18
+- Status: accepted
+- Date: 2026-08-18
 
-## Контекст и проблема
+## Context and problem
 
-Исходная постановка (бывшая развилка Р-5): `recipes.dish_category_id` — одна обязательная категория. Замечание владельца справедливое: блины — это и завтрак, и десерт. Менять **сейчас** дёшево (рецептов в базе нет), потом — миграция плюс правка главного экрана.
+The original statement (the former fork R-5): `recipes.dish_category_id` — one mandatory category. The owner's remark is fair: pancakes are both breakfast and dessert. Changing it **now** is cheap (there are no recipes in the database), later it is a migration plus a change to the main screen.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Оставить одну.** Ничего не менять.
-2. **Много-ко-многим** — таблица `recipe_dish_categories(recipe_id, dish_category_id)`. Схема дешевле всего (одна связующая таблица, никаких новых понятий), на главном экране рецепт появляется в каждой подходящей группе. Минус — рецепт виден несколько раз, счётчики «всего рецептов» становятся неоднозначными.
-3. **Одна основная + теги** — категория определяет группировку на главном экране (одно место у рецепта), теги участвуют в фильтрах. Продуктово аккуратнее, но это новая сущность `tags` + связь, то есть рост объёма работ.
+1. **Keep one.** Change nothing.
+2. **Many-to-many** — a table `recipe_dish_categories(recipe_id, dish_category_id)`. The cheapest schema (one link table, no new concepts), and on the main screen a recipe appears in every matching group. The downside is that a recipe is visible several times, and the "total recipes" counters become ambiguous.
+3. **One main category + tags** — the category defines the grouping on the main screen (one place per recipe), tags take part in filters. Neater product-wise, but it is a new `tags` entity + a link, that is, more work.
 
-## Решение
+## Decision
 
-**Много-ко-многим**, таблица `recipe_dish_categories(recipe_id, dish_category_id)` с составным первичным ключом. Столбец `recipes.dish_category_id` удалён.
+**Many-to-many**, the table `recipe_dish_categories(recipe_id, dish_category_id)` with a composite primary key. The column `recipes.dish_category_id` is removed.
 
-## Последствия
+## Consequences
 
-- Рецепт появляется в каждой подходящей группе на главном экране, и у него может быть **ноль** категорий: «хотя бы одна» простым ограничением не выражается, это проверяет форма, а список обязан показать группу «Без категории».
-- `DELETE` на `recipe_dish_categories` выдан: строка живёт внутри родителя ([ADR 0014](0014-archiving-instead-of-deletes.md)).
+- A recipe appears in every matching group on the main screen, and it may have **zero** categories: "at least one" cannot be expressed by a simple constraint, so the form checks it, and the list must show an "Uncategorized" group.
+- `DELETE` on `recipe_dish_categories` is granted: the row lives inside its parent ([ADR 0014](0014-archiving-instead-of-deletes.md)).

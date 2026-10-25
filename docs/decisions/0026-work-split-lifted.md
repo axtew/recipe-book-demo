@@ -1,25 +1,25 @@
-# 0026. Разделение работ снято: исполнители пишут всё, включая базу
+# 0026. The work split is lifted: executors write everything, including the database
 
-- Статус: принято
-- Дата: 2026-10-18
+- Status: accepted
+- Date: 2026-10-18
 
-## Контекст и проблема
+## Context and problem
 
-С 2026-09-08 слой данных писал владелец руками: сервисы, хуки TanStack Query, схемы zod, мутации в несколько таблиц — проект был ещё и учебным. Владелец хотел разобраться в языке запросов, а также в кэшировании, инвалидации, персистентности и валидации сам. Цена того решения: фазы 6–12 ждали не только сервисов, но и хуков — единственная точка, где весь план упирался в одного человека.
+Since 2026-09-08 the owner wrote the data layer by hand: services, TanStack Query hooks, zod schemas, multi-table mutations — the project was also a learning one. The owner wanted to understand the query language, as well as caching, invalidation, persistence and validation, on their own. The price of that decision: phases 6–12 waited not only for services but also for hooks — the only point where the whole plan depended on one person.
 
-Прежняя граница (2026-09-08): запрет для исполнителей на `src/api/**` целиком (иначе исполнитель, которому нужен новый запрос, честно допишет себе хук — формально не нарушив ни одного правила), кроме мутации в одну таблицу (там нечему разъехаться, а образец уже написан); `src/domain/schemas/**` и `src/domain/backup/**` — тоже зона владельца; всё, что пишет в несколько таблиц, идёт несколькими шагами или грузит в Storage, — у владельца. Граница проверяемая: считается число таблиц.
+The previous boundary (2026-09-08): executors were forbidden from touching `src/api/**` entirely (otherwise an executor who needs a new query would honestly write the hook for themselves — formally violating no rule), except for a single-table mutation (nothing can diverge there, and the reference is already written); `src/domain/schemas/**` and `src/domain/backup/**` were also the owner's zone; everything that writes to several tables, goes in several steps or uploads to Storage belonged to the owner. The boundary is checkable: the number of tables is counted.
 
-## Рассмотренные варианты
+## Considered options
 
-1. Сохранить разделение (владелец пишет слой данных и схемы).
-2. **Снять разделение:** обучение вынесено за пределы проекта, приоритет — запустить приложение.
+1. Keep the split (the owner writes the data layer and the schemas).
+2. **Lift the split:** learning is moved outside the project, the priority is to launch the app.
 
-## Решение
+## Decision
 
-**Исполнители пишут всё, включая базу.** Владелец решил вынести обучение за пределы проекта: приоритет — запустить приложение. Отменяет разделение из решения 2026-09-08 и шагов `B6`–`B9` бэкенд-трека.
+**Executors write everything, including the database.** The owner decided to move learning outside the project: the priority is to launch the app. This cancels the split from the decision of 2026-09-08 and steps `B6`–`B9` of the backend track.
 
-За владельцем остаётся то, что трогает рабочую базу и доступы: `npx supabase db push` в облако, файлы `.env*`, дашборды Supabase и Cloudflare. Исполнитель применяет миграции только к локальной базе и сообщает, что пора выкатить.
+What stays with the owner is whatever touches the working database and access: `npx supabase db push` to the cloud, the `.env*` files, the Supabase and Cloudflare dashboards. The executor applies migrations to the local database only and reports that it is time to roll them out.
 
-## Последствия
+## Consequences
 
-- Технические правила, выработанные за время ручной работы, остаются в силе: многошаговые записи — функцией в базе через `rpc` ([ADR 0023](0023-rpc-for-multi-step-writes.md)), `security invoker`, явные `grant` ([ADR 0015](0015-grant-plus-rls.md)), `satisfies` между схемой ввода и интерфейсом, `CACHE_BUSTER` при смене формы сущности. Они записаны в [`AGENTS.md`](../../AGENTS.md) и конвенциях ([`conventions/data.md`](../agents/conventions/data.md)), а не держались на том, кто пишет код.
+- The technical rules worked out during the manual work stay in force: multi-step writes are a database function through `rpc` ([ADR 0023](0023-rpc-for-multi-step-writes.md)), `security invoker`, explicit `grant`s ([ADR 0015](0015-grant-plus-rls.md)), `satisfies` between the input schema and the interface, `CACHE_BUSTER` when an entity's shape changes. They are written down in [`AGENTS.md`](../../AGENTS.md) and the conventions ([`conventions/data.md`](../agents/conventions/data.md)), and did not depend on who writes the code.

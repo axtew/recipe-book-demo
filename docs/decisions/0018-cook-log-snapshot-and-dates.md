@@ -1,25 +1,25 @@
-# 0018. Журнал готовки хранит снимок КБЖУ; даты — строки без часовых поясов
+# 0018. The cook log stores a nutrition snapshot; dates are strings without time zones
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-КБЖУ рецепта пересчитывается от активных вариантов продуктов ([ADR 0016](0016-variants-and-active-variant.md)). Если журнал готовки будет ссылаться на живые данные, история поплывёт при смене марки продукта.
+Recipe nutrition is recalculated from the active variants of products ([ADR 0016](0016-variants-and-active-variant.md)). If the cook log refers to live data, the history will drift when a product's brand changes.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Снимок в `cook_logs`** — замороженный документ.
-2. Нормализованные таблицы снимка — отвергнуто: снимок реляционно не запрашивается.
-3. Пересчёт журнала от текущих данных — переписывал бы историю задним числом.
+1. **A snapshot in `cook_logs`** — a frozen document.
+2. Normalised snapshot tables — rejected: the snapshot is not queried relationally.
+3. Recalculating the log from current data — would rewrite history retroactively.
 
-## Решение
+## Decision
 
-- **`CookLog` хранит снапшот** КБЖУ и фактически использованных вариантов на момент готовки. История не переписывается задним числом при смене активного варианта.
-- **Снапшот в `cook_logs` — одно поле `jsonb`**, не нормализованные таблицы. Это замороженный документ, реляционно не запрашивается.
-- **Даты `cooked_at` / `finished_at` — `date` без времени**, в TS строки `YYYY-MM-DD`. Никаких `Date` и часовых поясов.
+- **`CookLog` stores a snapshot** of the nutrition and of the variants actually used at the moment of cooking. History is not rewritten retroactively when the active variant changes.
+- **The snapshot in `cook_logs` is a single `jsonb` field**, not normalised tables. It is a frozen document, not queried relationally.
+- **The dates `cooked_at` / `finished_at` are `date` without time**, in TS strings `YYYY-MM-DD`. No `Date` and no time zones.
 
-## Последствия
+## Consequences
 
-- У `jsonb`-колонки сгенерированный тип — рекурсивный `Json` без полей, поэтому она разбирается `nutritionSnapshotSchema` на границе сервиса ([ADR 0007](0007-zod-and-own-form-hook.md), [`conventions/typing.md`](../agents/conventions/typing.md)).
-- Реальный выход конкретной готовки — `cook_logs.actual_yield_grams` ([ADR 0020](0020-recipe-content-and-backup.md)).
+- For a `jsonb` column the generated type is a recursive `Json` without fields, so it is parsed by `nutritionSnapshotSchema` at the service boundary ([ADR 0007](0007-zod-and-own-form-hook.md), [`conventions/typing.md`](../agents/conventions/typing.md)).
+- The real output of a particular cook is `cook_logs.actual_yield_grams` ([ADR 0020](0020-recipe-content-and-backup.md)).

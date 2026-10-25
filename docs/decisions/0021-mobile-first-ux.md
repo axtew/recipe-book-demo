@@ -1,24 +1,24 @@
-# 0021. Mobile-first UX, редактор рецепта — центральный экран
+# 0021. Mobile-first UX, the recipe editor is the central screen
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Приложение используется на телефоне, часто на кухне. Нужно зафиксировать UX-принципы, от которых зависят экраны.
+The app is used on a phone, often in the kitchen. The UX principles that the screens depend on need to be fixed.
 
-## Рассмотренные варианты
+## Considered options
 
-Переупорядочивание ингредиентов и шагов на телефоне — отдельная развилка ([ADR 0008](0008-dnd-kit-for-sorting.md)); остальные принципы вариантов не имели.
+Reordering ingredients and steps on a phone is a separate fork ([ADR 0008](0008-dnd-kit-for-sorting.md)); the other principles had no options.
 
-## Решение
+## Decision
 
-- Mobile-first, всё проектируем под телефон: `100dvh`, safe-area insets, tap targets ≥44px, bottom tab bar, модалки как bottom sheet.
-- Экран добавления/редактирования рецепта — критический, на нём приложение живёт или умирает. Создание продукта и варианта — не покидая экран рецепта.
-- КБЖУ пересчитывается на лету по мере ввода.
-- Автосохранение черновика рецепта (в `localStorage`, [ADR 0005](0005-tanstack-query-persisted-cache.md)).
+- Mobile-first, everything is designed for the phone: `100dvh`, safe-area insets, tap targets ≥44px, a bottom tab bar, modals as bottom sheets.
+- The screen for adding/editing a recipe is critical, the app lives or dies on it. Creating a product and a variant — without leaving the recipe screen.
+- Nutrition is recalculated on the fly as the user types.
+- Autosave of the recipe draft (in `localStorage`, [ADR 0005](0005-tanstack-query-persisted-cache.md)).
 
-## Последствия
+## Consequences
 
-- Правила вёрстки — [`conventions/styling.md`](../agents/conventions/styling.md); приоритет iOS — [ADR 0001](0001-personal-app-for-two.md).
-- Идея вместо перетаскивания на телефоне — кнопки ↑↓: [`BACKLOG.md`](../../BACKLOG.md).
+- Layout rules — [`conventions/styling.md`](../agents/conventions/styling.md); iOS priority — [ADR 0001](0001-personal-app-for-two.md).
+- An idea instead of dragging on the phone — ↑↓ buttons: [`BACKLOG.md`](../../BACKLOG.md).

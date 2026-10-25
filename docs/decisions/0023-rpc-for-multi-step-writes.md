@@ -1,22 +1,22 @@
-# 0023. Многошаговые записи — функциями в базе через `rpc`
+# 0023. Multi-step writes are database functions called through `rpc`
 
-- Статус: принято
-- Дата: 2026-09-08
+- Status: accepted
+- Date: 2026-09-08
 
-## Контекст и проблема
+## Context and problem
 
-PostgREST даёт одну транзакцию на запрос. Цепочка из нескольких вызовов при отказе посередине оставляет половину записи: продукт без вариантов, рецепт без ингредиентов.
+PostgREST gives one transaction per request. A chain of several calls that fails in the middle leaves half a record: a product without variants, a recipe without ingredients.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **PL/pgSQL-функции в миграциях, вызываемые через `rpc`.** Внутри функции отказ откатывает всё.
-2. Цепочка из трёх запросов («он проще», прежний выбор из плана, раздел «Известные риски») — пересмотрено.
+1. **PL/pgSQL functions in migrations, called through `rpc`.** Inside a function, a failure rolls everything back.
+2. A chain of three requests ("it is simpler", the earlier choice from the plan, the "Known risks" section) — reconsidered.
 
-## Решение
+## Decision
 
-**Многошаговые записи — функциями в базе через `rpc`.** Создание продукта с первым вариантом и сохранение рецепта целиком пишутся PL/pgSQL-функциями в миграциях: `security invoker`, `search_path = ''`, право вызова только `authenticated`.
+**Multi-step writes are database functions called through `rpc`.** Creating a product with its first variant and saving a whole recipe are written as PL/pgSQL functions in migrations: `security invoker`, `search_path = ''`, the right to call is given to `authenticated` only.
 
-## Последствия
+## Consequences
 
-- Технические правила остаются в силе и после снятия разделения работ ([ADR 0026](0026-work-split-lifted.md)): многошаговые записи — функцией через `rpc`, `security invoker`, явные `grant`, `satisfies` между схемой ввода и интерфейсом, `CACHE_BUSTER` при смене формы сущности.
-- Образец и перечень свойств функции — [`conventions/data.md`](../agents/conventions/data.md).
+- The technical rules stay in force after the work split was lifted ([ADR 0026](0026-work-split-lifted.md)): multi-step writes are a function through `rpc`, `security invoker`, explicit `grant`s, `satisfies` between the input schema and the interface, `CACHE_BUSTER` when an entity's shape changes.
+- The reference and the list of function properties — [`conventions/data.md`](../agents/conventions/data.md).

@@ -1,23 +1,23 @@
-# 0006. TanStack Router в code-based режиме, маршруты и страницы — разные слои
+# 0006. TanStack Router in code-based mode, routes and pages are separate layers
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Нужен роутер для SPA. Привычный выбор — React Router.
+The SPA needs a router. The familiar choice is React Router.
 
-## Рассмотренные варианты
+## Considered options
 
-1. React Router — привычный; откат на него оценивается в 1 день.
-2. **TanStack Router** — взят осознанно как «попробовать новое на безопасном проекте»; бонус — типизированные params/search.
+1. React Router — familiar; rolling back to it is estimated at 1 day.
+2. **TanStack Router** — taken deliberately as "try something new on a safe project"; a bonus is typed params/search.
 
-## Решение
+## Decision
 
-**TanStack Router.** Режим — code-based: дерево маршрутов выписано явно, без кодогенерации и `routeTree.gen.ts`. Разделение (решено 2026-08-30): `src/routes/` — только дерево (путь, типизированные params/search, загрузка, guard, рендер страницы), вёрстки там нет; экран — в `src/pages/<Name>Page/`, его подкомпоненты — в `_internal/`.
+**TanStack Router.** The mode is code-based: the route tree is written out explicitly, with no code generation and no `routeTree.gen.ts`. The split (decided 2026-08-30): `src/routes/` holds only the tree (path, typed params/search, loading, guard, page rendering) and no markup; a screen lives in `src/pages/<Name>Page/`, its subcomponents in `_internal/`.
 
-## Последствия
+## Consequences
 
-- Откат на React Router потребует около дня.
-- Состояние, которое должно пережить переход по роутам (поиск и фильтры списка рецептов), живёт в типизированных search-params роута ([ADR 0024](0024-no-external-state-store.md)).
-- Правила — [`conventions/routing.md`](../agents/conventions/routing.md).
+- Rolling back to React Router would take about a day.
+- State that must survive navigation between routes (search and filters of the recipe list) lives in the route's typed search params ([ADR 0024](0024-no-external-state-store.md)).
+- Rules — [`conventions/routing.md`](../agents/conventions/routing.md).

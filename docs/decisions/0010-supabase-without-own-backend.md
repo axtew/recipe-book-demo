@@ -1,31 +1,31 @@
-# 0010. Supabase без своего серверного кода, регион Сингапур
+# 0010. Supabase without own server code, Singapore region
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Нужен источник истины для данных. Реляционная целостность здесь — сердце фичи (двухуровневый справочник, пересчёт КБЖУ через FK), плюс нужны Storage для фото и генерация TS-типов из схемы. Пользователи находятся в **Дананге, Вьетнам** (не в Бишкеке — это была ошибочная догадка по рабочим проектам).
+We need a source of truth for the data. Relational integrity is the heart of the feature here (a two-level product list, nutrition recalculation through FKs), and we also need Storage for photos and TS type generation from the schema. The users are in **Da Nang, Vietnam** (not in Bishkek — that was a wrong guess based on the work projects).
 
-## Рассмотренные варианты
+## Considered options
 
-Бэкенд:
+Backend:
 1. **Supabase** (managed Postgres + Auth + Storage).
-2. Local-first на IndexedDB — отвергнуто: 4 устройства, клобер при одновременном редактировании.
-3. Свой Node + Postgres — отвергнуто: неделя работы ради тупого CRUD.
-4. PocketBase на VPS — отвергнуто: бэкапы и аптайм на мне.
+2. Local-first on IndexedDB — rejected: 4 devices, clobbering on simultaneous editing.
+3. Own Node + Postgres — rejected: a week of work for plain CRUD.
+4. PocketBase on a VPS — rejected: backups and uptime would be on me.
 
-Регион (бывшая развилка Р-3):
-1. **Singapore (`ap-southeast-1`)** — из Дананга ~30–40 мс.
-2. Токио — ~70 мс.
-3. Мумбаи — ~90 мс.
+Region (the former fork R-3):
+1. **Singapore (`ap-southeast-1`)** — ~30–40 ms from Da Nang.
+2. Tokyo — ~70 ms.
+3. Mumbai — ~90 ms.
 
-## Решение
+## Decision
 
-**Supabase** как источник истины. **Своего серверного кода не пишем.** Регион — **Singapore (`ap-southeast-1`)**; локация пользователей — Дананг.
+**Supabase** as the source of truth. **We do not write own server code.** The region is **Singapore (`ap-southeast-1`)**; the users' location is Da Nang.
 
-## Последствия
+## Consequences
 
-- Связность из Вьетнама нестабильна (подводные кабели рвутся по нескольку раз в год, международный трафик деградирует на дни). Второй аргумент за persisted-кэш ([ADR 0005](0005-tanstack-query-persisted-cache.md)) и за Сингапур, чьи маршруты страдают меньше.
-- Сервера у приложения нет: `supabase-js` обращается к PostgREST по HTTPS напрямую. Путь данных — [ADR 0022](0022-data-access-path-and-services.md); доступ — [ADR 0011](0011-manual-accounts-signup-off.md) и [ADR 0015](0015-grant-plus-rls.md).
-- Ключ `sb_publishable_…` в клиентском бандле — норма; `sb_secret_…` в клиент попасть не должен никогда.
+- Connectivity from Vietnam is unstable (submarine cables break several times a year, international traffic degrades for days). This is the second argument for a persisted cache ([ADR 0005](0005-tanstack-query-persisted-cache.md)) and for Singapore, whose routes suffer less.
+- The app has no server: `supabase-js` calls PostgREST over HTTPS directly. The data path is [ADR 0022](0022-data-access-path-and-services.md); access is [ADR 0011](0011-manual-accounts-signup-off.md) and [ADR 0015](0015-grant-plus-rls.md).
+- The `sb_publishable_…` key in the client bundle is normal; `sb_secret_…` must never get into the client.

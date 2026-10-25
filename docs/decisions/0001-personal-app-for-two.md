@@ -1,28 +1,28 @@
-# 0001. Личное приложение на двоих, телефоны, iOS в приоритете
+# 0001. Personal app for two, phones, iOS first
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Нужно зафиксировать границы продукта: для кого он, на каких устройствах работает и что входит в первую версию. Основной пользователь — жена, второй — я. У мужа Android, у жены iPhone. Жена — основной пользователь, значит любая камерная фича обязана работать в Safari на iOS.
+The product boundaries need to be fixed: who it is for, which devices it runs on and what goes into the first version. The main user is my wife, the second is me. My phone is Android, hers is an iPhone. The wife is the main user, so every camera feature must work in Safari on iOS.
 
-## Рассмотренные варианты
+## Considered options
 
-1. Личное приложение на двоих, только телефоны.
-2. Приложение с публичным доступом, регистрацией и ролями (см. [ADR 0029](0029-multi-tenancy-deferred.md)).
-3. Сразу адаптивный десктопный layout.
-4. Планирование меню и список покупок в первой версии (отложено, см. ниже).
+1. A personal app for two, phones only.
+2. An app with public access, sign-up and roles (see [ADR 0029](0029-multi-tenancy-deferred.md)).
+3. An adaptive desktop layout from the start.
+4. Menu planning and a shopping list in the first version (deferred, see below).
 
-## Решение
+## Decision
 
-- **Личное приложение на двух пользователей.** Публичного доступа, регистрации, ролей не будет.
-- **v1** = справочник продуктов → рецепты с расчётом КБЖУ → списки и поиск → журнал готовки. Порядок слоёв из исходного ТЗ ([`docs/task.md`](../task.md)) соблюдается.
-- **Устройства v1 — телефоны обоих:** у мужа Android, у жены iPhone. Основной пользователь — жена, поэтому при любом расхождении поведения приоритет у iOS/Safari. Ноутбуки — «позже».
-- **Десктоп в v1 не адаптируем:** одна отцентрованная колонка `max-width ~600px`, отдельных layout'ов нет. Полноценный десктоп — отдельная задача позже.
-- **Отложено:** планирование меню на 2 недели и генерация списка покупок — v2, как в ТЗ; импорт рецептов по ссылке / из скриншотов — v2 (связано с LLM, [ADR 0028](0028-local-llm-assistant-deferred.md)). Идеи — в [`BACKLOG.md`](../../BACKLOG.md).
+- **A personal app for two users.** There will be no public access, sign-up or roles.
+- **v1** = product list → recipes with nutrition calculation → lists and search → cook log. The order of layers from the original brief ([`docs/task.md`](../task.md)) is kept.
+- **v1 devices are the phones of both users:** the husband has Android, the wife has an iPhone. The wife is the main user, so when behaviour differs, iOS/Safari has priority. Laptops are "later".
+- **No desktop adaptation in v1:** one centred column with `max-width ~600px`, no separate layouts. A full desktop is a separate task for later.
+- **Deferred:** two-week menu planning and shopping list generation are v2, as in the brief; recipe import from a link or screenshots is v2 (tied to an LLM, [ADR 0028](0028-local-llm-assistant-deferred.md)). Ideas are in [`BACKLOG.md`](../../BACKLOG.md).
 
-## Последствия
+## Consequences
 
-- Любая камерная функция проверяется в Safari на iOS, в том числе в PWA, добавленном на домашний экран. Для сканера штрихкодов это означало бы обязательный `zxing-wasm` (нативного `BarcodeDetector` в Safari нет); сам сканер впоследствии отменён ([ADR 0027](0027-external-nutrition-sources.md)), но требование «работает в Safari на iOS» остаётся в силе для распознавания этикетки по фото.
-- Мобильные правила вёрстки (`100dvh`, safe-area, tap targets) — [ADR 0021](0021-mobile-first-ux.md).
+- Any camera feature is checked in Safari on iOS, including a PWA added to the home screen. For a barcode scanner this would have meant a mandatory `zxing-wasm` (Safari has no native `BarcodeDetector`); the scanner itself was later cancelled ([ADR 0027](0027-external-nutrition-sources.md)), but the "works in Safari on iOS" requirement stays in force for label recognition from a photo.
+- Mobile layout rules (`100dvh`, safe area, tap targets) are in [ADR 0021](0021-mobile-first-ux.md).

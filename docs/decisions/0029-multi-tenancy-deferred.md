@@ -1,35 +1,35 @@
-# 0029. Мультиарендность и открытая регистрация — задел под v3+, сейчас не готовим
+# 0029. Multi-tenancy and open sign-up are a reserve for v3+, not preparing now
 
-- Статус: отложено
-- Дата: 2026-08-17
+- Status: deferred
+- Date: 2026-08-17
 
-## Контекст и проблема
+## Context and problem
 
-Обсуждалось 2026-08-17: возможно, приложением захочется поделиться со знакомыми, а дальше — сторы и расширение функционала.
+Discussed on 2026-08-17: perhaps we will want to share the app with acquaintances, and later — app stores and more features.
 
-- Сервера у приложения нет и не будет в текущей архитектуре: `supabase-js` обращается к PostgREST по HTTPS напрямую. Publishable key идентифицирует **проект**, а не пользователя.
-- **Спрятать ключ невозможно принципиально.** Всё, что попало в браузер или в мобильное приложение, извлекаемо. Промежуточный сервер ничего не меняет: клиенту всё равно нужны какие-то реквизиты, и они так же извлекаемы. Безопасность обеспечивают auth и RLS, а не скрытность ключа — это by design.
-- **Регистрацию нельзя открывать, пока политики RLS выглядят как `using (true) to authenticated`.** Сейчас любой залогиненный видит всё. Открыть регистрацию в таком состоянии = подарить свою базу первому желающему ([ADR 0011](0011-manual-accounts-signup-off.md)).
+- The app has no server and, in the current architecture, will not: `supabase-js` calls PostgREST over HTTPS directly. The publishable key identifies the **project**, not the user.
+- **Hiding the key is impossible in principle.** Anything that gets into a browser or a mobile app can be extracted. An intermediate server changes nothing: the client still needs some credentials, and they are just as extractable. Security is provided by auth and RLS, not by hiding the key — this is by design.
+- **Sign-up must not be opened while the RLS policies look like `using (true) to authenticated`.** Right now any logged-in user sees everything. Opening sign-up in this state = giving your database to the first taker ([ADR 0011](0011-manual-accounts-signup-off.md)).
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Сейчас ничего под это не готовим.** Дописать `group_id` в базу из нескольких сотен строк — миграция на полчаса. А проектировать мультиарендность заранее значит замедлить v1 ради гипотезы. Единственный хедж: политики пишутся единообразно, чтобы замена `using (true)` на проверку членства была механической.
-2. Проектировать мультиарендность сразу — отвергнуто.
-3. Своя серверная прослойка ради скрытия запросов — не даёт безопасности: защищает авторизация на каждый запрос, а не незнание клиентом адреса. Серверный код с secret key обходит RLS, то есть **опаснее** — забыть проверку можно в одном хендлере.
+1. **Prepare nothing for this now.** Adding `group_id` to a database of a few hundred rows is a half-hour migration. Designing multi-tenancy in advance would slow down v1 for the sake of a hypothesis. The only hedge: policies are written uniformly so that replacing `using (true)` with a membership check is mechanical.
+2. Design multi-tenancy right away — rejected.
+3. An own server layer to hide the requests — gives no security: what protects is authorization on every request, not the client's ignorance of the address. Server code with the secret key bypasses RLS, that is, it is **more dangerous** — a check can be forgotten in a single handler.
 
-## Решение
+## Decision
 
-Отложено. Что потребуется для мультиарендности:
+Deferred. What multi-tenancy will require:
 
-- таблицы `groups` + `group_members(group_id, user_id, role)`;
-- столбец `group_id` на всех пользовательских таблицах;
-- политики через `security definer`-функцию проверки членства (прямой подзапрос в политике даёт вызов на каждую строку, а на самой таблице членства — рекурсию);
-- `(select auth.uid())` вместо `auth.uid()` в политиках, чтобы Postgres кешировал значение;
-- продуктовая часть — приглашения, роли, экран «поделиться».
+- tables `groups` + `group_members(group_id, user_id, role)`;
+- a `group_id` column on all user tables;
+- policies through a `security definer` membership-check function (a direct subquery in a policy causes a call per row, and on the membership table itself — recursion);
+- `(select auth.uid())` instead of `auth.uid()` in policies, so that Postgres caches the value;
+- the product side — invitations, roles, a "share" screen.
 
-## Последствия
+## Consequences
 
-- **Как только в базе появляются чужие данные, ошибка в RLS перестаёт быть неудобством и становится утечкой.** Дефект `RLS-1` из Фазы 1 (политики забыты на 7 таблицах из 8, [ADR 0015](0015-grant-plus-rls.md)) — ровно эта категория ошибки. При переходе к мультиарендности нужны **тесты на политики**: набор проверок «пользователь из группы A не видит данные группы B», прогоняемый автоматически. Без них на глазок не обойтись.
-- **Лимиты Free-тарифа** для пары десятков знакомых достаточны, но упрётся не в строки, а в **фото**: 20 семей × 100 рецептов × 150 КБ ≈ 300 МБ при квоте 1 ГБ, плюс 5 ГБ egress в месяц. Дальше Pro за $25/мес.
-- **Сторы:** в App Store PWA напрямую не принимают — нужна обёртка (Capacitor). В Google Play можно через Trusted Web Activity (Bubblewrap), PWA проходят.
-- Идеи — [`BACKLOG.md`](../../BACKLOG.md) («Семьи и мультиарендность», «Публикация в сторы»).
+- **As soon as other people's data appears in the database, a mistake in RLS stops being an inconvenience and becomes a leak.** The `RLS-1` defect from Phase 1 (policies forgotten on 7 of 8 tables, [ADR 0015](0015-grant-plus-rls.md)) is exactly this category of error. When moving to multi-tenancy, **tests for the policies** are needed: a set of checks "a user from group A does not see the data of group B", run automatically. Without them, going by eye is not enough.
+- **The Free tier limits** are sufficient for a couple of dozen acquaintances, but the bottleneck will be not rows but **photos**: 20 families × 100 recipes × 150 KB ≈ 300 MB against a 1 GB quota, plus 5 GB of egress a month. After that, Pro at $25/month.
+- **App stores:** the App Store does not accept a PWA directly — a wrapper (Capacitor) is needed. Google Play accepts it through a Trusted Web Activity (Bubblewrap), PWAs pass.
+- Ideas — [`BACKLOG.md`](../../BACKLOG.md) ("Families and multi-tenancy", "Publishing to the stores").

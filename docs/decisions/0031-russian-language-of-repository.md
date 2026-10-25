@@ -1,22 +1,22 @@
-# 0031. Язык репозитория — русский
+# 0031. The repository language is Russian
 
-- Статус: принято
-- Дата: 2026-10-21
+- Status: superseded by ADR 0033
+- Date: 2026-10-21
 
-## Контекст и проблема
+## Context and problem
 
-Интерфейс приложения русский ([ADR 0002](0002-russian-ui-with-i18n.md)), документация и проза в `plans/` — русские, комментарии в коде — русские. Исключением были инструкции для агентов: конвенции кода лежали по-английски (общие конвенции автора, которые он переносит между проектами), а в `CLAUDE.md` и журнале решений — по-русски. Смешение языков, в том числе внутри одного файла, мешает читать проект. Репозиторий готовится к публикации как портфолио.
+The app UI is Russian ([ADR 0002](0002-russian-ui-with-i18n.md)), the documentation and the prose in `plans/` are Russian, the code comments are Russian. The exception was the instructions for agents: the code conventions were in English (the author's general conventions, which he carries between projects), while `CLAUDE.md` and the decision log were in Russian. A mix of languages, including within one file, makes the project harder to read. The repository is being prepared for publication as a portfolio.
 
-## Рассмотренные варианты
+## Considered options
 
-1. Оставить конвенции на английском, остальное — на русском.
-2. **Всё на русском**, как в `greenapi-messenger`.
+1. Keep the conventions in English, everything else in Russian.
+2. **Everything in Russian**, as in `greenapi-messenger`.
 
-## Решение
+## Decision
 
-**Всё на русском:** README, документация, ADR, инструкции для агентов (`AGENTS.md`, `docs/agents/`), комментарии в коде, проза в `plans/`. По-английски остаются только технические имена (идентификаторы, имена файлов, API, библиотеки), имена файлов ADR и заголовки, статусы и ключи из шаблонов пайплайна, которые читают скиллы.
+**Everything in Russian:** README, documentation, ADRs, instructions for agents (`AGENTS.md`, `docs/agents/`), code comments, prose in `plans/`. Only technical names (identifiers, file names, APIs, libraries), ADR file names, and the headings, statuses and keys from the pipeline templates that the skills read stay in English.
 
-## Последствия
+## Consequences
 
-- Конвенции этого репозитория расходятся по языку с исходными конвенциями автора в других проектах (`Carbon-spa` и т. д.); синхронизация с ними держится руками ([ADR 0025](0025-code-structure-and-conventions.md)).
-- Артефакты `plans/recipe-book-v1/` остаются как были — это записи о том, как было.
+- The conventions of this repository differ in language from the author's original conventions in other projects (`Carbon-spa` and others); synchronisation with them is kept by hand ([ADR 0025](0025-code-structure-and-conventions.md)).
+- The artifacts of `plans/recipe-book-v1/` stay as they were — they are records of how things were.

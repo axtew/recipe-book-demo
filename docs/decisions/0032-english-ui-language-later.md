@@ -1,26 +1,26 @@
-# 0032. Английский язык интерфейса — позже, отдельной задачей
+# 0032. English UI language later, as a separate task
 
-- Статус: принято
-- Дата: 2026-10-21
+- Status: superseded by ADR 0034
+- Date: 2026-10-21
 
-## Контекст и проблема
+## Context and problem
 
-[ADR 0002](0002-russian-ui-with-i18n.md) зафиксировал, что язык интерфейса русский, единственный, и что второй язык не планируется. Теперь у приложения появляется публичная демо-копия и портфолио-репозиторий: читателю без русского языка английский интерфейс был бы полезен.
+[ADR 0002](0002-russian-ui-with-i18n.md) fixed that the UI language is Russian, the only one, and that a second language is not planned. Now the app gets a public demo copy and a portfolio repository: an English UI would be useful to a reader who does not know Russian.
 
-## Рассмотренные варианты
+## Considered options
 
-1. Оставить как в ADR 0002: второго языка не будет.
-2. Добавить английский словарь прямо сейчас, в рамках публикации.
-3. Сейчас оставить только русский, английский словарь добавить позже отдельной задачей.
+1. Keep it as in ADR 0002: there will be no second language.
+2. Add an English dictionary right now, as part of the publication.
+3. For now keep Russian only, add the English dictionary later as a separate task.
 
-## Решение
+## Decision
 
-**Вариант 3.** Сейчас интерфейс остаётся только на русском. Английский словарь будет добавлен позже, отдельной задачей; сроков нет.
+**Option 3.** For now the UI stays Russian only. The English dictionary will be added later, as a separate task; there is no deadline.
 
-Заменяет в ADR 0002 только фразу «второй язык не планируется» (раздел «Контекст и проблема») и первый пункт раздела «Последствия» («Второго языка нет и не планируется»). Остальное в ADR 0002 остаётся в силе: i18n-инфраструктура, единственный словарь `public/dictionaries/ru.json`, правила из [`conventions/i18n.md`](../agents/conventions/i18n.md).
+It replaces in ADR 0002 only the phrase "a second language is not planned" (the "Context and problem" section) and the first item of the "Consequences" section ("There is no second language and none is planned"). The rest of ADR 0002 stays in force: the i18n infrastructure, the single dictionary `public/dictionaries/ru.json`, the rules from [`conventions/i18n.md`](../agents/conventions/i18n.md).
 
-## Последствия
+## Consequences
 
-- Инфраструктура из ADR 0002 делает английский работой со словарём: добавить `en.json` и переключатель языка, код экранов не трогать.
-- Пока английской версии нет, новые тексты по-прежнему добавляются только в `ru.json`.
-- В [`BACKLOG.md`](../../BACKLOG.md) строка про второй язык остаётся в разделе «Отклонённое» со статусом «отложено».
+- The infrastructure from ADR 0002 makes English a matter of working with the dictionary: add `en.json` and a language switcher, leave the screen code alone.
+- While there is no English version, new texts are still added only to `ru.json`.
+- In [`BACKLOG.md`](../../BACKLOG.md) the row about the second language stays in the "Rejected" section with the status "deferred".

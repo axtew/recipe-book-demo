@@ -1,25 +1,25 @@
-# 0002. Интерфейс только на русском, но i18n-инфраструктура заводится
+# 0002. Russian-only UI, but the i18n infrastructure is set up
 
-- Статус: принято; в части «второй язык не планируется» заменено ADR 0032
-- Дата: 2026-08-30
+- Status: accepted; partly superseded by ADR 0034
+- Date: 2026-08-30
 
-## Контекст и проблема
+## Context and problem
 
-Язык интерфейса — русский, единственный; второй язык не планируется. Изначально решили, что i18n не нужен. Вопрос пересмотрен 2026-08-30.
+The UI language is Russian, the only one; a second language is not planned. At first it was decided that i18n was not needed. The question was reconsidered on 2026-08-30.
 
-## Рассмотренные варианты
+## Considered options
 
-1. Тексты прямо в JSX, i18n не заводить (прежнее решение).
-2. Завести i18n-инфраструктуру с единственным словарём.
+1. Texts directly in JSX, no i18n (the previous decision).
+2. Set up the i18n infrastructure with a single dictionary.
 
-## Решение
+## Decision
 
-**Заводим i18n-инфраструктуру** (отменяет прежнее «i18n не нужен»). Причина не в переводе, а в стоимости отката: собрать тексты из готового JSX потом — это ручной обход всех экранов, а сложить их в словарь сразу стоит примерно ничего. Заодно все формулировки правятся в одном файле.
+**We set up the i18n infrastructure** (this cancels the earlier "i18n is not needed"). The reason is not translation but the cost of rolling back: collecting texts out of finished JSX later is a manual walk through every screen, while putting them into a dictionary right away costs almost nothing. All wording is also edited in one file.
 
-Практически: один словарь `public/dictionaries/ru.json`, интерфейс `I18n` в `src/types/i18n.types.ts`, доступ через `useI18nSelector`. Правила — [`conventions/i18n.md`](../agents/conventions/i18n.md); они применяются к единственному словарю без изменений.
+In practice: one dictionary `public/dictionaries/ru.json`, the `I18n` interface in `src/types/i18n.types.ts`, access through `useI18nSelector`. The rules are in [`conventions/i18n.md`](../agents/conventions/i18n.md); they apply to the single dictionary unchanged.
 
-## Последствия
+## Consequences
 
-- Второго языка нет и не планируется; английский словарь, если когда-нибудь понадобится, — отдельная задача.
-- Видимый пользователю текст не привязан к полу — см. [`conventions/i18n.md`](../agents/conventions/i18n.md).
-- Язык документации и кода репозитория — отдельное решение, [ADR 0031](0031-russian-language-of-repository.md).
+- There is no second language and none is planned; an English dictionary, if it is ever needed, is a separate task.
+- User-visible text is not tied to gender, see [`conventions/i18n.md`](../agents/conventions/i18n.md).
+- The language of the repository documentation and code is a separate decision, [ADR 0031](0031-russian-language-of-repository.md).

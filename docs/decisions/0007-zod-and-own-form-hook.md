@@ -1,26 +1,26 @@
-# 0007. zod для недоверенного ввода, собственный хук форм
+# 0007. zod for untrusted input, own form hook
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Нужна валидация форм, импорта JSON-бэкапа и (позже) structured output LLM. Нужно решить, брать ли библиотеку форм и применять ли валидацию к ответам PostgREST.
+We need validation of forms, of the JSON backup import and (later) of LLM structured output. We have to decide whether to take a form library and whether to apply validation to PostgREST responses.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **zod** + свой `useForm`-подобный хук (по мотивам `Carbon-spa`).
-2. Библиотека форм (`react-hook-form`) — не берём; состояние редактора рецепта изолируется за небольшим интерфейсом, чтобы при необходимости подменить на `react-hook-form` без переписывания экрана.
-3. Валидировать zod'ом каждую строку ответа PostgREST — отвергнуто: форма ответа задана нашей же схемой и уже описана сгенерированным `database.types.ts`; валидация каждой строки — трата процессора телефона без новой информации.
+1. **zod** + an own `useForm`-like hook (modelled on `Carbon-spa`).
+2. A form library (`react-hook-form`) — not taken; the recipe editor state is isolated behind a small interface so that it can be replaced with `react-hook-form` without rewriting the screen if needed.
+3. Validating every PostgREST response row with zod — rejected: the response shape is defined by our own schema and is already described by the generated `database.types.ts`; validating every row wastes phone CPU without new information.
 
-## Решение
+## Decision
 
-- **zod** — валидация форм + валидация импорта JSON-бэкапа + позже schema для structured output LLM. Три роли, поэтому берём.
-- **Библиотеку форм не берём.** Свой `useForm`-подобный хук.
-- zod остаётся там, где вход недоверенный: формы, импорт JSON, черновик из `localStorage`, позже structured output. **К ответам PostgREST zod не применяется.**
-- **Единственное исключение — `jsonb`.** У `cook_logs.snapshot` сгенерированный тип — рекурсивный `Json` без полей, то есть контракта нет вовсе. Эта колонка разбирается `nutritionSnapshotSchema` на границе сервиса.
+- **zod** — form validation + JSON backup import validation + later the schema for LLM structured output. Three roles, so we take it.
+- **No form library.** An own `useForm`-like hook.
+- zod stays where the input is untrusted: forms, JSON import, the draft from `localStorage`, later structured output. **zod is not applied to PostgREST responses.**
+- **The only exception is `jsonb`.** For `cook_logs.snapshot` the generated type is a recursive `Json` without fields, that is, there is no contract at all. This column is parsed by `nutritionSnapshotSchema` at the service boundary.
 
-## Последствия
+## Consequences
 
-- Схемы лежат в `src/domain/schemas/`, по модулю на сущность; схема ввода и интерфейс сущности связаны через `satisfies z.ZodType<…>` ([`conventions/data.md`](../agents/conventions/data.md)).
-- Подробнее — [`conventions/stack.md`](../agents/conventions/stack.md).
+- Schemas live in `src/domain/schemas/`, one module per entity; the input schema and the entity interface are tied together through `satisfies z.ZodType<…>` ([`conventions/data.md`](../agents/conventions/data.md)).
+- More details — [`conventions/stack.md`](../agents/conventions/stack.md).

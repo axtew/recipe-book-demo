@@ -1,32 +1,32 @@
-# 0008. dnd-kit для сортируемых списков
+# 0008. dnd-kit for sortable lists
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Ингредиенты и шаги рецепта нужно переупорядочивать на телефоне. Своего DnD-пакета у Mantine нет; её официальный рецепт сортируемых списков использует dnd-kit.
+Recipe ingredients and steps must be reordered on a phone. Mantine has no DnD package of its own; its official recipe for sortable lists uses dnd-kit.
 
-Что проверялось перед решением:
+What was checked before the decision:
 
-- `ecovion` — есть только `src/components/FileDrop/` (HTML5-дропзона для загрузки файлов из ОС), компонента сортировки нет. В `Carbon` DnD-зависимостей нет.
-- `aramco/src/components/DragAndDropList/` (~350 строк) — реальный сортируемый список на mouse/touch-событиях (не HTML5 DnD, значит на телефоне в принципе работает), с ручкой захвата, автоскроллом и плейсхолдером.
+- `ecovion` — has only `src/components/FileDrop/` (an HTML5 drop zone for uploading files from the OS), no sorting component. `Carbon` has no DnD dependencies.
+- `aramco/src/components/DragAndDropList/` (~350 lines) — a real sortable list on mouse/touch events (not HTML5 DnD, so it works on a phone in principle), with a drag handle, autoscroll and a placeholder.
 
-## Рассмотренные варианты
+## Considered options
 
 1. **`@dnd-kit/core` + `@dnd-kit/sortable`.**
-2. Порт `aramco/DragAndDropList` — взять как есть нельзя:
-   - зашита одинаковая высота элементов (`ITEM_HEIGHT = {m:53, s:50}`, индекс = `relativeY / containerHeight * items.length`) — шаги приготовления многострочные и переменной высоты, индекс будет считаться неверно;
-   - `touchmove` вешается без `{ passive: false }` → `preventDefault` не работает → страница скроллится во время перетаскивания на телефоне;
-   - прибит к uikit и дизайну Aramco (своя колонка номеров `01, 02...`, `Row`/`Column`/`Caption2`/`BurgerIcon`);
-   - нет клавиатурной доступности.
-3. HTML5 drag-and-drop API — на сенсорных устройствах не работает вовсе.
+2. A port of `aramco/DragAndDropList` — cannot be taken as is:
+   - equal item height is hardcoded (`ITEM_HEIGHT = {m:53, s:50}`, index = `relativeY / containerHeight * items.length`) — recipe steps are multi-line and of variable height, so the index would be computed wrongly;
+   - `touchmove` is attached without `{ passive: false }` → `preventDefault` does not work → the page scrolls during dragging on a phone;
+   - it is tied to the uikit and the Aramco design (its own column of numbers `01, 02...`, `Row`/`Column`/`Caption2`/`BurgerIcon`);
+   - no keyboard accessibility.
+3. The HTML5 drag-and-drop API — does not work on touch devices at all.
 
-## Решение
+## Decision
 
-**dnd-kit.** Порт означал бы переписать математику индексов, починить листенер и отвязать от uikit, то есть больше половины компонента, и дальше поддерживать свой код. На dnd-kit тот же список — ~40 строк с переменными высотами, activation constraint, автоскроллом и клавиатурой из коробки.
+**dnd-kit.** A port would mean rewriting the index math, fixing the listener and detaching from the uikit, that is, more than half of the component, and then maintaining our own code. With dnd-kit the same list is ~40 lines with variable heights, an activation constraint, autoscroll and keyboard support out of the box.
 
-## Последствия
+## Consequences
 
-- Руками перетаскивание на pointer-событиях не писать — [`conventions/stack.md`](../agents/conventions/stack.md).
-- Альтернатива для телефона — кнопки ↑↓ вместо перетаскивания: идея в [`BACKLOG.md`](../../BACKLOG.md).
+- Do not write dragging by hand on pointer events — [`conventions/stack.md`](../agents/conventions/stack.md).
+- An alternative for the phone is ↑↓ buttons instead of dragging: the idea is in [`BACKLOG.md`](../../BACKLOG.md).

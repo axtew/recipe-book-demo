@@ -1,28 +1,28 @@
-# 0024. Отдельного стора состояния не будет
+# 0024. There will be no separate state store
 
-- Статус: принято
-- Дата: 2026-09-08
+- Status: accepted
+- Date: 2026-09-08
 
-## Контекст и проблема
+## Context and problem
 
-Нужно решить, где живёт состояние приложения помимо серверных данных, и заводить ли для этого внешний стор.
+We need to decide where the app state lives besides server data, and whether to add an external store for it.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Без стора:** серверные данные — в кэше TanStack Query, остальное делится по вопросу «это приехало с сервера?».
-2. Redux, Zustand, Jotai и подобное — отвергнуто: держать копию серверных данных во внешнем сторе значит писать руками инвалидацию, дедупликацию, ретраи, фоновое обновление и персистентность — всё то, что Query уже делает, — и завести вторую правду, которая рассинхронизируется.
+1. **No store:** server data lives in the TanStack Query cache, the rest is divided by the question "did it come from the server?".
+2. Redux, Zustand, Jotai and the like — rejected: keeping a copy of server data in an external store means writing by hand the invalidation, deduplication, retries, background refresh and persistence — everything Query already does — and creating a second truth that falls out of sync.
 
-## Решение
+## Decision
 
-**Отдельного стора не будет.** Серверные данные живут в кэше TanStack Query, и он же — единственный источник правды по ним. Redux, Zustand, Jotai и подобное не добавляются.
+**There will be no separate store.** Server data lives in the TanStack Query cache, which is also the only source of truth for it. Redux, Zustand, Jotai and the like are not added.
 
-Остальное состояние делится по вопросу «это приехало с сервера?»:
+The rest of the state is divided by the question "did it come from the server?":
 
-- состояние экрана — `useState` рядом с компонентом;
-- то, что должно пережить переход по роутам (поиск и фильтры списка рецептов), — типизированные search-params роута;
-- мелкие удобства вроде свёрнутости групп — `localStorage`.
+- screen state — `useState` next to the component;
+- what must survive navigation between routes (search and filters of the recipe list) — the route's typed search params;
+- small conveniences such as collapsed groups — `localStorage`.
 
-## Последствия
+## Consequences
 
-- `useAppData` — не стор, а набор селекторов поверх кэша ([ADR 0012](0012-whole-dataset-in-client.md)).
-- Кэш — [ADR 0005](0005-tanstack-query-persisted-cache.md), роутинг — [ADR 0006](0006-tanstack-router-code-based.md).
+- `useAppData` is not a store but a set of selectors on top of the cache ([ADR 0012](0012-whole-dataset-in-client.md)).
+- The cache — [ADR 0005](0005-tanstack-query-persisted-cache.md), routing — [ADR 0006](0006-tanstack-router-code-based.md).

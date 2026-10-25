@@ -1,23 +1,23 @@
-# 0030. Бытовые покупки — задел под v3
+# 0030. Household purchases are a reserve for v3
 
-- Статус: отложено
-- Дата: 2026-08-02
+- Status: deferred
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Сценарий: собрать список покупок по дому вообще (не только продукты под рецепты); ассистент смотрит историю покупок и говорит «купили 3 недели назад, обычно хватает на месяц — проверь».
+Scenario: build a shopping list for the household in general (not only products for recipes); an assistant looks at the purchase history and says "bought 3 weeks ago, usually lasts a month — check".
 
-## Рассмотренные варианты
+## Considered options
 
-1. Расширить `Product` — не влезает: у стирального порошка нет КБЖУ и активного варианта.
-2. **Соседняя пара таблиц** (`HouseholdItem` + `Purchase` с датой и количеством).
+1. Extend `Product` — does not fit: washing powder has no nutrition and no active variant.
+2. **A neighbouring pair of tables** (`HouseholdItem` + `Purchase` with a date and a quantity).
 
-## Решение
+## Decision
 
-Отложено (v3). Когда дойдёт — соседняя пара таблиц `HouseholdItem` + `Purchase`, `Product` не расширяется.
+Deferred (v3). When it comes — a neighbouring pair of tables `HouseholdItem` + `Purchase`, `Product` is not extended.
 
-## Последствия
+## Consequences
 
-- «Обычно хватает на месяц» — это статистика по интервалам покупок, обычная арифметика. LLM там нужна максимум для формулировки ([ADR 0028](0028-local-llm-assistant-deferred.md)).
-- Мост между доменами — `ProductCategory.sort_order` (порядок отделов в магазине, [ADR 0016](0016-variants-and-active-variant.md)).
-- Идея — [`BACKLOG.md`](../../BACKLOG.md) («Инвентаризация домашнего быта»).
+- "Usually lasts a month" is statistics over purchase intervals, ordinary arithmetic. The LLM is needed there at most for wording ([ADR 0028](0028-local-llm-assistant-deferred.md)).
+- The bridge between the domains is `ProductCategory.sort_order` (the order of store departments, [ADR 0016](0016-variants-and-active-variant.md)).
+- The idea — [`BACKLOG.md`](../../BACKLOG.md) ("Household inventory").

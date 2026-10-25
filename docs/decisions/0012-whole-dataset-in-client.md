@@ -1,30 +1,30 @@
-# 0012. Весь датасет грузится в клиент целиком
+# 0012. The whole dataset is loaded into the client
 
-- Статус: принято
-- Дата: 2026-08-02
+- Status: accepted
+- Date: 2026-08-02
 
-## Контекст и проблема
+## Context and problem
 
-Нужно решить, где выполняются поиск, фильтрация и расчёт КБЖУ. Объём базы — единицы мегабайт даже через годы.
+We need to decide where search, filtering and nutrition calculation run. The database size is a few megabytes even after years.
 
-## Рассмотренные варианты
+## Considered options
 
-1. **Загрузить всё в клиент и искать в памяти.**
-2. Серверные endpoint'ы поиска, пагинация, фильтрация на стороне БД.
+1. **Load everything into the client and search in memory.**
+2. Server search endpoints, pagination, filtering on the database side.
 
-## Решение
+## Decision
 
-**Весь датасет грузится в клиент целиком.** Поиск, фильтрация, расчёт КБЖУ — всё локально в памяти, никаких серверных endpoint'ов поиска и никакой пагинации. Бэкенд — тупое хранилище с целостностью.
+**The whole dataset is loaded into the client.** Search, filtering, nutrition calculation — all local, in memory; no server search endpoints and no pagination. The backend is a dumb store with integrity.
 
-Уточнения (2026-09-08):
+Clarifications (2026-09-08):
 
-- **Загрузка и выборка разведены.** Один загрузчик в `AppLayout` монтирует все пять запросов и отдаёт только статус (`isPending`, `isError`, `isFetching`) — он существует ради этого инварианта. Данные экраны берут узкими селекторами, каждый подписан на свой срез. Один хук, отдающий всё, подписывал бы каждый экран на все пять датасетов.
-- Экранные селекторы разрешено дописывать исполнителям фаз: это derivation поверх кэша, а не доступ к данным. Селектор не обращается к supabase, не заводит ключ и не добавляет запрос — иначе фаза останавливается и сообщает.
-- `useAppData` — **не стор**, а селекторы: он ничего не хранит, только выводит из кэша форму под конкретный экран. Там же отсекаются архивные записи — в запросах они не фильтруются ([ADR 0014](0014-archiving-instead-of-deletes.md)).
-- Русский поиск нормализует `ё` → `е` с обеих сторон сравнения.
+- **Loading and selection are separated.** One loader in `AppLayout` mounts all five queries and exposes only the status (`isPending`, `isError`, `isFetching`) — it exists for the sake of this invariant. Screens take data through narrow selectors, each subscribed to its own slice. A single hook returning everything would subscribe every screen to all five datasets.
+- Phase executors are allowed to add screen selectors: this is derivation on top of the cache, not data access. A selector does not call supabase, does not introduce a key and does not add a query — otherwise the phase stops and reports.
+- `useAppData` is **not a store**, it is selectors: it stores nothing, it only derives from the cache the shape needed for a particular screen. This is also where archived records are cut off — they are not filtered in the queries ([ADR 0014](0014-archiving-instead-of-deletes.md)).
+- Russian search folds the letter yo (U+0451) into ye (U+0435) on both sides of the comparison.
 
-## Последствия
+## Consequences
 
-- Поиск мгновенный и работает офлайн; серверных endpoint'ов поиска нет вовсе. Фаза, добавляющая фильтрованный запрос к бэкенду, противоречит архитектуре, а не оптимизирует её.
-- Поиск по ингредиенту — только по названиям продуктов; названия вариантов («Простоквашино») не ищем.
-- Как это выглядит на деле — [`architecture.md`](../agents/architecture.md).
+- Search is instant and works offline; there are no server search endpoints at all. A phase that adds a filtered backend query contradicts the architecture rather than optimising it.
+- Search by ingredient is by product names only; variant names ("Prostokvashino") are not searched.
+- How this looks in practice — [`architecture.md`](../agents/architecture.md).
