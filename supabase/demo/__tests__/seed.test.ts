@@ -9,10 +9,12 @@ import {
   resolveIngredients,
 } from "@/domain/nutrition";
 
-import { buildSeed } from "../_build";
+import { buildPhotoManifest, buildSeed, buildSeedLoadSql } from "../_build";
 import { RECIPES } from "../source/recipes";
 
 const SEED_PATH = fileURLToPath(new URL("../seed.json", import.meta.url));
+const LOAD_SQL_PATH = fileURLToPath(new URL("../load-seed.sql", import.meta.url));
+const MANIFEST_PATH = fileURLToPath(new URL("../photos.json", import.meta.url));
 const PHOTOS_DIR = fileURLToPath(new URL("../photos/", import.meta.url));
 
 // Пересборка эталона: `WRITE_DEMO_SEED=1 pnpm vitest run supabase/demo` (см. README рядом).
@@ -20,8 +22,13 @@ const PHOTOS_DIR = fileURLToPath(new URL("../photos/", import.meta.url));
 const seed = buildSeed();
 const seedText = `${JSON.stringify(seed, null, 2)}\n`;
 
+const loadSqlText = buildSeedLoadSql(seedText);
+const manifestText = `${JSON.stringify(buildPhotoManifest(), null, 2)}\n`;
+
 if (process.env.WRITE_DEMO_SEED === "1") {
   writeFileSync(SEED_PATH, seedText, "utf-8");
+  writeFileSync(LOAD_SQL_PATH, loadSqlText, "utf-8");
+  writeFileSync(MANIFEST_PATH, manifestText, "utf-8");
 }
 
 // При `core.autocrlf` git может вернуть файл с CRLF; `.gitattributes` это запрещает,
@@ -31,6 +38,23 @@ const fileText = readFileSync(SEED_PATH, "utf-8").replace(/\r\n/g, "\n");
 describe("seed.json", () => {
   it("совпадает с тем, что собирает генератор из исходников", () => {
     expect(fileText).toBe(seedText);
+  });
+
+  it("лежит в load-seed.sql ровно в том виде, который собирает генератор", () => {
+    expect(readFileSync(LOAD_SQL_PATH, "utf-8").replace(/\r\n/g, "\n")).toBe(loadSqlText);
+  });
+
+  it("держит в photos.json пути, совпадающие с photo_path рецептов эталона", () => {
+    const manifestFile = readFileSync(MANIFEST_PATH, "utf-8").replace(/\r\n/g, "\n");
+    const manifest: { file: string; path: string }[] = JSON.parse(manifestFile);
+
+    expect(manifestFile).toBe(manifestText);
+    expect(manifest.map((item) => item.path).sort()).toEqual(
+      seed.recipes
+        .flatMap((recipe) => (recipe.photo_path === null ? [] : [recipe.photo_path]))
+        .sort(),
+    );
+    expect(manifest.every((item) => existsSync(`${PHOTOS_DIR}${item.file}`))).toBe(true);
   });
 
   it("проходит схему бэкапа и проверку ссылочной целостности", () => {

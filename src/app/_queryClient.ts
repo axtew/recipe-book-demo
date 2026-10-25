@@ -1,11 +1,15 @@
 import { notifications } from "@mantine/notifications";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { MutationCache, QueryClient } from "@tanstack/react-query";
-import type { PersistQueryClientProviderProps } from "@tanstack/react-query-persist-client";
+import type {
+  Persister,
+  PersistQueryClientProviderProps,
+} from "@tanstack/react-query-persist-client";
 import { del, get, set } from "idb-keyval";
 
 import { CACHE_BUSTER, CACHE_MAX_AGE } from "@/constants/caching.constants";
 import { getDictionary } from "@/context/I18nContext";
+import { env } from "@/utils/env";
 
 declare module "@tanstack/react-query" {
   interface Register {
@@ -49,7 +53,22 @@ const idbStorage = {
   removeItem: (key: string) => del(key),
 };
 
-const queryPersister = createAsyncStoragePersister({ storage: idbStorage });
+/**
+ * Персистер-пустышка для демо-сборки. Раз в ночь демо-база сбрасывается к эталону,
+ * и снимок кэша из IndexedDB вернувшегося посетителя ссылается на строки, которых
+ * уже нет: модуль расчёта бросает исключение на такой висячей ссылке, и экран падает.
+ * Без чтения снимка каждый визит начинается с запроса к серверу; кэш не
+ * сериализуется и не пишется.
+ */
+const noopPersister: Persister = {
+  persistClient: async () => undefined,
+  restoreClient: async () => undefined,
+  removeClient: async () => undefined,
+};
+
+const queryPersister = env.isDemo
+  ? noopPersister
+  : createAsyncStoragePersister({ storage: idbStorage });
 
 export const persistOptions: PersistQueryClientProviderProps["persistOptions"] = {
   persister: queryPersister,

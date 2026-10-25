@@ -3,13 +3,30 @@
   // но под другим именем — отдельный сайт на своём адресе. Раздаётся `dist`
   // после `pnpm build:demo`; запускает владелец: `pnpm deploy:demo`.
   "name": "recipe-book-demo",
+  // Скрипт нужен только ради Cron Trigger (пинг, чтобы бесплатный проект Supabase
+  // не засыпал). Статика по-прежнему отдаётся без его вызова. В рабочем
+  // `wrangler.jsonc` скрипта нет и не должно быть.
+  "main": "supabase/demo/keepalive.ts",
   "compatibility_date": "2026-09-03",
   "observability": {
     "enabled": true,
   },
   "assets": {
     "directory": "dist",
+    // Нужен запасному `fetch` в скрипте (`supabase/demo/keepalive.ts`).
+    "binding": "ASSETS",
     // SPA-роутинг — см. комментарий в `wrangler.jsonc`.
     "not_found_handling": "single-page-application",
+  },
+  // Понедельник и четверг, 06:00 UTC.
+  "triggers": {
+    "crons": ["0 6 * * 1,4"],
+  },
+  // Адрес и publishable key демо-проекта для пинга: те же значения, что в
+  // `.env.demo`. Владелец подставляет их при выкатке (`supabase/demo/DEPLOY.md`).
+  // Ключ публичный по замыслу; секретные ключи сюда не класть.
+  "vars": {
+    "SUPABASE_URL": "https://REPLACE-ME.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "REPLACE-ME",
   },
 }

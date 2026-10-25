@@ -326,3 +326,41 @@ export function buildSeed(): TBackup {
     cook_logs: cookLogRows,
   };
 }
+
+const SEED_QUOTE = "$seed$";
+
+/**
+ * SQL, который кладёт эталон в таблицу `demo.seed`: файл целиком в dollar-кавычках
+ * одним INSERT. В отличие от вставки JSON в SQL Editor, его можно выполнить из
+ * командной строки (`supabase db query -f`), когда файл слишком велик для редактора.
+ * Повторное выполнение заменяет эталон и не трогает время последнего сброса.
+ */
+export function buildSeedLoadSql(seedText: string): string {
+  if (seedText.includes(SEED_QUOTE)) {
+    throw new Error(
+      `В эталоне встретилась последовательность ${SEED_QUOTE} — она закрыла бы строку`,
+    );
+  }
+
+  return [
+    "-- Загрузка эталона в демо-проект. Файл собирается генератором из `seed.json`, руками не правится.",
+    "-- Порядок применения — `supabase/demo/DEPLOY.md`; пересборка — `README.md` рядом.",
+    "insert into demo.seed (id, data)",
+    `values (1, ${SEED_QUOTE}${seedText.trimEnd()}${SEED_QUOTE}::jsonb)`,
+    "on conflict (id) do update set data = excluded.data, loaded_at = now();",
+    "",
+  ].join("\n");
+}
+
+/**
+ * Куда какой файл из `photos/` кладётся в Storage: путь объекта в бакете
+ * `recipe-photos` совпадает с `photo_path` рецепта в эталоне. По этому списку
+ * работает `upload-photos.mjs`.
+ */
+export function buildPhotoManifest(): { file: string; path: string }[] {
+  return RECIPES.flatMap((recipe, index) =>
+    recipe.photo === undefined
+      ? []
+      : [{ file: recipe.photo, path: `${makeId("recipe", index + 1)}/cover.webp` }],
+  );
+}

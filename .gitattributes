@@ -1,1 +1,4 @@
 supabase/demo/seed.json text eol=lf
+supabase/demo/load-seed.sql text eol=lf
+supabase/demo/setup.sql text eol=lf
+supabase/demo/photos.json text eol=lf
