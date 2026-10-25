@@ -1,5 +1,4 @@
 import { MantineProvider } from "@mantine/core";
-import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
@@ -10,9 +9,10 @@ import { I18nProvider } from "@/context/I18nContext";
 import { router } from "@/routes/AppRouter";
 import { GlobalStyle, mantineTheme, theme } from "@/theme";
 
+import { LocalizedDatesProvider } from "./_LocalizedDatesProvider";
 import { persistOptions, queryClient } from "./_queryClient";
 
-/** Композиция приложения: провайдеры (кэш запросов, UI-кит, тема, словарь) и роутер под ними. */
+/** App composition: providers (query cache, UI kit, theme, dictionary, dates) with the router below them. */
 export function App() {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
@@ -24,12 +24,12 @@ export function App() {
 
           <Notifications position="top-center" />
 
-          {/* Локаль dayjs подключена в main.tsx; неделя в России начинается с понедельника. */}
-          <DatesProvider settings={{ locale: "ru", firstDayOfWeek: 1 }}>
-            <I18nProvider>
+          {/* The dates provider needs the language, so it sits inside the i18n provider. */}
+          <I18nProvider>
+            <LocalizedDatesProvider>
               <RouterProvider router={router} />
-            </I18nProvider>
-          </DatesProvider>
+            </LocalizedDatesProvider>
+          </I18nProvider>
         </ThemeProvider>
       </MantineProvider>
     </PersistQueryClientProvider>

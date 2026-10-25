@@ -40,3 +40,16 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 - **Incident:** a repo-wide `pnpm prettier` rewrote 91 unrelated files; restored by the developer, working tree verified by the orchestrator (only the phase files changed).
 
 - **Review iteration 2:** APPROVED (`plans/localization/l2/iter-2/REVIEW.md`).
+
+## L3, iteration 1
+
+- **Date:** 2026-10-25
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** formats per UI language (`en-GB` / `ru-RU`, `5 Oct 2026` via dayjs), `LocalizedDatesProvider` inside `I18nProvider`, `LanguageBlock` in settings, «Recipe Book» in `index.html` and the manifest (demo «Recipe Book (demo)» / «Recipes demo»), retry of a failed dictionary fetch (`{ language, attempt }` request state).
+- **Checks:** lint, build, build:demo, test (129) green; live matrix on the local stack passed (switch, persistence, numbers, dates, calendar, mutation error language, manifest, retry). Russian calendar month names not opened.
+- **Review iteration 1:** APPROVED with notes (`plans/localization/l3/iter-1/REVIEW.md`).
+
+## L3, iteration 2
+
+- **Status:** completed — language radios grouped in a `fieldset` with `aria-label` (owner asked to fix the a11y note). lint, build, test (129) green.
+- **Review:** APPROVED (`plans/localization/l3/iter-2/REVIEW.md`).

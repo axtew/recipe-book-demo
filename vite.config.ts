@@ -5,8 +5,8 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  // Демо-сборка ставит пометку в название, чтобы иконка стенда на телефоне не
-  // путалась с рабочим приложением.
+  // The demo build marks the name so the demo icon on a phone is not confused
+  // with the working app.
   const isDemoBuild = mode === "demo";
 
   return {
@@ -14,16 +14,16 @@ export default defineConfig(({ mode }) => {
       react(),
       VitePWA({
         registerType: "autoUpdate",
-        // Словари попадают в precache явно: дефолтные globPatterns Workbox
-        // покрывают только js/css/html, а json проходит мимо service worker'а и
-        // кэшируется браузером эвристически. Тогда новый код может встретиться со
-        // старым словарём, и экран падает на отсутствующем ключе.
+        // Dictionaries go into the precache explicitly: the default Workbox
+        // globPatterns cover only js/css/html, so json bypasses the service
+        // worker and the browser caches it heuristically. New code can then meet
+        // an old dictionary, and the screen fails on a missing key.
         includeAssets: ["favicon.svg", "dictionaries/*.json"],
         manifest: {
-          name: isDemoBuild ? "Книга рецептов (демо)" : "Книга рецептов",
-          short_name: isDemoBuild ? "Рецепты (демо)" : "Рецепты",
-          description: "Справочник продуктов, рецепты с расчётом КБЖУ, журнал готовки",
-          lang: "ru",
+          name: isDemoBuild ? "Recipe Book (demo)" : "Recipe Book",
+          short_name: isDemoBuild ? "Recipes demo" : "Recipe Book",
+          description: "Product list, recipes with nutrition totals, cooking log",
+          lang: "en",
           theme_color: "#1a1a1a",
           background_color: "#ffffff",
           display: "standalone",

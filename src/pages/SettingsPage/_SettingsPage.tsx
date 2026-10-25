@@ -5,10 +5,11 @@ import { useI18nSelector } from "@/context/I18nContext";
 import { CategoriesEditor } from "./_internal/CategoriesEditor";
 import { ExportBlock } from "./_internal/ExportBlock";
 import { ImportBlock } from "./_internal/ImportBlock";
+import { LanguageBlock } from "./_internal/LanguageBlock";
 import { SAccount, SPage } from "./_styles";
 import { useSettingsPage } from "./_useSettingsPage";
 
-/** Настройки: бэкап в файл и обратно, порядок и названия категорий, выход. */
+/** Settings: backup to a file and back, category order and names, UI language, sign out. */
 export function SettingsPage() {
   const l = useI18nSelector(({ l }) => ({ ...l.settings.account, navigation: l.navigation }));
   const { handleSignOut, isSignOutPending, hasSignOutError } = useSettingsPage();
@@ -20,6 +21,7 @@ export function SettingsPage() {
       <ExportBlock />
       <ImportBlock />
       <CategoriesEditor />
+      <LanguageBlock />
 
       <SAccount>
         <Button
