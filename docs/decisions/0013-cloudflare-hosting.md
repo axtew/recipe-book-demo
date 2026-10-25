@@ -23,4 +23,4 @@
 
 ## Последствия
 
-- Приложение фактически выкачено на Cloudflare Workers (статические ассеты, `wrangler.jsonc`); порядок деплоя, домены и откат — [`DEPLOY.md`](../../DEPLOY.md).
+- Приложение фактически выкачено на Cloudflare Workers (статические ассеты, `wrangler.jsonc`); порядок деплоя, домены и откат — `DEPLOY.md` (только в рабочем репозитории; для своего развёртывания — раздел [«Deploy your own»](../../README.md#deploy-your-own) в README).

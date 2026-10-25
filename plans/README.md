@@ -6,7 +6,7 @@
 | Задача | Статус | Обсуждение | План | Журнал |
 |---|---|---|---|---|
 | `recipe-book-v1` — первая версия приложения | выполнено: обязательные фазы 1–12; фаза 13 (этикетка по фото) условная, после v1 | — | [plan.md](recipe-book-v1/plan.md) (схема БД, доменные типы, контракт модуля расчёта, карта экранов, фазы) | [EXECUTION.md](recipe-book-v1/EXECUTION.md) |
-| `publication` — публичная версия и демо-стенд | в работе: фаза P1 (документация), затем P2–P5 | [brainstorm.md](publication/brainstorm.md) | [plan.md](publication/plan.md) | [EXECUTION.md](publication/EXECUTION.md) |
+| `publication` — публичная версия и демо-стенд | в работе: фаза P1 (документация), затем P2–P5 | `publication/brainstorm.md` (только в рабочем репозитории) | `publication/plan.md` (только в рабочем репозитории) | `publication/EXECUTION.md` (только в рабочем репозитории) |
 
 Идеи сверх плана — в [BACKLOG.md](../BACKLOG.md). Принятые решения — [docs/decisions/](../docs/decisions/README.md).
 
