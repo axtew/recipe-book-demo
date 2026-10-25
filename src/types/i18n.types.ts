@@ -1,3 +1,4 @@
+import type { TLanguage } from "@/types/language.types";
 import type { TCookTimeFilter } from "@/types/recipes.types";
 
 export interface I18n {
@@ -305,7 +306,7 @@ export interface I18n {
   cookLog: {
     emptyTitle: string;
     emptyHint: string;
-    /** Двенадцать названий месяцев в именительном падеже, с января. */
+    /** Twelve month names in the nominative case, starting with January. */
     months: [
       string,
       string,
@@ -340,7 +341,7 @@ export interface I18n {
       title: string;
       description: string;
       button: string;
-      /** Шаблон с `{fileName}`. */
+      /** Template with `{fileName}`. */
       success: string;
       error: string;
     };
@@ -348,14 +349,14 @@ export interface I18n {
       title: string;
       description: string;
       button: string;
-      /** Шаблон с `{products}`, `{recipes}`, `{cookLogs}`. */
+      /** Template with `{products}`, `{recipes}`, `{cookLogs}`. */
       success: string;
       notEmpty: string;
       notJson: string;
       notBackup: string;
-      /** Шаблон с `{version}`. */
+      /** Template with `{version}`. */
       unsupportedVersion: string;
-      /** Шаблон с `{path}`. */
+      /** Template with `{path}`. */
       invalid: string;
       readFailed: string;
       importFailed: string;
@@ -368,6 +369,11 @@ export interface I18n {
       nameLabel: string;
       moveUp: string;
       moveDown: string;
+    };
+    language: {
+      title: string;
+      hint: string;
+      options: Record<TLanguage, string>;
     };
     account: {
       logoutButton: string;

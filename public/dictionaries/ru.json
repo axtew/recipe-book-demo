@@ -367,6 +367,14 @@
       "moveUp": "Выше",
       "moveDown": "Ниже"
     },
+    "language": {
+      "title": "Язык",
+      "hint": "По умолчанию — язык браузера",
+      "options": {
+        "en": "English",
+        "ru": "Русский"
+      }
+    },
     "account": {
       "logoutButton": "Выйти",
       "logoutError": "Не удалось выйти"

@@ -21,3 +21,22 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 
 - **Review:** APPROVED (`plans/localization/l1/iter-1/REVIEW.md`).
 - **Owner:** ADR 0033 gets one line on Russian test data and DB-compared strings (done by the session); quoted section names → amendment for L4/L8 in the plan; ADR 0001 voice and ADR 0034 option count left as is.
+
+## L2, iteration 1
+
+- **Date:** 2026-10-25
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** `en.json`, `settings.language` in both dictionaries, `TLanguage`, language constants, `locale.ts`, detection/storage, `LanguageContext` + `useLanguage`, per-language loading in the provider; key-parity and detection tests.
+- **Checks:** lint, build green; test 123 (was 112); live matrix on the local stack passed (en-US, ru-RU, de-DE, stored choice, all screens in English). Runtime switch not checked — no UI until L3.
+- **Deviation:** key-parity test uses `import.meta.glob` instead of `fs` (no Node types in `tsconfig.app.json`).
+
+## L2, review iteration 1
+
+- **Review:** NEEDS_CHANGES, `Issue source: plan` — two interfaces in `_I18nContext.tsx`. Owner chose: amend the plan (inline state type, plus small wording and comment fixes) and re-run; retry-after-failed-fetch moved to L3. Amendments recorded in the plan.
+
+## L2, iteration 2 (amendment)
+
+- **Status:** completed — inline provider state type, comment reworded, redundant guard removed, two `en.json` strings reworded. lint, build, test (123) green.
+- **Incident:** a repo-wide `pnpm prettier` rewrote 91 unrelated files; restored by the developer, working tree verified by the orchestrator (only the phase files changed).
+
+- **Review iteration 2:** APPROVED (`plans/localization/l2/iter-2/REVIEW.md`).

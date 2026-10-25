@@ -1,12 +1,12 @@
 import type { I18n } from "@/types/i18n.types";
 
 /**
- * Словарь для кода, живущего вне React, — сейчас это обработчик ошибок мутаций
- * в `queryClient`. Контекст оттуда недоступен, а текст всё равно должен лежать
- * в словаре, а не в коде.
+ * Dictionary for code that lives outside React — currently the mutation error
+ * handler in `queryClient`. The context is unreachable from there, yet the text
+ * still belongs in the dictionary, not in code.
  *
- * Заполняется провайдером при загрузке. До этого момента ни один экран не
- * отрендерен, поэтому `null` здесь означает только «словарь ещё едет».
+ * Filled by the provider on load. Until then no screen is rendered, so `null`
+ * only means "the dictionary is still on its way".
  */
 let dictionary: I18n | null = null;
 

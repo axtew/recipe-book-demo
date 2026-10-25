@@ -1,3 +1,4 @@
 export { getDictionary } from "./_dictionary";
 export { I18nProvider } from "./_I18nContext";
 export { useI18nSelector } from "./_useI18nSelector";
+export { useLanguage } from "./_useLanguage";

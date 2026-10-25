@@ -515,3 +515,11 @@ Reference docs exist as an English main file plus a Russian `.ru.md`; `BACKLOG.m
 **Fix:** when translating, take these names verbatim from the ADRs (or adjust the ADR quote in the same phase if the target wording is clearly better):
 - L4: `docs/agents/conventions/data.md` — "Purity of the domain module" (ADR 0017); `docs/agents/conventions/structure.md` — "Placement — one ladder for everything extracted" (ADR 0025); `plans/README.md` — the "Old name → new" table (ADR 0025).
 - L8: `BACKLOG.md` section names quoted by ADRs — "Rejected" (ADR 0032; use this name, not "Rejected / deferred" as L8 step 4 says), "Nutrition from a label photo", "Planning assistant", "Recipe import from a screenshot or a link", "Families and multi-tenancy", "Publishing to the stores", "Household inventory". Find every quote with `rg -n "BACKLOG" docs/decisions`.
+
+### Phase L2 — added 2026-10-25
+**Trigger:** L2 iter-1 review (`plans/localization/l2/iter-1/REVIEW.md`), `Issue source: plan` — `_I18nContext.tsx` declares two interfaces (`IProps`, `ILoadedDictionary`) with no `_types.ts`; the plan did not allocate one.
+**Fix:** drop `ILoadedDictionary` and type the provider state inline, so the file keeps one declaration (`IProps`); no `_types.ts`. In the same iteration: the provider comment about formats switching with the dictionary states that formatters read the display language from L3 on (no claim that is not yet true); remove the redundant `languageValue === null` guard; in `en.json` replace the Russian brand example in `products.addVariantSheet.namePlaceholder` with a neutral English example and reword `settings.importBlock.success` into idiomatic English (placeholders verbatim).
+
+### Phase L3 — added 2026-10-25
+**Trigger:** L2 iter-1 review note — after a failed dictionary fetch, choosing the same language again does nothing until reload.
+**Fix:** in `LanguageBlock` / the provider, choosing a language whose dictionary failed to load retries the fetch; a failed switch shows nothing new on screen (the current dictionary stays) and logs to the console, as in L2.

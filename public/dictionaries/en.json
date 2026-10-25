@@ -1,0 +1,383 @@
+{
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submitButton": "Sign in",
+      "error": "Wrong email or password",
+      "demoHint": "This is a demo: the email and password are already filled in, just press “Sign in”"
+    }
+  },
+  "demo": {
+    "banner": "Demo version. The data is shared by all visitors and reset every night"
+  },
+  "navigation": {
+    "recipes": "Recipes",
+    "products": "Products",
+    "log": "Log",
+    "settings": "Settings"
+  },
+  "appData": {
+    "errorTitle": "Couldn’t load the data",
+    "errorHint": "Check the connection and try again",
+    "retryButton": "Retry"
+  },
+  "mutation": {
+    "error": "Couldn’t save the changes"
+  },
+  "nutrients": {
+    "kcal": "kcal",
+    "protein": "P",
+    "fat": "F",
+    "carbs": "C",
+    "empty": "—",
+    "incomplete": "Nutrition is not fully filled in"
+  },
+  "products": {
+    "list": {
+      "title": "Products",
+      "searchPlaceholder": "Search by name",
+      "emptyTitle": "No products yet",
+      "emptyHint": "The first one appears when an ingredient is added to a recipe",
+      "nothingFound": "Nothing found",
+      "variantsLabel": "variants"
+    },
+    "card": {
+      "backLink": "← Back",
+      "notFoundTitle": "Product not found",
+      "notFoundHint": "The link may be outdated",
+      "archivedBadge": "Archived",
+      "variantsTitle": "Nutrition per 100 g",
+      "unnamedVariant": "Unnamed",
+      "activeLabel": "active",
+      "approximateLabel": "averaged, should be replaced",
+      "makeActive": "Make active",
+      "usedInTitle": "Used in",
+      "usedInEmpty": "Not in any recipe yet",
+      "archiveButton": "Archive product"
+    },
+    "archiveConfirm": {
+      "title": "Archive the product?",
+      "description": "It disappears from the product list and from the picker, but stays in the recipes that already use it. The app has no deletion.",
+      "usedInWarning": "The product is used in recipes:",
+      "confirmButton": "Archive",
+      "cancelButton": "Cancel"
+    },
+    "picker": {
+      "placeholder": "Product name",
+      "nothingFound": "Nothing found",
+      "createOption": "Create “{query}”"
+    },
+    "createSheet": {
+      "title": "New product",
+      "nameLabel": "Name",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "Select a category",
+      "submitButton": "Create",
+      "cancelButton": "Cancel",
+      "validationError": "Check the name and the category",
+      "submitError": "Couldn’t create the product"
+    },
+    "addVariantSheet": {
+      "title": "New variant",
+      "nameLabel": "Variant name",
+      "namePlaceholder": "For example, “Greek yogurt”",
+      "submitButton": "Add",
+      "cancelButton": "Cancel",
+      "validationError": "Check the numbers entered",
+      "submitError": "Couldn’t add the variant"
+    }
+  },
+  "recipeEditor": {
+    "backLink": "← Back",
+    "titleNew": "New recipe",
+    "titleEdit": "Edit recipe",
+    "notFoundTitle": "Recipe not found",
+    "notFoundHint": "The link may be outdated",
+    "draftPrompt": {
+      "title": "There is an unsaved draft",
+      "hint": "It was left over from last time. Restore it or start over?",
+      "restore": "Restore draft",
+      "discard": "Start over"
+    },
+    "form": {
+      "nameLabel": "Name",
+      "cookTimeLabel": "Time, min",
+      "servingsLabel": "Servings",
+      "yieldLabel": "Yield, g",
+      "yieldHint": "Yield is the weight of the cooked dish. Without it, nutrition is calculated from the raw weight and cooking loss is not accounted for.",
+      "notesLabel": "Notes",
+      "saveButton": "Save recipe",
+      "saving": "Saving…",
+      "submitError": "Couldn’t save the recipe. What you entered is still here — try again."
+    },
+    "validation": {
+      "name": "Enter the recipe name",
+      "servingsBase": "Servings must be a whole number greater than zero",
+      "yieldGrams": "Yield must be greater than zero",
+      "cookTimeMin": "Cooking time must be a whole number of minutes greater than zero",
+      "freezerDays": "Freezer storage must be a whole number of days, zero or more",
+      "fridgeDays": "Fridge storage must be a whole number of days, zero or more",
+      "videoUrls": "A video link must start with http:// or https://",
+      "steps": "Check the cooking steps",
+      "ingredients": "Each ingredient needs a product and grams greater than zero",
+      "generic": "Check the entered data"
+    },
+    "dishCategories": {
+      "label": "Dish categories"
+    },
+    "photo": {
+      "title": "Photo",
+      "empty": "No photo yet",
+      "alt": "Recipe photo",
+      "choose": "Choose photo",
+      "replace": "Replace photo",
+      "remove": "Remove",
+      "processing": "Compressing the photo…",
+      "error": "Couldn’t process the photo"
+    },
+    "ingredients": {
+      "title": "Ingredients",
+      "add": "Add ingredient",
+      "moveHandle": "Drag ingredient"
+    },
+    "ingredient": {
+      "menuLabel": "Ingredient actions",
+      "gramsLabel": "Grams",
+      "gramsPlaceholder": "Weight",
+      "gramsUnit": "g",
+      "optionalBadge": "optional",
+      "pinnedBadge": "variant pinned",
+      "unnamedVariant": "Unnamed",
+      "sheet": {
+        "title": "Ingredient",
+        "optionalLabel": "Optional (not counted in nutrition)",
+        "pinnedLabel": "Product variant",
+        "pinnedAuto": "Active product variant",
+        "unnamedVariant": "Unnamed",
+        "addVariant": "Add product variant",
+        "noteLabel": "Note",
+        "notePlaceholder": "For example, “finely chopped”",
+        "remove": "Remove from recipe",
+        "done": "Done"
+      }
+    },
+    "steps": {
+      "title": "Steps",
+      "add": "Add step",
+      "moveHandle": "Drag step",
+      "placeholder": "Describe the step",
+      "stepLabel": "Step",
+      "remove": "Remove step"
+    },
+    "storage": {
+      "title": "Storage",
+      "freezableLabel": "Can be frozen",
+      "freezerDaysLabel": "In the freezer, days",
+      "fridgeDaysLabel": "In the fridge, days"
+    },
+    "video": {
+      "title": "Video",
+      "placeholder": "Video link",
+      "add": "Add link",
+      "remove": "Remove link"
+    },
+    "nutritionBar": {
+      "empty": "Add ingredients — nutrition is calculated right away",
+      "per100g": "Per 100 g",
+      "perServing": "Per serving",
+      "servingsMissing": "set the number of servings",
+      "incompleteProducts": "No nutrition for"
+    }
+  },
+  "recipeList": {
+    "searchPlaceholder": "Name or product",
+    "filtersButton": "Filters",
+    "total": "Total recipes",
+    "found": "Found",
+    "uncategorized": "Uncategorized",
+    "emptyTitle": "No recipes yet",
+    "emptyHint": "Press “＋” to add the first one",
+    "nothingFoundTitle": "Nothing found",
+    "nothingFoundHint": "Try changing the query or clearing the filters",
+    "resetButton": "Reset search and filters",
+    "addButton": "Add recipe",
+    "expandGroup": "Expand",
+    "collapseGroup": "Collapse",
+    "card": {
+      "minutesUnit": "min",
+      "per100g": "per 100 g",
+      "freezable": "Can be frozen"
+    },
+    "filters": {
+      "title": "Filters",
+      "freezableLabel": "Freezable only",
+      "timeTitle": "Cooking time",
+      "timeAny": "Any",
+      "time": {
+        "upTo15": "up to 15 min",
+        "upTo30": "up to 30 min",
+        "upTo60": "up to 60 min",
+        "over60": "over 60 min"
+      },
+      "resetButton": "Reset",
+      "doneButton": "Done"
+    }
+  },
+  "recipeCard": {
+    "backLink": "← Back",
+    "notFoundTitle": "Recipe not found",
+    "notFoundHint": "The link may be outdated",
+    "archivedBadge": "Archived",
+    "editButton": "Edit",
+    "recordCookButton": "Log a cook",
+    "photoAlt": "Recipe photo",
+    "minutesUnit": "min",
+    "servingsLabel": "Servings",
+    "nutrition": {
+      "title": "Nutrition",
+      "per100g": "Per 100 g",
+      "perServing": "Per serving",
+      "total": "For the whole dish",
+      "rawWeightHint": "Calculated from the raw weight, cooking loss is not accounted for",
+      "emptyHint": "The recipe has no ingredients — nothing to calculate nutrition from",
+      "overrideMark": "entered manually",
+      "overrideNote": "Entered manually:",
+      "recalculate": "Recalculate",
+      "recalculating": "Recalculating…"
+    },
+    "incomplete": {
+      "title": "Nutrition is not fully calculated",
+      "hint": "These products have no nutrition filled in and are not included in the total:"
+    },
+    "storage": {
+      "title": "Storage",
+      "freezable": "Can be frozen",
+      "freezer": "In the freezer",
+      "fridge": "In the fridge",
+      "daysUnit": "d"
+    },
+    "ingredients": {
+      "title": "Ingredients",
+      "empty": "No ingredients yet",
+      "gramsUnit": "g",
+      "optionalBadge": "optional",
+      "pinnedLabel": "variant pinned",
+      "unnamedVariant": "Unnamed"
+    },
+    "steps": {
+      "title": "Steps",
+      "empty": "No steps yet"
+    },
+    "video": {
+      "title": "Video",
+      "linkLabel": "Video"
+    },
+    "notes": {
+      "title": "Notes"
+    },
+    "stats": {
+      "title": "Cooking history",
+      "never": "Not cooked yet",
+      "count": "Times cooked",
+      "lastCooked": "Last time",
+      "averageYield": "Average yield",
+      "averageDays": "Lasted on average",
+      "gramsUnit": "g",
+      "daysUnit": "d",
+      "empty": "—"
+    }
+  },
+  "cookLogSheet": {
+    "title": "Log a cook",
+    "dateLabel": "Cooking date",
+    "multiplierLabel": "How many servings of the recipe",
+    "multiplierCustomLabel": "Other value",
+    "yieldLabel": "Actual yield",
+    "containersLabel": "Containers",
+    "ratingLabel": "Rating",
+    "ratingClear": "Clear rating",
+    "noteLabel": "Note",
+    "gramsUnit": "g",
+    "submitButton": "Log",
+    "cancelButton": "Cancel",
+    "validationError": "Check the date and the multiplier",
+    "submitError": "Couldn’t log the cook"
+  },
+  "cookLog": {
+    "emptyTitle": "No entries yet",
+    "emptyHint": "The first one appears after pressing “Log a cook” on a recipe",
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "unknownRecipe": "Recipe not found",
+    "gramsUnit": "g",
+    "multiplierLabel": "Multiplier",
+    "yieldLabel": "Yield",
+    "containersLabel": "Containers",
+    "per100g": "per 100 g",
+    "finishedLabel": "Finished",
+    "finishButton": "Finished",
+    "otherDateButton": "Other date",
+    "finishSheet": {
+      "title": "When it was finished",
+      "submitButton": "Done",
+      "cancelButton": "Cancel"
+    }
+  },
+  "settings": {
+    "exportBlock": {
+      "title": "Export",
+      "description": "All products, recipes and log entries in one JSON file. Recipe photos are not included: the file only keeps the path to them.",
+      "button": "Download backup",
+      "success": "File saved: {fileName}",
+      "error": "Couldn’t get the data for the backup"
+    },
+    "importBlock": {
+      "title": "Import",
+      "description": "Restore from a backup file. Works only on an empty database: if it already has products, recipes or log entries, the import is rejected.",
+      "button": "Choose file",
+      "success": "Imported {products} products, {recipes} recipes and {cookLogs} log entries",
+      "notEmpty": "The database already has data: import is possible only into an empty database. Nothing was changed.",
+      "notJson": "This is not a backup file: the content can’t be read as JSON. Nothing was changed.",
+      "notBackup": "This is not a backup file of this app. Nothing was changed.",
+      "unsupportedVersion": "The file format version ({version}) is not supported by this version of the app. Nothing was changed.",
+      "invalid": "The file is damaged or was not created by this app. First problem: {path}. Nothing was changed.",
+      "readFailed": "Couldn’t read the file. Nothing was changed.",
+      "importFailed": "Couldn’t import the data. The database was not changed."
+    },
+    "categories": {
+      "title": "Categories",
+      "productsTitle": "Product categories",
+      "dishesTitle": "Dish categories",
+      "emptyHint": "No categories yet",
+      "nameLabel": "Category name",
+      "moveUp": "Up",
+      "moveDown": "Down"
+    },
+    "language": {
+      "title": "Language",
+      "hint": "By default, the browser language is used",
+      "options": {
+        "en": "English",
+        "ru": "Русский"
+      }
+    },
+    "account": {
+      "logoutButton": "Sign out",
+      "logoutError": "Couldn’t sign out"
+    }
+  }
+}
