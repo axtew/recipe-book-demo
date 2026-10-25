@@ -26,7 +26,7 @@
   // `.env.demo`. Владелец подставляет их при выкатке (`supabase/demo/DEPLOY.md`).
   // Ключ публичный по замыслу; секретные ключи сюда не класть.
   "vars": {
-    "SUPABASE_URL": "https://REPLACE-ME.supabase.co",
-    "SUPABASE_PUBLISHABLE_KEY": "REPLACE-ME",
+    "SUPABASE_URL": "https://qersprdozmbposznfdmj.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_ZQThmdJ33g6eYdlC1js9kA_m-g4wD8v",
   },
 }
