@@ -485,6 +485,65 @@ Reference docs exist as an English main file plus a Russian `.ru.md`; `BACKLOG.m
 
 **Visual Verification**: N/A
 
+### Phase L9 — English demo seed
+
+Added 2026-10-29 (amendments «Phase L8, L9 — added 2026-10-29» and «… (README, BACKLOG link)»). For this phase the demo sources stop being «data that stays Russian» (shared rule): the demo data becomes English. Production data, `supabase/migrations/**`, `supabase/dev-data*.sql`, `public/dictionaries/ru.json` and the Russian test data in `src/` are not touched.
+
+**Goal**
+
+A visitor of the demo sees English recipes, products, categories and cook log notes; the documents that describe the demo data say so; the live demo is reset to the new reference.
+
+**Budget**
+
+- Operation budget: ~16 files — volume-sized (~600 lines of source strings)
+- Concern budget: demo data, docs
+- Stop condition: Cyrillic search over the demo sources and the generated files = 0; the structural comparison of `seed.json` (below) shows only string changes in name/text fields; `photos.json` byte-identical; `pnpm vitest run supabase/demo`, lint, build, test green
+
+**Scope**
+
+| File | Change |
+|---|---|
+| `supabase/demo/source/products.ts` | product category, product and variant names in English; header comment in English |
+| `supabase/demo/source/recipes.ts` | recipe names, dish category names, ingredient notes, steps, recipe notes, storage texts in English; header comment |
+| `supabase/demo/source/cookLogs.ts` | recipe references follow the new names, notes in English; header comment |
+| `supabase/demo/_build.ts` | `DISH_CATEGORIES` in English (the same names `recipes.ts` uses) |
+| `supabase/demo/seed.json`, `load-seed.sql`, `photos.json` | regenerated with `WRITE_DEMO_SEED=1 pnpm vitest run supabase/demo` (never by hand) |
+| `supabase/demo/__tests__/seed.test.ts` | expected names follow the new data |
+| `supabase/demo/README.md` + `.ru.md` | the «in Russian for now» sentence goes; data names quoted in English (no gloss); the recipe/photo table with English names |
+| `supabase/demo/photos/CREDITS.md` + `.ru.md` | recipe names in English, the «in Russian for now» sentence goes; the author name stays as it is |
+| `supabase/demo/DEPLOY.md` + `.ru.md` | only if they name demo data or say it is Russian (grep) |
+| `README.md` + `README.ru.md` | line 15 «fictional, in Russian» → fictional, in English; the line-5 sentence and the line-91 limitation no longer say the demo data is Russian (the `plans/` logs clause stays); grep both for «Russian» / «русск» and list the rest |
+| `docs/decisions/0034-bilingual-ui-by-browser-language.md` | the line «Demo data stays Russian for now …» stays; append right after it: «**Update 2026-10-29:** the demo data is English (localization L9); per-language demo data is deferred — `BACKLOG.md`, «Demo data per UI language».» |
+| `BACKLOG.md` + `BACKLOG-ru.md` | only if a line says the demo data is Russian or names the English seed as future work (grep) |
+
+**Implementation details**
+
+1. **Translate, do not rewrite.** The same 20 recipes, 65 products, 75 variants, 39 log entries, in the same order, with the same numbers, grams, dates, servings, flags, `photo` file names and `videoUrls`. Order is what makes the ids (`de0000KK-…`), and with them the Storage paths `<recipe id>/cover.webp`, stable — reordering anything is a defect. Photo file names (`syrniki.webp`, …) stay: they are not shown in the UI.
+2. **Names.** Natural English cookbook names. Dishes without an English equivalent get a short descriptive name, not a transliteration (e.g. «Сырники» → «Cottage cheese pancakes», «Голубцы» → «Stuffed cabbage rolls», «Творог» → «Cottage cheese» or «Quark», consistently); widely known names stay (Borscht, Hummus, Chili con carne, Pasta bolognese, Blini). The fictional brands in variant names get fictional English brands (e.g. «Тихий ручей» → «Quiet Creek»), consistently across products; percentages and numbers stay. Product categories and dish categories: short plural nouns («Breakfast», «Soups», «Baking», …). The special cases keep their role under the new names: the only product without nutrition (now «Homemade adjika» or similar), the only archived product («Sour cream 15%») and the old recipe that still uses it.
+3. **Texts.** Steps, notes, ingredient notes and cook log notes: plain, short imperative cookbook English; keep every fact (temperatures, minutes, amounts, the «converted from cups and spoons» note). Do not add or drop steps.
+4. **Regenerate** with the generator command from `supabase/demo/README.md`; never edit `seed.json`, `load-seed.sql`, `photos.json` by hand.
+5. **Structural comparison** (throwaway script in the scratchpad, output pasted into DEV-REPORT): parse `HEAD:supabase/demo/seed.json` and the new file; walk both in parallel — same keys, same array lengths, every non-string value equal, every string equal except the text fields (`name`, `note`/`notes`, step `text`, ingredient `note`, storage texts, and the recipe/product names inside the cook log snapshot if the snapshot carries any). List the set of keys whose strings changed. `photos.json` — byte-identical to HEAD.
+6. **Docs.** As in the Scope table. The `.ru.md` copies quote the data in English as it now is (a Russian gloss in parentheses is allowed in the Russian copies only). Every other sentence of those files is untouched.
+7. **Search.** The app search normalises Russian (`ё`); English names need nothing — do not touch `src/`.
+
+**Verification**
+
+- `rg -n "[А-Яа-яЁё]" supabase/demo/source supabase/demo/_build.ts supabase/demo/__tests__ supabase/demo/seed.json supabase/demo/load-seed.sql supabase/demo/photos.json` = 0.
+- `rg -n "[А-Яа-яЁё]" supabase/demo/README.md supabase/demo/photos/CREDITS.md supabase/demo/DEPLOY.md README.md docs/decisions/0034-bilingual-ui-by-browser-language.md` — only the cross-link lines and the author name, listed.
+- Structural comparison output: only text fields changed; ids, numbers, dates, `photo_path`, `video_urls` identical; `photos.json` identical.
+- `pnpm vitest run supabase/demo` green (incl. «matches what the generator builds from the sources»); `pnpm lint`, `pnpm build`, `pnpm test` green.
+- Live check on the local stack: import the new `seed.json` through the settings import (local dev user only), open the recipe list, one recipe card, the product list and the cook log in English UI — the names read as English, the nutrition warning on the recipe with the incomplete product is shown. Restore the dev data afterwards as `docs/agents/local-environment.md` says.
+
+**Rollout (orchestrator, after the owner's go-ahead to commit — demo access grant)**
+
+1. `npx supabase db query --linked --project-ref qersprdozmbposznfdmj -f supabase/demo/load-seed.sql` (or `--db-url` per `supabase/demo/DEPLOY.md` appendix); the CLI stays linked to prod — never relink.
+2. `select demo.reset()` the same way → `{"recipes": 20, "products": 65, "cook_logs": 39}`.
+3. Photos: not re-uploaded (paths unchanged); check one cover on the live demo.
+4. `pnpm deploy:demo` is not needed for data alone; run it only if the frontend changed since the last demo deploy (L4–L8 touched no demo-visible code — confirm with `git diff 89c65af..HEAD --stat -- src public index.html vite.config.ts`; deploy if anything is listed).
+5. Live check: the demo list shows the English recipes with photos.
+
+**Visual Verification**: N/A (the live check above is done by the developer on the local stack; the rollout check by the orchestrator)
+
 ## Conventions to follow
 
 - `AGENTS.md` → «Жёсткие инварианты»: dates stay `YYYY-MM-DD` strings; no new dependencies (`dayjs` is already in `package.json`).
@@ -504,7 +563,8 @@ Reference docs exist as an English main file plus a Russian `.ru.md`; `BACKLOG.m
 
 ## Deferred follow-ups
 
-- English demo seed — `BACKLOG.md` (L8 step 4).
+- English demo seed — phase L9 (amendment «Phase L8, L9 — added 2026-10-29»).
+- Demo data per UI language — `BACKLOG.md`.
 - Translating historical `plans/` logs — not planned (decision).
 
 ## Amendments
@@ -578,3 +638,6 @@ Reference docs exist as an English main file plus a Russian `.ru.md`; `BACKLOG.m
 - **BACKLOG pair:** `BACKLOG.md` does not link to `BACKLOG-ru.md` (step 6; the publish link check rejects links to excluded files); only `BACKLOG-ru.md` links back. The «every pair cross-linked» stop condition reads with this exception.
 - **Small fixes in the same iteration:** `docs/user-guide.md:21,23` — «Breakfasts» / «Soups» are user data, not UI labels: present them as examples of category names; `docs/user-guide.ru.md:5` — the app name «Книга рецептов» → «Recipe Book» (ADR 0034: one name in both languages).
 - **L9 contract must include:** the README pair's demo statements (`README.md:15` and the line-91 clause, Russian counterparts); `supabase/demo/README.md` (the «demo data is in Russian for now» sentence) and `supabase/demo/photos/CREDITS.md` with their `.ru.md` pairs; the file-header comments in `supabase/demo/source/{products,recipes,cookLogs}.ts`; ADR 0034 line about the English seed being a separate later task.
+
+### Phase L9 — added 2026-10-29 (skipped review notes)
+L9 iter-1 review notes skipped by the owner (demo wording, not worth an iteration): «Gouda» variant name for Russian semi-hard cheese; `recipes.ts:297` «sprinkle with half of the lemon» (means «squeeze»); `recipes.ts:597` «the blin»; «Apples from the country house».

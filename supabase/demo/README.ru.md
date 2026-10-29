@@ -42,10 +42,10 @@ WRITE_DEMO_SEED=1 pnpm vitest run supabase/demo
 
 - Идентификаторы детерминированы: `de0000KK-0000-4000-8000-NNNNNNNNNNNN`, где `KK` — вид строки (01 категория продуктов, 02 категория блюд, 03 продукт, 04 вариант, 05 рецепт, 06 шаг, 07 ингредиент, 08 запись журнала). Повторная сборка даёт тот же файл.
 - Цифры КБЖУ — по общеизвестным таблицам питательности. Крупы и макароны указаны для сухого продукта, мясо и рыба — для сырого.
-- Единственный продукт без КБЖУ — «Аджика домашняя» (рецепт «Чили кон карне» показывает предупреждение о неполном расчёте). Единственный архивный продукт — «Сметана 15%», она остаётся в старой «Творожной запеканке».
+- Единственный продукт без КБЖУ — «Homemade adjika» (рецепт «Chili con carne» показывает предупреждение о неполном расчёте). Единственный архивный продукт — «Sour cream 15%», она остаётся в старом рецепте «Cottage cheese casserole».
 - Снимки журнала считаются от базового числа порций рецепта, как в карточке рецепта в приложении; множитель хранится отдельно.
 - Фото рецепта: имя файла из `photos/` в поле `photo`. В `seed.json` оно превращается в `photo_path` вида `<id рецепта>/cover.webp` — ровно тот путь, который приложение пишет при загрузке обложки (`uploadRecipePhoto`). Сами файлы в `seed.json` не входят: их кладёт в Storage сценарий настройки демо.
-- Видео: поле `videoUrls` попадает в `video_urls`. Рецепты «Овсяное печенье» и «Блины» пересказаны по роликам своими словами; количества «Блинов» пересчитаны из стаканов и ложек в граммы, это сказано в заметке рецепта.
+- Видео: поле `videoUrls` попадает в `video_urls`. Рецепты «Oatmeal cookies» и «Blini» пересказаны по роликам своими словами; количества «Blini» пересчитаны из стаканов и ложек в граммы, это сказано в заметке рецепта.
 - Файл `seed.json` помечен в `.gitattributes` как `eol=lf`: он уходит в `jsonb`, а тест сверяет его с генератором.
 - Типы папки проверяет `tsc -b` (проект `tsconfig.demo.json`, входит в `pnpm build`).
 
@@ -53,28 +53,28 @@ WRITE_DEMO_SEED=1 pnpm vitest run supabase/demo
 
 Бакет `recipe-photos`, путь объекта `<id рецепта>/cover.webp`, `contentType: image/webp`, `upsert: true`. Загружает их `upload-photos.mjs` по списку из `photos.json` ключом secret демо-проекта (запись в демо-бакете для пользователей закрыта — это делает `setup.sql`); команды — в `DEPLOY.md` рядом. Загрузку можно выполнять до или после импорта `seed.json` — порядок не важен, публичная ссылка строится по пути. Сброс базы Storage не трогает: фото остаются на месте.
 
-| Рецепт                      | Файл в `photos/`     |
-| --------------------------- | -------------------- |
-| Сырники                     | `syrniki.webp`       |
-| Овсянка с бананом и орехами | `ovsyanka.webp`      |
-| Творожная запеканка         | `zapekanka.webp`     |
-| Плов с курицей              | `plov.webp`          |
-| Гречка с грибами и луком    | `grechka.webp`       |
-| Паста болоньезе             | `bolognese.webp`     |
-| Голубцы                     | `golubtsy.webp`      |
-| Запечённая курица с овощами | `baked-chicken.webp` |
-| Куриные котлеты             | `cutlets.webp`       |
-| Лосось с брокколи           | `salmon.webp`        |
-| Борщ                        | `borscht.webp`       |
-| Куриный суп с лапшой        | `chicken-soup.webp`  |
-| Крем-суп из тыквы           | `pumpkin-soup.webp`  |
-| Шарлотка                    | `charlotte.webp`     |
-| Банановый хлеб              | `banana-bread.webp`  |
-| Чили кон карне              | `chili.webp`         |
-| Греческий салат             | `greek-salad.webp`   |
-| Хумус                       | `hummus.webp`        |
-| Овсяное печенье             | `cookies.webp`       |
-| Блины                       | `blini.webp`         |
+| Рецепт                             | Файл в `photos/`     |
+| ---------------------------------- | -------------------- |
+| Cottage cheese pancakes            | `syrniki.webp`       |
+| Oatmeal with banana and nuts       | `ovsyanka.webp`      |
+| Cottage cheese casserole           | `zapekanka.webp`     |
+| Chicken pilaf                      | `plov.webp`          |
+| Buckwheat with mushrooms and onion | `grechka.webp`       |
+| Pasta bolognese                    | `bolognese.webp`     |
+| Stuffed cabbage rolls              | `golubtsy.webp`      |
+| Baked chicken with vegetables      | `baked-chicken.webp` |
+| Chicken patties                    | `cutlets.webp`       |
+| Salmon with broccoli               | `salmon.webp`        |
+| Borscht                            | `borscht.webp`       |
+| Chicken noodle soup                | `chicken-soup.webp`  |
+| Pumpkin cream soup                 | `pumpkin-soup.webp`  |
+| Charlotte apple cake               | `charlotte.webp`     |
+| Banana bread                       | `banana-bread.webp`  |
+| Chili con carne                    | `chili.webp`         |
+| Greek salad                        | `greek-salad.webp`   |
+| Hummus                             | `hummus.webp`        |
+| Oatmeal cookies                    | `cookies.webp`       |
+| Blini                              | `blini.webp`         |
 
 Соответствие «рецепт → файл» живёт в `source/recipes.ts` (поле `photo`), таблица выше — его копия для чтения. Тест следит, чтобы в `photos/` не было лишних файлов и у каждого была запись в `CREDITS.md`.
 

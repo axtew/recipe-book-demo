@@ -164,7 +164,7 @@ describe("seed.json", () => {
   it("sets video links on two recipes", () => {
     const withVideo = seed.recipes.filter((recipe) => recipe.video_urls.length > 0);
 
-    expect(withVideo.map((recipe) => recipe.name).sort()).toEqual(["Блины", "Овсяное печенье"]);
+    expect(withVideo.map((recipe) => recipe.name).sort()).toEqual(["Blini", "Oatmeal cookies"]);
   });
 
   it("keeps the log within the window of recent months and after the recipe's added date", () => {
@@ -230,7 +230,7 @@ describe("seed.json", () => {
 
     for (const log of incomplete) {
       expect(log.snapshot.nutrition.incompleteProducts.map((item) => item.productName)).toEqual([
-        "Аджика домашняя",
+        "Homemade adjika",
       ]);
     }
   });

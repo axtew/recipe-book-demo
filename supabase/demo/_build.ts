@@ -18,7 +18,15 @@ import { RECIPES } from "./source/recipes";
 // for the log with the domain module. The result is written to `seed.json`.
 
 /** Dish categories match those created by the `reference_data` migration: the import matches them by name. */
-const DISH_CATEGORIES = ["Завтраки", "Обеды", "Ужины", "Супы", "Выпечка", "Десерты", "Заготовки"];
+const DISH_CATEGORIES = [
+  "Breakfasts",
+  "Lunches",
+  "Dinners",
+  "Soups",
+  "Baking",
+  "Desserts",
+  "Batch cooking",
+];
 
 const EXPORTED_AT = "2026-10-21T08:00:00.000000+00:00";
 const PRODUCTS_CREATED_AT = "2026-07-18T08:00:00.000000+00:00";

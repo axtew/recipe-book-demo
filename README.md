@@ -2,7 +2,7 @@
 
 # Recipe Book
 
-> **This is the public copy of my working repository.** The working one is private: I use the app myself. This copy is synced from it by hand with a script (`git filter-repo` plus a few checks) that leaves out working notes, learning materials and deployment credentials, so commit hashes differ from the private repository. The interface is in English and Russian (the app follows the browser language), and the reference docs have English and Russian versions; the demo data and the logs under `plans/` are still in Russian.
+> **This is the public copy of my working repository.** The working one is private: I use the app myself. This copy is synced from it by hand with a script (`git filter-repo` plus a few checks) that leaves out working notes, learning materials and deployment credentials, so commit hashes differ from the private repository. The interface is in English and Russian (the app follows the browser language), and the reference docs have English and Russian versions; the logs under `plans/` are still in Russian.
 
 A personal mobile-first PWA: a product reference with nutrition values, recipes with an automatic calorie and macro calculation (kcal, protein, fat, carbs), search, and a cooking log.
 
@@ -12,7 +12,7 @@ A personal mobile-first PWA: a product reference with nutrition values, recipes 
 
 - Login `demo@recipe-book.example`, password `demo-recipe-book` (the sign-in screen fills them in, one tap to enter).
 - The demo is shared by all visitors, and its data is reset to the reference set every night (00:00 UTC). Photo upload is disabled.
-- Recipes, products and cooking log are fictional, in Russian; photos come from Unsplash and Pexels, sources are in [`supabase/demo/photos/CREDITS.md`](supabase/demo/photos/CREDITS.md).
+- Recipes, products and cooking log are fictional, in English; photos come from Unsplash and Pexels, sources are in [`supabase/demo/photos/CREDITS.md`](supabase/demo/photos/CREDITS.md).
 - It is the same code base as the working app, built with the `VITE_DEMO` flag against a separate Supabase project.
 
 ## What it does
@@ -88,4 +88,4 @@ A full stand like the live demo (separate project, shared login, nightly reset, 
 - Writes need a network connection; offline, previously loaded data can only be read.
 - The whole dataset is loaded on start: no server-side search, pagination or filtering, by design for this data size.
 - Accounts are created by hand, there is no registration, no roles and no sharing between households.
-- The demo content is in Russian for now.
+- The demo content is in English only, whichever UI language is chosen.

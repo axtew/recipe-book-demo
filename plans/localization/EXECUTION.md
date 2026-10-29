@@ -144,3 +144,16 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 
 - **Status:** completed — README line 5 narrowed (bilingual interface; reference docs in English and Russian; demo data and `plans/` logs Russian); `README.ru.md:15` links `CREDITS.ru.md`. Links resolve; lint exit 0.
 - **Review iteration 3:** APPROVED (`plans/localization/l8/iter-3/REVIEW.md`). Carried to L9: `README.md:15` and the line-91 clause, ADR 0034 English-seed line, «Russian for now» sentences in `supabase/demo/README.md` and `CREDITS.md`.
+- **Committed:** `2eb623b` (not pushed).
+
+## L9, contract
+
+- **Date:** 2026-10-29
+- **Owner:** approved the approach — translate the existing 20 recipes as they are (same dishes, order, numbers, photos), descriptive English names instead of transliteration; rollout to the demo by the orchestrator under the demo access grant. Contract «Phase L9 — English demo seed» written into the plan.
+
+## L9, iteration 1
+
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** demo sources, `DISH_CATEGORIES`, seed test in English (exact-string mapping, order and numbers untouched); `seed.json` / `load-seed.sql` regenerated, `photos.json` byte-identical; demo README / CREDITS pairs, README pair, ADR 0034 Update line, BACKLOG pair updated.
+- **Checks:** structural comparison 8209 nodes / 0 problems (only text fields); Cyrillic = 0 in demo sources and generated files; local import of the seed checked in the English UI, dev data restored (counts identical); lint, build, test (129) green.
+- **Review iteration 1:** APPROVED (`plans/localization/l9/iter-1/REVIEW.md`). Wording notes skipped by the owner (Known issues in the plan).

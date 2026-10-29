@@ -7,31 +7,31 @@ values (1, $seed${
   "product_categories": [
     {
       "id": "de000001-0000-4000-8000-000000000001",
-      "name": "Молочное и яйца",
+      "name": "Dairy and eggs",
       "sort_order": 10,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000001-0000-4000-8000-000000000002",
-      "name": "Мясо и рыба",
+      "name": "Meat and fish",
       "sort_order": 20,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000001-0000-4000-8000-000000000003",
-      "name": "Овощи, фрукты и зелень",
+      "name": "Vegetables, fruit and herbs",
       "sort_order": 30,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000001-0000-4000-8000-000000000004",
-      "name": "Крупы, мука и макароны",
+      "name": "Grains, flour and pasta",
       "sort_order": 40,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000001-0000-4000-8000-000000000005",
-      "name": "Бакалея, масла и специи",
+      "name": "Pantry, oils and spices",
       "sort_order": 50,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     }
@@ -39,43 +39,43 @@ values (1, $seed${
   "dish_categories": [
     {
       "id": "de000002-0000-4000-8000-000000000001",
-      "name": "Завтраки",
+      "name": "Breakfasts",
       "sort_order": 10,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000002-0000-4000-8000-000000000002",
-      "name": "Обеды",
+      "name": "Lunches",
       "sort_order": 20,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000002-0000-4000-8000-000000000003",
-      "name": "Ужины",
+      "name": "Dinners",
       "sort_order": 30,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000002-0000-4000-8000-000000000004",
-      "name": "Супы",
+      "name": "Soups",
       "sort_order": 40,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000002-0000-4000-8000-000000000005",
-      "name": "Выпечка",
+      "name": "Baking",
       "sort_order": 50,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000002-0000-4000-8000-000000000006",
-      "name": "Десерты",
+      "name": "Desserts",
       "sort_order": 60,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000002-0000-4000-8000-000000000007",
-      "name": "Заготовки",
+      "name": "Batch cooking",
       "sort_order": 70,
       "created_at": "2026-07-18T08:00:00.000000+00:00"
     }
@@ -83,7 +83,7 @@ values (1, $seed${
   "products": [
     {
       "id": "de000003-0000-4000-8000-000000000001",
-      "name": "Молоко",
+      "name": "Milk",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-000000000001",
       "note": null,
@@ -93,7 +93,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000002",
-      "name": "Творог",
+      "name": "Cottage cheese",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-000000000004",
       "note": null,
@@ -103,7 +103,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000003",
-      "name": "Кефир 1%",
+      "name": "Kefir 1%",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-000000000007",
       "note": null,
@@ -113,7 +113,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000004",
-      "name": "Йогурт натуральный 1.5%",
+      "name": "Plain yogurt 1.5%",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-000000000008",
       "note": null,
@@ -123,7 +123,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000005",
-      "name": "Сливки 10%",
+      "name": "Cream 10%",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-000000000009",
       "note": null,
@@ -133,7 +133,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000006",
-      "name": "Сметана 20%",
+      "name": "Sour cream 20%",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-00000000000a",
       "note": null,
@@ -143,17 +143,17 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000007",
-      "name": "Сметана 15%",
+      "name": "Sour cream 15%",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-00000000000b",
-      "note": "Заменена сметаной 20%, осталась в старых рецептах",
+      "note": "Replaced by sour cream 20%, kept in old recipes",
       "archived_at": "2026-09-02T10:00:00.000000+00:00",
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-000000000008",
-      "name": "Сливочное масло 82.5%",
+      "name": "Butter 82.5%",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-00000000000c",
       "note": null,
@@ -163,17 +163,17 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000009",
-      "name": "Яйцо куриное",
+      "name": "Chicken egg",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-00000000000d",
-      "note": "Вес без скорлупы, одно яйцо около 55 г",
+      "note": "Weight without the shell, one egg is about 55 g",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-00000000000a",
-      "name": "Сыр твёрдый",
+      "name": "Hard cheese",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-00000000000e",
       "note": null,
@@ -183,7 +183,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000000b",
-      "name": "Сыр фета",
+      "name": "Feta",
       "category_id": "de000001-0000-4000-8000-000000000001",
       "active_variant_id": "de000004-0000-4000-8000-000000000010",
       "note": null,
@@ -193,7 +193,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000000c",
-      "name": "Куриное филе",
+      "name": "Chicken breast fillet",
       "category_id": "de000001-0000-4000-8000-000000000002",
       "active_variant_id": "de000004-0000-4000-8000-000000000011",
       "note": null,
@@ -203,7 +203,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000000d",
-      "name": "Куриные бёдра без кожи",
+      "name": "Skinless chicken thighs",
       "category_id": "de000001-0000-4000-8000-000000000002",
       "active_variant_id": "de000004-0000-4000-8000-000000000012",
       "note": null,
@@ -213,7 +213,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000000e",
-      "name": "Говяжий фарш",
+      "name": "Ground beef",
       "category_id": "de000001-0000-4000-8000-000000000002",
       "active_variant_id": "de000004-0000-4000-8000-000000000013",
       "note": null,
@@ -223,17 +223,17 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000000f",
-      "name": "Фарш домашний",
+      "name": "Homemade ground meat",
       "category_id": "de000001-0000-4000-8000-000000000002",
       "active_variant_id": "de000004-0000-4000-8000-000000000015",
-      "note": "Свинина и говядина пополам",
+      "note": "Half pork, half beef",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-000000000010",
-      "name": "Говядина, лопатка",
+      "name": "Beef shoulder",
       "category_id": "de000001-0000-4000-8000-000000000002",
       "active_variant_id": "de000004-0000-4000-8000-000000000016",
       "note": null,
@@ -243,7 +243,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000011",
-      "name": "Лосось (сёмга)",
+      "name": "Salmon",
       "category_id": "de000001-0000-4000-8000-000000000002",
       "active_variant_id": "de000004-0000-4000-8000-000000000017",
       "note": null,
@@ -253,7 +253,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000012",
-      "name": "Картофель",
+      "name": "Potatoes",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000018",
       "note": null,
@@ -263,7 +263,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000013",
-      "name": "Морковь",
+      "name": "Carrots",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000019",
       "note": null,
@@ -273,7 +273,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000014",
-      "name": "Лук репчатый",
+      "name": "Onion",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-00000000001a",
       "note": null,
@@ -283,7 +283,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000015",
-      "name": "Чеснок",
+      "name": "Garlic",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-00000000001b",
       "note": null,
@@ -293,7 +293,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000016",
-      "name": "Капуста белокочанная",
+      "name": "White cabbage",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-00000000001c",
       "note": null,
@@ -303,7 +303,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000017",
-      "name": "Свёкла",
+      "name": "Beetroot",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-00000000001d",
       "note": null,
@@ -313,7 +313,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000018",
-      "name": "Помидоры",
+      "name": "Tomatoes",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-00000000001e",
       "note": null,
@@ -323,7 +323,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000019",
-      "name": "Огурцы",
+      "name": "Cucumbers",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-00000000001f",
       "note": null,
@@ -333,7 +333,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000001a",
-      "name": "Перец болгарский",
+      "name": "Bell pepper",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000020",
       "note": null,
@@ -343,7 +343,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000001b",
-      "name": "Брокколи",
+      "name": "Broccoli",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000021",
       "note": null,
@@ -353,7 +353,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000001c",
-      "name": "Тыква",
+      "name": "Pumpkin",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000022",
       "note": null,
@@ -363,7 +363,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000001d",
-      "name": "Кабачок",
+      "name": "Zucchini",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000023",
       "note": null,
@@ -373,7 +373,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000001e",
-      "name": "Шампиньоны",
+      "name": "Button mushrooms",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000024",
       "note": null,
@@ -383,17 +383,17 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000001f",
-      "name": "Банан",
+      "name": "Banana",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000025",
-      "note": "Вес очищенного",
+      "note": "Peeled weight",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-000000000020",
-      "name": "Яблоки",
+      "name": "Apples",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000026",
       "note": null,
@@ -403,7 +403,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000021",
-      "name": "Лимон",
+      "name": "Lemon",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000027",
       "note": null,
@@ -413,7 +413,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000022",
-      "name": "Укроп",
+      "name": "Dill",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000028",
       "note": null,
@@ -423,7 +423,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000023",
-      "name": "Петрушка",
+      "name": "Parsley",
       "category_id": "de000001-0000-4000-8000-000000000003",
       "active_variant_id": "de000004-0000-4000-8000-000000000029",
       "note": null,
@@ -433,27 +433,27 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000024",
-      "name": "Рис",
+      "name": "Rice",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-00000000002a",
-      "note": "КБЖУ для сухого",
+      "note": "Nutrition for the dry product",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-000000000025",
-      "name": "Гречка",
+      "name": "Buckwheat",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-00000000002b",
-      "note": "КБЖУ для сухой",
+      "note": "Nutrition for the dry product",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-000000000026",
-      "name": "Овсяные хлопья",
+      "name": "Rolled oats",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-00000000002c",
       "note": null,
@@ -463,7 +463,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000027",
-      "name": "Манная крупа",
+      "name": "Semolina",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-00000000002d",
       "note": null,
@@ -473,17 +473,17 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000028",
-      "name": "Макароны",
+      "name": "Pasta",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-00000000002e",
-      "note": "КБЖУ для сухих",
+      "note": "Nutrition for the dry product",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-000000000029",
-      "name": "Мука пшеничная",
+      "name": "Wheat flour",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-000000000030",
       "note": null,
@@ -493,7 +493,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000002a",
-      "name": "Сахар",
+      "name": "Sugar",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-000000000031",
       "note": null,
@@ -503,7 +503,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000002b",
-      "name": "Панировочные сухари",
+      "name": "Breadcrumbs",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-000000000033",
       "note": null,
@@ -513,7 +513,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000002c",
-      "name": "Нут отварной",
+      "name": "Cooked chickpeas",
       "category_id": "de000001-0000-4000-8000-000000000004",
       "active_variant_id": "de000004-0000-4000-8000-000000000034",
       "note": null,
@@ -523,7 +523,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000002d",
-      "name": "Масло растительное",
+      "name": "Vegetable oil",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000035",
       "note": null,
@@ -533,7 +533,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000002e",
-      "name": "Томатная паста",
+      "name": "Tomato paste",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000038",
       "note": null,
@@ -543,7 +543,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000002f",
-      "name": "Томаты в собственном соку",
+      "name": "Canned tomatoes",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000039",
       "note": null,
@@ -553,7 +553,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000030",
-      "name": "Фасоль красная консервированная",
+      "name": "Canned kidney beans",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000003a",
       "note": null,
@@ -563,7 +563,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000031",
-      "name": "Маслины",
+      "name": "Olives",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000003b",
       "note": null,
@@ -573,7 +573,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000032",
-      "name": "Паста тахини",
+      "name": "Tahini",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000003c",
       "note": null,
@@ -583,7 +583,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000033",
-      "name": "Мёд",
+      "name": "Honey",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000003d",
       "note": null,
@@ -593,7 +593,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000034",
-      "name": "Грецкий орех",
+      "name": "Walnuts",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000003e",
       "note": null,
@@ -603,7 +603,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000035",
-      "name": "Миндаль",
+      "name": "Almonds",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000003f",
       "note": null,
@@ -613,7 +613,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000036",
-      "name": "Изюм",
+      "name": "Raisins",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000040",
       "note": null,
@@ -623,7 +623,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000037",
-      "name": "Соль",
+      "name": "Salt",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000041",
       "note": null,
@@ -633,17 +633,17 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000038",
-      "name": "Вода",
+      "name": "Water",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000042",
-      "note": "Для рецептов, где вода входит в вес теста",
+      "note": "For recipes where water counts toward the weight of the dough",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
     },
     {
       "id": "de000003-0000-4000-8000-000000000039",
-      "name": "Ванильный сахар",
+      "name": "Vanilla sugar",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000043",
       "note": null,
@@ -653,7 +653,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000003a",
-      "name": "Разрыхлитель теста",
+      "name": "Baking powder",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000044",
       "note": null,
@@ -663,7 +663,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000003b",
-      "name": "Перец чёрный молотый",
+      "name": "Ground black pepper",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000045",
       "note": null,
@@ -673,7 +673,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000003c",
-      "name": "Паприка молотая",
+      "name": "Ground paprika",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000046",
       "note": null,
@@ -683,7 +683,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000003d",
-      "name": "Зира молотая",
+      "name": "Ground cumin",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000047",
       "note": null,
@@ -693,7 +693,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000003e",
-      "name": "Лавровый лист",
+      "name": "Bay leaf",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000048",
       "note": null,
@@ -703,7 +703,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-00000000003f",
-      "name": "Корица молотая",
+      "name": "Ground cinnamon",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-000000000049",
       "note": null,
@@ -713,7 +713,7 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000040",
-      "name": "Орегано сушёный",
+      "name": "Dried oregano",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000004a",
       "note": null,
@@ -723,10 +723,10 @@ values (1, $seed${
     },
     {
       "id": "de000003-0000-4000-8000-000000000041",
-      "name": "Аджика домашняя",
+      "name": "Homemade adjika",
       "category_id": "de000001-0000-4000-8000-000000000005",
       "active_variant_id": "de000004-0000-4000-8000-00000000004b",
-      "note": "Рецепт от соседей, состав неизвестен — КБЖУ не заполнено",
+      "note": "Recipe from the neighbours, composition unknown — nutrition not filled in",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
@@ -736,7 +736,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000001",
       "product_id": "de000003-0000-4000-8000-000000000001",
-      "name": "Луговое 3.2%",
+      "name": "Meadow 3.2%",
       "kcal_100": 60,
       "protein_100": 2.9,
       "fat_100": 3.2,
@@ -751,7 +751,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000002",
       "product_id": "de000003-0000-4000-8000-000000000001",
-      "name": "Луговое 2.5%",
+      "name": "Meadow 2.5%",
       "kcal_100": 52,
       "protein_100": 2.8,
       "fat_100": 2.5,
@@ -766,7 +766,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000003",
       "product_id": "de000003-0000-4000-8000-000000000001",
-      "name": "Ясный день 3.5%",
+      "name": "Bright Day 3.5%",
       "kcal_100": 64,
       "protein_100": 3,
       "fat_100": 3.5,
@@ -781,7 +781,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000004",
       "product_id": "de000003-0000-4000-8000-000000000002",
-      "name": "Тихий ручей 5%",
+      "name": "Quiet Creek 5%",
       "kcal_100": 121,
       "protein_100": 17.2,
       "fat_100": 5,
@@ -796,7 +796,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000005",
       "product_id": "de000003-0000-4000-8000-000000000002",
-      "name": "Тихий ручей 9%",
+      "name": "Quiet Creek 9%",
       "kcal_100": 159,
       "protein_100": 16.7,
       "fat_100": 9,
@@ -811,7 +811,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000006",
       "product_id": "de000003-0000-4000-8000-000000000002",
-      "name": "Обезжиренный",
+      "name": "Fat-free",
       "kcal_100": 88,
       "protein_100": 18,
       "fat_100": 0.6,
@@ -931,7 +931,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-00000000000e",
       "product_id": "de000003-0000-4000-8000-00000000000a",
-      "name": "Российский",
+      "name": "Gouda",
       "kcal_100": 363,
       "protein_100": 23.4,
       "fat_100": 29.5,
@@ -946,7 +946,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-00000000000f",
       "product_id": "de000003-0000-4000-8000-00000000000a",
-      "name": "Пармезан",
+      "name": "Parmesan",
       "kcal_100": 392,
       "protein_100": 33,
       "fat_100": 28,
@@ -1006,14 +1006,14 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000013",
       "product_id": "de000003-0000-4000-8000-00000000000e",
-      "name": "Классический",
+      "name": "Regular",
       "kcal_100": 254,
       "protein_100": 17.2,
       "fat_100": 20,
       "carbs_100": 0,
       "is_approximate": true,
       "source": "seed",
-      "note": "Среднее по магазинным упаковкам",
+      "note": "Average across store packs",
       "archived_at": null,
       "created_at": "2026-07-18T08:00:00.000000+00:00",
       "updated_at": "2026-07-18T08:00:00.000000+00:00"
@@ -1021,7 +1021,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000014",
       "product_id": "de000003-0000-4000-8000-00000000000e",
-      "name": "Нежирный",
+      "name": "Lean",
       "kcal_100": 176,
       "protein_100": 20,
       "fat_100": 10,
@@ -1411,7 +1411,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-00000000002e",
       "product_id": "de000003-0000-4000-8000-000000000028",
-      "name": "Спагетти",
+      "name": "Spaghetti",
       "kcal_100": 337,
       "protein_100": 10.4,
       "fat_100": 1.1,
@@ -1426,7 +1426,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-00000000002f",
       "product_id": "de000003-0000-4000-8000-000000000028",
-      "name": "Вермишель тонкая",
+      "name": "Thin vermicelli",
       "kcal_100": 336,
       "protein_100": 10.4,
       "fat_100": 1.1,
@@ -1456,7 +1456,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000031",
       "product_id": "de000003-0000-4000-8000-00000000002a",
-      "name": "Белый",
+      "name": "White",
       "kcal_100": 399,
       "protein_100": 0,
       "fat_100": 0,
@@ -1471,7 +1471,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000032",
       "product_id": "de000003-0000-4000-8000-00000000002a",
-      "name": "Тростниковый",
+      "name": "Cane",
       "kcal_100": 380,
       "protein_100": 0.1,
       "fat_100": 0,
@@ -1516,7 +1516,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000035",
       "product_id": "de000003-0000-4000-8000-00000000002d",
-      "name": "Подсолнечное",
+      "name": "Sunflower",
       "kcal_100": 899,
       "protein_100": 0,
       "fat_100": 99.9,
@@ -1531,7 +1531,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000036",
       "product_id": "de000003-0000-4000-8000-00000000002d",
-      "name": "Оливковое",
+      "name": "Olive",
       "kcal_100": 898,
       "protein_100": 0,
       "fat_100": 99.8,
@@ -1546,7 +1546,7 @@ values (1, $seed${
     {
       "id": "de000004-0000-4000-8000-000000000037",
       "product_id": "de000003-0000-4000-8000-00000000002d",
-      "name": "Кукурузное",
+      "name": "Corn",
       "kcal_100": 899,
       "protein_100": 0,
       "fat_100": 99.9,
@@ -1862,12 +1862,12 @@ values (1, $seed${
   "recipes": [
     {
       "id": "de000005-0000-4000-8000-000000000001",
-      "name": "Сырники",
+      "name": "Cottage cheese pancakes",
       "servings_base": 3,
       "yield_grams": null,
       "cook_time_min": 25,
       "photo_path": "de000005-0000-4000-8000-000000000001/cover.webp",
-      "notes": "Творог должен быть сухим. Если масса липнет к рукам, добавить ложку муки, но не больше: сырники станут плотными.",
+      "notes": "The cottage cheese must be dry. If the mixture sticks to your hands, add a spoonful of flour, but no more: the pancakes will turn dense.",
       "video_urls": [],
       "freezable": false,
       "freezer_days": null,
@@ -1882,12 +1882,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000002",
-      "name": "Овсянка с бананом и орехами",
+      "name": "Oatmeal with banana and nuts",
       "servings_base": 1,
       "yield_grams": null,
       "cook_time_min": 10,
       "photo_path": "de000005-0000-4000-8000-000000000002/cover.webp",
-      "notes": "Банан для каши лучше брать спелый, с тёмными пятнышками: он слаще, и мёд не нужен.",
+      "notes": "Use a ripe banana with dark spots for the porridge: it is sweeter, so no honey is needed.",
       "video_urls": [],
       "freezable": false,
       "freezer_days": null,
@@ -1902,7 +1902,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000003",
-      "name": "Творожная запеканка",
+      "name": "Cottage cheese casserole",
       "servings_base": 6,
       "yield_grams": 860,
       "cook_time_min": 50,
@@ -1922,12 +1922,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000004",
-      "name": "Плов с курицей",
+      "name": "Chicken pilaf",
       "servings_base": 6,
       "yield_grams": 1900,
       "cook_time_min": 75,
       "photo_path": "de000005-0000-4000-8000-000000000004/cover.webp",
-      "notes": "Рис до закладки промывать, пока вода не станет прозрачной, — тогда плов выйдет рассыпчатым.",
+      "notes": "Rinse the rice before adding it until the water runs clear — then the pilaf turns out fluffy.",
       "video_urls": [],
       "freezable": false,
       "freezer_days": null,
@@ -1942,7 +1942,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000005",
-      "name": "Гречка с грибами и луком",
+      "name": "Buckwheat with mushrooms and onion",
       "servings_base": 3,
       "yield_grams": null,
       "cook_time_min": 35,
@@ -1962,7 +1962,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000006",
-      "name": "Паста болоньезе",
+      "name": "Pasta bolognese",
       "servings_base": 4,
       "yield_grams": 1450,
       "cook_time_min": 50,
@@ -1982,12 +1982,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000007",
-      "name": "Голубцы",
+      "name": "Stuffed cabbage rolls",
       "servings_base": 8,
       "yield_grams": 2300,
       "cook_time_min": 120,
       "photo_path": "de000005-0000-4000-8000-000000000007/cover.webp",
-      "notes": "Хорошо замораживаются уже готовыми, в соусе. Перед подачей разогревать в духовке или на сковороде под крышкой.",
+      "notes": "They freeze well when already cooked, in the sauce. Reheat in the oven or in a covered frying pan before serving.",
       "video_urls": [],
       "freezable": true,
       "freezer_days": 90,
@@ -2002,7 +2002,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000008",
-      "name": "Запечённая курица с овощами",
+      "name": "Baked chicken with vegetables",
       "servings_base": 4,
       "yield_grams": null,
       "cook_time_min": 70,
@@ -2022,12 +2022,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000009",
-      "name": "Куриные котлеты",
+      "name": "Chicken patties",
       "servings_base": 8,
       "yield_grams": 950,
       "cook_time_min": 45,
       "photo_path": "de000005-0000-4000-8000-000000000009/cover.webp",
-      "notes": "Для сочности филе лучше нарезать мелкими кубиками ножом, а не прокручивать в фарш.",
+      "notes": "For juiciness, dice the fillet finely with a knife instead of grinding it.",
       "video_urls": [],
       "freezable": true,
       "freezer_days": 90,
@@ -2042,7 +2042,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-00000000000a",
-      "name": "Лосось с брокколи",
+      "name": "Salmon with broccoli",
       "servings_base": 2,
       "yield_grams": null,
       "cook_time_min": 25,
@@ -2062,12 +2062,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-00000000000b",
-      "name": "Борщ",
+      "name": "Borscht",
       "servings_base": 8,
       "yield_grams": 3300,
       "cook_time_min": 150,
       "photo_path": "de000005-0000-4000-8000-00000000000b/cover.webp",
-      "notes": "На второй день вкуснее. Для яркого цвета в конце добавить ложку лимонного сока или уксуса.",
+      "notes": "It tastes better on the second day. For a bright colour, add a spoonful of lemon juice or vinegar at the end.",
       "video_urls": [],
       "freezable": true,
       "freezer_days": 90,
@@ -2082,7 +2082,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-00000000000c",
-      "name": "Куриный суп с лапшой",
+      "name": "Chicken noodle soup",
       "servings_base": 6,
       "yield_grams": 2500,
       "cook_time_min": 50,
@@ -2102,7 +2102,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-00000000000d",
-      "name": "Крем-суп из тыквы",
+      "name": "Pumpkin cream soup",
       "servings_base": 4,
       "yield_grams": 1500,
       "cook_time_min": 40,
@@ -2122,12 +2122,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-00000000000e",
-      "name": "Шарлотка",
+      "name": "Charlotte apple cake",
       "servings_base": 8,
       "yield_grams": 950,
       "cook_time_min": 60,
       "photo_path": "de000005-0000-4000-8000-00000000000e/cover.webp",
-      "notes": "Лучше всего получается с кисло-сладкими яблоками. Если яблоки сочные, посыпать их ложкой муки.",
+      "notes": "It works best with sweet-and-sour apples. If the apples are juicy, sprinkle them with a spoonful of flour.",
       "video_urls": [],
       "freezable": false,
       "freezer_days": null,
@@ -2142,12 +2142,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-00000000000f",
-      "name": "Банановый хлеб",
+      "name": "Banana bread",
       "servings_base": 10,
       "yield_grams": 780,
       "cook_time_min": 70,
       "photo_path": "de000005-0000-4000-8000-00000000000f/cover.webp",
-      "notes": "Бананы должны быть перезрелыми, почти чёрными. Разрыхлитель в расчёт не входит: его вес пренебрежимо мал.",
+      "notes": "The bananas must be overripe, almost black. The baking powder is not counted: its weight is negligible.",
       "video_urls": [],
       "freezable": true,
       "freezer_days": 60,
@@ -2162,12 +2162,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000010",
-      "name": "Чили кон карне",
+      "name": "Chili con carne",
       "servings_base": 6,
       "yield_grams": 1900,
       "cook_time_min": 90,
       "photo_path": "de000005-0000-4000-8000-000000000010/cover.webp",
-      "notes": "Аджика домашняя без известного состава: цифры КБЖУ для неё не заполнены, поэтому расчёт неполный.",
+      "notes": "The homemade adjika has an unknown composition: its nutrition figures are not filled in, so the calculation is incomplete.",
       "video_urls": [],
       "freezable": true,
       "freezer_days": 90,
@@ -2182,7 +2182,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000011",
-      "name": "Греческий салат",
+      "name": "Greek salad",
       "servings_base": 2,
       "yield_grams": null,
       "cook_time_min": 10,
@@ -2202,7 +2202,7 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000012",
-      "name": "Хумус",
+      "name": "Hummus",
       "servings_base": 6,
       "yield_grams": null,
       "cook_time_min": 15,
@@ -2222,12 +2222,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000013",
-      "name": "Овсяное печенье",
+      "name": "Oatmeal cookies",
       "servings_base": 16,
       "yield_grams": 540,
       "cook_time_min": 45,
       "photo_path": "de000005-0000-4000-8000-000000000013/cover.webp",
-      "notes": "Рецепт по видео канала «ПроСто кухня» (шеф Белькович). Изюмная паста делает тесто мягче. В видео указан выход 400 г; здесь принят вес 540 г: сумма сырья за вычетом влаги, ушедшей при выпечке.",
+      "notes": "Based on a video from the ProSto Kuhnya channel (chef Belkovich). The raisin paste makes the dough softer. The video gives a yield of 400 g; here the weight is taken as 540 g: the sum of the raw ingredients minus the moisture lost in baking.",
       "video_urls": [
         "https://www.youtube.com/watch?v=Trwh6ZMIMAs"
       ],
@@ -2244,12 +2244,12 @@ values (1, $seed${
     },
     {
       "id": "de000005-0000-4000-8000-000000000014",
-      "name": "Блины",
+      "name": "Blini",
       "servings_base": 5,
       "yield_grams": null,
       "cook_time_min": 40,
       "photo_path": "de000005-0000-4000-8000-000000000014/cover.webp",
-      "notes": "Рецепт по видео «Едим Дома» (Юлия Высоцкая). В оригинале количества даны в стаканах и ложках, здесь они пересчитаны в граммы: стакан 250 мл (молоко и вода по 250 г), мука около 150 г на стакан, столовая ложка сахара 25 г, масла 17 г, чайная ложка соли 7 г, разрыхлителя 4 г, яйцо 55 г. Муки может уйти чуть больше: тесто должно оставаться жидким.",
+      "notes": "Based on a video from Edim Doma (Yulia Vysotskaya). The original gives the amounts in cups and spoons; here they are converted to grams: a cup is 250 ml (milk and water 250 g each), flour is about 150 g per cup, a tablespoon of sugar is 25 g, of oil 17 g, a teaspoon of salt is 7 g, of baking powder 4 g, an egg is 55 g. Slightly more flour may be needed: the batter must stay thin.",
       "video_urls": [
         "https://www.youtube.com/watch?v=hfp7--DgLUo"
       ],
@@ -2270,631 +2270,631 @@ values (1, $seed${
       "id": "de000006-0000-4000-8000-000000000001",
       "recipe_id": "de000005-0000-4000-8000-000000000001",
       "sort_order": 1,
-      "text": "Растереть творог вилкой до мелких крупинок, добавить яйцо, сахар и щепотку соли."
+      "text": "Mash the cottage cheese with a fork into small crumbs, add the egg, sugar and a pinch of salt."
     },
     {
       "id": "de000006-0000-4000-8000-000000000002",
       "recipe_id": "de000005-0000-4000-8000-000000000001",
       "sort_order": 2,
-      "text": "Всыпать 60 г муки и замесить мягкое тесто, которое держит форму."
+      "text": "Add 60 g of flour and knead a soft dough that holds its shape."
     },
     {
       "id": "de000006-0000-4000-8000-000000000003",
       "recipe_id": "de000005-0000-4000-8000-000000000001",
       "sort_order": 3,
-      "text": "Оставшуюся муку насыпать на доску. Раскатать из теста шарики размером с абрикос и слегка приплюснуть."
+      "text": "Sprinkle the remaining flour on a board. Roll the dough into apricot-sized balls and flatten them slightly."
     },
     {
       "id": "de000006-0000-4000-8000-000000000004",
       "recipe_id": "de000005-0000-4000-8000-000000000001",
       "sort_order": 4,
-      "text": "Обвалять каждый кружок в муке и стряхнуть лишнее."
+      "text": "Coat each disc in flour and shake off the excess."
     },
     {
       "id": "de000006-0000-4000-8000-000000000005",
       "recipe_id": "de000005-0000-4000-8000-000000000001",
       "sort_order": 5,
-      "text": "Разогреть масло на сковороде и жарить сырники на среднем огне по 3 минуты с каждой стороны до золотистой корочки."
+      "text": "Heat the oil in a frying pan and fry the pancakes over medium heat for 3 minutes per side until golden."
     },
     {
       "id": "de000006-0000-4000-8000-000000000006",
       "recipe_id": "de000005-0000-4000-8000-000000000001",
       "sort_order": 6,
-      "text": "Подавать горячими со сметаной или мёдом."
+      "text": "Serve hot with sour cream or honey."
     },
     {
       "id": "de000006-0000-4000-8000-000000000007",
       "recipe_id": "de000005-0000-4000-8000-000000000002",
       "sort_order": 1,
-      "text": "Залить хлопья молоком и довести до кипения на среднем огне."
+      "text": "Pour the milk over the oats and bring to a boil over medium heat."
     },
     {
       "id": "de000006-0000-4000-8000-000000000008",
       "recipe_id": "de000005-0000-4000-8000-000000000002",
       "sort_order": 2,
-      "text": "Варить 5 минут, помешивая, пока каша не загустеет."
+      "text": "Cook for 5 minutes, stirring, until the porridge thickens."
     },
     {
       "id": "de000006-0000-4000-8000-000000000009",
       "recipe_id": "de000005-0000-4000-8000-000000000002",
       "sort_order": 3,
-      "text": "Половину банана размять и вмешать в кашу, остальное нарезать кружками."
+      "text": "Mash half of the banana into the porridge and slice the rest into rounds."
     },
     {
       "id": "de000006-0000-4000-8000-00000000000a",
       "recipe_id": "de000005-0000-4000-8000-000000000002",
       "sort_order": 4,
-      "text": "Выложить кашу в тарелку, сверху разложить кружки банана и колотые орехи. По желанию добавить мёд и корицу."
+      "text": "Transfer the porridge to a bowl and top with the banana rounds and chopped nuts. Add honey and cinnamon if you like."
     },
     {
       "id": "de000006-0000-4000-8000-00000000000b",
       "recipe_id": "de000005-0000-4000-8000-000000000003",
       "sort_order": 1,
-      "text": "Растереть творог с яйцами и сахаром до однородной массы."
+      "text": "Mash the cottage cheese with the eggs and sugar until smooth."
     },
     {
       "id": "de000006-0000-4000-8000-00000000000c",
       "recipe_id": "de000005-0000-4000-8000-000000000003",
       "sort_order": 2,
-      "text": "Всыпать манку, добавить изюм, перемешать и оставить на 15 минут, чтобы крупа набухла."
+      "text": "Add the semolina and raisins, stir and leave for 15 minutes so the grain swells."
     },
     {
       "id": "de000006-0000-4000-8000-00000000000d",
       "recipe_id": "de000005-0000-4000-8000-000000000003",
       "sort_order": 3,
-      "text": "Смазать форму маслом и посыпать манкой. Выложить массу и разровнять."
+      "text": "Grease the dish with butter and dust it with semolina. Spread the mixture in and level it."
     },
     {
       "id": "de000006-0000-4000-8000-00000000000e",
       "recipe_id": "de000005-0000-4000-8000-000000000003",
       "sort_order": 4,
-      "text": "Смазать верх сметаной."
+      "text": "Brush the top with sour cream."
     },
     {
       "id": "de000006-0000-4000-8000-00000000000f",
       "recipe_id": "de000005-0000-4000-8000-000000000003",
       "sort_order": 5,
-      "text": "Выпекать при 180 °C около 35 минут, пока верх не зарумянится."
+      "text": "Bake at 180 °C for about 35 minutes until the top browns."
     },
     {
       "id": "de000006-0000-4000-8000-000000000010",
       "recipe_id": "de000005-0000-4000-8000-000000000003",
       "sort_order": 6,
-      "text": "Остудить в форме 10 минут, затем нарезать."
+      "text": "Cool in the dish for 10 minutes, then slice."
     },
     {
       "id": "de000006-0000-4000-8000-000000000011",
       "recipe_id": "de000005-0000-4000-8000-000000000004",
       "sort_order": 1,
-      "text": "Нарезать мясо крупными кусками, лук — полукольцами, морковь — крупной соломкой."
+      "text": "Cut the meat into large pieces, the onion into half rings and the carrots into thick strips."
     },
     {
       "id": "de000006-0000-4000-8000-000000000012",
       "recipe_id": "de000005-0000-4000-8000-000000000004",
       "sort_order": 2,
-      "text": "Разогреть масло в казане и обжарить мясо до корочки."
+      "text": "Heat the oil in a heavy pot and sear the meat until crusty."
     },
     {
       "id": "de000006-0000-4000-8000-000000000013",
       "recipe_id": "de000005-0000-4000-8000-000000000004",
       "sort_order": 3,
-      "text": "Добавить лук и жарить 5 минут, затем морковь — ещё 7 минут."
+      "text": "Add the onion and fry for 5 minutes, then the carrots for another 7 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000014",
       "recipe_id": "de000005-0000-4000-8000-000000000004",
       "sort_order": 4,
-      "text": "Всыпать зиру, соль и перец, залить кипятком так, чтобы он едва покрывал мясо. Тушить 20 минут на слабом огне."
+      "text": "Add the cumin, salt and pepper and pour in boiling water so that it barely covers the meat. Simmer for 20 minutes over low heat."
     },
     {
       "id": "de000006-0000-4000-8000-000000000015",
       "recipe_id": "de000005-0000-4000-8000-000000000004",
       "sort_order": 5,
-      "text": "Выложить промытый рис ровным слоем, не перемешивая, и залить кипятком на 1,5 см выше крупы."
+      "text": "Spread the rinsed rice in an even layer without stirring and add boiling water to 1.5 cm above the rice."
     },
     {
       "id": "de000006-0000-4000-8000-000000000016",
       "recipe_id": "de000005-0000-4000-8000-000000000004",
       "sort_order": 6,
-      "text": "Когда вода впитается, собрать рис горкой, воткнуть в середину головки чеснока, накрыть крышкой и томить 20 минут на самом слабом огне."
+      "text": "When the water is absorbed, gather the rice into a mound, stick the garlic heads into the middle, cover with a lid and steam for 20 minutes over the lowest heat."
     },
     {
       "id": "de000006-0000-4000-8000-000000000017",
       "recipe_id": "de000005-0000-4000-8000-000000000004",
       "sort_order": 7,
-      "text": "Перед подачей аккуратно перемешать."
+      "text": "Stir gently before serving."
     },
     {
       "id": "de000006-0000-4000-8000-000000000018",
       "recipe_id": "de000005-0000-4000-8000-000000000005",
       "sort_order": 1,
-      "text": "Перебрать и промыть гречку. Залить двойным объёмом горячей воды, посолить и варить под крышкой 15 минут."
+      "text": "Pick over and rinse the buckwheat. Cover with twice its volume of hot water, add salt and cook covered for 15 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000019",
       "recipe_id": "de000005-0000-4000-8000-000000000005",
       "sort_order": 2,
-      "text": "Грибы нарезать пластинами, лук — кубиками, морковь натереть."
+      "text": "Slice the mushrooms into plates, dice the onion and grate the carrot."
     },
     {
       "id": "de000006-0000-4000-8000-00000000001a",
       "recipe_id": "de000005-0000-4000-8000-000000000005",
       "sort_order": 3,
-      "text": "Обжарить лук с морковью на масле 5 минут, затем добавить грибы и жарить, пока не испарится жидкость."
+      "text": "Fry the onion and carrot in oil for 5 minutes, then add the mushrooms and fry until the liquid evaporates."
     },
     {
       "id": "de000006-0000-4000-8000-00000000001b",
       "recipe_id": "de000005-0000-4000-8000-000000000005",
       "sort_order": 4,
-      "text": "Смешать готовую гречку с овощами и грибами, прогреть пару минут."
+      "text": "Mix the cooked buckwheat with the vegetables and mushrooms and heat for a couple of minutes."
     },
     {
       "id": "de000006-0000-4000-8000-00000000001c",
       "recipe_id": "de000005-0000-4000-8000-000000000005",
       "sort_order": 5,
-      "text": "Подавать со сметаной и рубленым укропом."
+      "text": "Serve with sour cream and chopped dill."
     },
     {
       "id": "de000006-0000-4000-8000-00000000001d",
       "recipe_id": "de000005-0000-4000-8000-000000000006",
       "sort_order": 1,
-      "text": "Мелко нарезать лук и морковь, чеснок продавить."
+      "text": "Finely chop the onion and carrot and crush the garlic."
     },
     {
       "id": "de000006-0000-4000-8000-00000000001e",
       "recipe_id": "de000005-0000-4000-8000-000000000006",
       "sort_order": 2,
-      "text": "Обжарить лук и морковь на оливковом масле 6 минут, добавить чеснок на минуту."
+      "text": "Fry the onion and carrot in olive oil for 6 minutes, add the garlic for a minute."
     },
     {
       "id": "de000006-0000-4000-8000-00000000001f",
       "recipe_id": "de000005-0000-4000-8000-000000000006",
       "sort_order": 3,
-      "text": "Выложить фарш, разбить лопаткой и жарить, пока он не поменяет цвет."
+      "text": "Add the ground beef, break it up with a spatula and fry until it changes colour."
     },
     {
       "id": "de000006-0000-4000-8000-000000000020",
       "recipe_id": "de000005-0000-4000-8000-000000000006",
       "sort_order": 4,
-      "text": "Добавить томаты, томатную пасту, орегано и соль. Тушить на слабом огне 25 минут, пока соус не загустеет."
+      "text": "Add the tomatoes, tomato paste, oregano and salt. Simmer over low heat for 25 minutes until the sauce thickens."
     },
     {
       "id": "de000006-0000-4000-8000-000000000021",
       "recipe_id": "de000005-0000-4000-8000-000000000006",
       "sort_order": 5,
-      "text": "Отварить спагетти до состояния «аль денте» по инструкции на пачке."
+      "text": "Cook the spaghetti al dente according to the package instructions."
     },
     {
       "id": "de000006-0000-4000-8000-000000000022",
       "recipe_id": "de000005-0000-4000-8000-000000000006",
       "sort_order": 6,
-      "text": "Соединить пасту с соусом и подавать с тёртым пармезаном."
+      "text": "Combine the pasta with the sauce and serve with grated Parmesan."
     },
     {
       "id": "de000006-0000-4000-8000-000000000023",
       "recipe_id": "de000005-0000-4000-8000-000000000007",
       "sort_order": 1,
-      "text": "Вырезать у кочана кочерыжку и опустить капусту в кипящую воду. По мере размягчения снимать листья."
+      "text": "Cut out the core of the cabbage and lower it into boiling water. Remove the leaves as they soften."
     },
     {
       "id": "de000006-0000-4000-8000-000000000024",
       "recipe_id": "de000005-0000-4000-8000-000000000007",
       "sort_order": 2,
-      "text": "Рис отварить до полуготовности. Лук мелко нарезать и обжарить."
+      "text": "Boil the rice until half-cooked. Finely chop the onion and fry it."
     },
     {
       "id": "de000006-0000-4000-8000-000000000025",
       "recipe_id": "de000005-0000-4000-8000-000000000007",
       "sort_order": 3,
-      "text": "Смешать фарш с рисом, половиной лука, солью и перцем."
+      "text": "Mix the ground meat with the rice, half of the onion, salt and pepper."
     },
     {
       "id": "de000006-0000-4000-8000-000000000026",
       "recipe_id": "de000005-0000-4000-8000-000000000007",
       "sort_order": 4,
-      "text": "На каждый лист положить по горсти начинки и завернуть конвертом."
+      "text": "Put a handful of filling on each leaf and wrap it like an envelope."
     },
     {
       "id": "de000006-0000-4000-8000-000000000027",
       "recipe_id": "de000005-0000-4000-8000-000000000007",
       "sort_order": 5,
-      "text": "Из моркови, оставшегося лука, томатной пасты и сметаны сделать соус, добавив немного воды."
+      "text": "Make a sauce from the carrots, the remaining onion, tomato paste and sour cream, adding a little water."
     },
     {
       "id": "de000006-0000-4000-8000-000000000028",
       "recipe_id": "de000005-0000-4000-8000-000000000007",
       "sort_order": 6,
-      "text": "Уложить голубцы плотно в кастрюлю, залить соусом, добавить лавровый лист и тушить под крышкой 60 минут."
+      "text": "Pack the cabbage rolls tightly into a pot, pour the sauce over them, add the bay leaf and simmer covered for 60 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000029",
       "recipe_id": "de000005-0000-4000-8000-000000000008",
       "sort_order": 1,
-      "text": "Смешать масло, паприку, соль, перец и продавленный чеснок. Натереть этой смесью мясо и оставить на 20 минут."
+      "text": "Mix the oil, paprika, salt, pepper and crushed garlic. Rub the mixture into the meat and leave it for 20 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-00000000002a",
       "recipe_id": "de000005-0000-4000-8000-000000000008",
       "sort_order": 2,
-      "text": "Картофель и морковь нарезать крупными кусками, кабачок и перец — квадратами побольше."
+      "text": "Cut the potatoes and carrots into large pieces, the zucchini and pepper into larger squares."
     },
     {
       "id": "de000006-0000-4000-8000-00000000002b",
       "recipe_id": "de000005-0000-4000-8000-000000000008",
       "sort_order": 3,
-      "text": "Выложить овощи на противень, перемешать с остатками маринада, сверху положить мясо."
+      "text": "Put the vegetables on a baking tray, toss them with the rest of the marinade and place the meat on top."
     },
     {
       "id": "de000006-0000-4000-8000-00000000002c",
       "recipe_id": "de000005-0000-4000-8000-000000000008",
       "sort_order": 4,
-      "text": "Запекать при 200 °C около 45 минут, один раз перемешав овощи."
+      "text": "Bake at 200 °C for about 45 minutes, stirring the vegetables once."
     },
     {
       "id": "de000006-0000-4000-8000-00000000002d",
       "recipe_id": "de000005-0000-4000-8000-000000000008",
       "sort_order": 5,
-      "text": "Перед подачей посыпать рубленой петрушкой."
+      "text": "Sprinkle with chopped parsley before serving."
     },
     {
       "id": "de000006-0000-4000-8000-00000000002e",
       "recipe_id": "de000005-0000-4000-8000-000000000009",
       "sort_order": 1,
-      "text": "Мелко нарубить филе, лук и укроп."
+      "text": "Finely chop the fillet, onion and dill."
     },
     {
       "id": "de000006-0000-4000-8000-00000000002f",
       "recipe_id": "de000005-0000-4000-8000-000000000009",
       "sort_order": 2,
-      "text": "Соединить с яйцом, сметаной, половиной сухарей, солью и перцем. Вымесить и убрать на 15 минут в холодильник."
+      "text": "Combine with the egg, sour cream, half of the breadcrumbs, salt and pepper. Knead and refrigerate for 15 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000030",
       "recipe_id": "de000005-0000-4000-8000-000000000009",
       "sort_order": 3,
-      "text": "Влажными руками сформировать восемь котлет и обвалять в оставшихся сухарях."
+      "text": "With wet hands, shape eight patties and coat them in the remaining breadcrumbs."
     },
     {
       "id": "de000006-0000-4000-8000-000000000031",
       "recipe_id": "de000005-0000-4000-8000-000000000009",
       "sort_order": 4,
-      "text": "Обжарить на масле по 4 минуты с каждой стороны, затем довести под крышкой на слабом огне 8 минут."
+      "text": "Fry in oil for 4 minutes per side, then finish covered over low heat for 8 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000032",
       "recipe_id": "de000005-0000-4000-8000-00000000000a",
       "sort_order": 1,
-      "text": "Разобрать брокколи на соцветия и выложить на противень вместе с пластинками чеснока."
+      "text": "Break the broccoli into florets and put them on a baking tray together with sliced garlic."
     },
     {
       "id": "de000006-0000-4000-8000-000000000033",
       "recipe_id": "de000005-0000-4000-8000-00000000000a",
       "sort_order": 2,
-      "text": "Рыбу нарезать двумя порциями, посолить, поперчить, сбрызнуть половиной лимона."
+      "text": "Cut the fish into two portions, season with salt and pepper and sprinkle with half of the lemon."
     },
     {
       "id": "de000006-0000-4000-8000-000000000034",
       "recipe_id": "de000005-0000-4000-8000-00000000000a",
       "sort_order": 3,
-      "text": "Положить рыбу на овощи, полить маслом."
+      "text": "Put the fish on the vegetables and drizzle with oil."
     },
     {
       "id": "de000006-0000-4000-8000-000000000035",
       "recipe_id": "de000005-0000-4000-8000-00000000000a",
       "sort_order": 4,
-      "text": "Запекать при 200 °C 15 минут."
+      "text": "Bake at 200 °C for 15 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000036",
       "recipe_id": "de000005-0000-4000-8000-00000000000a",
       "sort_order": 5,
-      "text": "Подавать с дольками лимона и укропом."
+      "text": "Serve with lemon wedges and dill."
     },
     {
       "id": "de000006-0000-4000-8000-000000000037",
       "recipe_id": "de000005-0000-4000-8000-00000000000b",
       "sort_order": 1,
-      "text": "Залить мясо 2,5 л холодной воды, довести до кипения, снять пену и варить на слабом огне 1,5 часа."
+      "text": "Pour 2.5 l of cold water over the meat, bring to a boil, skim the foam and simmer over low heat for 1.5 hours."
     },
     {
       "id": "de000006-0000-4000-8000-000000000038",
       "recipe_id": "de000005-0000-4000-8000-00000000000b",
       "sort_order": 2,
-      "text": "Свёклу и морковь натереть, лук нарезать. Обжарить лук с морковью, добавить свёклу и томатную пасту и тушить 10 минут."
+      "text": "Grate the beetroot and carrots and chop the onion. Fry the onion with the carrots, add the beetroot and tomato paste and stew for 10 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000039",
       "recipe_id": "de000005-0000-4000-8000-00000000000b",
       "sort_order": 3,
-      "text": "Достать мясо, разобрать на куски. В бульон положить картофель кубиками, через 10 минут — капусту."
+      "text": "Take out the meat and tear it into pieces. Add the diced potatoes to the broth and the cabbage 10 minutes later."
     },
     {
       "id": "de000006-0000-4000-8000-00000000003a",
       "recipe_id": "de000005-0000-4000-8000-00000000000b",
       "sort_order": 4,
-      "text": "Через 10 минут вернуть мясо и добавить зажарку, лавровый лист, соль и перец."
+      "text": "After 10 minutes return the meat and add the fried vegetables, bay leaf, salt and pepper."
     },
     {
       "id": "de000006-0000-4000-8000-00000000003b",
       "recipe_id": "de000005-0000-4000-8000-00000000000b",
       "sort_order": 5,
-      "text": "Довести до кипения, добавить чеснок, выключить и дать настояться под крышкой 20 минут."
+      "text": "Bring to a boil, add the garlic, turn off the heat and let it stand covered for 20 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-00000000003c",
       "recipe_id": "de000005-0000-4000-8000-00000000000b",
       "sort_order": 6,
-      "text": "Подавать с укропом и сметаной."
+      "text": "Serve with dill and sour cream."
     },
     {
       "id": "de000006-0000-4000-8000-00000000003d",
       "recipe_id": "de000005-0000-4000-8000-00000000000c",
       "sort_order": 1,
-      "text": "Положить мясо в 2,3 л холодной воды, довести до кипения, снять пену и варить 25 минут."
+      "text": "Put the meat into 2.3 l of cold water, bring to a boil, skim the foam and cook for 25 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-00000000003e",
       "recipe_id": "de000005-0000-4000-8000-00000000000c",
       "sort_order": 2,
-      "text": "Лук и морковь обжарить на масле."
+      "text": "Fry the onion and carrot in oil."
     },
     {
       "id": "de000006-0000-4000-8000-00000000003f",
       "recipe_id": "de000005-0000-4000-8000-00000000000c",
       "sort_order": 3,
-      "text": "Достать курицу, разобрать на волокна. В бульон положить картофель кубиками и варить 10 минут."
+      "text": "Take out the chicken and shred it. Add the diced potatoes to the broth and cook for 10 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000040",
       "recipe_id": "de000005-0000-4000-8000-00000000000c",
       "sort_order": 4,
-      "text": "Добавить зажарку, лапшу, лавровый лист, соль и перец. Варить 5 минут, вернуть мясо."
+      "text": "Add the fried vegetables, noodles, bay leaf, salt and pepper. Cook for 5 minutes and return the meat."
     },
     {
       "id": "de000006-0000-4000-8000-000000000041",
       "recipe_id": "de000005-0000-4000-8000-00000000000c",
       "sort_order": 5,
-      "text": "Подавать с рубленой петрушкой."
+      "text": "Serve with chopped parsley."
     },
     {
       "id": "de000006-0000-4000-8000-000000000042",
       "recipe_id": "de000005-0000-4000-8000-00000000000d",
       "sort_order": 1,
-      "text": "Нарезать овощи кубиками и обжарить лук на сливочном масле до мягкости."
+      "text": "Dice the vegetables and fry the onion in butter until soft."
     },
     {
       "id": "de000006-0000-4000-8000-000000000043",
       "recipe_id": "de000005-0000-4000-8000-00000000000d",
       "sort_order": 2,
-      "text": "Добавить тыкву, морковь и картофель, залить горячей водой почти до уровня овощей."
+      "text": "Add the pumpkin, carrots and potatoes and pour in hot water almost to the level of the vegetables."
     },
     {
       "id": "de000006-0000-4000-8000-000000000044",
       "recipe_id": "de000005-0000-4000-8000-00000000000d",
       "sort_order": 3,
-      "text": "Варить под крышкой 20 минут, пока всё не станет мягким."
+      "text": "Cook covered for 20 minutes until everything is soft."
     },
     {
       "id": "de000006-0000-4000-8000-000000000045",
       "recipe_id": "de000005-0000-4000-8000-00000000000d",
       "sort_order": 4,
-      "text": "Пробить блендером до гладкости, влить подогретые сливки, посолить и поперчить."
+      "text": "Blend until smooth, pour in the warmed cream, add salt and pepper."
     },
     {
       "id": "de000006-0000-4000-8000-000000000046",
       "recipe_id": "de000005-0000-4000-8000-00000000000d",
       "sort_order": 5,
-      "text": "Прогреть, не доводя до кипения."
+      "text": "Heat through without bringing to a boil."
     },
     {
       "id": "de000006-0000-4000-8000-000000000047",
       "recipe_id": "de000005-0000-4000-8000-00000000000e",
       "sort_order": 1,
-      "text": "Взбить яйца с сахаром миксером 8 минут, пока масса не побелеет и не увеличится втрое."
+      "text": "Beat the eggs with the sugar with a mixer for 8 minutes until the mass turns pale and triples in volume."
     },
     {
       "id": "de000006-0000-4000-8000-000000000048",
       "recipe_id": "de000005-0000-4000-8000-00000000000e",
       "sort_order": 2,
-      "text": "Просеять муку и осторожно вмешать лопаткой снизу вверх."
+      "text": "Sift the flour and fold it in gently with a spatula from the bottom up."
     },
     {
       "id": "de000006-0000-4000-8000-000000000049",
       "recipe_id": "de000005-0000-4000-8000-00000000000e",
       "sort_order": 3,
-      "text": "Яблоки нарезать дольками и выложить в смазанную форму, посыпав корицей."
+      "text": "Cut the apples into wedges and put them into the greased pan, sprinkling with cinnamon."
     },
     {
       "id": "de000006-0000-4000-8000-00000000004a",
       "recipe_id": "de000005-0000-4000-8000-00000000000e",
       "sort_order": 4,
-      "text": "Залить тестом и выпекать при 180 °C 35–40 минут до сухой шпажки."
+      "text": "Pour the batter over and bake at 180 °C for 35–40 minutes until a skewer comes out dry."
     },
     {
       "id": "de000006-0000-4000-8000-00000000004b",
       "recipe_id": "de000005-0000-4000-8000-00000000000e",
       "sort_order": 5,
-      "text": "Не вынимать из формы 10 минут, чтобы выпечка не осела."
+      "text": "Leave it in the pan for 10 minutes so the cake does not sink."
     },
     {
       "id": "de000006-0000-4000-8000-00000000004c",
       "recipe_id": "de000005-0000-4000-8000-00000000000f",
       "sort_order": 1,
-      "text": "Размять бананы вилкой в пюре с небольшими кусочками."
+      "text": "Mash the bananas with a fork into a purée with small chunks."
     },
     {
       "id": "de000006-0000-4000-8000-00000000004d",
       "recipe_id": "de000005-0000-4000-8000-00000000000f",
       "sort_order": 2,
-      "text": "Растопить масло, остудить, соединить с бананами, сахаром и яйцами."
+      "text": "Melt the butter, let it cool and combine with the bananas, sugar and eggs."
     },
     {
       "id": "de000006-0000-4000-8000-00000000004e",
       "recipe_id": "de000005-0000-4000-8000-00000000000f",
       "sort_order": 3,
-      "text": "Добавить муку, корицу, соль и ложку разрыхлителя, перемешать до исчезновения сухой муки."
+      "text": "Add the flour, cinnamon, salt and a spoonful of baking powder and stir until no dry flour is left."
     },
     {
       "id": "de000006-0000-4000-8000-00000000004f",
       "recipe_id": "de000005-0000-4000-8000-00000000000f",
       "sort_order": 4,
-      "text": "Вмешать рубленые орехи, если они нужны."
+      "text": "Fold in the chopped nuts if you are using them."
     },
     {
       "id": "de000006-0000-4000-8000-000000000050",
       "recipe_id": "de000005-0000-4000-8000-00000000000f",
       "sort_order": 5,
-      "text": "Вылить в форму, застеленную бумагой, и выпекать при 175 °C около 55 минут до сухой шпажки."
+      "text": "Pour into a pan lined with paper and bake at 175 °C for about 55 minutes until a skewer comes out dry."
     },
     {
       "id": "de000006-0000-4000-8000-000000000051",
       "recipe_id": "de000005-0000-4000-8000-00000000000f",
       "sort_order": 6,
-      "text": "Остудить на решётке перед нарезкой."
+      "text": "Cool on a rack before slicing."
     },
     {
       "id": "de000006-0000-4000-8000-000000000052",
       "recipe_id": "de000005-0000-4000-8000-000000000010",
       "sort_order": 1,
-      "text": "Обжарить мелко нарезанный лук на масле до прозрачности, добавить перец кубиками и чеснок."
+      "text": "Fry the finely chopped onion in oil until translucent, add the diced pepper and garlic."
     },
     {
       "id": "de000006-0000-4000-8000-000000000053",
       "recipe_id": "de000005-0000-4000-8000-000000000010",
       "sort_order": 2,
-      "text": "Выложить фарш, разбить на мелкие кусочки и жарить 8 минут."
+      "text": "Add the ground beef, break it into small pieces and fry for 8 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000054",
       "recipe_id": "de000005-0000-4000-8000-000000000010",
       "sort_order": 3,
-      "text": "Всыпать паприку и зиру, добавить аджику и томаты, посолить. Тушить под крышкой 40 минут."
+      "text": "Add the paprika and cumin, then the adjika and tomatoes, and salt. Simmer covered for 40 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000055",
       "recipe_id": "de000005-0000-4000-8000-000000000010",
       "sort_order": 4,
-      "text": "Добавить промытую фасоль и готовить ещё 15 минут без крышки, пока соус не загустеет."
+      "text": "Add the rinsed beans and cook for another 15 minutes uncovered until the sauce thickens."
     },
     {
       "id": "de000006-0000-4000-8000-000000000056",
       "recipe_id": "de000005-0000-4000-8000-000000000010",
       "sort_order": 5,
-      "text": "Остудить, разложить по контейнерам: часть — в холодильник, часть — в морозилку."
+      "text": "Cool and portion into containers: some for the fridge, some for the freezer."
     },
     {
       "id": "de000006-0000-4000-8000-000000000057",
       "recipe_id": "de000005-0000-4000-8000-000000000011",
       "sort_order": 1,
-      "text": "Овощи нарезать крупно: помидоры дольками, огурцы полукружками, перец полосками, лук — тонкими кольцами."
+      "text": "Cut the vegetables large: tomatoes into wedges, cucumbers into half-rounds, pepper into strips, onion into thin rings."
     },
     {
       "id": "de000006-0000-4000-8000-000000000058",
       "recipe_id": "de000005-0000-4000-8000-000000000011",
       "sort_order": 2,
-      "text": "Сложить в миску вместе с маслинами."
+      "text": "Put them in a bowl together with the olives."
     },
     {
       "id": "de000006-0000-4000-8000-000000000059",
       "recipe_id": "de000005-0000-4000-8000-000000000011",
       "sort_order": 3,
-      "text": "Сверху положить фету одним куском или крупными кубиками."
+      "text": "Put the feta on top in one piece or in large cubes."
     },
     {
       "id": "de000006-0000-4000-8000-00000000005a",
       "recipe_id": "de000005-0000-4000-8000-000000000011",
       "sort_order": 4,
-      "text": "Полить маслом, посыпать орегано и немного посолить: фета уже солёная."
+      "text": "Drizzle with oil, sprinkle with oregano and add a little salt: the feta is already salty."
     },
     {
       "id": "de000006-0000-4000-8000-00000000005b",
       "recipe_id": "de000005-0000-4000-8000-000000000012",
       "sort_order": 1,
-      "text": "Выжать сок из лимона и соединить с тахини, взбить до светлой пасты."
+      "text": "Squeeze the juice from the lemon, combine it with the tahini and whip into a pale paste."
     },
     {
       "id": "de000006-0000-4000-8000-00000000005c",
       "recipe_id": "de000005-0000-4000-8000-000000000012",
       "sort_order": 2,
-      "text": "Добавить нут, чеснок, зиру и соль и измельчать блендером, подливая холодную воду по ложке, пока масса не станет бархатистой."
+      "text": "Add the chickpeas, garlic, cumin and salt and blend, pouring in cold water a spoonful at a time until the mixture is velvety."
     },
     {
       "id": "de000006-0000-4000-8000-00000000005d",
       "recipe_id": "de000005-0000-4000-8000-000000000012",
       "sort_order": 3,
-      "text": "Выложить в тарелку, сделать в центре углубление и налить оливковое масло."
+      "text": "Transfer to a plate, make a well in the centre and pour in the olive oil."
     },
     {
       "id": "de000006-0000-4000-8000-00000000005e",
       "recipe_id": "de000005-0000-4000-8000-000000000013",
       "sort_order": 1,
-      "text": "Измельчить овсяные хлопья в блендере или миксере до состояния муки."
+      "text": "Grind the rolled oats in a blender or mixer into flour."
     },
     {
       "id": "de000006-0000-4000-8000-00000000005f",
       "recipe_id": "de000005-0000-4000-8000-000000000013",
       "sort_order": 2,
-      "text": "Смешать овсяную муку с пшеничной, разрыхлителем, ванильным сахаром, корицей, солью и сахаром."
+      "text": "Mix the oat flour with the wheat flour, baking powder, vanilla sugar, cinnamon, salt and sugar."
     },
     {
       "id": "de000006-0000-4000-8000-000000000060",
       "recipe_id": "de000005-0000-4000-8000-000000000013",
       "sort_order": 3,
-      "text": "Изюм взбить с тёплой водой в густую пасту и переложить к сухой смеси."
+      "text": "Blend the raisins with warm water into a thick paste and add it to the dry mixture."
     },
     {
       "id": "de000006-0000-4000-8000-000000000061",
       "recipe_id": "de000005-0000-4000-8000-000000000013",
       "sort_order": 4,
-      "text": "Растопить масло с мёдом на слабом огне и влить в миску."
+      "text": "Melt the butter with the honey over low heat and pour it into the bowl."
     },
     {
       "id": "de000006-0000-4000-8000-000000000062",
       "recipe_id": "de000005-0000-4000-8000-000000000013",
       "sort_order": 5,
-      "text": "Замесить руками плотное тесто и убрать в холодильник на 15 минут."
+      "text": "Knead a firm dough by hand and refrigerate for 15 minutes."
     },
     {
       "id": "de000006-0000-4000-8000-000000000063",
       "recipe_id": "de000005-0000-4000-8000-000000000013",
       "sort_order": 6,
-      "text": "Скатать из теста шарики, слегка придавить и разложить на противне с бумагой, оставив промежутки."
+      "text": "Roll the dough into balls, press them down slightly and place them on a paper-lined baking tray, leaving gaps."
     },
     {
       "id": "de000006-0000-4000-8000-000000000064",
       "recipe_id": "de000005-0000-4000-8000-000000000013",
       "sort_order": 7,
-      "text": "Выпекать в духовке, разогретой до 180 °C, 12 минут и дать печенью остыть на противне."
+      "text": "Bake in an oven preheated to 180 °C for 12 minutes and let the cookies cool on the tray."
     },
     {
       "id": "de000006-0000-4000-8000-000000000065",
       "recipe_id": "de000005-0000-4000-8000-000000000014",
       "sort_order": 1,
-      "text": "Влить кипяток в холодное молоко и перемешать: получится тёплая жидкость."
+      "text": "Pour the boiling water into the cold milk and stir: you get a warm liquid."
     },
     {
       "id": "de000006-0000-4000-8000-000000000066",
       "recipe_id": "de000005-0000-4000-8000-000000000014",
       "sort_order": 2,
-      "text": "Вбить яйца, всыпать соль и сахар и взбить венчиком."
+      "text": "Crack in the eggs, add the salt and sugar and whisk."
     },
     {
       "id": "de000006-0000-4000-8000-000000000067",
       "recipe_id": "de000005-0000-4000-8000-000000000014",
       "sort_order": 3,
-      "text": "Смешать муку с разрыхлителем и добавлять порциями, непрерывно взбивая, чтобы не было комков."
+      "text": "Mix the flour with the baking powder and add it in portions, whisking constantly to avoid lumps."
     },
     {
       "id": "de000006-0000-4000-8000-000000000068",
       "recipe_id": "de000005-0000-4000-8000-000000000014",
       "sort_order": 4,
-      "text": "В конце влить масло и ещё раз хорошо взбить."
+      "text": "At the end pour in the oil and whisk well once more."
     },
     {
       "id": "de000006-0000-4000-8000-000000000069",
       "recipe_id": "de000005-0000-4000-8000-000000000014",
       "sort_order": 5,
-      "text": "Жарить на хорошо разогретой сковороде при огне чуть выше среднего, пока блин не зарумянится с обеих сторон."
+      "text": "Fry in a well-heated pan over slightly above medium heat until the blin is browned on both sides."
     }
   ],
   "recipe_dish_categories": [
@@ -3059,7 +3059,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 60,
       "is_optional": true,
-      "note": "К подаче",
+      "note": "For serving",
       "sort_order": 7
     },
     {
@@ -3069,7 +3069,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 20,
       "is_optional": true,
-      "note": "К подаче",
+      "note": "For serving",
       "sort_order": 8
     },
     {
@@ -3199,7 +3199,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 40,
       "is_optional": false,
-      "note": "Для смазывания верха",
+      "note": "For brushing the top",
       "sort_order": 6
     },
     {
@@ -3379,7 +3379,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 60,
       "is_optional": true,
-      "note": "К подаче",
+      "note": "For serving",
       "sort_order": 8
     },
     {
@@ -3499,7 +3499,7 @@ values (1, $seed${
       "pinned_variant_id": "de000004-0000-4000-8000-00000000000f",
       "amount_grams": 40,
       "is_optional": true,
-      "note": "К подаче",
+      "note": "For serving",
       "sort_order": 11
     },
     {
@@ -4029,7 +4029,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 160,
       "is_optional": true,
-      "note": "К подаче",
+      "note": "For serving",
       "sort_order": 14
     },
     {
@@ -4259,7 +4259,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 10,
       "is_optional": false,
-      "note": "Для формы",
+      "note": "For the pan",
       "sort_order": 5
     },
     {
@@ -4689,7 +4689,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 1,
       "is_optional": false,
-      "note": "Четверть чайной ложки",
+      "note": "A quarter of a teaspoon",
       "sort_order": 7
     },
     {
@@ -4719,7 +4719,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 60,
       "is_optional": false,
-      "note": "Тёплая, для изюмной пасты",
+      "note": "Warm, for the raisin paste",
       "sort_order": 10
     },
     {
@@ -4739,7 +4739,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 500,
       "is_optional": false,
-      "note": "Крутой кипяток, два стакана",
+      "note": "Boiling water, two cups",
       "sort_order": 1
     },
     {
@@ -4749,7 +4749,7 @@ values (1, $seed${
       "pinned_variant_id": null,
       "amount_grams": 500,
       "is_optional": false,
-      "note": "Холодное, два стакана",
+      "note": "Cold, two cups",
       "sort_order": 2
     },
     {
@@ -4855,15 +4855,15 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000002",
-            "productName": "Творог",
+            "productName": "Cottage cheese",
             "variantId": "de000004-0000-4000-8000-000000000004",
-            "variantName": "Тихий ручей 5%",
+            "variantName": "Quiet Creek 5%",
             "amountGrams": 600,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 110,
@@ -4871,7 +4871,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000027",
-            "productName": "Манная крупа",
+            "productName": "Semolina",
             "variantId": "de000004-0000-4000-8000-00000000002d",
             "variantName": null,
             "amountGrams": 50,
@@ -4879,15 +4879,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 50,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 20,
@@ -4895,7 +4895,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000007",
-            "productName": "Сметана 15%",
+            "productName": "Sour cream 15%",
             "variantId": "de000004-0000-4000-8000-00000000000b",
             "variantName": null,
             "amountGrams": 40,
@@ -4903,7 +4903,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000036",
-            "productName": "Изюм",
+            "productName": "Raisins",
             "variantId": "de000004-0000-4000-8000-000000000040",
             "variantName": null,
             "amountGrams": 40,
@@ -4922,7 +4922,7 @@ values (1, $seed${
       "containers": null,
       "finished_at": "2026-08-06",
       "rating": 5,
-      "note": "С мёдом и сметаной",
+      "note": "With honey and sour cream",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -4954,15 +4954,15 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000002",
-            "productName": "Творог",
+            "productName": "Cottage cheese",
             "variantId": "de000004-0000-4000-8000-000000000005",
-            "variantName": "Тихий ручей 9%",
+            "variantName": "Quiet Creek 9%",
             "amountGrams": 500,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 55,
@@ -4970,7 +4970,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 80,
@@ -4978,15 +4978,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 1,
@@ -4994,15 +4994,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 15,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 60,
@@ -5010,7 +5010,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 20,
@@ -5061,7 +5061,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000d",
-            "productName": "Куриные бёдра без кожи",
+            "productName": "Skinless chicken thighs",
             "variantId": "de000004-0000-4000-8000-000000000012",
             "variantName": null,
             "amountGrams": 700,
@@ -5069,7 +5069,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000024",
-            "productName": "Рис",
+            "productName": "Rice",
             "variantId": "de000004-0000-4000-8000-00000000002a",
             "variantName": null,
             "amountGrams": 400,
@@ -5077,7 +5077,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 350,
@@ -5085,7 +5085,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 250,
@@ -5093,7 +5093,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 30,
@@ -5101,15 +5101,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 80,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003d",
-            "productName": "Зира молотая",
+            "productName": "Ground cumin",
             "variantId": "de000004-0000-4000-8000-000000000047",
             "variantName": null,
             "amountGrams": 3,
@@ -5117,7 +5117,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -5125,7 +5125,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -5176,7 +5176,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000026",
-            "productName": "Овсяные хлопья",
+            "productName": "Rolled oats",
             "variantId": "de000004-0000-4000-8000-00000000002c",
             "variantName": null,
             "amountGrams": 50,
@@ -5184,15 +5184,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000001",
-            "productName": "Молоко",
+            "productName": "Milk",
             "variantId": "de000004-0000-4000-8000-000000000002",
-            "variantName": "Луговое 2.5%",
+            "variantName": "Meadow 2.5%",
             "amountGrams": 150,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001f",
-            "productName": "Банан",
+            "productName": "Banana",
             "variantId": "de000004-0000-4000-8000-000000000025",
             "variantName": null,
             "amountGrams": 100,
@@ -5200,7 +5200,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000034",
-            "productName": "Грецкий орех",
+            "productName": "Walnuts",
             "variantId": "de000004-0000-4000-8000-00000000003e",
             "variantName": null,
             "amountGrams": 15,
@@ -5208,7 +5208,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 10,
@@ -5216,7 +5216,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 1,
@@ -5224,7 +5224,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000035",
-            "productName": "Миндаль",
+            "productName": "Almonds",
             "variantId": "de000004-0000-4000-8000-00000000003f",
             "variantName": null,
             "amountGrams": 10,
@@ -5275,7 +5275,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000010",
-            "productName": "Говядина, лопатка",
+            "productName": "Beef shoulder",
             "variantId": "de000004-0000-4000-8000-000000000016",
             "variantName": null,
             "amountGrams": 500,
@@ -5283,7 +5283,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000017",
-            "productName": "Свёкла",
+            "productName": "Beetroot",
             "variantId": "de000004-0000-4000-8000-00000000001d",
             "variantName": null,
             "amountGrams": 300,
@@ -5291,7 +5291,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000016",
-            "productName": "Капуста белокочанная",
+            "productName": "White cabbage",
             "variantId": "de000004-0000-4000-8000-00000000001c",
             "variantName": null,
             "amountGrams": 300,
@@ -5299,7 +5299,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000012",
-            "productName": "Картофель",
+            "productName": "Potatoes",
             "variantId": "de000004-0000-4000-8000-000000000018",
             "variantName": null,
             "amountGrams": 350,
@@ -5307,7 +5307,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 150,
@@ -5315,7 +5315,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -5323,7 +5323,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002e",
-            "productName": "Томатная паста",
+            "productName": "Tomato paste",
             "variantId": "de000004-0000-4000-8000-000000000038",
             "variantName": null,
             "amountGrams": 40,
@@ -5331,7 +5331,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 15,
@@ -5339,15 +5339,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 30,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003e",
-            "productName": "Лавровый лист",
+            "productName": "Bay leaf",
             "variantId": "de000004-0000-4000-8000-000000000048",
             "variantName": null,
             "amountGrams": 1,
@@ -5355,7 +5355,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 15,
@@ -5363,7 +5363,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -5371,7 +5371,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 20,
@@ -5379,7 +5379,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 160,
@@ -5430,23 +5430,23 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000028",
-            "productName": "Макароны",
+            "productName": "Pasta",
             "variantId": "de000004-0000-4000-8000-00000000002e",
-            "variantName": "Спагетти",
+            "variantName": "Spaghetti",
             "amountGrams": 320,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000000e",
-            "productName": "Говяжий фарш",
+            "productName": "Ground beef",
             "variantId": "de000004-0000-4000-8000-000000000013",
-            "variantName": "Классический",
+            "variantName": "Regular",
             "amountGrams": 400,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002f",
-            "productName": "Томаты в собственном соку",
+            "productName": "Canned tomatoes",
             "variantId": "de000004-0000-4000-8000-000000000039",
             "variantName": null,
             "amountGrams": 400,
@@ -5454,7 +5454,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002e",
-            "productName": "Томатная паста",
+            "productName": "Tomato paste",
             "variantId": "de000004-0000-4000-8000-000000000038",
             "variantName": null,
             "amountGrams": 40,
@@ -5462,7 +5462,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 120,
@@ -5470,7 +5470,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 100,
@@ -5478,7 +5478,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 12,
@@ -5486,15 +5486,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000036",
-            "variantName": "Оливковое",
+            "variantName": "Olive",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000040",
-            "productName": "Орегано сушёный",
+            "productName": "Dried oregano",
             "variantId": "de000004-0000-4000-8000-00000000004a",
             "variantName": null,
             "amountGrams": 2,
@@ -5502,7 +5502,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 6,
@@ -5510,9 +5510,9 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000000a",
-            "productName": "Сыр твёрдый",
+            "productName": "Hard cheese",
             "variantId": "de000004-0000-4000-8000-00000000000f",
-            "variantName": "Пармезан",
+            "variantName": "Parmesan",
             "amountGrams": 40,
             "isOptional": true
           }
@@ -5529,7 +5529,7 @@ values (1, $seed${
       "containers": null,
       "finished_at": "2026-08-19",
       "rating": 5,
-      "note": "Яблоки с дачи",
+      "note": "Apples from the country house",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -5561,7 +5561,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000020",
-            "productName": "Яблоки",
+            "productName": "Apples",
             "variantId": "de000004-0000-4000-8000-000000000026",
             "variantName": null,
             "amountGrams": 600,
@@ -5569,7 +5569,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 220,
@@ -5577,15 +5577,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 150,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 150,
@@ -5593,7 +5593,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 10,
@@ -5601,7 +5601,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 2,
@@ -5620,7 +5620,7 @@ values (1, $seed${
       "containers": 6,
       "finished_at": "2026-09-01",
       "rating": 4,
-      "note": "Половину заморозили",
+      "note": "Froze half",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -5652,7 +5652,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000c",
-            "productName": "Куриное филе",
+            "productName": "Chicken breast fillet",
             "variantId": "de000004-0000-4000-8000-000000000011",
             "variantName": null,
             "amountGrams": 700,
@@ -5660,7 +5660,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -5668,7 +5668,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 55,
@@ -5676,7 +5676,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002b",
-            "productName": "Панировочные сухари",
+            "productName": "Breadcrumbs",
             "variantId": "de000004-0000-4000-8000-000000000033",
             "variantName": null,
             "amountGrams": 80,
@@ -5684,7 +5684,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 40,
@@ -5692,15 +5692,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 40,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -5708,7 +5708,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -5716,7 +5716,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 15,
@@ -5767,7 +5767,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000025",
-            "productName": "Гречка",
+            "productName": "Buckwheat",
             "variantId": "de000004-0000-4000-8000-00000000002b",
             "variantName": null,
             "amountGrams": 200,
@@ -5775,7 +5775,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001e",
-            "productName": "Шампиньоны",
+            "productName": "Button mushrooms",
             "variantId": "de000004-0000-4000-8000-000000000024",
             "variantName": null,
             "amountGrams": 300,
@@ -5783,7 +5783,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 120,
@@ -5791,7 +5791,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 80,
@@ -5799,15 +5799,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 4,
@@ -5815,7 +5815,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -5823,7 +5823,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 60,
@@ -5831,7 +5831,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 10,
@@ -5882,7 +5882,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000016",
-            "productName": "Капуста белокочанная",
+            "productName": "White cabbage",
             "variantId": "de000004-0000-4000-8000-00000000001c",
             "variantName": null,
             "amountGrams": 900,
@@ -5890,7 +5890,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000000f",
-            "productName": "Фарш домашний",
+            "productName": "Homemade ground meat",
             "variantId": "de000004-0000-4000-8000-000000000015",
             "variantName": null,
             "amountGrams": 600,
@@ -5898,7 +5898,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000024",
-            "productName": "Рис",
+            "productName": "Rice",
             "variantId": "de000004-0000-4000-8000-00000000002a",
             "variantName": null,
             "amountGrams": 100,
@@ -5906,7 +5906,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -5914,7 +5914,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 150,
@@ -5922,7 +5922,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002e",
-            "productName": "Томатная паста",
+            "productName": "Tomato paste",
             "variantId": "de000004-0000-4000-8000-000000000038",
             "variantName": null,
             "amountGrams": 60,
@@ -5930,7 +5930,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 100,
@@ -5938,15 +5938,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 30,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003e",
-            "productName": "Лавровый лист",
+            "productName": "Bay leaf",
             "variantId": "de000004-0000-4000-8000-000000000048",
             "variantName": null,
             "amountGrams": 2,
@@ -5954,7 +5954,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 12,
@@ -5962,7 +5962,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 2,
@@ -6013,15 +6013,15 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000002",
-            "productName": "Творог",
+            "productName": "Cottage cheese",
             "variantId": "de000004-0000-4000-8000-000000000005",
-            "variantName": "Тихий ручей 9%",
+            "variantName": "Quiet Creek 9%",
             "amountGrams": 500,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 55,
@@ -6029,7 +6029,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 80,
@@ -6037,15 +6037,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 1,
@@ -6053,15 +6053,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 15,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 60,
@@ -6069,7 +6069,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 20,
@@ -6120,7 +6120,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000d",
-            "productName": "Куриные бёдра без кожи",
+            "productName": "Skinless chicken thighs",
             "variantId": "de000004-0000-4000-8000-000000000012",
             "variantName": null,
             "amountGrams": 800,
@@ -6128,7 +6128,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000012",
-            "productName": "Картофель",
+            "productName": "Potatoes",
             "variantId": "de000004-0000-4000-8000-000000000018",
             "variantName": null,
             "amountGrams": 600,
@@ -6136,7 +6136,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 200,
@@ -6144,7 +6144,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001d",
-            "productName": "Кабачок",
+            "productName": "Zucchini",
             "variantId": "de000004-0000-4000-8000-000000000023",
             "variantName": null,
             "amountGrams": 300,
@@ -6152,7 +6152,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001a",
-            "productName": "Перец болгарский",
+            "productName": "Bell pepper",
             "variantId": "de000004-0000-4000-8000-000000000020",
             "variantName": null,
             "amountGrams": 200,
@@ -6160,7 +6160,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 15,
@@ -6168,15 +6168,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 40,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003c",
-            "productName": "Паприка молотая",
+            "productName": "Ground paprika",
             "variantId": "de000004-0000-4000-8000-000000000046",
             "variantName": null,
             "amountGrams": 4,
@@ -6184,7 +6184,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -6192,7 +6192,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -6200,7 +6200,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000023",
-            "productName": "Петрушка",
+            "productName": "Parsley",
             "variantId": "de000004-0000-4000-8000-000000000029",
             "variantName": null,
             "amountGrams": 10,
@@ -6219,7 +6219,7 @@ values (1, $seed${
       "containers": 8,
       "finished_at": "2026-09-19",
       "rating": 5,
-      "note": "Острее обычного: аджика оказалась жгучей",
+      "note": "Spicier than usual: the adjika turned out fiery",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -6248,7 +6248,7 @@ values (1, $seed${
           "incompleteProducts": [
             {
               "productId": "de000003-0000-4000-8000-000000000041",
-              "productName": "Аджика домашняя"
+              "productName": "Homemade adjika"
             }
           ]
         },
@@ -6256,15 +6256,15 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000e",
-            "productName": "Говяжий фарш",
+            "productName": "Ground beef",
             "variantId": "de000004-0000-4000-8000-000000000014",
-            "variantName": "Нежирный",
+            "variantName": "Lean",
             "amountGrams": 600,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000030",
-            "productName": "Фасоль красная консервированная",
+            "productName": "Canned kidney beans",
             "variantId": "de000004-0000-4000-8000-00000000003a",
             "variantName": null,
             "amountGrams": 400,
@@ -6272,7 +6272,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002f",
-            "productName": "Томаты в собственном соку",
+            "productName": "Canned tomatoes",
             "variantId": "de000004-0000-4000-8000-000000000039",
             "variantName": null,
             "amountGrams": 400,
@@ -6280,7 +6280,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -6288,7 +6288,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001a",
-            "productName": "Перец болгарский",
+            "productName": "Bell pepper",
             "variantId": "de000004-0000-4000-8000-000000000020",
             "variantName": null,
             "amountGrams": 150,
@@ -6296,7 +6296,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 12,
@@ -6304,15 +6304,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003c",
-            "productName": "Паприка молотая",
+            "productName": "Ground paprika",
             "variantId": "de000004-0000-4000-8000-000000000046",
             "variantName": null,
             "amountGrams": 5,
@@ -6320,7 +6320,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003d",
-            "productName": "Зира молотая",
+            "productName": "Ground cumin",
             "variantId": "de000004-0000-4000-8000-000000000047",
             "variantName": null,
             "amountGrams": 3,
@@ -6328,7 +6328,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000041",
-            "productName": "Аджика домашняя",
+            "productName": "Homemade adjika",
             "variantId": "de000004-0000-4000-8000-00000000004b",
             "variantName": null,
             "amountGrams": 20,
@@ -6336,7 +6336,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -6387,7 +6387,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000011",
-            "productName": "Лосось (сёмга)",
+            "productName": "Salmon",
             "variantId": "de000004-0000-4000-8000-000000000017",
             "variantName": null,
             "amountGrams": 300,
@@ -6395,7 +6395,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001b",
-            "productName": "Брокколи",
+            "productName": "Broccoli",
             "variantId": "de000004-0000-4000-8000-000000000021",
             "variantName": null,
             "amountGrams": 300,
@@ -6403,7 +6403,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000021",
-            "productName": "Лимон",
+            "productName": "Lemon",
             "variantId": "de000004-0000-4000-8000-000000000027",
             "variantName": null,
             "amountGrams": 40,
@@ -6411,15 +6411,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000036",
-            "variantName": "Оливковое",
+            "variantName": "Olive",
             "amountGrams": 15,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 6,
@@ -6427,7 +6427,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 3,
@@ -6435,7 +6435,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -6443,7 +6443,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 8,
@@ -6462,7 +6462,7 @@ values (1, $seed${
       "containers": 8,
       "finished_at": "2026-09-20",
       "rating": 5,
-      "note": "На гостей",
+      "note": "For guests",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -6494,7 +6494,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000d",
-            "productName": "Куриные бёдра без кожи",
+            "productName": "Skinless chicken thighs",
             "variantId": "de000004-0000-4000-8000-000000000012",
             "variantName": null,
             "amountGrams": 700,
@@ -6502,7 +6502,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000024",
-            "productName": "Рис",
+            "productName": "Rice",
             "variantId": "de000004-0000-4000-8000-00000000002a",
             "variantName": null,
             "amountGrams": 400,
@@ -6510,7 +6510,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 350,
@@ -6518,7 +6518,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 250,
@@ -6526,7 +6526,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 30,
@@ -6534,15 +6534,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 80,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003d",
-            "productName": "Зира молотая",
+            "productName": "Ground cumin",
             "variantId": "de000004-0000-4000-8000-000000000047",
             "variantName": null,
             "amountGrams": 3,
@@ -6550,7 +6550,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -6558,7 +6558,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -6609,7 +6609,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000001f",
-            "productName": "Банан",
+            "productName": "Banana",
             "variantId": "de000004-0000-4000-8000-000000000025",
             "variantName": null,
             "amountGrams": 400,
@@ -6617,7 +6617,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 220,
@@ -6625,15 +6625,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000032",
-            "variantName": "Тростниковый",
+            "variantName": "Cane",
             "amountGrams": 100,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 110,
@@ -6641,7 +6641,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 80,
@@ -6649,7 +6649,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 2,
@@ -6657,7 +6657,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 1,
@@ -6665,7 +6665,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000034",
-            "productName": "Грецкий орех",
+            "productName": "Walnuts",
             "variantId": "de000004-0000-4000-8000-00000000003e",
             "variantName": null,
             "amountGrams": 60,
@@ -6716,7 +6716,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000d",
-            "productName": "Куриные бёдра без кожи",
+            "productName": "Skinless chicken thighs",
             "variantId": "de000004-0000-4000-8000-000000000012",
             "variantName": null,
             "amountGrams": 500,
@@ -6724,7 +6724,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000012",
-            "productName": "Картофель",
+            "productName": "Potatoes",
             "variantId": "de000004-0000-4000-8000-000000000018",
             "variantName": null,
             "amountGrams": 300,
@@ -6732,7 +6732,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 120,
@@ -6740,7 +6740,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 100,
@@ -6748,23 +6748,23 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000028",
-            "productName": "Макароны",
+            "productName": "Pasta",
             "variantId": "de000004-0000-4000-8000-00000000002f",
-            "variantName": "Вермишель тонкая",
+            "variantName": "Thin vermicelli",
             "amountGrams": 100,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 15,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003e",
-            "productName": "Лавровый лист",
+            "productName": "Bay leaf",
             "variantId": "de000004-0000-4000-8000-000000000048",
             "variantName": null,
             "amountGrams": 1,
@@ -6772,7 +6772,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 10,
@@ -6780,7 +6780,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -6788,7 +6788,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000023",
-            "productName": "Петрушка",
+            "productName": "Parsley",
             "variantId": "de000004-0000-4000-8000-000000000029",
             "variantName": null,
             "amountGrams": 15,
@@ -6807,7 +6807,7 @@ values (1, $seed${
       "containers": 12,
       "finished_at": "2026-10-03",
       "rating": 5,
-      "note": "Часть заморожена",
+      "note": "Partly frozen",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -6839,7 +6839,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000010",
-            "productName": "Говядина, лопатка",
+            "productName": "Beef shoulder",
             "variantId": "de000004-0000-4000-8000-000000000016",
             "variantName": null,
             "amountGrams": 500,
@@ -6847,7 +6847,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000017",
-            "productName": "Свёкла",
+            "productName": "Beetroot",
             "variantId": "de000004-0000-4000-8000-00000000001d",
             "variantName": null,
             "amountGrams": 300,
@@ -6855,7 +6855,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000016",
-            "productName": "Капуста белокочанная",
+            "productName": "White cabbage",
             "variantId": "de000004-0000-4000-8000-00000000001c",
             "variantName": null,
             "amountGrams": 300,
@@ -6863,7 +6863,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000012",
-            "productName": "Картофель",
+            "productName": "Potatoes",
             "variantId": "de000004-0000-4000-8000-000000000018",
             "variantName": null,
             "amountGrams": 350,
@@ -6871,7 +6871,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 150,
@@ -6879,7 +6879,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -6887,7 +6887,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002e",
-            "productName": "Томатная паста",
+            "productName": "Tomato paste",
             "variantId": "de000004-0000-4000-8000-000000000038",
             "variantName": null,
             "amountGrams": 40,
@@ -6895,7 +6895,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 15,
@@ -6903,15 +6903,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 30,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003e",
-            "productName": "Лавровый лист",
+            "productName": "Bay leaf",
             "variantId": "de000004-0000-4000-8000-000000000048",
             "variantName": null,
             "amountGrams": 1,
@@ -6919,7 +6919,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 15,
@@ -6927,7 +6927,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -6935,7 +6935,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 20,
@@ -6943,7 +6943,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 160,
@@ -6994,7 +6994,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000026",
-            "productName": "Овсяные хлопья",
+            "productName": "Rolled oats",
             "variantId": "de000004-0000-4000-8000-00000000002c",
             "variantName": null,
             "amountGrams": 50,
@@ -7002,15 +7002,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000001",
-            "productName": "Молоко",
+            "productName": "Milk",
             "variantId": "de000004-0000-4000-8000-000000000002",
-            "variantName": "Луговое 2.5%",
+            "variantName": "Meadow 2.5%",
             "amountGrams": 150,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001f",
-            "productName": "Банан",
+            "productName": "Banana",
             "variantId": "de000004-0000-4000-8000-000000000025",
             "variantName": null,
             "amountGrams": 100,
@@ -7018,7 +7018,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000034",
-            "productName": "Грецкий орех",
+            "productName": "Walnuts",
             "variantId": "de000004-0000-4000-8000-00000000003e",
             "variantName": null,
             "amountGrams": 15,
@@ -7026,7 +7026,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 10,
@@ -7034,7 +7034,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 1,
@@ -7042,7 +7042,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000035",
-            "productName": "Миндаль",
+            "productName": "Almonds",
             "variantId": "de000004-0000-4000-8000-00000000003f",
             "variantName": null,
             "amountGrams": 10,
@@ -7093,7 +7093,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000001c",
-            "productName": "Тыква",
+            "productName": "Pumpkin",
             "variantId": "de000004-0000-4000-8000-000000000022",
             "variantName": null,
             "amountGrams": 800,
@@ -7101,7 +7101,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000012",
-            "productName": "Картофель",
+            "productName": "Potatoes",
             "variantId": "de000004-0000-4000-8000-000000000018",
             "variantName": null,
             "amountGrams": 200,
@@ -7109,7 +7109,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 100,
@@ -7117,7 +7117,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 100,
@@ -7125,7 +7125,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000005",
-            "productName": "Сливки 10%",
+            "productName": "Cream 10%",
             "variantId": "de000004-0000-4000-8000-000000000009",
             "variantName": null,
             "amountGrams": 150,
@@ -7133,7 +7133,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 20,
@@ -7141,7 +7141,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 6,
@@ -7149,7 +7149,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -7200,23 +7200,23 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000028",
-            "productName": "Макароны",
+            "productName": "Pasta",
             "variantId": "de000004-0000-4000-8000-00000000002e",
-            "variantName": "Спагетти",
+            "variantName": "Spaghetti",
             "amountGrams": 320,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000000e",
-            "productName": "Говяжий фарш",
+            "productName": "Ground beef",
             "variantId": "de000004-0000-4000-8000-000000000013",
-            "variantName": "Классический",
+            "variantName": "Regular",
             "amountGrams": 400,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002f",
-            "productName": "Томаты в собственном соку",
+            "productName": "Canned tomatoes",
             "variantId": "de000004-0000-4000-8000-000000000039",
             "variantName": null,
             "amountGrams": 400,
@@ -7224,7 +7224,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002e",
-            "productName": "Томатная паста",
+            "productName": "Tomato paste",
             "variantId": "de000004-0000-4000-8000-000000000038",
             "variantName": null,
             "amountGrams": 40,
@@ -7232,7 +7232,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 120,
@@ -7240,7 +7240,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 100,
@@ -7248,7 +7248,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 12,
@@ -7256,15 +7256,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000036",
-            "variantName": "Оливковое",
+            "variantName": "Olive",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000040",
-            "productName": "Орегано сушёный",
+            "productName": "Dried oregano",
             "variantId": "de000004-0000-4000-8000-00000000004a",
             "variantName": null,
             "amountGrams": 2,
@@ -7272,7 +7272,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 6,
@@ -7280,9 +7280,9 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000000a",
-            "productName": "Сыр твёрдый",
+            "productName": "Hard cheese",
             "variantId": "de000004-0000-4000-8000-00000000000f",
-            "variantName": "Пармезан",
+            "variantName": "Parmesan",
             "amountGrams": 40,
             "isOptional": true
           }
@@ -7331,7 +7331,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000020",
-            "productName": "Яблоки",
+            "productName": "Apples",
             "variantId": "de000004-0000-4000-8000-000000000026",
             "variantName": null,
             "amountGrams": 600,
@@ -7339,7 +7339,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 220,
@@ -7347,15 +7347,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 150,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 150,
@@ -7363,7 +7363,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 10,
@@ -7371,7 +7371,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 2,
@@ -7422,15 +7422,15 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000002",
-            "productName": "Творог",
+            "productName": "Cottage cheese",
             "variantId": "de000004-0000-4000-8000-000000000004",
-            "variantName": "Тихий ручей 5%",
+            "variantName": "Quiet Creek 5%",
             "amountGrams": 600,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 110,
@@ -7438,7 +7438,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000027",
-            "productName": "Манная крупа",
+            "productName": "Semolina",
             "variantId": "de000004-0000-4000-8000-00000000002d",
             "variantName": null,
             "amountGrams": 50,
@@ -7446,15 +7446,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 50,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 20,
@@ -7462,7 +7462,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000007",
-            "productName": "Сметана 15%",
+            "productName": "Sour cream 15%",
             "variantId": "de000004-0000-4000-8000-00000000000b",
             "variantName": null,
             "amountGrams": 40,
@@ -7470,7 +7470,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000036",
-            "productName": "Изюм",
+            "productName": "Raisins",
             "variantId": "de000004-0000-4000-8000-000000000040",
             "variantName": null,
             "amountGrams": 40,
@@ -7489,7 +7489,7 @@ values (1, $seed${
       "containers": null,
       "finished_at": "2026-10-03",
       "rating": 5,
-      "note": "Хрустящее по краям, мягкое внутри",
+      "note": "Crisp at the edges, soft inside",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -7521,7 +7521,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 110,
@@ -7529,7 +7529,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000026",
-            "productName": "Овсяные хлопья",
+            "productName": "Rolled oats",
             "variantId": "de000004-0000-4000-8000-00000000002c",
             "variantName": null,
             "amountGrams": 170,
@@ -7537,15 +7537,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 140,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 80,
@@ -7553,7 +7553,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000036",
-            "productName": "Изюм",
+            "productName": "Raisins",
             "variantId": "de000004-0000-4000-8000-000000000040",
             "variantName": null,
             "amountGrams": 25,
@@ -7561,7 +7561,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 20,
@@ -7569,7 +7569,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000039",
-            "productName": "Ванильный сахар",
+            "productName": "Vanilla sugar",
             "variantId": "de000004-0000-4000-8000-000000000043",
             "variantName": null,
             "amountGrams": 1,
@@ -7577,7 +7577,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003a",
-            "productName": "Разрыхлитель теста",
+            "productName": "Baking powder",
             "variantId": "de000004-0000-4000-8000-000000000044",
             "variantName": null,
             "amountGrams": 3,
@@ -7585,7 +7585,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 1,
@@ -7593,7 +7593,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000038",
-            "productName": "Вода",
+            "productName": "Water",
             "variantId": "de000004-0000-4000-8000-000000000042",
             "variantName": null,
             "amountGrams": 60,
@@ -7601,7 +7601,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 2,
@@ -7620,7 +7620,7 @@ values (1, $seed${
       "containers": null,
       "finished_at": "2026-10-05",
       "rating": 5,
-      "note": "К завтраку в выходной",
+      "note": "For a weekend breakfast",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -7652,7 +7652,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000038",
-            "productName": "Вода",
+            "productName": "Water",
             "variantId": "de000004-0000-4000-8000-000000000042",
             "variantName": null,
             "amountGrams": 500,
@@ -7660,15 +7660,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000001",
-            "productName": "Молоко",
+            "productName": "Milk",
             "variantId": "de000004-0000-4000-8000-000000000001",
-            "variantName": "Луговое 3.2%",
+            "variantName": "Meadow 3.2%",
             "amountGrams": 500,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 110,
@@ -7676,15 +7676,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 50,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 3.5,
@@ -7692,7 +7692,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 300,
@@ -7700,7 +7700,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003a",
-            "productName": "Разрыхлитель теста",
+            "productName": "Baking powder",
             "variantId": "de000004-0000-4000-8000-000000000044",
             "variantName": null,
             "amountGrams": 1,
@@ -7708,9 +7708,9 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 85,
             "isOptional": false
           }
@@ -7759,7 +7759,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000c",
-            "productName": "Куриное филе",
+            "productName": "Chicken breast fillet",
             "variantId": "de000004-0000-4000-8000-000000000011",
             "variantName": null,
             "amountGrams": 700,
@@ -7767,7 +7767,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -7775,7 +7775,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 55,
@@ -7783,7 +7783,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002b",
-            "productName": "Панировочные сухари",
+            "productName": "Breadcrumbs",
             "variantId": "de000004-0000-4000-8000-000000000033",
             "variantName": null,
             "amountGrams": 80,
@@ -7791,7 +7791,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 40,
@@ -7799,15 +7799,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 40,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -7815,7 +7815,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -7823,7 +7823,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 15,
@@ -7874,7 +7874,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000019",
-            "productName": "Огурцы",
+            "productName": "Cucumbers",
             "variantId": "de000004-0000-4000-8000-00000000001f",
             "variantName": null,
             "amountGrams": 200,
@@ -7882,7 +7882,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000018",
-            "productName": "Помидоры",
+            "productName": "Tomatoes",
             "variantId": "de000004-0000-4000-8000-00000000001e",
             "variantName": null,
             "amountGrams": 300,
@@ -7890,7 +7890,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001a",
-            "productName": "Перец болгарский",
+            "productName": "Bell pepper",
             "variantId": "de000004-0000-4000-8000-000000000020",
             "variantName": null,
             "amountGrams": 120,
@@ -7898,7 +7898,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 50,
@@ -7906,7 +7906,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000000b",
-            "productName": "Сыр фета",
+            "productName": "Feta",
             "variantId": "de000004-0000-4000-8000-000000000010",
             "variantName": null,
             "amountGrams": 100,
@@ -7914,7 +7914,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000031",
-            "productName": "Маслины",
+            "productName": "Olives",
             "variantId": "de000004-0000-4000-8000-00000000003b",
             "variantName": null,
             "amountGrams": 40,
@@ -7922,15 +7922,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000036",
-            "variantName": "Оливковое",
+            "variantName": "Olive",
             "amountGrams": 20,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000040",
-            "productName": "Орегано сушёный",
+            "productName": "Dried oregano",
             "variantId": "de000004-0000-4000-8000-00000000004a",
             "variantName": null,
             "amountGrams": 1,
@@ -7938,7 +7938,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 1,
@@ -7989,15 +7989,15 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000002",
-            "productName": "Творог",
+            "productName": "Cottage cheese",
             "variantId": "de000004-0000-4000-8000-000000000005",
-            "variantName": "Тихий ручей 9%",
+            "variantName": "Quiet Creek 9%",
             "amountGrams": 500,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 55,
@@ -8005,7 +8005,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 80,
@@ -8013,15 +8013,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 1,
@@ -8029,15 +8029,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 15,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 60,
@@ -8045,7 +8045,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 20,
@@ -8096,7 +8096,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 110,
@@ -8104,7 +8104,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000026",
-            "productName": "Овсяные хлопья",
+            "productName": "Rolled oats",
             "variantId": "de000004-0000-4000-8000-00000000002c",
             "variantName": null,
             "amountGrams": 170,
@@ -8112,15 +8112,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 140,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 80,
@@ -8128,7 +8128,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000036",
-            "productName": "Изюм",
+            "productName": "Raisins",
             "variantId": "de000004-0000-4000-8000-000000000040",
             "variantName": null,
             "amountGrams": 25,
@@ -8136,7 +8136,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 20,
@@ -8144,7 +8144,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000039",
-            "productName": "Ванильный сахар",
+            "productName": "Vanilla sugar",
             "variantId": "de000004-0000-4000-8000-000000000043",
             "variantName": null,
             "amountGrams": 1,
@@ -8152,7 +8152,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003a",
-            "productName": "Разрыхлитель теста",
+            "productName": "Baking powder",
             "variantId": "de000004-0000-4000-8000-000000000044",
             "variantName": null,
             "amountGrams": 3,
@@ -8160,7 +8160,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 1,
@@ -8168,7 +8168,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000038",
-            "productName": "Вода",
+            "productName": "Water",
             "variantId": "de000004-0000-4000-8000-000000000042",
             "variantName": null,
             "amountGrams": 60,
@@ -8176,7 +8176,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 2,
@@ -8227,7 +8227,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000d",
-            "productName": "Куриные бёдра без кожи",
+            "productName": "Skinless chicken thighs",
             "variantId": "de000004-0000-4000-8000-000000000012",
             "variantName": null,
             "amountGrams": 800,
@@ -8235,7 +8235,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000012",
-            "productName": "Картофель",
+            "productName": "Potatoes",
             "variantId": "de000004-0000-4000-8000-000000000018",
             "variantName": null,
             "amountGrams": 600,
@@ -8243,7 +8243,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 200,
@@ -8251,7 +8251,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001d",
-            "productName": "Кабачок",
+            "productName": "Zucchini",
             "variantId": "de000004-0000-4000-8000-000000000023",
             "variantName": null,
             "amountGrams": 300,
@@ -8259,7 +8259,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001a",
-            "productName": "Перец болгарский",
+            "productName": "Bell pepper",
             "variantId": "de000004-0000-4000-8000-000000000020",
             "variantName": null,
             "amountGrams": 200,
@@ -8267,7 +8267,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 15,
@@ -8275,15 +8275,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 40,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003c",
-            "productName": "Паприка молотая",
+            "productName": "Ground paprika",
             "variantId": "de000004-0000-4000-8000-000000000046",
             "variantName": null,
             "amountGrams": 4,
@@ -8291,7 +8291,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -8299,7 +8299,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -8307,7 +8307,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000023",
-            "productName": "Петрушка",
+            "productName": "Parsley",
             "variantId": "de000004-0000-4000-8000-000000000029",
             "variantName": null,
             "amountGrams": 10,
@@ -8326,7 +8326,7 @@ values (1, $seed${
       "containers": 2,
       "finished_at": "2026-10-17",
       "rating": 4,
-      "note": "Хватило почти на неделю",
+      "note": "Lasted almost a week",
       "snapshot": {
         "version": 1,
         "nutrition": {
@@ -8358,7 +8358,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000002c",
-            "productName": "Нут отварной",
+            "productName": "Cooked chickpeas",
             "variantId": "de000004-0000-4000-8000-000000000034",
             "variantName": null,
             "amountGrams": 400,
@@ -8366,7 +8366,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000032",
-            "productName": "Паста тахини",
+            "productName": "Tahini",
             "variantId": "de000004-0000-4000-8000-00000000003c",
             "variantName": null,
             "amountGrams": 70,
@@ -8374,7 +8374,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000021",
-            "productName": "Лимон",
+            "productName": "Lemon",
             "variantId": "de000004-0000-4000-8000-000000000027",
             "variantName": null,
             "amountGrams": 60,
@@ -8382,7 +8382,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 10,
@@ -8390,15 +8390,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000036",
-            "variantName": "Оливковое",
+            "variantName": "Olive",
             "amountGrams": 30,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003d",
-            "productName": "Зира молотая",
+            "productName": "Ground cumin",
             "variantId": "de000004-0000-4000-8000-000000000047",
             "variantName": null,
             "amountGrams": 2,
@@ -8406,7 +8406,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 4,
@@ -8457,7 +8457,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000001f",
-            "productName": "Банан",
+            "productName": "Banana",
             "variantId": "de000004-0000-4000-8000-000000000025",
             "variantName": null,
             "amountGrams": 400,
@@ -8465,7 +8465,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 220,
@@ -8473,15 +8473,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000032",
-            "variantName": "Тростниковый",
+            "variantName": "Cane",
             "amountGrams": 100,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 110,
@@ -8489,7 +8489,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000008",
-            "productName": "Сливочное масло 82.5%",
+            "productName": "Butter 82.5%",
             "variantId": "de000004-0000-4000-8000-00000000000c",
             "variantName": null,
             "amountGrams": 80,
@@ -8497,7 +8497,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 2,
@@ -8505,7 +8505,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 1,
@@ -8513,7 +8513,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000034",
-            "productName": "Грецкий орех",
+            "productName": "Walnuts",
             "variantId": "de000004-0000-4000-8000-00000000003e",
             "variantName": null,
             "amountGrams": 60,
@@ -8564,7 +8564,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000025",
-            "productName": "Гречка",
+            "productName": "Buckwheat",
             "variantId": "de000004-0000-4000-8000-00000000002b",
             "variantName": null,
             "amountGrams": 200,
@@ -8572,7 +8572,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001e",
-            "productName": "Шампиньоны",
+            "productName": "Button mushrooms",
             "variantId": "de000004-0000-4000-8000-000000000024",
             "variantName": null,
             "amountGrams": 300,
@@ -8580,7 +8580,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 120,
@@ -8588,7 +8588,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 80,
@@ -8596,15 +8596,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 4,
@@ -8612,7 +8612,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -8620,7 +8620,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 60,
@@ -8628,7 +8628,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 10,
@@ -8679,7 +8679,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000016",
-            "productName": "Капуста белокочанная",
+            "productName": "White cabbage",
             "variantId": "de000004-0000-4000-8000-00000000001c",
             "variantName": null,
             "amountGrams": 900,
@@ -8687,7 +8687,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000000f",
-            "productName": "Фарш домашний",
+            "productName": "Homemade ground meat",
             "variantId": "de000004-0000-4000-8000-000000000015",
             "variantName": null,
             "amountGrams": 600,
@@ -8695,7 +8695,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000024",
-            "productName": "Рис",
+            "productName": "Rice",
             "variantId": "de000004-0000-4000-8000-00000000002a",
             "variantName": null,
             "amountGrams": 100,
@@ -8703,7 +8703,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -8711,7 +8711,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 150,
@@ -8719,7 +8719,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002e",
-            "productName": "Томатная паста",
+            "productName": "Tomato paste",
             "variantId": "de000004-0000-4000-8000-000000000038",
             "variantName": null,
             "amountGrams": 60,
@@ -8727,7 +8727,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000006",
-            "productName": "Сметана 20%",
+            "productName": "Sour cream 20%",
             "variantId": "de000004-0000-4000-8000-00000000000a",
             "variantName": null,
             "amountGrams": 100,
@@ -8735,15 +8735,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 30,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003e",
-            "productName": "Лавровый лист",
+            "productName": "Bay leaf",
             "variantId": "de000004-0000-4000-8000-000000000048",
             "variantName": null,
             "amountGrams": 2,
@@ -8751,7 +8751,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 12,
@@ -8759,7 +8759,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 2,
@@ -8807,7 +8807,7 @@ values (1, $seed${
           "incompleteProducts": [
             {
               "productId": "de000003-0000-4000-8000-000000000041",
-              "productName": "Аджика домашняя"
+              "productName": "Homemade adjika"
             }
           ]
         },
@@ -8815,15 +8815,15 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000e",
-            "productName": "Говяжий фарш",
+            "productName": "Ground beef",
             "variantId": "de000004-0000-4000-8000-000000000014",
-            "variantName": "Нежирный",
+            "variantName": "Lean",
             "amountGrams": 600,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000030",
-            "productName": "Фасоль красная консервированная",
+            "productName": "Canned kidney beans",
             "variantId": "de000004-0000-4000-8000-00000000003a",
             "variantName": null,
             "amountGrams": 400,
@@ -8831,7 +8831,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002f",
-            "productName": "Томаты в собственном соку",
+            "productName": "Canned tomatoes",
             "variantId": "de000004-0000-4000-8000-000000000039",
             "variantName": null,
             "amountGrams": 400,
@@ -8839,7 +8839,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 150,
@@ -8847,7 +8847,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001a",
-            "productName": "Перец болгарский",
+            "productName": "Bell pepper",
             "variantId": "de000004-0000-4000-8000-000000000020",
             "variantName": null,
             "amountGrams": 150,
@@ -8855,7 +8855,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 12,
@@ -8863,15 +8863,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 25,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003c",
-            "productName": "Паприка молотая",
+            "productName": "Ground paprika",
             "variantId": "de000004-0000-4000-8000-000000000046",
             "variantName": null,
             "amountGrams": 5,
@@ -8879,7 +8879,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003d",
-            "productName": "Зира молотая",
+            "productName": "Ground cumin",
             "variantId": "de000004-0000-4000-8000-000000000047",
             "variantName": null,
             "amountGrams": 3,
@@ -8887,7 +8887,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000041",
-            "productName": "Аджика домашняя",
+            "productName": "Homemade adjika",
             "variantId": "de000004-0000-4000-8000-00000000004b",
             "variantName": null,
             "amountGrams": 20,
@@ -8895,7 +8895,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -8946,7 +8946,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000011",
-            "productName": "Лосось (сёмга)",
+            "productName": "Salmon",
             "variantId": "de000004-0000-4000-8000-000000000017",
             "variantName": null,
             "amountGrams": 300,
@@ -8954,7 +8954,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001b",
-            "productName": "Брокколи",
+            "productName": "Broccoli",
             "variantId": "de000004-0000-4000-8000-000000000021",
             "variantName": null,
             "amountGrams": 300,
@@ -8962,7 +8962,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000021",
-            "productName": "Лимон",
+            "productName": "Lemon",
             "variantId": "de000004-0000-4000-8000-000000000027",
             "variantName": null,
             "amountGrams": 40,
@@ -8970,15 +8970,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000036",
-            "variantName": "Оливковое",
+            "variantName": "Olive",
             "amountGrams": 15,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 6,
@@ -8986,7 +8986,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 3,
@@ -8994,7 +8994,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -9002,7 +9002,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000022",
-            "productName": "Укроп",
+            "productName": "Dill",
             "variantId": "de000004-0000-4000-8000-000000000028",
             "variantName": null,
             "amountGrams": 8,
@@ -9053,7 +9053,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-00000000000d",
-            "productName": "Куриные бёдра без кожи",
+            "productName": "Skinless chicken thighs",
             "variantId": "de000004-0000-4000-8000-000000000012",
             "variantName": null,
             "amountGrams": 700,
@@ -9061,7 +9061,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000024",
-            "productName": "Рис",
+            "productName": "Rice",
             "variantId": "de000004-0000-4000-8000-00000000002a",
             "variantName": null,
             "amountGrams": 400,
@@ -9069,7 +9069,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000013",
-            "productName": "Морковь",
+            "productName": "Carrots",
             "variantId": "de000004-0000-4000-8000-000000000019",
             "variantName": null,
             "amountGrams": 350,
@@ -9077,7 +9077,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000014",
-            "productName": "Лук репчатый",
+            "productName": "Onion",
             "variantId": "de000004-0000-4000-8000-00000000001a",
             "variantName": null,
             "amountGrams": 250,
@@ -9085,7 +9085,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000015",
-            "productName": "Чеснок",
+            "productName": "Garlic",
             "variantId": "de000004-0000-4000-8000-00000000001b",
             "variantName": null,
             "amountGrams": 30,
@@ -9093,15 +9093,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 80,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003d",
-            "productName": "Зира молотая",
+            "productName": "Ground cumin",
             "variantId": "de000004-0000-4000-8000-000000000047",
             "variantName": null,
             "amountGrams": 3,
@@ -9109,7 +9109,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 8,
@@ -9117,7 +9117,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003b",
-            "productName": "Перец чёрный молотый",
+            "productName": "Ground black pepper",
             "variantId": "de000004-0000-4000-8000-000000000045",
             "variantName": null,
             "amountGrams": 1,
@@ -9168,7 +9168,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000026",
-            "productName": "Овсяные хлопья",
+            "productName": "Rolled oats",
             "variantId": "de000004-0000-4000-8000-00000000002c",
             "variantName": null,
             "amountGrams": 50,
@@ -9176,15 +9176,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000001",
-            "productName": "Молоко",
+            "productName": "Milk",
             "variantId": "de000004-0000-4000-8000-000000000002",
-            "variantName": "Луговое 2.5%",
+            "variantName": "Meadow 2.5%",
             "amountGrams": 150,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-00000000001f",
-            "productName": "Банан",
+            "productName": "Banana",
             "variantId": "de000004-0000-4000-8000-000000000025",
             "variantName": null,
             "amountGrams": 100,
@@ -9192,7 +9192,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000034",
-            "productName": "Грецкий орех",
+            "productName": "Walnuts",
             "variantId": "de000004-0000-4000-8000-00000000003e",
             "variantName": null,
             "amountGrams": 15,
@@ -9200,7 +9200,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000033",
-            "productName": "Мёд",
+            "productName": "Honey",
             "variantId": "de000004-0000-4000-8000-00000000003d",
             "variantName": null,
             "amountGrams": 10,
@@ -9208,7 +9208,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003f",
-            "productName": "Корица молотая",
+            "productName": "Ground cinnamon",
             "variantId": "de000004-0000-4000-8000-000000000049",
             "variantName": null,
             "amountGrams": 1,
@@ -9216,7 +9216,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000035",
-            "productName": "Миндаль",
+            "productName": "Almonds",
             "variantId": "de000004-0000-4000-8000-00000000003f",
             "variantName": null,
             "amountGrams": 10,
@@ -9267,7 +9267,7 @@ values (1, $seed${
         "ingredients": [
           {
             "productId": "de000003-0000-4000-8000-000000000038",
-            "productName": "Вода",
+            "productName": "Water",
             "variantId": "de000004-0000-4000-8000-000000000042",
             "variantName": null,
             "amountGrams": 500,
@@ -9275,15 +9275,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000001",
-            "productName": "Молоко",
+            "productName": "Milk",
             "variantId": "de000004-0000-4000-8000-000000000001",
-            "variantName": "Луговое 3.2%",
+            "variantName": "Meadow 3.2%",
             "amountGrams": 500,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000009",
-            "productName": "Яйцо куриное",
+            "productName": "Chicken egg",
             "variantId": "de000004-0000-4000-8000-00000000000d",
             "variantName": null,
             "amountGrams": 110,
@@ -9291,15 +9291,15 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002a",
-            "productName": "Сахар",
+            "productName": "Sugar",
             "variantId": "de000004-0000-4000-8000-000000000031",
-            "variantName": "Белый",
+            "variantName": "White",
             "amountGrams": 50,
             "isOptional": false
           },
           {
             "productId": "de000003-0000-4000-8000-000000000037",
-            "productName": "Соль",
+            "productName": "Salt",
             "variantId": "de000004-0000-4000-8000-000000000041",
             "variantName": null,
             "amountGrams": 3.5,
@@ -9307,7 +9307,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-000000000029",
-            "productName": "Мука пшеничная",
+            "productName": "Wheat flour",
             "variantId": "de000004-0000-4000-8000-000000000030",
             "variantName": null,
             "amountGrams": 300,
@@ -9315,7 +9315,7 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000003a",
-            "productName": "Разрыхлитель теста",
+            "productName": "Baking powder",
             "variantId": "de000004-0000-4000-8000-000000000044",
             "variantName": null,
             "amountGrams": 1,
@@ -9323,9 +9323,9 @@ values (1, $seed${
           },
           {
             "productId": "de000003-0000-4000-8000-00000000002d",
-            "productName": "Масло растительное",
+            "productName": "Vegetable oil",
             "variantId": "de000004-0000-4000-8000-000000000035",
-            "variantName": "Подсолнечное",
+            "variantName": "Sunflower",
             "amountGrams": 85,
             "isOptional": false
           }

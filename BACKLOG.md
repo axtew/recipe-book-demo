@@ -112,7 +112,7 @@ A dump of ideas for development, so they do not get lost between conversations. 
 
 ### Demo data per UI language
 
-**Why.** The demo is a portfolio shown to English readers, and Russian recipes under an English UI read poorly; the other way round, Russian recipes would suit Russian-speaking visitors. One demo project holds data in one language only.
+**Why.** The demo is a portfolio shown to English readers, so its data is English; Russian-speaking visitors see English recipes under a Russian UI. One demo project holds data in one language only.
 
 **What it needs.** Two demo Supabase projects (English and Russian). The sign-in screen picks the project and prefills the matching demo account by the detected language. Per-language data in one project is not possible without separating the data per user: every table has one "authenticated full access" policy, and multi-tenancy is deferred ([ADR 0029](docs/decisions/0029-multi-tenancy-deferred.md)).
 
@@ -198,7 +198,7 @@ It was: `pinned_variant_id` referenced `product_variants(id)` with a plain forei
 
 ### Second UI language
 
-✅ **Done**, [ADR 0034](docs/decisions/0034-bilingual-ui-by-browser-language.md): the UI is bilingual (English and Russian), the language follows the browser with a manual choice in settings, numbers and dates follow the language. It replaces the "deferred" status from [ADR 0032](docs/decisions/0032-english-ui-language-later.md). The demo data stays Russian — see [Demo data per UI language](#demo-data-per-ui-language).
+✅ **Done**, [ADR 0034](docs/decisions/0034-bilingual-ui-by-browser-language.md): the UI is bilingual (English and Russian), the language follows the browser with a manual choice in settings, numbers and dates follow the language. It replaces the "deferred" status from [ADR 0032](docs/decisions/0032-english-ui-language-later.md). The demo data is English — see [Demo data per UI language](#demo-data-per-ui-language).
 
 ### Supabase auth config as code
 

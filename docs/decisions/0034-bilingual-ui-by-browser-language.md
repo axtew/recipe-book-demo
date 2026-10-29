@@ -23,6 +23,7 @@
 - **Formats follow the language:** the English UI shows numbers as `1,234.5` and dates day-first with a short month name (`25 Oct 2026`), the week starts on Monday; the Russian UI keeps `1 234,5` and `DD.MM.YYYY`.
 - **The product name is "Recipe Book" in both languages** (`<title>`, PWA name, README).
 - **Demo data stays Russian** for now; an English seed is a separate later task (`BACKLOG.md`).
+  **Update 2026-10-29:** the demo data is English (localization L9); per-language demo data is deferred — `BACKLOG.md`, «Demo data per UI language».
 
 The rules from [`conventions/i18n.md`](../agents/conventions/i18n.md) apply to every dictionary: every key exists in every dictionary.
 
