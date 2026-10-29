@@ -4,6 +4,6 @@ interface IBackupImportCounts {
   cookLogs: number;
 }
 
-/** Отказ при непустой базе — ожидаемый исход, а не ошибка записи, поэтому это не исключение. */
+/** A refusal on a non-empty database is an expected outcome, not a write error, so it is not an exception. */
 export type TBackupImportResult =
   { status: "imported"; counts: IBackupImportCounts } | { status: "notEmpty" };

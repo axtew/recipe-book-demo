@@ -25,11 +25,11 @@ interface ILoginSearch {
 }
 
 /**
- * Роуты вне защищённой части — сейчас только логин.
+ * Routes outside the protected part — currently only login.
  *
- * Принимают корневой роут параметром, а не импортируют его напрямую из
- * `AppRouter.tsx`: тот сам собирает дерево из этого модуля, и обратный импорт
- * дал бы циклическую зависимость между двумя файлами.
+ * They take the root route as a parameter rather than importing it directly from
+ * `AppRouter.tsx`: that file builds the tree from this module itself, and a reverse import
+ * would create a circular dependency between the two files.
  */
 export function createCommonRoutes<TRoot extends AnyRoute>(rootRoute: TRoot) {
   const loginRoute = createRoute({
@@ -51,13 +51,13 @@ export function createCommonRoutes<TRoot extends AnyRoute>(rootRoute: TRoot) {
   return [loginRoute] as const;
 }
 
-/** Роуты защищённой части — дети layout-роута с guard'ом в `beforeLoad`. */
+/** Routes of the protected part — children of the layout route with a guard in `beforeLoad`. */
 export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutRoute: TLayout) {
   function RecipesRoute() {
     const search = useSearch({ from: "/protected-layout/" });
     const navigate = useNavigate();
 
-    // replace: набор текста не должен засорять историю, иначе «назад» шёл бы по буквам.
+    // replace: typing must not clutter the history, otherwise “back” would go letter by letter.
     return (
       <RecipesPage
         search={search}
@@ -98,7 +98,7 @@ export function createProtectedRoutes<TLayout extends AnyRoute>(protectedLayoutR
   function RecipeEditRoute() {
     const { recipeId } = useParams({ from: "/protected-layout/recipes/$recipeId/edit" });
 
-    // key пересоздаёт редактор целиком при смене рецепта: состояние формы не должно перетекать.
+    // key recreates the editor entirely when the recipe changes: form state must not leak over.
     return <RecipeEditorPage key={recipeId} recipeId={recipeId} />;
   }
 

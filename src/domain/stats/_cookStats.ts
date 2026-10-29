@@ -4,18 +4,18 @@ type TStatsLog = Pick<ICookLog, "cookedAt" | "finishedAt" | "actualYieldGrams">;
 
 interface ICookStats {
   count: number;
-  /** Дата последней готовки, `YYYY-MM-DD`. */
+  /** Date of the last cooking, `YYYY-MM-DD`. */
   lastCookedAt: string | null;
   averageYieldGrams: number | null;
   averageDaysToFinish: number | null;
 }
 
 /**
- * Порядковый номер дня по григорианскому календарю.
+ * Ordinal day number in the Gregorian calendar.
  *
- * Дата — строка `YYYY-MM-DD` без часового пояса, поэтому разность дней
- * считается арифметикой над номерами, а не через `Date`: там переход на летнее
- * время давал бы дробные сутки.
+ * The date is a `YYYY-MM-DD` string without a time zone, so the day difference
+ * is computed with arithmetic on the numbers rather than through `Date`: there the daylight saving
+ * switch would give fractional days.
  */
 function toDayNumber(date: string): number {
   const [year, month, day] = date.split("-").map(Number);
@@ -37,10 +37,10 @@ function average(values: number[]): number | null {
 }
 
 /**
- * Статистика рецепта по записям журнала: сколько раз готовили, когда в
- * последний раз, средний фактический выход и среднее число дней от готовки до
- * «доели». Записи без выхода или без даты «доели» в соответствующее среднее не
- * входят, а не считаются нулями.
+ * Recipe statistics from cook log entries: how many times it was cooked, when it was
+ * last cooked, the average actual yield and the average number of days from cooking to
+ * “finished”. Entries without a yield or without a finished date do not count
+ * toward the corresponding average, rather than counting as zeros.
  */
 export function calculateCookStats(logs: TStatsLog[]): ICookStats {
   const lastCookedAt = logs.reduce<string | null>(

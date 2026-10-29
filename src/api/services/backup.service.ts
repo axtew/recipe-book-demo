@@ -5,7 +5,7 @@ import type { TBackupImportResult } from "@/types/backup.types";
 
 import { supabase } from "../supabase";
 
-/** Текст исключения, которым `import_backup` отказывает непустой базе. */
+/** Text of the exception with which `import_backup` rejects a non-empty database. */
 const TARGET_NOT_EMPTY_MESSAGE = "backup_target_not_empty";
 
 const importCountsSchema = z.object({
@@ -15,18 +15,18 @@ const importCountsSchema = z.object({
 });
 
 /**
- * Весь бэкап одним снимком базы.
+ * The whole backup as one database snapshot.
  *
- * Файл проходит ту же схему, что и при импорте: выгрузка, которую приложение
- * само не сможет принять обратно, не должна дойти до пользователя как «бэкап».
+ * The file goes through the same schema as on import: an export that the app
+ * could not accept back itself must not reach the user as a “backup”.
  */
 export async function exportBackup(): Promise<TBackup> {
   const { data, error } = await supabase.rpc("export_backup");
 
-  if (error) throw new Error("Произошла ошибка при выгрузке бэкапа.", { cause: error });
+  if (error) throw new Error("An error occurred while exporting the backup.", { cause: error });
 
   if (typeof data !== "object" || data === null || Array.isArray(data)) {
-    throw new Error("Выгрузка бэкапа вернула данные неожиданной формы.");
+    throw new Error("The backup export returned data of an unexpected shape.");
   }
 
   return backupSchema.parse({
@@ -36,14 +36,14 @@ export async function exportBackup(): Promise<TBackup> {
   });
 }
 
-/** Восстановление из файла одной транзакцией; в непустую базу не пишет ничего. */
+/** Restore from a file in one transaction; writes nothing into a non-empty database. */
 export async function importBackup(backup: TBackup): Promise<TBackupImportResult> {
   const { data, error } = await supabase.rpc("import_backup", { p_backup: backup });
 
   if (error) {
     if (error.message === TARGET_NOT_EMPTY_MESSAGE) return { status: "notEmpty" };
 
-    throw new Error("Произошла ошибка при импорте бэкапа.", { cause: error });
+    throw new Error("An error occurred while importing the backup.", { cause: error });
   }
 
   const counts = importCountsSchema.parse(data);

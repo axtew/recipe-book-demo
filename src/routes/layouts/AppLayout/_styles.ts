@@ -9,7 +9,7 @@ export const SShell = styled.div`
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-  /* Резерв под таб-бар, зафиксированный поверх контента, плюс системная полоса жестов iOS. */
+  /* Reserve for the tab bar pinned over the content, plus the iOS system gesture bar. */
   padding-bottom: calc(${TAB_BAR_HEIGHT_PX}px + env(safe-area-inset-bottom));
 `;
 

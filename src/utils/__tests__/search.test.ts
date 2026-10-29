@@ -3,17 +3,17 @@ import { describe, expect, it } from "vitest";
 import { getSearchTokens, matchesTokens, normalizeSearch } from "../search";
 
 describe("normalizeSearch", () => {
-  it("приводит регистр и заменяет ё на е", () => {
+  it("normalizes case and replaces ё with е", () => {
     expect(normalizeSearch("  Мёд ГРЕЧКА ")).toBe("мед гречка");
   });
 });
 
 describe("getSearchTokens", () => {
-  it("пустой запрос не даёт слов", () => {
+  it("an empty query gives no words", () => {
     expect(getSearchTokens("   ")).toEqual([]);
   });
 
-  it("делит по любым пробелам", () => {
+  it("splits on any whitespace", () => {
     expect(getSearchTokens("Курица  рис")).toEqual(["курица", "рис"]);
   });
 });
@@ -21,23 +21,23 @@ describe("getSearchTokens", () => {
 describe("matchesTokens", () => {
   const texts = [normalizeSearch("Плов"), normalizeSearch("Курица, филе"), normalizeSearch("Рис")];
 
-  it("без слов подходит всё", () => {
+  it("without words everything matches", () => {
     expect(matchesTokens([], texts)).toBe(true);
   });
 
-  it("находит слово в названии продукта состава", () => {
+  it("finds a word in an ingredient product name", () => {
     expect(matchesTokens(getSearchTokens("курица"), texts)).toBe(true);
   });
 
-  it("слова запроса могут быть в разных строках", () => {
+  it("query words may be in different strings", () => {
     expect(matchesTokens(getSearchTokens("плов рис"), texts)).toBe(true);
   });
 
-  it("все слова обязательны", () => {
+  it("all words are required", () => {
     expect(matchesTokens(getSearchTokens("плов гречка"), texts)).toBe(false);
   });
 
-  it("ё в запросе находит е в тексте и наоборот", () => {
+  it("ё in the query finds е in the text and vice versa", () => {
     expect(matchesTokens(getSearchTokens("МЁД"), [normalizeSearch("мед")])).toBe(true);
     expect(matchesTokens(getSearchTokens("мед"), [normalizeSearch("Мёд")])).toBe(true);
   });

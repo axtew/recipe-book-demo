@@ -1,5 +1,5 @@
 /**
- * Typescript-оптимизированный Object.entries
+ * TypeScript-optimized Object.entries
  *
  * @param obj
  * @returns

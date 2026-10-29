@@ -2,17 +2,17 @@ import type { z } from "zod";
 
 import type { backupSchema } from "./_schema";
 
-/** Файл бэкапа, прошедший схему. */
+/** A backup file that passed the schema. */
 export type TBackup = z.infer<typeof backupSchema>;
 
 /**
- * Итог разбора текста файла. Причины отказа — коды, а не тексты: текст для
- * пользователя живёт в словаре.
+ * Result of parsing the file text. Failure reasons are codes, not texts: the text for
+ * the user lives in the dictionary.
  *
- * - `notJson` — не JSON;
- * - `notBackup` — JSON, но не объект с полем `version`;
- * - `unsupportedVersion` — версия формата, которую приложение не знает;
- * - `invalid` — версия верна, но данные не проходят схему; `path` — место первой проблемы.
+ * - `notJson` — not JSON;
+ * - `notBackup` — JSON, but not an object with a `version` field;
+ * - `unsupportedVersion` — a format version the app does not know;
+ * - `invalid` — the version is right but the data fails the schema; `path` is the location of the first problem.
  */
 export type TBackupParseResult =
   | { status: "ok"; backup: TBackup }

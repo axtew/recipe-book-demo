@@ -6,7 +6,7 @@ import type {
   IResolvedIngredient,
 } from "./_types";
 
-/** КБЖУ варианта, либо null, если хоть одно из четырёх полей не заполнено. */
+/** Nutrition of a variant, or null if any of the four fields is not filled in. */
 function readNutrientsPer100(variant: INutritionVariant): INutrients | null {
   const { kcal100, protein100, fat100, carbs100 } = variant;
 
@@ -18,12 +18,12 @@ function readNutrientsPer100(variant: INutritionVariant): INutrients | null {
 }
 
 /**
- * Подставляет каждому ингредиенту его вариант и КБЖУ этого варианта.
+ * Assigns each ingredient its variant and that variant's nutrition.
  *
- * Вариант берётся закреплённый, иначе активный вариант продукта, иначе КБЖУ нет.
- * Оборванная ссылка — на отсутствующий продукт или вариант — это рассогласованный
- * набор данных, а не пустой КБЖУ: функция бросает исключение, потому что тихо
- * подставленный ноль здесь неотличим от честного нуля.
+ * The variant is the pinned one, otherwise the product's active variant, otherwise there is no nutrition.
+ * A dangling reference — to a missing product or variant — is an inconsistent
+ * dataset, not empty nutrition: the function throws, because a silently
+ * substituted zero is indistinguishable from a genuine zero here.
  */
 export function resolveIngredients(
   ingredients: INutritionIngredient[],
@@ -38,7 +38,7 @@ export function resolveIngredients(
 
     if (product === undefined) {
       throw new Error(
-        `Ингредиент ${ingredient.id} ссылается на продукт ${ingredient.productId}, которого нет в переданном наборе`,
+        `Ingredient ${ingredient.id} references product ${ingredient.productId}, which is not in the provided set`,
       );
     }
 
@@ -47,7 +47,7 @@ export function resolveIngredients(
 
     if (variant === undefined) {
       throw new Error(
-        `Ингредиент ${ingredient.id} ссылается на вариант ${variantId}, которого нет в переданном наборе`,
+        `Ingredient ${ingredient.id} references variant ${variantId}, which is not in the provided set`,
       );
     }
 

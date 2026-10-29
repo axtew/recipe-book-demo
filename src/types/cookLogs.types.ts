@@ -13,7 +13,7 @@ export interface ICookLog {
   snapshot: INutritionSnapshot | null;
 }
 
-/** Ввод записи журнала: всё, кроме `id` и рецепта, которому запись принадлежит. */
+/** Cook log entry input: everything except `id` and the recipe the entry belongs to. */
 export interface ICookLogInput {
   actualYieldGrams: number | null;
   containers: number | null;

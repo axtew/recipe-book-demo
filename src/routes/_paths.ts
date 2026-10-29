@@ -1,4 +1,4 @@
-/** Пути всех роутов одним объектом — компоненты не пишут строковые литералы путей. */
+/** Paths of all routes in one object — components do not write path string literals. */
 export const routerPaths = {
   login: "/login",
   home: "/",

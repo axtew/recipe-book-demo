@@ -6,7 +6,7 @@ import type {
   TNutritionBasis,
 } from "./_types";
 
-/** Канонический порядок полей — от него зависит порядок `overriddenFields`. */
+/** Canonical field order — `overriddenFields` order depends on it. */
 const NUTRIENT_FIELDS = ["kcal", "protein", "fat", "carbs"] as const;
 
 function zeroNutrients(): INutrients {
@@ -31,7 +31,7 @@ function addNutrients(first: INutrients, second: INutrients): INutrients {
   };
 }
 
-/** Сумма вкладов: КБЖУ варианта на 100 г, взятое на фактическую граммовку ингредиента. */
+/** Sum of contributions: the variant's nutrition per 100 g, taken for the ingredient's actual gram amount. */
 function sumNutrients(ingredients: IResolvedIngredient[]): INutrients {
   return ingredients.reduce<INutrients>((total, ingredient) => {
     if (ingredient.nutrientsPer100 === null) {
@@ -45,7 +45,7 @@ function sumNutrients(ingredients: IResolvedIngredient[]): INutrients {
   }, zeroNutrients());
 }
 
-/** Продукты без КБЖУ, по одному разу каждый — из них собирается предупреждение в карточке. */
+/** Products without nutrition, once each — the warning on the card is built from them. */
 function collectIncompleteProducts(
   ingredients: IResolvedIngredient[],
 ): IRecipeNutrition["incompleteProducts"] {
@@ -65,13 +65,13 @@ function collectIncompleteProducts(
 }
 
 /**
- * Считает КБЖУ рецепта: на всё блюдо, на 100 г и на порцию.
+ * Calculates recipe nutrition: for the whole dish, per 100 g and per serving.
  *
- * Опциональные ингредиенты не участвуют ни в весе сырья, ни в КБЖУ, ни в списке
- * продуктов с незаполненными цифрами: они не входят в сумму, значит и занизить её
- * не могут. Override задан на уровне «на 100 г» и по каждому полю отдельно, поэтому
- * при любом заданном override итог пересчитывается обратно из эффективных ста граммов.
- * Округления здесь нет — числа сырые, округляет отображение.
+ * Optional ingredients take part in neither the raw weight, nor the nutrition, nor the list
+ * of products with unfilled numbers: they are not in the sum, so they cannot understate it.
+ * Override is set at the “per 100 g” level and per field, so
+ * with any override set the total is recalculated back from the effective hundred grams.
+ * There is no rounding here — the numbers are raw, rounding is done by display.
  */
 export function calculateNutrition(
   resolved: IResolvedIngredient[],
@@ -80,7 +80,7 @@ export function calculateNutrition(
   const { servingsBase, yieldGrams, overrides } = params;
 
   if (!Number.isFinite(servingsBase) || servingsBase <= 0) {
-    throw new Error(`servingsBase должен быть больше нуля, получено ${servingsBase}`);
+    throw new Error(`servingsBase must be greater than zero, got ${servingsBase}`);
   }
 
   const counted = resolved.filter((ingredient) => !ingredient.isOptional);
@@ -121,7 +121,7 @@ export function calculateNutrition(
   };
 }
 
-/** Граммовка ингредиента при готовке не на базовое число порций. Без округления — оно за UI. */
+/** Ingredient gram amount when cooking for other than the base number of servings. Not rounded — that is up to the UI. */
 export function scaleAmount(grams: number, multiplier: number): number {
   return grams * multiplier;
 }

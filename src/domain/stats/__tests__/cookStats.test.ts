@@ -19,34 +19,34 @@ function createLog(overrides: Partial<ICookLog>): ICookLog {
   };
 }
 
-/** Среднее число дней до «доели» для одной записи — разность дат. */
+/** Average number of days until “finished” for one entry — the date difference. */
 function daysBetween(cookedAt: string, finishedAt: string): number | null {
   return calculateCookStats([createLog({ cookedAt, finishedAt })]).averageDaysToFinish;
 }
 
-describe("разность дат cookedAt / finishedAt", () => {
-  it("считает дни внутри месяца", () => {
+describe("cookedAt / finishedAt date difference", () => {
+  it("counts days within a month", () => {
     expect(daysBetween("2026-10-18", "2026-10-20")).toBe(2);
   });
 
-  it("переходит через конец месяца и года", () => {
+  it("crosses a month and year boundary", () => {
     expect(daysBetween("2026-02-28", "2026-03-01")).toBe(1);
     expect(daysBetween("2026-12-31", "2027-01-01")).toBe(1);
   });
 
-  it("учитывает високосный год", () => {
+  it("accounts for a leap year", () => {
     expect(daysBetween("2028-02-28", "2028-03-01")).toBe(2);
     expect(daysBetween("2027-02-28", "2027-03-01")).toBe(1);
   });
 
-  it("считает целый год", () => {
+  it("counts a whole year", () => {
     expect(daysBetween("2026-01-01", "2027-01-01")).toBe(365);
     expect(daysBetween("2028-01-01", "2029-01-01")).toBe(366);
   });
 });
 
 describe("calculateCookStats", () => {
-  it("без записей даёт нули и отсутствующие значения", () => {
+  it("without entries gives zeros and missing values", () => {
     expect(calculateCookStats([])).toEqual({
       count: 0,
       lastCookedAt: null,
@@ -55,7 +55,7 @@ describe("calculateCookStats", () => {
     });
   });
 
-  it("работает с единственной записью без выхода и без «доели»", () => {
+  it("handles a single entry without a yield and without “finished”", () => {
     expect(calculateCookStats([createLog({})])).toEqual({
       count: 1,
       lastCookedAt: "2026-10-01",
@@ -64,7 +64,7 @@ describe("calculateCookStats", () => {
     });
   });
 
-  it("берёт самую позднюю дату независимо от порядка записей", () => {
+  it("takes the latest date regardless of entry order", () => {
     const stats = calculateCookStats([
       createLog({ cookedAt: "2026-09-05" }),
       createLog({ cookedAt: "2026-10-12" }),
@@ -74,7 +74,7 @@ describe("calculateCookStats", () => {
     expect(stats.lastCookedAt).toBe("2026-10-12");
   });
 
-  it("усредняет только записи с заполненным значением, нулевой выход считается", () => {
+  it("averages only entries with a value, a zero yield counts", () => {
     const stats = calculateCookStats([
       createLog({ actualYieldGrams: 1000, cookedAt: "2026-10-01", finishedAt: "2026-10-04" }),
       createLog({ actualYieldGrams: 0, cookedAt: "2026-10-10", finishedAt: "2026-10-10" }),

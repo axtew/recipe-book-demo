@@ -9,12 +9,12 @@ import { PRODUCTS_QUERY_KEY } from "../queries/products.queries";
 import { RECIPES_QUERY_KEY } from "../queries/recipes.queries";
 import { exportBackup, importBackup } from "../services/backup.service";
 
-/** Выгрузка ничего не меняет, но запускается действием пользователя, а не рендером, — отсюда мутация. */
+/** The export changes nothing but is triggered by a user action, not by a render — hence a mutation. */
 export function useExportBackupMutation() {
   return useMutation({ mutationFn: exportBackup, meta: { showsOwnError: true } });
 }
 
-/** Импорт переписывает весь датасет: прежний кэш недействителен целиком. */
+/** The import rewrites the whole dataset: the previous cache is invalid as a whole. */
 export function useImportBackupMutation() {
   const queryClient = useQueryClient();
 

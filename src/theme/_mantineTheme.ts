@@ -12,7 +12,7 @@ import { breakpoints } from "./_breakpoints";
 import { palette } from "./_palette";
 import { typography } from "./_typography";
 
-/** Та же палитра, что и у styled-components темы, — Mantine строит из неё свои CSS-переменные. */
+/** The same palette as the styled-components theme — Mantine builds its CSS variables from it. */
 const primaryShades: MantineColorsTuple = [
   palette.primaryMuted,
   palette.primaryMuted,
@@ -39,13 +39,13 @@ const dangerShades: MantineColorsTuple = [
   palette.danger,
 ];
 
-/** Минимальная высота тап-цели: ниже неё на iOS по полю трудно попасть пальцем. */
+/** Minimum tap target height: below it on iOS it is hard to hit the field with a finger. */
 const TAP_TARGET_PX = 44;
 
 /**
- * Размер ячейки дня календаря для размеров шкалы `sm` и `md` — тап-цель вместо 36px и 42px у Mantine.
- * Переопределяются переменные шкалы, а не `--day-size`: Mantine пишет в `--day-size` ссылку на них
- * прямо в стиле ячейки, и значения из `styles` её не перебивают.
+ * Calendar day cell size for the `sm` and `md` scale sizes — a tap target instead of Mantine's 36px and 42px.
+ * The scale variables are overridden, not `--day-size`: Mantine writes a reference to them into `--day-size`
+ * right in the cell style, and values from `styles` do not override it.
  */
 const DAY_SIZE_VARS = { "--day-size-sm": rem(TAP_TARGET_PX), "--day-size-md": rem(TAP_TARGET_PX) };
 
@@ -60,31 +60,31 @@ export const mantineTheme = createTheme({
     sm: breakpoints.contentMaxWidth,
   },
   components: {
-    // Крестик закрытия листа увеличен до тап-цели в 44px: лист закрывается пальцем.
-    // По умолчанию у Mantine он 28px.
+    // The sheet close button is enlarged to a 44px tap target: the sheet is closed with a finger.
+    // Mantine's default is 28px.
     Drawer: Drawer.extend({
       defaultProps: { closeButtonProps: { size: TAP_TARGET_PX } },
     }),
-    // Поля ввода высотой в тап-цель 44px вместо 42px, которые Mantine даёт размеру `md`. Правка здесь
-    // покрывает разом все поля на базе `Input`: `NumberInput`, `DatePickerInput`, `FileInput` и прочие.
+    // Input fields are a 44px tap target tall instead of the 42px Mantine gives size `md`. A fix here
+    // covers all fields built on `Input` at once: `NumberInput`, `DatePickerInput`, `FileInput` and others.
     Input: Input.extend({
       vars: (_theme, props) => ({
         wrapper: props.size === "md" ? { "--input-height": rem(TAP_TARGET_PX) } : {},
       }),
     }),
-    // Ячейка дня календаря — тап-цель в 44px вместо 36px у Mantine.
+    // Calendar day cell — a 44px tap target instead of Mantine's 36px.
     DatePicker: DatePicker.extend({
       styles: { day: DAY_SIZE_VARS },
     }),
-    // Календарь в модальном окне: ячейка дня в 44px, окно растянуто на всю ширину экрана.
-    // Месяц из семи ячеек занимает около 312px и иначе не помещается на экране шириной 320px;
-    // по умолчанию у Mantine отступ окна от краёв экрана 5vw, а внутренний отступ 16px.
+    // Calendar in a modal: day cell of 44px, the modal stretched to the full screen width.
+    // A month of seven cells takes about 312px and otherwise does not fit a 320px-wide screen;
+    // Mantine's default modal offset from the screen edges is 5vw, and the inner padding is 16px.
     DatePickerInput: DatePickerInput.extend({
       defaultProps: { modalProps: { xOffset: 0, padding: 2 } },
       styles: { day: DAY_SIZE_VARS },
     }),
-    // Числовые поля без стрелок «+» и «−»: в граммах и килокалориях ими не пользуются, а каждая
-    // стрелка по умолчанию занимает 21px ширины поля и вдвое меньше тап-цели.
+    // Number fields without “+” and “−” arrows: nobody uses them for grams and kilocalories, and each
+    // arrow takes 21px of the field width by default, half the tap target.
     NumberInput: NumberInput.extend({
       defaultProps: { hideControls: true },
     }),

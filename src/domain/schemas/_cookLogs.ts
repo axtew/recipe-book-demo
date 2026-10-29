@@ -24,11 +24,11 @@ const recipeNutritionSchema = z.object({
 });
 
 /**
- * Схема столбца `cook_logs.snapshot`.
+ * Schema of the `cook_logs.snapshot` column.
  *
- * `jsonb` приходит из сгенерированных типов рекурсивным `Json` без единого поля,
- * поэтому форму снимка проверяет эта схема — на границе, при чтении журнала.
- * `satisfies` держит её в согласии с интерфейсом: разъедутся — не соберётся.
+ * `jsonb` comes from the generated types as a recursive `Json` without a single field,
+ * so the snapshot shape is checked by this schema — at the boundary, when reading the log.
+ * `satisfies` keeps it in agreement with the interface: if they diverge, it won't compile.
  */
 export const nutritionSnapshotSchema = z.object({
   version: z.literal(1),
@@ -46,7 +46,7 @@ export const nutritionSnapshotSchema = z.object({
   ),
 }) satisfies z.ZodType<INutritionSnapshot>;
 
-/** Предел `numeric(4,2)` у `cook_logs.multiplier`: больше 99.99 в базу не поместится. */
+/** Limit of `numeric(4,2)` for `cook_logs.multiplier`: above 99.99 does not fit in the database. */
 export const MULTIPLIER_MAX = 99.99;
 
 export const cookLogInputSchema = z
@@ -61,8 +61,8 @@ export const cookLogInputSchema = z
     snapshot: nutritionSnapshotSchema,
   })
   .refine((log) => log.finishedAt === null || log.finishedAt >= log.cookedAt, {
-    // Сообщение — код для словаря, а не текст: текст, видимый пользователю, живёт
-    // только в `public/dictionaries/`. Даты в формате `YYYY-MM-DD` сравнимы как строки.
+    // The message is a dictionary code, not a text: the text visible to the user lives
+    // only in `public/dictionaries/`. Dates in `YYYY-MM-DD` format are comparable as strings.
     message: "finishedBeforeCooked",
     path: ["finishedAt"],
   }) satisfies z.ZodType<ICookLogInput>;

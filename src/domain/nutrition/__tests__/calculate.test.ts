@@ -13,10 +13,10 @@ import {
   scaleAmount,
 } from "@/domain/nutrition";
 
-const FLOUR: INutritionProduct = { id: "p-flour", name: "Мука", activeVariantId: "v-flour" };
-const OIL: INutritionProduct = { id: "p-oil", name: "Масло", activeVariantId: "v-oil" };
-const SALT: INutritionProduct = { id: "p-salt", name: "Соль", activeVariantId: null };
-const SUGAR: INutritionProduct = { id: "p-sugar", name: "Сахар", activeVariantId: "v-sugar" };
+const FLOUR: INutritionProduct = { id: "p-flour", name: "Flour", activeVariantId: "v-flour" };
+const OIL: INutritionProduct = { id: "p-oil", name: "Oil", activeVariantId: "v-oil" };
+const SALT: INutritionProduct = { id: "p-salt", name: "Salt", activeVariantId: null };
+const SUGAR: INutritionProduct = { id: "p-sugar", name: "Sugar", activeVariantId: "v-sugar" };
 
 const PRODUCTS = [FLOUR, OIL, SALT, SUGAR];
 
@@ -24,14 +24,14 @@ const VARIANTS: INutritionVariant[] = [
   { id: "v-flour", name: null, kcal100: 100, protein100: 10, fat100: 1, carbs100: 20 },
   {
     id: "v-flour-whole",
-    name: "Цельнозерновая",
+    name: "Wholegrain",
     kcal100: 200,
     protein100: 20,
     fat100: 2,
     carbs100: 40,
   },
-  { id: "v-oil", name: "Оливковое", kcal100: 900, protein100: 0, fat100: 100, carbs100: 0 },
-  // Углеводы не заполнены: продукт завели быстро, цифры дописать не успели.
+  { id: "v-oil", name: "Olive", kcal100: 900, protein100: 0, fat100: 100, carbs100: 0 },
+  // Carbs are not filled in: the product was added in a hurry, the numbers were not completed.
   { id: "v-sugar", name: null, kcal100: 400, protein100: 0, fat100: 0, carbs100: null },
 ];
 
@@ -58,24 +58,24 @@ function makeParams(extra: Partial<INutritionParams> = {}): INutritionParams {
   return { servingsBase: 1, yieldGrams: null, overrides: {}, ...extra };
 }
 
-/** 200 г муки на активном варианте: total = { kcal: 200, protein: 20, fat: 2, carbs: 40 }. */
+/** 200 g of flour on the active variant: total = { kcal: 200, protein: 20, fat: 2, carbs: 40 }. */
 function flourOnly() {
   return resolve([makeIngredient("p-flour", 200)]);
 }
 
-describe("resolveIngredients — правило 1: какой вариант берётся", () => {
-  it("берёт закреплённый вариант, когда он задан", () => {
+describe("resolveIngredients — rule 1: which variant is taken", () => {
+  it("takes the pinned variant when one is set", () => {
     const [ingredient] = resolve([
       makeIngredient("p-flour", 100, { pinnedVariantId: "v-flour-whole" }),
     ]);
 
     expect(ingredient.variantId).toBe("v-flour-whole");
-    expect(ingredient.variantName).toBe("Цельнозерновая");
+    expect(ingredient.variantName).toBe("Wholegrain");
     expect(ingredient.isPinned).toBe(true);
     expect(ingredient.nutrientsPer100).toEqual({ kcal: 200, protein: 20, fat: 2, carbs: 40 });
   });
 
-  it("берёт активный вариант продукта, когда закреплённого нет", () => {
+  it("takes the product's active variant when there is no pinned one", () => {
     const [ingredient] = resolve([makeIngredient("p-flour", 100)]);
 
     expect(ingredient.variantId).toBe("v-flour");
@@ -84,7 +84,7 @@ describe("resolveIngredients — правило 1: какой вариант б�
     expect(ingredient.nutrientsPer100).toEqual({ kcal: 100, protein: 10, fat: 1, carbs: 20 });
   });
 
-  it("оставляет КБЖУ пустым, если активного варианта у продукта нет", () => {
+  it("leaves nutrition empty if the product has no active variant", () => {
     const [ingredient] = resolve([makeIngredient("p-salt", 10)]);
 
     expect(ingredient.variantId).toBeNull();
@@ -92,31 +92,31 @@ describe("resolveIngredients — правило 1: какой вариант б�
     expect(ingredient.nutrientsPer100).toBeNull();
   });
 
-  it("оставляет КБЖУ пустым, если у варианта заполнены не все четыре поля", () => {
+  it("leaves nutrition empty if the variant does not have all four fields filled", () => {
     const [ingredient] = resolve([makeIngredient("p-sugar", 50)]);
 
     expect(ingredient.variantId).toBe("v-sugar");
     expect(ingredient.nutrientsPer100).toBeNull();
   });
 
-  it("падает на ссылке в отсутствующий продукт, а не подставляет ноль", () => {
+  it("throws on a reference to a missing product instead of substituting zero", () => {
     expect(() => resolve([makeIngredient("p-unknown", 10)])).toThrowError(
-      "Ингредиент i-p-unknown ссылается на продукт p-unknown, которого нет в переданном наборе",
+      "Ingredient i-p-unknown references product p-unknown, which is not in the provided set",
     );
   });
 
-  it("падает на ссылке в отсутствующий вариант", () => {
+  it("throws on a reference to a missing variant", () => {
     expect(() =>
       resolve([makeIngredient("p-flour", 10, { pinnedVariantId: "v-unknown" })]),
     ).toThrowError(
-      "Ингредиент i-p-flour ссылается на вариант v-unknown, которого нет в переданном наборе",
+      "Ingredient i-p-flour references variant v-unknown, which is not in the provided set",
     );
   });
 });
 
 describe("calculateNutrition", () => {
-  describe("правила 2 и 3 — опциональный ингредиент и вес сырья", () => {
-    it("не входит ни в вес сырья, ни в КБЖУ", () => {
+  describe("rules 2 and 3 — optional ingredient and raw weight", () => {
+    it("counts toward neither raw weight nor nutrition", () => {
       const resolved = resolve([
         makeIngredient("p-flour", 200),
         makeIngredient("p-oil", 50, { isOptional: true }),
@@ -128,7 +128,7 @@ describe("calculateNutrition", () => {
       expect(result.total).toEqual({ kcal: 200, protein: 20, fat: 2, carbs: 40 });
     });
 
-    it("тот же ингредиент без флага входит в оба", () => {
+    it("the same ingredient without the flag counts toward both", () => {
       const resolved = resolve([makeIngredient("p-flour", 200), makeIngredient("p-oil", 50)]);
 
       const result = calculateNutrition(resolved, makeParams());
@@ -138,22 +138,22 @@ describe("calculateNutrition", () => {
     });
   });
 
-  describe("правило 4 — делитель для «на 100 г»", () => {
-    it("при заданном yield_grams делитель — он, basis = yield", () => {
+  describe("rule 4 — divisor for “per 100 g”", () => {
+    it("with yield_grams set it is the divisor, basis = yield", () => {
       const result = calculateNutrition(flourOnly(), makeParams({ yieldGrams: 400 }));
 
       expect(result.basis).toBe("yield");
       expect(result.per100g).toEqual({ kcal: 50, protein: 5, fat: 0.5, carbs: 10 });
     });
 
-    it("без yield_grams делитель — вес сырья, basis = rawWeight", () => {
+    it("without yield_grams the divisor is the raw weight, basis = rawWeight", () => {
       const result = calculateNutrition(flourOnly(), makeParams());
 
       expect(result.basis).toBe("rawWeight");
       expect(result.per100g).toEqual({ kcal: 100, protein: 10, fat: 1, carbs: 20 });
     });
 
-    it("yield_grams = 0 равносилен незаданному", () => {
+    it("yield_grams = 0 is equivalent to unset", () => {
       const result = calculateNutrition(flourOnly(), makeParams({ yieldGrams: 0 }));
 
       expect(result.basis).toBe("rawWeight");
@@ -162,7 +162,7 @@ describe("calculateNutrition", () => {
     });
   });
 
-  describe("правило 5 — на порцию", () => {
+  describe("rule 5 — per serving", () => {
     it("perServing = total / servingsBase", () => {
       const result = calculateNutrition(flourOnly(), makeParams({ servingsBase: 4 }));
 
@@ -170,27 +170,27 @@ describe("calculateNutrition", () => {
     });
   });
 
-  describe("правило 6 — продукты без КБЖУ", () => {
-    it("дают вклад 0 и попадают в incompleteProducts, а не в тихий ноль", () => {
+  describe("rule 6 — products without nutrition", () => {
+    it("contribute 0 and land in incompleteProducts instead of a silent zero", () => {
       const resolved = resolve([makeIngredient("p-flour", 200), makeIngredient("p-salt", 10)]);
 
       const result = calculateNutrition(resolved, makeParams());
 
       expect(result.rawWeightGrams).toBe(210);
       expect(result.total).toEqual({ kcal: 200, protein: 20, fat: 2, carbs: 40 });
-      expect(result.incompleteProducts).toEqual([{ productId: "p-salt", productName: "Соль" }]);
+      expect(result.incompleteProducts).toEqual([{ productId: "p-salt", productName: "Salt" }]);
     });
 
-    it("вариант с одним незаполненным полем попадает туда же", () => {
+    it("a variant with one unfilled field lands there too", () => {
       const resolved = resolve([makeIngredient("p-sugar", 50)]);
 
       const result = calculateNutrition(resolved, makeParams());
 
       expect(result.total).toEqual({ kcal: 0, protein: 0, fat: 0, carbs: 0 });
-      expect(result.incompleteProducts).toEqual([{ productId: "p-sugar", productName: "Сахар" }]);
+      expect(result.incompleteProducts).toEqual([{ productId: "p-sugar", productName: "Sugar" }]);
     });
 
-    it("один продукт перечислен один раз, сколько бы строк состава он ни занимал", () => {
+    it("one product is listed once, however many ingredient rows it takes", () => {
       const resolved = resolve([
         makeIngredient("p-salt", 10, { id: "i-salt-1" }),
         makeIngredient("p-salt", 5, { id: "i-salt-2" }),
@@ -198,10 +198,10 @@ describe("calculateNutrition", () => {
 
       const result = calculateNutrition(resolved, makeParams());
 
-      expect(result.incompleteProducts).toEqual([{ productId: "p-salt", productName: "Соль" }]);
+      expect(result.incompleteProducts).toEqual([{ productId: "p-salt", productName: "Salt" }]);
     });
 
-    it("опциональный ингредиент без КБЖУ в список не попадает — он и в сумму не входит", () => {
+    it("an optional ingredient without nutrition is not listed — it is not in the sum either", () => {
       const resolved = resolve([
         makeIngredient("p-flour", 200),
         makeIngredient("p-salt", 10, { isOptional: true }),
@@ -213,8 +213,8 @@ describe("calculateNutrition", () => {
     });
   });
 
-  describe("правило 7 — override на уровне «на 100 г»", () => {
-    it("частичный override переопределяет только своё поле и попадает в overriddenFields", () => {
+  describe("rule 7 — override at the “per 100 g” level", () => {
+    it("a partial override replaces only its own field and lands in overriddenFields", () => {
       const result = calculateNutrition(
         flourOnly(),
         makeParams({ servingsBase: 2, overrides: { kcal: 150 } }),
@@ -226,14 +226,14 @@ describe("calculateNutrition", () => {
       expect(result.perServing).toEqual({ kcal: 150, protein: 10, fat: 1, carbs: 20 });
     });
 
-    it("без override итог — обычная сумма", () => {
+    it("without an override the total is the plain sum", () => {
       const result = calculateNutrition(flourOnly(), makeParams());
 
       expect(result.overriddenFields).toEqual([]);
       expect(result.total).toEqual({ kcal: 200, protein: 20, fat: 2, carbs: 40 });
     });
 
-    it("работает и на базисе yield", () => {
+    it("works on the yield basis too", () => {
       const result = calculateNutrition(
         flourOnly(),
         makeParams({ yieldGrams: 400, overrides: { kcal: 60 } }),
@@ -244,7 +244,7 @@ describe("calculateNutrition", () => {
       expect(result.total).toEqual({ kcal: 240, protein: 20, fat: 2, carbs: 40 });
     });
 
-    it("overriddenFields перечислены в каноническом порядке, а не в порядке ввода", () => {
+    it("overriddenFields are listed in canonical order, not in input order", () => {
       const result = calculateNutrition(
         flourOnly(),
         makeParams({ overrides: { carbs: 5, kcal: 150 } }),
@@ -254,8 +254,8 @@ describe("calculateNutrition", () => {
     });
   });
 
-  describe("правило 8 — краевые случаи", () => {
-    it("пустой список ингредиентов не даёт деления на ноль", () => {
+  describe("rule 8 — edge cases", () => {
+    it("an empty ingredient list does not divide by zero", () => {
       const result = calculateNutrition([], makeParams({ servingsBase: 4 }));
 
       expect(result.rawWeightGrams).toBe(0);
@@ -266,7 +266,7 @@ describe("calculateNutrition", () => {
       expect(Object.values(result.per100g).every(Number.isFinite)).toBe(true);
     });
 
-    it("состав целиком из опциональных ингредиентов ведёт себя так же", () => {
+    it("a composition made only of optional ingredients behaves the same", () => {
       const resolved = resolve([makeIngredient("p-flour", 200, { isOptional: true })]);
 
       const result = calculateNutrition(resolved, makeParams());
@@ -276,7 +276,7 @@ describe("calculateNutrition", () => {
       expect(Object.values(result.per100g).every(Number.isFinite)).toBe(true);
     });
 
-    it("override при нулевом весе даёт КБЖУ на 100 г, но нулевой итог", () => {
+    it("an override at zero weight gives nutrition per 100 g but a zero total", () => {
       const result = calculateNutrition([], makeParams({ overrides: { kcal: 120 } }));
 
       expect(result.per100g.kcal).toBe(120);
@@ -284,22 +284,22 @@ describe("calculateNutrition", () => {
       expect(Number.isFinite(result.total.kcal)).toBe(true);
     });
 
-    it("servingsBase не больше нуля — нарушен контракт, исключение", () => {
+    it("servingsBase not above zero — contract violated, throws", () => {
       expect(() => calculateNutrition(flourOnly(), makeParams({ servingsBase: 0 }))).toThrowError(
-        "servingsBase должен быть больше нуля, получено 0",
+        "servingsBase must be greater than zero, got 0",
       );
     });
   });
 
-  describe("правило 9 — округления в модуле нет", () => {
-    it("на порцию число остаётся сырым", () => {
+  describe("rule 9 — the module does no rounding", () => {
+    it("the per-serving number stays raw", () => {
       const result = calculateNutrition(flourOnly(), makeParams({ servingsBase: 3 }));
 
       expect(result.perServing.kcal).toBe(200 / 3);
       expect(Number.isInteger(result.perServing.kcal)).toBe(false);
     });
 
-    it("на 100 г число остаётся сырым", () => {
+    it("the per-100 g number stays raw", () => {
       const result = calculateNutrition(flourOnly(), makeParams({ yieldGrams: 300 }));
 
       expect(result.per100g.kcal).toBe((200 / 300) * 100);
@@ -309,7 +309,7 @@ describe("calculateNutrition", () => {
 });
 
 describe("buildSnapshot", () => {
-  it("замораживает расчёт, число порций и состав, включая опциональные строки", () => {
+  it("freezes the calculation, servings and composition, optional rows included", () => {
     const resolved = resolve([
       makeIngredient("p-flour", 200),
       makeIngredient("p-oil", 50, { isOptional: true }),
@@ -324,7 +324,7 @@ describe("buildSnapshot", () => {
     expect(snapshot.ingredients).toEqual([
       {
         productId: "p-flour",
-        productName: "Мука",
+        productName: "Flour",
         variantId: "v-flour",
         variantName: null,
         amountGrams: 200,
@@ -332,9 +332,9 @@ describe("buildSnapshot", () => {
       },
       {
         productId: "p-oil",
-        productName: "Масло",
+        productName: "Oil",
         variantId: "v-oil",
-        variantName: "Оливковое",
+        variantName: "Olive",
         amountGrams: 50,
         isOptional: true,
       },
@@ -343,11 +343,11 @@ describe("buildSnapshot", () => {
 });
 
 describe("scaleAmount", () => {
-  it("умножает граммовку на множитель", () => {
+  it("multiplies the gram amount by the multiplier", () => {
     expect(scaleAmount(200, 1.5)).toBe(300);
   });
 
-  it("не округляет результат", () => {
+  it("does not round the result", () => {
     expect(scaleAmount(100, 1 / 3)).toBe(100 * (1 / 3));
     expect(Number.isInteger(scaleAmount(100, 1 / 3))).toBe(false);
   });

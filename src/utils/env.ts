@@ -6,22 +6,22 @@ interface IDemoCredentials {
 interface IEnv {
   supabaseUrl: string;
   supabasePublishableKey: string;
-  /** Демо-сборка: общий публичный стенд с плашкой, готовым логином и закрытой загрузкой фото. */
+  /** Demo build: a shared public stand with a banner, a ready-made login and photo upload disabled. */
   isDemo: boolean;
-  /** Публичный логин демо-стенда; `null` в рабочей сборке. */
+  /** Public login of the demo stand; `null` in the working build. */
   demoCredentials: IDemoCredentials | null;
 }
 
 export function readEnvVar(key: keyof ImportMetaEnv): string {
   const value = import.meta.env[key];
   if (typeof value !== "string" || value.length === 0) {
-    throw new Error(`Переменная окружения ${key} не задана`);
+    throw new Error(`Environment variable ${key} is not set`);
   }
   return value;
 }
 
-// Демо-переменные читаются только за проверкой флага: в рабочей сборке он
-// сворачивается в константу, и ни имена переменных, ни логин в бандл не попадают.
+// Demo variables are read only behind the flag check: in the working build it
+// folds into a constant, and neither the variable names nor the login end up in the bundle.
 const isDemo = import.meta.env.VITE_DEMO === "true";
 
 export const env: IEnv = {

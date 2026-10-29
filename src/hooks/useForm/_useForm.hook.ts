@@ -13,10 +13,10 @@ import { commitPrevValues, formatValue, initState, validateValue } from "./_help
 import type { IUseFormReturn, TFields, TInputs, TSubmitHandler, TUseFormState } from "./_types";
 
 /**
- * Состояние формы: значения полей, ошибки, dirty-флаги, отправка и автосохранение.
+ * Form state: field values, errors, dirty flags, submission and autosave.
  *
- * `resetOn` — значение, при смене которого форма возвращается к начальным
- * `inputs` (для листа это `isOpened`, для редактора рецепта — `recipeId`).
+ * `resetOn` — a value whose change returns the form to the initial
+ * `inputs` (for a sheet it is `isOpened`, for the recipe editor — `recipeId`).
  */
 export function useForm<T extends TFields>(
   inputs: TInputs<T>,
@@ -31,9 +31,9 @@ export function useForm<T extends TFields>(
 
   const latestForm = useLatest(form);
 
-  // Сравнение во время рендера, а не в эффекте — так React рекомендует
-  // подстраивать состояние под смену пропа: перезапускается только этот
-  // компонент, до коммита и до рендера детей.
+  // Comparing during render, not in an effect — this is how React recommends
+  // adjusting state to a prop change: only this component
+  // restarts, before the commit and before the children render.
   const [prevResetOn, setPrevResetOn] = useState(resetOn);
   if (resetOn !== prevResetOn) {
     setPrevResetOn(resetOn);
@@ -50,10 +50,10 @@ export function useForm<T extends TFields>(
   }, [form]);
 
   const isDirty = useMemo((): boolean => {
-    // FIXME: общий isDirty сравнивает value с prevValue по каждому полю заново,
-    // а у поля есть собственный флаг isDirty, который выставляет updateFieldValue —
-    // они могут разойтись: updateFieldError сбрасывает isDirty только у своего
-    // поля и не трогает этот общий расчёт.
+    // FIXME: the general isDirty compares value with prevValue for each field anew,
+    // while a field has its own isDirty flag set by updateFieldValue —
+    // they can diverge: updateFieldError resets isDirty only for its own
+    // field and does not touch this general calculation.
     return Object.keys(form).some((key) => form[key].value !== form[key].prevValue);
   }, [form]);
 
@@ -66,10 +66,10 @@ export function useForm<T extends TFields>(
           ...prev,
           [name]: {
             ...prev[name],
-            // FIXME: validator получает сырое newValue, а в состояние записывается
-            // уже прогнанное через formatter значение — если formatter меняет
-            // содержимое (например, обрезает пробелы), проверяется не то, что в
-            // итоге останется в поле.
+            // FIXME: validator receives the raw newValue, while the value written to state
+            // has already passed through the formatter — if the formatter changes
+            // the content (for example, trims whitespace), what gets validated is not what
+            // ends up in the field.
             value: formatValue(formatter, newValue),
             error: validateValue(validator, newValue),
             prevValue: updatePrevValue ? formatValue(formatter, newValue) : prev[name].prevValue,
@@ -118,11 +118,11 @@ export function useForm<T extends TFields>(
     async (e?: SubmitEvent<HTMLFormElement>) => {
       e?.preventDefault();
 
-      // Отправка заблокирована, пока все поля совпадают с prevValue: форма правки
-      // не отправляет неизменённые данные. Форма создания со значением по
-      // умолчанию задаёт prevValue в inputs явно и считается изменённой сразу.
-      // prevValue обновляется только после успешной отправки, поэтому повтор
-      // после сбоя доступен без правки полей.
+      // Submission is blocked while all fields match prevValue: an edit form
+      // does not submit unchanged data. A create form with a default value
+      // sets prevValue in inputs explicitly and counts as changed right away.
+      // prevValue is updated only after a successful submit, so a retry
+      // after a failure is available without editing fields.
       if (!isValid || !isDirty) return;
 
       if (submitHandler) {
@@ -132,10 +132,10 @@ export function useForm<T extends TFields>(
           await submitHandler(latestForm.current, setForm);
           updatePrevValues();
         } catch {
-          // Обработчик, вызванный отсюда, кидает при неудаче (так делает
-          // mutateAsync); показать ошибку — забота вызывающего (общий
-          // MutationCache или onError мутации), здесь достаточно не запирать
-          // форму для повтора.
+          // A handler called from here throws on failure (as
+          // mutateAsync does); showing the error is the caller's job (the general
+          // MutationCache or the mutation's onError), here it is enough not to lock
+          // the form against a retry.
         } finally {
           setIsPending(false);
         }
@@ -150,10 +150,10 @@ export function useForm<T extends TFields>(
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(async () => {
-      // FIXME: правки, внесённые пока идёт автосохранение, после его
-      // завершения помечаются сохранёнными — onSubmit фиксирует prevValue
-      // всех полей разом, и если пользователь успел изменить поле во время
-      // запроса, это изменение молча теряет флаг isDirty.
+      // FIXME: edits made while an autosave is in progress are marked saved after it
+      // finishes — onSubmit records prevValue of all fields at once, and if the user
+      // changed a field during the request, that change silently loses the isDirty
+      // flag.
       await onSubmit();
 
       timeoutRef.current = null;
@@ -162,8 +162,8 @@ export function useForm<T extends TFields>(
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-    // onSubmit намеренно не в зависимостях: он меняется вместе с submitHandler,
-    // а таймер должен перезапускаться только от смены самих полей формы.
+    // onSubmit is intentionally not in the dependencies: it changes together with submitHandler,
+    // while the timer must restart only when the form fields themselves change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveOnChange, isValid, isDirty, form]);
 

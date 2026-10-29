@@ -3,7 +3,7 @@ import { useI18nSelector } from "@/context/I18nContext";
 
 import { SBanner } from "./_styles";
 
-/** Плашка демо-стенда: предупреждает, что данные общие и ночью сбрасываются. */
+/** Demo stand banner: warns that the data is shared and reset at night. */
 export function DemoBanner() {
   const l = useI18nSelector(({ l }) => l.demo);
 

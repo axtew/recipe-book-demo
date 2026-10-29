@@ -1,17 +1,17 @@
 import imageCompression from "browser-image-compression";
 
-/** Длинная сторона обложки рецепта, пиксели: на экране 600px колонки хватает с запасом для ретины. */
+/** Long side of a recipe cover, pixels: on a 600px screen column it is plenty, even for retina. */
 const COVER_MAX_SIDE_PX = 1200;
 
-/** Потолок размера обложки после сжатия, мегабайты. */
+/** Ceiling of the cover size after compression, megabytes. */
 const COVER_MAX_SIZE_MB = 0.6;
 
 /**
- * Сжимает фото перед загрузкой: уменьшает до `COVER_MAX_SIDE_PX` по длинной
- * стороне и перекодирует в WebP.
+ * Compresses a photo before upload: scales it down to `COVER_MAX_SIDE_PX` on the long
+ * side and re-encodes to WebP.
  *
- * Фото с телефона весит несколько мегабайт — в бакет и тем более в мобильный
- * интернет с нестабильной связью оно уходит уже сжатым.
+ * A phone photo weighs several megabytes — it goes to the bucket, and even more so over mobile
+ * internet with an unstable connection, already compressed.
  */
 export function compressRecipePhoto(file: File): Promise<File> {
   return imageCompression(file, {
@@ -22,7 +22,7 @@ export function compressRecipePhoto(file: File): Promise<File> {
   });
 }
 
-/** Содержимое файла как data URL — для превью, которое не нужно освобождать вручную. */
+/** File contents as a data URL — for a preview that does not need to be released manually. */
 export function readAsDataUrl(file: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

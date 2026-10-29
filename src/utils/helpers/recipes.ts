@@ -3,8 +3,8 @@ import type { INutrients, IRecipeNutrition } from "@/domain/nutrition";
 import type { IRecipe, IRecipesSearch } from "@/types/recipes.types";
 
 /**
- * Ручные значения КБЖУ на 100 г в форме входа расчёта: в объект попадают
- * только заполненные поля, потому что расчёт различает «не задано» и «ноль».
+ * Manual per-100 g nutrition values in the calculation input shape: only
+ * the filled fields land in the object, because the calculation distinguishes “not set” from “zero”.
  */
 export function getNutritionOverrides(recipe: IRecipe): Partial<INutrients> {
   const overrides: Partial<INutrients> = {};
@@ -17,7 +17,7 @@ export function getNutritionOverrides(recipe: IRecipe): Partial<INutrients> {
   return overrides;
 }
 
-/** Считать КБЖУ не из чего: нет веса сырья и нет ни одного введённого вручную значения. */
+/** There is nothing to calculate nutrition from: no raw weight and no manually entered value. */
 export function isNutritionEmpty({
   rawWeightGrams,
   overriddenFields,
@@ -26,14 +26,14 @@ export function isNutritionEmpty({
 }
 
 /**
- * Приводит поиск главного экрана к каноничному виду: пустой запрос и
- * неизвестное значение фильтра отбрасываются, остальные поля сохраняются.
+ * Brings the home screen search to canonical form: an empty query and
+ * an unknown filter value are dropped, the other fields are kept.
  *
- * Принимает неразобранные значения: адрес правит и человек, и старая закладка,
- * поэтому каждое поле проверяется само. Роутер читает значения как JSON, так что
- * запрос «123» приходит числом. Отброшенные поля возвращаются явным `undefined`:
- * роутер накладывает результат валидации на сырой поиск из адреса, и без явного
- * ключа неподходящее значение осталось бы в поиске как есть.
+ * Takes unparsed values: the URL is edited by people and by old bookmarks,
+ * so each field is checked on its own. The router reads values as JSON, so
+ * the query “123” arrives as a number. Dropped fields are returned as an explicit `undefined`:
+ * the router overlays the validation result on the raw search from the URL, and without an explicit
+ * key an unsuitable value would stay in the search as is.
  */
 export function normalizeRecipesSearch(search: {
   q?: unknown;

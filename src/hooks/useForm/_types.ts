@@ -4,21 +4,21 @@ import type { TSetState } from "@/types/common.types";
 
 export type TFieldType = string | number | boolean | null;
 
-// NOTE: прокидывать доп обвязку через meta или вроде того
+// NOTE: pass extra plumbing through meta or similar
 export type TFields = { [K: string]: TFieldType };
 
 type TFormInput<T extends TFields, K extends keyof T> = {
   value: T[K];
   /**
-   * Значение, которое считается уже сохранённым. Не передан — равен `value`,
-   * и форма «нетронутая», пока поле не изменили.
+   * The value that counts as already saved. If not passed, it equals `value`,
+   * and the form is “untouched” until the field is changed.
    *
-   * Форма создания со значением по умолчанию, которое само по себе осмысленный
-   * ввод, передаёт здесь пустое значение: тогда поле отличается от сохранённого
-   * с первого рендера и отправка доступна без правок.
+   * A create form with a default value that is meaningful input on its own
+   * passes an empty value here: then the field differs from the saved one
+   * from the first render and submit is available without edits.
    *
-   * С `saveOnChange` такая форма считается изменённой сразу после монтирования,
-   * поэтому автосохранение сработает без участия пользователя.
+   * With `saveOnChange` such a form counts as changed right after mounting,
+   * so autosave fires without any user action.
    */
   prevValue?: T[K];
   required?: boolean;

@@ -12,7 +12,7 @@ import type { IProduct, IProductCategory } from "@/types/products.types";
 import type { IDishCategory, IRecipe } from "@/types/recipes.types";
 
 /**
- * Единая точка загрузки всех данных.
+ * Single entry point for loading all data.
  */
 export function useAppDataLoader() {
   const recipes = useRecipesQuery();
@@ -27,7 +27,7 @@ export function useAppDataLoader() {
     isPending: queries.some((query) => query.isPending),
     isError: queries.some((query) => query.isError),
     /**
-     * Идёт фоновое обновление хотя бы одного запроса.
+     * A background refetch of at least one query is in progress.
      */
     isFetching: queries.some((query) => query.isFetching),
     refetch: () => {

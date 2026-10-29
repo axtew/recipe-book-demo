@@ -2,7 +2,7 @@ import { BACKUP_VERSION } from "./_constants";
 import { backupSchema } from "./_schema";
 import type { TBackupParseResult } from "./_types";
 
-/** Путь проблемы в виде `products[2].name`. */
+/** Path of the problem in the form `products[2].name`. */
 function formatPath(path: PropertyKey[]): string {
   return path
     .map((part, index) => {
@@ -13,10 +13,10 @@ function formatPath(path: PropertyKey[]): string {
 }
 
 /**
- * Разбор текста файла бэкапа.
+ * Parses the backup file text.
  *
- * Ничего не бросает: любой дефект файла возвращается кодом, чтобы вызывающий
- * мог показать причину и не трогать базу.
+ * Throws nothing: any defect of the file is returned as a code, so that the caller
+ * can show the reason and leave the database alone.
  */
 export function parseBackup(text: string): TBackupParseResult {
   let raw: unknown;

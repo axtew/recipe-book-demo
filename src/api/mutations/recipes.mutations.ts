@@ -29,7 +29,7 @@ export function useResetRecipeNutritionOverridesMutation() {
   });
 }
 
-/** Загрузка в Storage данных запросов не меняет — инвалидировать нечего. */
+/** Uploading to Storage does not change query data — there is nothing to invalidate. */
 export function useUploadRecipePhotoMutation() {
   return useMutation({ mutationFn: uploadRecipePhoto });
 }

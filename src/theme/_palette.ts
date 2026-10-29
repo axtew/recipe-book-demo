@@ -1,4 +1,4 @@
-/** Единственный источник цвета — от него берут значения и styled-components, и Mantine. */
+/** The only source of color — both styled-components and Mantine take their values from it. */
 export const palette = {
   background: "#faf9f7",
   surface: "#ffffff",

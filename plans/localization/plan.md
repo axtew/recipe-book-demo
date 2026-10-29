@@ -544,3 +544,10 @@ Reference docs exist as an English main file plus a Russian `.ru.md`; `BACKLOG.m
 ### Phase L8 — added 2026-10-29
 **Trigger:** the L4 amendment of the same date drops the `-ru.md` read-copies of agent instructions; `BACKLOG-ru.md` was the only other read-copy and relied on the same `glob:*-ru.md` exclusion.
 **Fix:** `BACKLOG-ru.md` stays (owner, 2026-10-29). L8 adds it to `scripts/publish-exclude.txt` as one literal path (the list accepts literal paths only); the next public push after L8 needs `-Force` once.
+
+### Phase L5, L6 — added 2026-10-29
+**Trigger:** L5 iter-1 review (`plans/localization/l5/iter-1/REVIEW.md`), `Issue source: plan` — `src/utils/env.ts` now throws `Environment variable ${key} is not set`, but the private `DEPLOY.md:114` still quotes the old Russian console text as the symptom to look for; the plan had no step to find documents quoting a message the phase changes.
+**Fix:**
+- L5 and L6 gain a step: for every `Error` / `console` message whose text changed, grep the old text (a distinctive fragment) over the repository outside `src/` (`plans/**` history excluded) and update each quote to the new text. The quoting file keeps its language — only the quoted message changes (e.g. `DEPLOY.md` stays Russian).
+- L5 now: `DEPLOY.md:114` — replace the quoted console text with the new English message.
+- L5 review nits applied in the same iteration: `src/api/services/cookLogs.service.ts:45` «recording the cooking» → «recording a cook»; `src/types/recipes.types.ts:107` «as it lies in localStorage» → «as it is stored in localStorage»; `src/utils/__tests__/recipes.test.ts` query `"плов"` → `"pilaf"` (the test does not check Russian-specific behaviour).

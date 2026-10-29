@@ -1,4 +1,4 @@
 import type { Dispatch, SetStateAction } from "react";
 
-/** Тип сеттера React.SetState. */
+/** Type of the React.SetState setter. */
 export type TSetState<T> = Dispatch<SetStateAction<T>>;

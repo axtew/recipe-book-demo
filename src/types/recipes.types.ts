@@ -1,7 +1,7 @@
-/** Верхняя граница времени готовки в фильтре списка рецептов; `over60` — дольше часа. */
+/** Upper bound of cooking time in the recipe list filter; `over60` — longer than an hour. */
 export type TCookTimeFilter = "upTo15" | "upTo30" | "upTo60" | "over60";
 
-/** Поиск и фильтры списка рецептов — то, что живёт в адресе главного экрана. */
+/** Search and filters of the recipe list — what lives in the home screen URL. */
 export interface IRecipesSearch {
   q?: string;
   freezable?: true;
@@ -45,7 +45,7 @@ export interface IRecipe {
   name: string;
   notes: string | null;
   photoPath: string | null;
-  /** Публичный адрес обложки с версией; null, если фото нет. */
+  /** Public cover URL with a version; null if there is no photo. */
   photoUrl: string | null;
   protein100Override: number | null;
   servingsBase: number;
@@ -91,7 +91,7 @@ export interface IRecipeInput {
 export interface IRecipeIngredientDraft {
   amountGrams: number | null;
   isOptional: boolean;
-  /** Стабильный ключ строки для React и перетаскивания; в базу не уходит. */
+  /** Stable row key for React and drag-and-drop; does not go to the database. */
   key: string;
   note: string;
   pinnedVariantId: string | null;
@@ -104,11 +104,11 @@ export interface IRecipeStepDraft {
 }
 
 /**
- * Состояние формы редактора, как оно лежит в localStorage.
+ * Editor form state as it is stored in localStorage.
  *
- * Это не `IRecipeInput`: черновик допускает недозаполненное — строку без
- * продукта, шаг без текста, незаконченную ссылку, — потому что сохраняется на
- * лету. Проверка на полноту происходит только при отправке.
+ * This is not `IRecipeInput`: the draft allows incomplete data — a row without a
+ * product, a step without text, an unfinished link — because it is saved on
+ * the fly. The completeness check happens only on submit.
  */
 export interface IRecipeDraft {
   cookTimeMin: number | null;

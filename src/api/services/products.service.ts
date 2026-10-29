@@ -11,7 +11,8 @@ function buildProductsQuery() {
 export async function getProducts(): Promise<IProduct[]> {
   const { data, error } = await buildProductsQuery();
 
-  if (error) throw new Error("Произошла ошибка при запросе списка продуктов.", { cause: error });
+  if (error)
+    throw new Error("An error occurred while requesting the product list.", { cause: error });
 
   return data.map(mapProduct);
 }
@@ -56,7 +57,7 @@ export async function setActiveProductVariant({
     .eq("id", productId);
 
   if (error)
-    throw new Error("Произошла ошибка при изменении активного варианта продукта.", {
+    throw new Error("An error occurred while changing the product's active variant.", {
       cause: error,
     });
 }
@@ -68,7 +69,7 @@ export async function archiveProduct(productId: string): Promise<void> {
     .eq("id", productId);
 
   if (error)
-    throw new Error("Произошла ошибка при архивировании продукта.", {
+    throw new Error("An error occurred while archiving the product.", {
       cause: error,
     });
 }
@@ -93,7 +94,7 @@ export async function addProductVariant({
   });
 
   if (error)
-    throw new Error("Произошла ошибка при добавлении варианта продукта.", {
+    throw new Error("An error occurred while adding a product variant.", {
       cause: error,
     });
 }
@@ -119,7 +120,7 @@ export async function createProductWithVariant({
   });
 
   if (error)
-    throw new Error("Произошла ошибка при создании продукта.", {
+    throw new Error("An error occurred while creating the product.", {
       cause: error,
     });
 

@@ -16,7 +16,8 @@ function buildRecipesQuery() {
 export async function getRecipes(): Promise<IRecipe[]> {
   const { data, error } = await buildRecipesQuery();
 
-  if (error) throw new Error("Произошла ошибка при запросе списка рецептов.", { cause: error });
+  if (error)
+    throw new Error("An error occurred while requesting the recipe list.", { cause: error });
 
   return data.map(mapRecipe);
 }
@@ -64,10 +65,10 @@ function mapRecipe(recipe: TDBRecipe): IRecipe {
 }
 
 /**
- * Сбрасывает ручные значения КБЖУ на 100 г: после этого цифры снова считаются
- * из состава.
+ * Resets the manual per-100 g nutrition values: after this the numbers are calculated
+ * from the composition again.
  *
- * Пишет в одну таблицу одним запросом, поэтому отдельная rpc-функция не нужна.
+ * Writes to one table with one request, so a separate rpc function is not needed.
  */
 export async function resetRecipeNutritionOverrides(recipeId: string): Promise<void> {
   const { error } = await supabase
@@ -81,7 +82,7 @@ export async function resetRecipeNutritionOverrides(recipeId: string): Promise<v
     .eq("id", recipeId);
 
   if (error)
-    throw new Error("Произошла ошибка при сбросе ручных значений КБЖУ.", {
+    throw new Error("An error occurred while resetting the manual nutrition values.", {
       cause: error,
     });
 }
@@ -123,7 +124,7 @@ export async function saveRecipe({
   });
 
   if (error)
-    throw new Error("Произошла ошибка при сохранении рецепта.", {
+    throw new Error("An error occurred while saving the recipe.", {
       cause: error,
     });
 
@@ -131,9 +132,9 @@ export async function saveRecipe({
 }
 
 /**
- * Кладёт обложку рецепта в Storage и возвращает путь внутри бакета.
+ * Puts the recipe cover into Storage and returns the path inside the bucket.
  *
- * Путь один на рецепт — замена фото перезаписывает файл, а не копит копии.
+ * There is one path per recipe — replacing the photo overwrites the file instead of accumulating copies.
  */
 export async function uploadRecipePhoto({
   recipeId,
@@ -149,7 +150,7 @@ export async function uploadRecipePhoto({
     .upload(path, file, { upsert: true, contentType: "image/webp" });
 
   if (error)
-    throw new Error("Произошла ошибка при загрузке фото рецепта.", {
+    throw new Error("An error occurred while uploading the recipe photo.", {
       cause: error,
     });
 
@@ -157,11 +158,11 @@ export async function uploadRecipePhoto({
 }
 
 /**
- * Публичный адрес фото по пути из `recipes.photo_path`. Сети не требует.
+ * Public URL of the photo from the path in `recipes.photo_path`. Needs no network.
  *
- * Замена обложки пишет файл по тому же пути, а Storage отдаёт его с
- * `max-age=3600`; параметр `v` от `updated_at` рецепта меняет адрес при каждом
- * сохранении, и браузер не показывает прежнее фото из кэша.
+ * Replacing the cover writes the file to the same path, and Storage serves it with
+ * `max-age=3600`; the `v` parameter from the recipe's `updated_at` changes the URL on every
+ * save, so the browser does not show the previous photo from its cache.
  */
 function getRecipePhotoUrl(photoPath: string, updatedAt: string): string {
   const { publicUrl } = supabase.storage.from(RECIPE_PHOTOS_BUCKET).getPublicUrl(photoPath).data;

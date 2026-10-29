@@ -70,8 +70,8 @@ export function initState<T extends TFields>(inputs: TInputs<T>): TUseFormState<
 }
 
 /**
- * Фиксирует текущие значения как сохранённые: `prevValue` каждого поля
- * становится равным `value`, остальное состояние поля не меняется.
+ * Records the current values as saved: each field's `prevValue`
+ * becomes equal to `value`, the rest of the field state is unchanged.
  */
 export function commitPrevValues<T extends TFields>(state: TUseFormState<T>): TUseFormState<T> {
   const committed: Partial<TUseFormState<T>> = {};

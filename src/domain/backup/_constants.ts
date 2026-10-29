@@ -1,2 +1,2 @@
-/** Версия формата файла бэкапа. Меняется вместе с любой правкой набора таблиц или колонок. */
+/** Backup file format version. Changes with any edit to the set of tables or columns. */
 export const BACKUP_VERSION = 1;

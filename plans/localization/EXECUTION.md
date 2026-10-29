@@ -79,3 +79,17 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 - **Status:** completed — `created_at` claim fixed; plus four review notes: ADR 0035 tense, guillemets wording in `i18n.md`, diagram alignment, stale `.env.demo` wording in `data.md`. Cyrillic = 0, lint green.
 - **Review iteration 3:** APPROVED (`plans/localization/l4/iter-3/REVIEW.md`). Notes for the owner: guillemets around quoted section names remain in the English agent docs; file anchors in `i18n.md`.
 - **Owner edit before commit:** dropped «Both are visible in DevTools → Application» from `docs/architecture.md` (already in the private tutorial); guillemets in agent docs stay.
+- **Committed:** `489e839`.
+
+## L5, iteration 1
+
+- **Date:** 2026-10-29
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** 60 files in the non-UI layers of `src/`: comments, JSDoc, `Error` / `console` messages and test names in English; fixture data in nutrition, backup and schema tests translated where the test does not check Russian text. Remaining Cyrillic: `src/utils/search.ts`, `search.test.ts`, `recipes.test.ts` (Russian search data).
+- **Checks:** AST comparison (`plans/localization/l5/iter-1/astcheck.cjs`) — 60 files, 0 differences outside comments and strings; lint, build, test (129) green.
+- **Review iteration 1:** NEEDS_CHANGES, `Issue source: plan` — `DEPLOY.md:114` quotes the old Russian `env.ts` message. Owner chose: amend the plan («Phase L5, L6 — added 2026-10-29») and re-run.
+
+## L5, iteration 2 (amendment)
+
+- **Status:** completed — `DEPLOY.md:114` quotes the new `env.ts` message; old-text grep over the repo outside `src/` for every changed message (only that hit); two comment wordings; `"плов"` → `"pilaf"` in `recipes.test.ts`. AST check 61 files / 0 differences; lint, build, test (129) green.
+- **Review iteration 2:** APPROVED (`plans/localization/l5/iter-2/REVIEW.md`).

@@ -10,10 +10,10 @@ export const productCategoryInputSchema = z.object({
 });
 
 /**
- * Продукт без вариантов.
+ * A product without variants.
  *
- * `activeVariantId` сюда не входит: активный вариант выбирают на карточке продукта
- * отдельным действием, а в момент создания продукта вариантов ещё нет.
+ * `activeVariantId` is not part of it: the active variant is chosen on the product card
+ * by a separate action, and at product creation there are no variants yet.
  */
 export const productInputSchema = z.object({
   name: nameSchema,
@@ -21,7 +21,7 @@ export const productInputSchema = z.object({
   note: z.string().nullable(),
 }) satisfies z.ZodType<IProductInput>;
 
-/** Вариант продукта. Все четыре числа nullable — продукт заводится быстро, цифры дописываются потом. */
+/** A product variant. All four numbers are nullable — a product is added in a hurry, the numbers are filled in later. */
 export const productVariantInputSchema = z.object({
   name: nameSchema.nullable(),
   kcal100: nutrientPer100Schema,

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-/** Базовый сброс отступов и цвет фона/текста по умолчанию — общий для всего приложения. */
+/** Base margin reset and default background/text color — shared by the whole app. */
 export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
     box-sizing: border-box;

@@ -4,23 +4,23 @@ import { nutritionSnapshotSchema } from "@/domain/schemas";
 
 import { BACKUP_VERSION } from "./_constants";
 
-// Схема файла бэкапа. Строки таблиц названы именами колонок, поэтому поля здесь
-// snake_case — в отличие от остальных схем домена, описывающих сущности
-// приложения. Ограничения повторяют check'и базы: файл, прошедший схему, не
-// должен упереться в них при вставке. Строки строгие: колонка, которой схема
-// не знает, ломает выгрузку, а не пропадает из файла молча. Исключение — jsonb
-// `snapshot`: его форму проверяет схема снимка (нестрогая), но значение
-// проходит дальше как есть, без отбрасывания неизвестных ключей.
+// The backup file schema. Table rows are named by column names, so the fields here are
+// snake_case — unlike the other domain schemas, which describe the application's
+// entities. The limits repeat the database check constraints: a file that passed the schema must not
+// run into them on insert. Rows are strict: a column the schema
+// does not know breaks the export instead of silently disappearing from the file. The exception is jsonb
+// `snapshot`: its shape is checked by the snapshot schema (non-strict), but the value
+// passes on as is, without dropping unknown keys.
 
-/** Любой id, который способна хранить колонка `uuid`: бэкап не отвергает то, что приняла база. */
+/** Any id a `uuid` column can store: the backup does not reject what the database accepted. */
 const idSchema = z.guid();
 
-/** `timestamptz` в виде, в котором его отдаёт `to_jsonb`: с долями секунды и смещением. */
+/** `timestamptz` in the form `to_jsonb` returns it: with fractional seconds and an offset. */
 const timestampSchema = z.iso.datetime({ offset: true });
 
 const nutrientSchema = z.number().nonnegative().nullable();
 
-/** Категории продуктов и категории блюд устроены одинаково. */
+/** Product categories and dish categories are structured identically. */
 const categoryRowSchema = z.strictObject({
   id: idSchema,
   name: z.string(),
@@ -99,7 +99,7 @@ const recipeIngredientRowSchema = z.strictObject({
   sort_order: z.int(),
 });
 
-/** Проверяет снимок схемой журнала, но возвращает исходное значение: разбор не должен менять содержимое бэкапа. */
+/** Checks the snapshot with the log schema but returns the original value: parsing must not change the backup contents. */
 const snapshotSchema = z
   .custom<z.infer<typeof nutritionSnapshotSchema>>()
   .superRefine((value, ctx) => {
@@ -126,7 +126,7 @@ const cookLogRowSchema = z.strictObject({
   created_at: timestampSchema,
 });
 
-/** Девять таблиц базы в том виде, в каком их отдаёт `export_backup`, без служебных полей файла. */
+/** The nine database tables as `export_backup` returns them, without the file's service fields. */
 const backupTablesSchema = z.strictObject({
   product_categories: z.array(categoryRowSchema),
   dish_categories: z.array(categoryRowSchema),
@@ -140,11 +140,11 @@ const backupTablesSchema = z.strictObject({
 });
 
 /**
- * Файл бэкапа целиком.
+ * The whole backup file.
  *
- * Помимо формы каждой строки проверяется целостность ссылок: файл, в котором
- * рецепт ссылается на несуществующий продукт, отвергается здесь, с указанием
- * места, а не ошибкой внешнего ключа из базы уже посреди вставки.
+ * Besides the shape of each row, reference integrity is checked: a file in which
+ * a recipe refers to a nonexistent product is rejected here, with the
+ * location, rather than by a foreign key error from the database in the middle of an insert.
  */
 export const backupSchema = z
   .strictObject({

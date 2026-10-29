@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { recipeDraftSchema } from "@/domain/schemas";
 import type { IRecipeDraft } from "@/types/recipes.types";
 
-/** Задержка перед записью черновика: пока человек печатает, localStorage не дёргается. */
+/** Delay before writing the draft: while the person is typing, localStorage is not hammered. */
 const DRAFT_SAVE_DELAY_MS = 500;
 
 function getDraftKey(recipeId: string | null): string {
@@ -11,8 +11,8 @@ function getDraftKey(recipeId: string | null): string {
 }
 
 /**
- * Читает черновик из localStorage. Нечитаемый или не прошедший схему черновик
- * удаляется и считается отсутствующим.
+ * Reads the draft from localStorage. A draft that is unreadable or fails the schema
+ * is deleted and treated as absent.
  */
 function readDraft(key: string): IRecipeDraft | null {
   try {
@@ -31,19 +31,19 @@ function readDraft(key: string): IRecipeDraft | null {
 }
 
 /**
- * Автосохранение черновика рецепта в localStorage под ключом
+ * Autosave of the recipe draft to localStorage under the key
  * `recipe-draft:${recipeId ?? "new"}`.
  *
- * `storedDraft` — черновик, найденный при открытии редактора; читается один раз.
- * `saveDraft` откладывает запись на 500 мс и перезаписывает ещё не записанный
- * вызов; несброшенная запись дописывается при уходе со страницы и при закрытии
- * вкладки. Хранилище может быть недоступно (приватный режим, переполнение) —
- * тогда запись молча пропускается: черновик это удобство, а не данные.
+ * `storedDraft` — the draft found when the editor opened; read once.
+ * `saveDraft` defers the write by 500 ms and overwrites a call that has not yet been
+ * written; a pending write is flushed on leaving the page and on closing the
+ * tab. The storage may be unavailable (private mode, overflow) —
+ * then the write is silently skipped: a draft is a convenience, not data.
  *
- * `clearDraft` удаляет запись, но редактирование продолжается и черновик
- * пишется дальше. `finishDraft` — для успешного сохранения: удаляет запись и
- * отключает любую запись до размонтирования, иначе обновлённый после сохранения
- * рецепт мог бы поставить в очередь новую запись, которую допишет размонтирование.
+ * `clearDraft` deletes the entry, but editing continues and the draft
+ * keeps being written. `finishDraft` is for a successful save: it deletes the entry and
+ * disables any writing until unmount, otherwise the recipe updated after saving
+ * could queue a new write that the unmount would flush.
  */
 export function useRecipeDraft(recipeId: string | null) {
   const key = getDraftKey(recipeId);
@@ -64,7 +64,7 @@ export function useRecipeDraft(recipeId: string | null) {
     try {
       localStorage.setItem(key, JSON.stringify(pendingRef.current));
     } catch {
-      // Хранилище недоступно — черновик не сохранится, редактор продолжает работать.
+      // The storage is unavailable — the draft will not be saved, the editor keeps working.
     }
 
     pendingRef.current = null;
@@ -93,7 +93,7 @@ export function useRecipeDraft(recipeId: string | null) {
     try {
       localStorage.removeItem(key);
     } catch {
-      // Нечего удалять, если хранилище недоступно.
+      // Nothing to delete if the storage is unavailable.
     }
   }, [key]);
 

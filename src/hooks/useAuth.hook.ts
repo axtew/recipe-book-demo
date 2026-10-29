@@ -4,17 +4,17 @@ import { useState } from "react";
 import { supabase } from "@/api/supabase";
 
 /**
- * Текущая сессия Supabase из локального хранилища.
+ * The current Supabase session from local storage.
  *
- * Обычная функция, а не хук — вызывается из `beforeLoad` роутов, который
- * выполняется вне рендера React.
+ * A plain function, not a hook — it is called from the routes' `beforeLoad`, which
+ * runs outside React rendering.
  */
 export async function getAuthSession(): Promise<Session | null> {
   const { data, error } = await supabase.auth.getSession();
 
   if (error) {
-    // Отсутствие сессии и сетевая ошибка иначе неотличимы — обе ведут на /login молча.
-    console.warn("Не удалось получить сессию Supabase", error);
+    // No session and a network error are otherwise indistinguishable — both silently lead to /login.
+    console.warn("Failed to get the Supabase session", error);
   }
 
   return data.session;
@@ -27,11 +27,11 @@ interface IUseSignInResult {
 }
 
 /**
- * Вход по email и паролю.
+ * Sign in with email and password.
  *
- * Регистрации нет — аккаунты заводятся вручную в дашборде Supabase, поэтому
- * единственный исход ошибки, который имеет смысл показывать, — неверная пара
- * логин/пароль.
+ * There is no sign-up — accounts are created by hand in the Supabase dashboard, so
+ * the only error outcome worth showing is a wrong
+ * login/password pair.
  */
 export function useSignIn(): IUseSignInResult {
   const [isPending, setIsPending] = useState(false);
@@ -61,7 +61,7 @@ interface IUseSignOutResult {
   isPending: boolean;
 }
 
-/** Выход из аккаунта. Возвращает `false`, если Supabase выйти не дал. */
+/** Sign out of the account. Returns `false` if Supabase did not let the user out. */
 export function useSignOut(): IUseSignOutResult {
   const [isPending, setIsPending] = useState(false);
 

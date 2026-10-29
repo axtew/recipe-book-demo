@@ -1,7 +1,7 @@
-/** Какой справочник категорий правится: категории продуктов или категории блюд. */
+/** Which category dictionary is being edited: product categories or dish categories. */
 export type TCategoryKind = "product" | "dish";
 
-/** Общая форма категории обоих справочников. */
+/** Common category shape of both dictionaries. */
 export interface ICategory {
   id: string;
   name: string;

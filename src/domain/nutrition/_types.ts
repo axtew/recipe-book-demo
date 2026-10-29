@@ -1,4 +1,4 @@
-/** Ккал и БЖУ. На что именно они посчитаны — на 100 г, на порцию, на всё блюдо — задаёт контекст. */
+/** Kcal and protein/fat/carbs. What they are calculated for — per 100 g, per serving, per whole dish — is set by the context. */
 export interface INutrients {
   kcal: number;
   protein: number;
@@ -6,14 +6,14 @@ export interface INutrients {
   carbs: number;
 }
 
-// ── Входные контракты ───────────────────────────────────────────────
-// Минимальные формы входа объявлены здесь, а не импортированы из `src/types/`.
-// Причина — независимость расчёта от слоя данных: модуль обязан запускаться в
-// Node, а появление нового поля у сущности не должно трогать домен. Имена полей
-// совпадают с сущностями, поэтому сущность подставляется на место такой формы
-// структурно, без адаптера.
+// ── Input contracts ───────────────────────────────────────────────
+// The minimal input shapes are declared here rather than imported from `src/types/`.
+// The reason is keeping the calculation independent of the data layer: the module must run in
+// Node, and a new field on an entity must not touch the domain. Field names
+// match the entities, so an entity is substituted for such a shape
+// structurally, without an adapter.
 
-/** Продукт в том объёме, который нужен расчёту. */
+/** A product, with only what the calculation needs. */
 export interface INutritionProduct {
   id: string;
   name: string;
@@ -21,11 +21,11 @@ export interface INutritionProduct {
 }
 
 /**
- * Вариант продукта.
+ * A product variant.
  *
- * Любое из четырёх полей КБЖУ может быть `null`: продукт заводится быстро, цифры
- * заполняются позже. Принадлежность варианта продукту здесь не проверяется — её
- * гарантируют составные внешние ключи схемы.
+ * Any of the four nutrition fields may be `null`: a product is added in a hurry, the numbers
+ * are filled in later. Whether the variant belongs to the product is not checked here — it is
+ * guaranteed by the composite foreign keys of the schema.
  */
 export interface INutritionVariant {
   id: string;
@@ -36,7 +36,7 @@ export interface INutritionVariant {
   carbs100: number | null;
 }
 
-/** Строка состава рецепта до разрешения варианта. */
+/** A recipe ingredient row before the variant is resolved. */
 export interface INutritionIngredient {
   id: string;
   productId: string;
@@ -45,9 +45,9 @@ export interface INutritionIngredient {
   isOptional: boolean;
 }
 
-// ── Результаты ──────────────────────────────────────────────────────
+// ── Results ──────────────────────────────────────────────────────
 
-/** Ингредиент с уже разрешённым вариантом и его КБЖУ. */
+/** An ingredient with an already resolved variant and its nutrition. */
 export interface IResolvedIngredient {
   ingredientId: string;
   productId: string;
@@ -57,11 +57,11 @@ export interface IResolvedIngredient {
   amountGrams: number;
   isOptional: boolean;
   isPinned: boolean;
-  /** null, если у варианта не заполнено КБЖУ или активного варианта нет */
+  /** null if the variant's nutrition is not filled in or there is no active variant */
   nutrientsPer100: INutrients | null;
 }
 
-/** Какой вес взят делителем для «на 100 г»: заявленный выход блюда или вес сырья. */
+/** Which weight is taken as the divisor for “per 100 g”: the declared dish yield or the raw weight. */
 export type TNutritionBasis = "yield" | "rawWeight";
 
 export interface INutritionParams {
@@ -77,13 +77,13 @@ export interface IRecipeNutrition {
   basis: TNutritionBasis;
   rawWeightGrams: number;
   yieldGrams: number | null;
-  /** Поля, значение которых взято из *_override, а не посчитано */
+  /** Fields whose value is taken from *_override rather than calculated */
   overriddenFields: (keyof INutrients)[];
-  /** Продукты без КБЖУ — источник предупреждения в карточке рецепта */
+  /** Products without nutrition — the source of the warning on the recipe card */
   incompleteProducts: { productId: string; productName: string }[];
 }
 
-/** Замораживается в cook_logs.snapshot */
+/** Frozen into cook_logs.snapshot */
 export interface INutritionSnapshot {
   version: 1;
   nutrition: IRecipeNutrition;

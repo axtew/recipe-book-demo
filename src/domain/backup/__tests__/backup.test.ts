@@ -11,12 +11,12 @@ function buildBackup() {
   return {
     version: BACKUP_VERSION,
     exported_at: TS,
-    product_categories: [{ id: ID(1), name: "Молочное", sort_order: 10, created_at: TS }],
-    dish_categories: [{ id: ID(2), name: "Завтраки", sort_order: 10, created_at: TS }],
+    product_categories: [{ id: ID(1), name: "Dairy", sort_order: 10, created_at: TS }],
+    dish_categories: [{ id: ID(2), name: "Breakfasts", sort_order: 10, created_at: TS }],
     products: [
       {
         id: ID(3),
-        name: "Молоко",
+        name: "Milk",
         category_id: ID(1),
         active_variant_id: ID(4) as string | null,
         note: null,
@@ -45,7 +45,7 @@ function buildBackup() {
     recipes: [
       {
         id: ID(5),
-        name: "Каша",
+        name: "Porridge",
         servings_base: 2,
         yield_grams: null,
         cook_time_min: 15,
@@ -64,7 +64,7 @@ function buildBackup() {
         updated_at: TS,
       },
     ],
-    recipe_steps: [{ id: ID(6), recipe_id: ID(5), sort_order: 0, text: "Сварить" }],
+    recipe_steps: [{ id: ID(6), recipe_id: ID(5), sort_order: 0, text: "Boil" }],
     recipe_dish_categories: [{ recipe_id: ID(5), dish_category_id: ID(2) }],
     recipe_ingredients: [
       {
@@ -111,11 +111,11 @@ function buildBackup() {
 }
 
 describe("parseBackup", () => {
-  it("принимает корректный файл, архивные строки в том числе", () => {
+  it("accepts a valid file, archived rows included", () => {
     expect(parseBackup(JSON.stringify(buildBackup())).status).toBe("ok");
   });
 
-  it("принимает пустую базу: девять пустых таблиц", () => {
+  it("accepts an empty database: nine empty tables", () => {
     const empty = {
       ...buildBackup(),
       product_categories: [],
@@ -132,22 +132,22 @@ describe("parseBackup", () => {
     expect(parseBackup(JSON.stringify(empty)).status).toBe("ok");
   });
 
-  it("отвергает текст, который не JSON", () => {
-    expect(parseBackup("{оборванный").status).toBe("notJson");
+  it("rejects text that is not JSON", () => {
+    expect(parseBackup("{truncated").status).toBe("notJson");
   });
 
-  it("отвергает JSON без поля version", () => {
+  it("rejects JSON without a version field", () => {
     expect(parseBackup("[]").status).toBe("notBackup");
     expect(parseBackup('{"products": []}').status).toBe("notBackup");
   });
 
-  it("отвергает неизвестную версию формата", () => {
+  it("rejects an unknown format version", () => {
     const result = parseBackup(JSON.stringify({ ...buildBackup(), version: 99 }));
 
     expect(result).toEqual({ status: "unsupportedVersion", version: "99" });
   });
 
-  it("называет место первой проблемы", () => {
+  it("names the location of the first problem", () => {
     const backup = buildBackup();
     Object.assign(backup.products[0], { name: 5 });
 
@@ -157,21 +157,21 @@ describe("parseBackup", () => {
     });
   });
 
-  it("отвергает отсутствующую таблицу", () => {
+  it("rejects a missing table", () => {
     const backup: Partial<ReturnType<typeof buildBackup>> = buildBackup();
     delete backup.cook_logs;
 
     expect(parseBackup(JSON.stringify(backup)).status).toBe("invalid");
   });
 
-  it("отвергает колонку, которой схема не знает", () => {
+  it("rejects a column the schema does not know", () => {
     const backup = buildBackup();
     Object.assign(backup.recipes[0], { surprise: 1 });
 
     expect(parseBackup(JSON.stringify(backup)).status).toBe("invalid");
   });
 
-  it("отвергает снимок журнала, не прошедший свою схему", () => {
+  it("rejects a log snapshot that fails its own schema", () => {
     const backup = buildBackup();
     Object.assign(backup.cook_logs[0].snapshot, { version: 2 });
 
@@ -181,7 +181,7 @@ describe("parseBackup", () => {
     });
   });
 
-  it("не теряет неизвестные ключи внутри снимка журнала", () => {
+  it("keeps unknown keys inside a log snapshot", () => {
     const backup = buildBackup();
     Object.assign(backup.cook_logs[0].snapshot, { extra: "kept" });
 
@@ -194,7 +194,7 @@ describe("parseBackup", () => {
     );
   });
 
-  it("отвергает висящую ссылку на рецепт", () => {
+  it("rejects a dangling recipe reference", () => {
     const backup = buildBackup();
     backup.recipe_steps[0].recipe_id = ID(99);
 
@@ -204,7 +204,7 @@ describe("parseBackup", () => {
     });
   });
 
-  it("отвергает закреплённый вариант чужого продукта", () => {
+  it("rejects a pinned variant of another product", () => {
     const backup = buildBackup();
     backup.products.push({ ...backup.products[0], id: ID(30), active_variant_id: null });
     backup.recipe_ingredients[0].product_id = ID(30);
@@ -215,7 +215,7 @@ describe("parseBackup", () => {
     });
   });
 
-  it("отвергает активный вариант, принадлежащий другому продукту", () => {
+  it("rejects an active variant that belongs to another product", () => {
     const backup = buildBackup();
     backup.products.push({ ...backup.products[0], id: ID(31) });
 
@@ -225,7 +225,7 @@ describe("parseBackup", () => {
     });
   });
 
-  it("отвергает дубль id внутри таблицы", () => {
+  it("rejects a duplicate id within a table", () => {
     const backup = buildBackup();
     backup.recipes.push({ ...backup.recipes[0] });
 

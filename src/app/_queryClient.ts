@@ -14,7 +14,7 @@ import { env } from "@/utils/env";
 declare module "@tanstack/react-query" {
   interface Register {
     mutationMeta: {
-      /** Мутация сама показывает ошибку у своего блока: общее уведомление о сохранении не нужно. */
+      /** The mutation shows its own error next to its block: the general save notification is not needed. */
       showsOwnError?: boolean;
     };
   }
@@ -23,13 +23,13 @@ declare module "@tanstack/react-query" {
 export const queryClient = new QueryClient({
   mutationCache: new MutationCache({
     onError: (error, _variables, _onMutateResult, mutation) => {
-      // Общее сообщение на любую неудавшуюся запись. Частные случаи вроде
-      // «продукт с таким именем уже есть» разбираются в onError самой мутации.
+      // General message for any failed write. Specific cases such as
+      // “product with this name already exists” are handled in the mutation's own onError.
       console.error(error);
 
-      // Мутации, которые сами показывают ошибку у своего блока (`meta.showsOwnError`),
-      // общее уведомление не получают: оно говорило бы про «сохранение» там,
-      // где ничего не сохранялось.
+      // Mutations that show their own error next to their block (`meta.showsOwnError`)
+      // do not get the general notification: it would talk about “saving” where
+      // nothing was saved.
       if (mutation.meta?.showsOwnError === true) return;
 
       const l = getDictionary();
@@ -46,7 +46,7 @@ export const queryClient = new QueryClient({
   },
 });
 
-/** Адаптер idb-keyval под интерфейс AsyncStorage, ожидаемый персистером TanStack Query. */
+/** idb-keyval adapter for the AsyncStorage interface expected by the TanStack Query persister. */
 const idbStorage = {
   getItem: async (key: string) => (await get<string>(key)) ?? null,
   setItem: (key: string, value: string) => set(key, value),
@@ -54,11 +54,11 @@ const idbStorage = {
 };
 
 /**
- * Персистер-пустышка для демо-сборки. Раз в ночь демо-база сбрасывается к эталону,
- * и снимок кэша из IndexedDB вернувшегося посетителя ссылается на строки, которых
- * уже нет: модуль расчёта бросает исключение на такой висячей ссылке, и экран падает.
- * Без чтения снимка каждый визит начинается с запроса к серверу; кэш не
- * сериализуется и не пишется.
+ * Stub persister for the demo build. Once a night the demo database is reset to the reference state,
+ * and a cache snapshot from IndexedDB of a returning visitor refers to rows that
+ * no longer exist: the nutrition module throws on such a dangling reference, and the screen crashes.
+ * Without reading the snapshot every visit starts with a request to the server; the cache is
+ * neither serialized nor written.
  */
 const noopPersister: Persister = {
   persistClient: async () => undefined,

@@ -1,17 +1,17 @@
 /**
- * Приведение строки к виду, пригодному для сравнения.
+ * Reduces a string to a form suitable for comparison.
  *
- * `ё` → `е` обязательна с обеих сторон сравнения: без неё «мед» не находит
- * «мёд», и наоборот — а набирают на телефоне обычно без точек.
+ * `ё` → `е` is mandatory on both sides of the comparison: without it «мед» does not find
+ * «мёд», and vice versa — and on a phone people usually type without the dots.
  */
 export function normalizeSearch(value: string): string {
   return value.toLowerCase().replaceAll("ё", "е").trim();
 }
 
 /**
- * Разбор запроса на слова для сопоставления.
+ * Splits a query into words for matching.
  *
- * Пустой результат означает «запроса нет»: фильтровать нечем.
+ * An empty result means “no query”: there is nothing to filter by.
  */
 export function getSearchTokens(query: string): string[] {
   const normalized = normalizeSearch(query);
@@ -20,11 +20,11 @@ export function getSearchTokens(query: string): string[] {
 }
 
 /**
- * Каждое слово запроса должно встретиться хотя бы в одной из строк.
+ * Every query word must occur in at least one of the strings.
  *
- * Строки — уже нормализованные тексты, по которым ищут (название рецепта,
- * названия продуктов состава): слова запроса могут находиться в разных, так
- * «курица рис» находит рецепт, где курица в названии, а рис в составе.
+ * The strings are already normalized texts being searched (the recipe name,
+ * the names of the ingredient products): query words may be in different ones, so
+ * «курица рис» finds a recipe where chicken is in the name and rice is in the ingredients.
  */
 export function matchesTokens(tokens: string[], normalizedTexts: string[]): boolean {
   return tokens.every((token) => normalizedTexts.some((text) => text.includes(token)));

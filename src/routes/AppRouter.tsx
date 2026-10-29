@@ -16,8 +16,8 @@ import { AppLayout } from "./layouts/AppLayout";
 const rootRoute = createRootRoute();
 
 /**
- * Pathless layout-роут защищённой части: не добавляет сегмент в URL, только
- * оборачивает детей в `AppLayout` с таб-баром и охраняет их `beforeLoad`.
+ * Pathless layout route of the protected part: adds no URL segment, only
+ * wraps its children in `AppLayout` with the tab bar and guards them with `beforeLoad`.
  */
 const protectedLayoutRoute = createRoute({
   id: "protected-layout",

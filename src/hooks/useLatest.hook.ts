@@ -1,10 +1,10 @@
 import { type RefObject, useLayoutEffect, useRef } from "react";
 
 /**
- * Хук для использования React-данных в коллбэках без ререндеров с помощью RefObject
+ * Hook for using React data in callbacks without re-renders via a RefObject
  *
- * @param {T} value - Значение
- * @returns {RefObject<T>} Реф с данными
+ * @param {T} value - Value
+ * @returns {RefObject<T>} Ref with the data
  */
 export function useLatest<T>(value: T): RefObject<T> {
   const latest = useRef(value);

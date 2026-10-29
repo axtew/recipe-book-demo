@@ -13,7 +13,8 @@ function buildProductCategoriesQuery() {
 export async function getProductCategories(): Promise<IProductCategory[]> {
   const { data, error } = await buildProductCategoriesQuery();
 
-  if (error) throw new Error("Произошла ошибка при запросе категорий продуктов.", { cause: error });
+  if (error)
+    throw new Error("An error occurred while requesting product categories.", { cause: error });
 
   return data.map(mapProductCategory);
 }
@@ -35,7 +36,8 @@ function buildDishCategoriesQuery() {
 export async function getDishCategories(): Promise<IDishCategory[]> {
   const { data, error } = await buildDishCategoriesQuery();
 
-  if (error) throw new Error("Произошла ошибка при запросе категорий блюд.", { cause: error });
+  if (error)
+    throw new Error("An error occurred while requesting dish categories.", { cause: error });
 
   return data.map(mapDishCategory);
 }
@@ -66,15 +68,15 @@ export async function renameCategory({
 }): Promise<void> {
   const { error } = await supabase.from(CATEGORY_TABLES[kind]).update({ name }).eq("id", id);
 
-  if (error) throw new Error("Произошла ошибка при переименовании категории.", { cause: error });
+  if (error) throw new Error("An error occurred while renaming the category.", { cause: error });
 }
 
 /**
- * Записывает новый порядок категорий.
+ * Writes the new order of categories.
  *
- * Уходят только id в нужном порядке: имя в запрос не входит, поэтому перестановка
- * не может затереть переименование, сделанное параллельно. Запись идёт функцией
- * базы — один оператор, одна транзакция, порядок не бывает переставлен наполовину.
+ * Only ids in the required order are sent: the name is not part of the request, so a reorder
+ * cannot overwrite a rename made in parallel. The write goes through a database function —
+ * one statement, one transaction, the order is never half-reordered.
  */
 export async function reorderCategories({
   kind,
@@ -89,5 +91,5 @@ export async function reorderCategories({
   });
 
   if (error)
-    throw new Error("Произошла ошибка при сохранении порядка категорий.", { cause: error });
+    throw new Error("An error occurred while saving the category order.", { cause: error });
 }

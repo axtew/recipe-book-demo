@@ -1,11 +1,11 @@
 import type { INutritionSnapshot, IRecipeNutrition, IResolvedIngredient } from "./_types";
 
 /**
- * Замораживает расчёт и состав в том виде, в каком они были на момент готовки.
+ * Freezes the calculation and composition as they were at the moment of cooking.
  *
- * Ложится в `cook_logs.snapshot` и больше не пересчитывается: смена активного
- * варианта продукта не должна переписывать историю. Опциональные ингредиенты
- * сюда попадают тоже — это протокол того, что реально клали.
+ * Goes into `cook_logs.snapshot` and is never recalculated: changing a product's
+ * active variant must not rewrite history. Optional ingredients
+ * are included too — it is a record of what was actually used.
  */
 export function buildSnapshot(
   nutrition: IRecipeNutrition,

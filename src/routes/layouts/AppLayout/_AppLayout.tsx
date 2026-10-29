@@ -15,12 +15,12 @@ interface IProps {
 }
 
 /**
- * Каркас основного экрана: отцентрованная колонка до 600px, safe-area insets,
- * `100dvh` вместо `100vh` (на мобильном Safari `100vh` больше видимой области).
+ * Shell of the main screen: a centered column up to 600px, safe-area insets,
+ * `100dvh` instead of `100vh` (on mobile Safari `100vh` is larger than the visible area).
  *
- * Здесь же смонтирован загрузчик датасета — это единственное место под всей
- * залогиненной частью, поэтому данные приезжают целиком независимо от того,
- * какой экран открыли первым. В демо-сборке над экраном стоит плашка стенда.
+ * The dataset loader is mounted here too — it is the only place above the whole
+ * logged-in part, so the data arrives in full regardless of
+ * which screen was opened first. In the demo build the demo-stand banner sits above the screen.
  */
 export function AppLayout({ children }: IProps) {
   const l = useI18nSelector(({ l }) => l.appData);
@@ -36,8 +36,8 @@ export function AppLayout({ children }: IProps) {
     );
   }
 
-  // Фоновое обновление экран не закрывает: прежние данные остаются на месте,
-  // пока едут новые. Здесь ловится только первая загрузка.
+  // A background refetch does not cover the screen: the previous data stays in place
+  // while the new data is on its way. Only the first load is caught here.
   if (isError) {
     return (
       <SShell>

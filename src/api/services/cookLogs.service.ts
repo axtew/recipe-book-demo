@@ -16,7 +16,7 @@ function buildCookLogsQuery() {
 export async function getCookLogs(): Promise<ICookLog[]> {
   const { data, error } = await buildCookLogsQuery();
 
-  if (error) throw new Error("Произошла ошибка при запросе журнала готовки.", { cause: error });
+  if (error) throw new Error("An error occurred while requesting the cook log.", { cause: error });
 
   return data.map(mapCookLog);
 }
@@ -37,12 +37,12 @@ export async function createCookLog({
     finished_at: log.finishedAt,
     rating: log.rating,
     note: log.note,
-    // Интерфейс снимка не присваивается `Json` (у него нет индексной сигнатуры), а
-    // тип, выведенный из схемы, присваивается; заодно снимок проверяется на границе.
+    // The snapshot interface is not assignable to `Json` (it has no index signature), while
+    // the type inferred from the schema is; the snapshot is also validated at the boundary this way.
     snapshot: nutritionSnapshotSchema.parse(log.snapshot),
   });
 
-  if (error) throw new Error("Произошла ошибка при записи готовки.", { cause: error });
+  if (error) throw new Error("An error occurred while recording a cook.", { cause: error });
 }
 
 export async function finishCookLog({
@@ -57,7 +57,7 @@ export async function finishCookLog({
     .update({ finished_at: finishedAt })
     .eq("id", id);
 
-  if (error) throw new Error("Произошла ошибка при отметке «доели».", { cause: error });
+  if (error) throw new Error("An error occurred while marking as “finished”.", { cause: error });
 }
 
 type TDBCookLog = QueryData<ReturnType<typeof buildCookLogsQuery>>[number];
@@ -65,7 +65,7 @@ type TDBCookLog = QueryData<ReturnType<typeof buildCookLogsQuery>>[number];
 function mapCookLog(log: TDBCookLog): ICookLog {
   const { success, data, error } = nutritionSnapshotSchema.safeParse(log.snapshot);
 
-  if (!success) console.error(`Не удалось распарсить snapshot из журнала ${log.id}`, error);
+  if (!success) console.error(`Failed to parse the snapshot from log ${log.id}`, error);
 
   return {
     actualYieldGrams: log.actual_yield_grams,

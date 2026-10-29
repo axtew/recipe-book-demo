@@ -9,12 +9,12 @@ export const dishCategoryInputSchema = z.object({
   sortOrder: z.int(),
 });
 
-/** Шаг приготовления. Порядок задаёт позиция в массиве рецепта, а не поле. */
+/** A cooking step. Order is set by position in the recipe array, not by a field. */
 export const recipeStepInputSchema = z.object({
   text: z.string().trim().min(1),
 });
 
-/** Строка состава. Порядок задаёт позиция в массиве рецепта, а не поле. */
+/** An ingredient row. Order is set by position in the recipe array, not by a field. */
 export const recipeIngredientInputSchema = z.object({
   productId: idSchema,
   pinnedVariantId: idSchema.nullable(),
@@ -24,12 +24,12 @@ export const recipeIngredientInputSchema = z.object({
 });
 
 /**
- * Рецепт целиком, как его отдаёт редактор.
+ * A whole recipe, as the editor hands it over.
  *
- * Шаги, состав и категории блюда лежат внутри, потому что заполняются одной формой
- * и сохраняются одной транзакцией. Категорий может быть ноль — «хотя бы одна» это
- * продуктовое пожелание, а не ограничение, и список рецептов обязан показывать
- * группу «Без категории». Числовые ограничения повторяют check'и таблицы `recipes`.
+ * Steps, ingredients and dish categories live inside because they are filled in by one form
+ * and saved in one transaction. There may be zero categories — “at least one” is a
+ * product wish, not a constraint, and the recipe list must show the
+ * “No category” group. Numeric limits repeat the `recipes` table check constraints.
  */
 export const recipeInputSchema = z.object({
   name: nameSchema,
@@ -52,11 +52,11 @@ export const recipeInputSchema = z.object({
 }) satisfies z.ZodType<IRecipeInput>;
 
 /**
- * Черновик редактора из localStorage.
+ * The editor draft from localStorage.
  *
- * Хранилище живёт между версиями приложения и не защищено версией формы, как
- * кэш запросов, поэтому прочитанное проходит эту схему: черновик старой формы
- * не должен ронять экран, он просто не предлагается к восстановлению.
+ * The storage lives across app versions and, unlike the query cache, is not protected by a shape version,
+ * so what is read passes through this schema: a draft of the old shape
+ * must not crash the screen, it is simply not offered for restoring.
  */
 export const recipeDraftSchema = z.object({
   name: z.string(),
