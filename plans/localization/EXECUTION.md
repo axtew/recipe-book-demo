@@ -53,3 +53,29 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 
 - **Status:** completed — language radios grouped in a `fieldset` with `aria-label` (owner asked to fix the a11y note). lint, build, test (129) green.
 - **Review:** APPROVED (`plans/localization/l3/iter-2/REVIEW.md`).
+
+## L3, rollout (2026-10-25)
+
+- Committed `89c65af`; `git push origin master` (`1e48a1b..89c65af`, 14 commits incl. P1–P5, L1–L3).
+- `scripts/publish-public.ps1 -Remote https://github.com/axtew/recipe-book-demo.git`: all checks passed, 84 commits, fast-forward `3ff98cf..f92e6d4`.
+- `pnpm deploy:demo`: version `3e71bb57-76f1-4618-beda-7a7fd6b8d3c8`; served page `<html lang="en">`, title «Recipe Book», `en.json` 200, manifest «Recipe Book (demo)» / «Recipes demo».
+
+## L4, iteration 1
+
+- **Date:** 2026-10-29
+- **Status:** STOPPED_ON_PLAN_GAP before any edit — `scripts/publish-exclude.txt` accepts literal paths only, `glob:*-ru.md` would break the publish script (`plans/localization/l4/iter-1/DEV-REPORT.md`).
+- **Owner decision:** no Russian read-copies for agent instructions at all; `BACKLOG-ru.md` stays (literal path, L8); `docs/agents/architecture.md` split into a public `docs/architecture.md` and a private `plans/recipe-book-v1/architecture-tutorial.md`. Amendments «Phase L4 — added 2026-10-29» and «Phase L8 — added 2026-10-29» recorded in the plan.
+
+## L4, iteration 2 (amendment 2026-10-29)
+
+- **Date:** 2026-10-29
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** 14 agent-instruction files in English, no `-ru.md` copies; `docs/agents/architecture.md` → `plans/recipe-book-v1/architecture-tutorial.md` (verbatim, excluded by literal path) + new English `docs/architecture.md`; ADR 0035 (partly supersedes ADR 0033); links moved in `AGENTS.md`, ADRs 0003/0005/0012/0017, `plans/README.md`, `STATUS.md`.
+- **Checks:** Cyrillic over the English set = 0; `agents/architecture` references = 0; publish dry run on a temp clone green (86 commits); `pnpm lint` green.
+- **Review iteration 2:** NEEDS_CHANGES, `Issue source: code` — false `created_at` claim in `docs/architecture.md` (`plans/localization/l4/iter-2/REVIEW.md`).
+
+## L4, iteration 3 (fix)
+
+- **Status:** completed — `created_at` claim fixed; plus four review notes: ADR 0035 tense, guillemets wording in `i18n.md`, diagram alignment, stale `.env.demo` wording in `data.md`. Cyrillic = 0, lint green.
+- **Review iteration 3:** APPROVED (`plans/localization/l4/iter-3/REVIEW.md`). Notes for the owner: guillemets around quoted section names remain in the English agent docs; file anchors in `i18n.md`.
+- **Owner edit before commit:** dropped «Both are visible in DevTools → Application» from `docs/architecture.md` (already in the private tutorial); guillemets in agent docs stay.

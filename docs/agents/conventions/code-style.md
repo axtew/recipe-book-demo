@@ -1,20 +1,22 @@
-# Стиль кода
+# Code style
 
-## Сравнение
+## Equality
 
-Только строгое `===` / `!==`. `==` / `!=` запрещены (eslint `eqeqeq: always`), **в том числе с `null`**: пишите `x === null` / `x !== null` / `x === undefined`, никогда не слабое `x == null`.
+Strict `===` / `!==` only. `==` / `!=` are forbidden (enforced by eslint `eqeqeq: always`), **including against `null`** — write `x === null` / `x !== null` / `x === undefined`, never the loose `x == null`.
 
-## Язык
+## Language
 
-Комментарии в коде (inline `//`, блочные `/* */`, JSDoc `/** */`) и документация, которая лежит в репозитории (`README.md` внутри `src/`, `docs/`, README модулей и т. п.), пишутся **на русском**. Технические термины остаются на английском: имена типов, функций, файлов, API, библиотек, члены enum и идентификаторы в коде пишутся как есть.
+Code comments (inline `//`, block `/* */`, JSDoc `/** */`) and the documentation that lives in the repository (`README.md` files inside `src/`, `docs/`, per-module READMEs and the like) are written in **English**. So are developer-facing messages (`throw new Error(...)`, `console.*`) and test names. Technical terms stay as they are: type, function, file, API and library names, enum members and identifiers in code are written verbatim.
 
-Остальная проза репозитория (инструкции для агентов, `plans/`) — тоже на русском: [ADR 0031](../../decisions/0031-russian-language-of-repository.md). Сообщения коммитов следуют существующей конвенции репозитория.
+Two things stay as they are: strings that the code compares with the database stay byte-identical to the database side, and test data stays Russian where the test checks Russian text (search, sorting, Russian formatting, dictionary content).
 
-## Комментарии — когда и что первым
+The rest of the repository prose (instructions for agents, ADRs, new files in `plans/`) is English too: [ADR 0033](../../decisions/0033-english-repository-language.md). Commit messages are English from now on.
 
-Комментарий пишется только там, где код действительно неочевиден, и описывает **устойчивый факт о коде или системе** — никогда не то, как код появился. Два фильтра по порядку:
+## Comments — when, and what goes first
 
-1. **Нужен ли комментарий вообще?** Нет, если он повторяет имя, тип или сигнатуру; нет, если пересказывает задачу, план, ревью или расследование. Маленькому компоненту с говорящим именем комментарий не нужен. В продуктовом коде не бывает ссылок на узлы дизайна, `plan.md` / `figma*.md` / `PROBLEMS.md`, номеров фаз и раундов, повествования «в рамках этой задачи» — это артефакты пайплайна, а комментарий, переживший свой контекст, вводит в заблуждение следующего читателя.
-2. **Если нужен — сначала назначение, потом механизм.** Первое предложение говорит, *что это и что оно делает*, без «как» и без «почему именно так». Механизм, обоснование, ограничения и подводные камни идут отдельным абзацем — и **только** те части, которые сами проходят фильтр 1 (неочевидное решение, внешнее ограничение). Если ничего не прошло, комментарий заканчивается строкой назначения; это законченный комментарий, а не недописанный. Проверка ревьюера: закрыв всё, кроме первой строки, понимаю ли я, зачем эта сущность существует?
+A comment is written only where the code is genuinely non-obvious, and it describes a **durable fact about the code or the system** — never how the code came to be. Apply two filters in order:
 
-Комментарий описывает то, что код **делает**, а не то, что задумывалось. Комментарий, приписывающий коду свойство, которого у него нет, хуже самого дефекта: он переживёт и баг, и следующий рефакторинг. Если требование выполнить не удалось, честно задокументируйте оставшийся разрыв, а не желаемое поведение.
+1. **Is a comment needed at all?** Not if it restates the name, type or signature; not if it retells the task, the plan, the review, or the investigation. A small component with a descriptive name needs none. Product code never contains references to design nodes, `plan.md` / `figma*.md` / `PROBLEMS.md`, phase or round numbers, or "as of this task" narration — these are pipeline artifacts, and a comment that survives its context is a comment that misleads the next reader.
+2. **If needed — purpose first, mechanism after.** The opening sentence says *what this is / what it does*, without "how" and without "why this way". Mechanism, rationale, constraints and gotchas follow in a separate paragraph — and **only** the parts that pass filter 1 on their own (a non-obvious decision, an external constraint). If nothing survives, the comment ends after the purpose line; that is a complete comment, not an unfinished one. Reviewer's test: covering everything but the first line, do I know why this entity exists?
+
+A comment states what the code **does**, not what was intended. A comment that claims a property the code lacks is worse than the defect: it outlives both the bug and the next refactor. When a requirement could not be met, document the residual gap honestly instead of the wished-for behaviour.

@@ -40,5 +40,6 @@ The decisions were collected from the earlier decision log kept since 2026-08-02
 | [0030](0030-household-purchases-deferred.md) | Household purchases are a reserve for v3 | deferred |
 | [0031](0031-russian-language-of-repository.md) | The repository language is Russian | superseded by ADR 0033 |
 | [0032](0032-english-ui-language-later.md) | English UI language later, as a separate task | superseded by ADR 0034 |
-| [0033](0033-english-repository-language.md) | English is the repository language, Russian is the second language of reference docs | accepted |
+| [0033](0033-english-repository-language.md) | English is the repository language, Russian is the second language of reference docs | accepted; partly superseded by ADR 0035 |
 | [0034](0034-bilingual-ui-by-browser-language.md) | Bilingual UI, the language follows the browser | accepted |
+| [0035](0035-no-russian-copies-of-agent-instructions.md) | No Russian copies of agent instructions | accepted |

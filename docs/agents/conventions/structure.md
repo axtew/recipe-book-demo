@@ -1,48 +1,48 @@
-# Структура — имена, размещение, экспорты, размер компонента
+# Structure — names, placement, exports, component size
 
-## Именование файлов
+## File naming
 
-- Компоненты: папка в PascalCase с barrel-экспортом `index.ts` (`RecipeCard/`, `NutritionTable/`); вложенные части — в `_internal/`.
-- Внутренние файлы: с подчёркиванием в начале (`_styles.ts`, `_types.ts`, `_helpers.ts`, `_Recipe.tsx`, `_useRecipe.ts`).
-- Страницы: PascalCase с суффиксом `Page` (`RecipePage/`, `JournalPage/`).
-- Алиасы путей: `@/` → `src/`.
+- Components: PascalCase folder with an `index.ts` barrel export (`RecipeCard/`, `NutritionTable/`); nested parts in `_internal/`.
+- Internal files: leading underscore (`_styles.ts`, `_types.ts`, `_helpers.ts`, `_Recipe.tsx`, `_useRecipe.ts`).
+- Pages: PascalCase + `Page` suffix (`RecipePage/`, `JournalPage/`).
+- Path aliases: `@/` → `src/`.
 
-## Размещение — одна лестница для всего вынесенного
+## Placement — one ladder for everything extracted
 
-Типы, хелперы, константы, хуки и подкомпоненты подчиняются одному правилу: **сущность живёт на самом низком уровне, который покрывает всех её текущих потребителей, и поднимается выше только когда появляется настоящий второй потребитель.** Ничего общего не размещается «на вырост».
+Types, helpers, constants, hooks and sub-components all obey the same rule: **an entity lives at the lowest level that covers all of its current consumers, and moves up only when a real second consumer appears.** Never place something shared speculatively.
 
-Лестница снизу вверх:
+The ladder, from the bottom:
 
-1. **Внутри файла, который её использует** — пока она укладывается в лимиты размера ниже.
-2. **Рядом с компонентом, с подчёркиванием** — `_types.ts`, `_helpers.ts`, `_constants.ts`, `_use<Name>.ts`, `_<Sub>.tsx`.
-3. **Корень самого компонента** — когда второй потребитель появляется внутри его `_internal/`, общая сущность поднимается: `SomeComponent/_internal/SomeSub/_types.ts` → `SomeComponent/_types.ts`.
-4. **Корень группы** — когда сущность нужна нескольким соседним компонентам одной группы, она переезжает в собственную папку группы (набор иконок, `components/charts/` страницы, `_internal/` страницы).
-5. **Глобально** — `src/types/`, `src/utils/helpers/`, `src/components/` — только когда потребители есть минимум в двух фичах или страницах.
+1. **Inside the file that uses it** — while it stays within the size limits below.
+2. **Beside the component, underscore-prefixed** — `_types.ts`, `_helpers.ts`, `_constants.ts`, `_use<Name>.ts`, `_<Sub>.tsx`.
+3. **The component's own root** — when a second consumer appears inside its `_internal/`, the shared entity moves up: `SomeComponent/_internal/SomeSub/_types.ts` → `SomeComponent/_types.ts`.
+4. **The group root** — when several sibling components of one group share it, it goes to that group's own folder (an icon set, a page's `components/charts/`, a page's `_internal/`).
+5. **Global** — `src/types/`, `src/utils/helpers/`, `src/components/` — only once consumers span two or more features or pages.
 
-**Выход из файла (шаг 1 → 2).** Тип остаётся внутри файла, пока в файле объявлен не более чем один `type` / `interface` / `enum` **и** в нём меньше 10 полей. Триггер переезда: **≥2 объявления или одно объявление с ≥10 полей.** Когда `_types.ts` существует, в нём живут **все** локальные типы компонента, включая тип пропсов: разделение блоков типов между TSX и `_types.ts` — ровно то, что запрещает это правило.
+**Leaving the file (step 1 → 2).** A type stays inline while the file declares at most one `type` / `interface` / `enum` **and** it has fewer than 10 fields. Trigger to move: **≥2 declarations, or one declaration with ≥10 fields.** Once `_types.ts` exists, **all** component-local types live there, the props type included — splitting type blocks between the TSX and `_types.ts` is exactly what this rule forbids.
 
-**Глобальные типы** лежат в `src/types/`, по одному файлу на домен или тему: `products.types.ts`, `recipes.types.ts`, `common.types.ts`, `i18n.types.ts`. Группируйте их по **домену, к которому относится понятие**, а не по тому, откуда оно пришло. Папка «API-типы» выглядит аккуратно ровно до тех пор, пока форма ответа не становится сущностью, нужной ещё и форме, — и тогда всё всё равно стекается в одно место, чтобы не ловить циклические импорты: «API или не API» — не то свойство, которое тип сохраняет. Домен — сохраняет. Домен, переросший один файл, становится папкой: та же лестница на уровень выше.
+**Global types** live in `src/types/`, one file per domain or concern: `products.types.ts`, `recipes.types.ts`, `common.types.ts`, `i18n.types.ts`. Group them by **the domain a concept belongs to**, never by where the concept came from. An "API types" folder looks tidy right up until a response shape becomes an entity that a form also needs — then everything drifts into one place anyway to dodge circular imports, because "API vs not-API" is not a property a type keeps. Domain is. A domain that outgrows a single file graduates to a folder: the same ladder, one level up.
 
-**Обработчики подчиняются ей же.** Обработчик, который использует ровно один дочерний компонент, объявляется **в этом дочернем компоненте**, а не поднимается в хук фичи и не протаскивается вниз через пропсы. Хук фичи, который разрешает «всё, чего касается фича», выглядит как удобная единая точка входа, но тянет в себя логику, единственный потребитель которой — один лист: хук растёт, лист превращается в проброс пропсов. Хук фичи держит то, что нужно двум и более потомкам или самому корню фичи.
+**Handlers obey it too.** A handler used by exactly one child is declared **in that child**, not lifted into the feature hook and threaded down through props. A feature hook that resolves "everything the feature touches" looks like a tidy single entry point but pulls in logic whose only consumer is one leaf — the hook grows, the leaf becomes prop-plumbing. The feature hook holds what two or more children share, or what the feature root itself needs.
 
-**Дисциплина экспорта** действует на каждой ступени лестницы — см. раздел ниже.
+**Export discipline** applies at every step of the ladder — see the section below.
 
-## Дисциплина экспорта — экспорту нужен импортёр, а не надежда
+## Export discipline — an export needs an importer, not a hope
 
-`export` — это утверждение, что нечто входит в публичный контракт модуля. Добавляйте его в том же изменении, где появляется код, который это импортирует; никогда заранее. Правило действует на всех трёх уровнях, проверка на каждом одна: **найдите импортёра через grep — ноль импортёров означает отсутствие экспорта.**
+`export` is a claim that something is part of a module's public contract. Add it in the same change that adds the code importing it; never in advance. This applies at all three levels, and the check is the same at each: **grep for an importer — zero importers means no export.**
 
-- **Символ внутри файла** — тип, константа или функция, которые используются только в своём файле, остаются без экспорта. `_types.ts` не исключение: форма, на которую ссылается только другой тип в том же файле, `export` не требует. (Неэкспортированный интерфейс всё равно достижим структурно через экспортированный тип, который на него ссылается: чтение вложенного поля у такого значения работает независимо от того, экспортирована ли вложенная форма. Экспорт нужен, только когда потребителю надо *назвать* её, например в собственной сигнатуре.)
-- **Barrel (`index.ts`)** — строка добавляется, когда потребитель вне папки это импортирует. Символы, которыми пользуются только соседи внутри папки, импортируются из `./_module` напрямую, а не через barrel.
-- **Уровень модуля** — то же правило этажом выше: хелпер, общий для двух файлов в папке, экспортируется из своего файла, а не переносится в общее место.
+- **Symbol inside a file** — a type, constant, or function used only within its own file stays unexported. `_types.ts` is not exempt: a shape referenced only by another type in the same file needs no `export`. (A non-exported interface is still reachable structurally through an exported type that references it — reading a nested field off such a value works whether or not the nested shape is exported. It only needs exporting when a consumer must *name* it, e.g. in its own signature.)
+- **Barrel (`index.ts`)** — a line goes in when a consumer outside the folder imports it. Symbols used only by siblings inside the folder are imported from `./_module` directly, not routed through the barrel.
+- **Module-level** — same rule one level up: a helper shared by two files in a folder is exported from its file, not promoted to a shared location.
 
-«Следующим фазам это, скорее всего, понадобится» — не причина: когда понадобится, добавить строку — одна правка, и она приходит вместе со своим импортёром. Отложенная уборка («в конце вычистим неиспользуемые экспорты») не случается: к концу никто не помнит, какие экспорты были спекулятивными.
+"Later phases will probably need it" is not a reason — when a later phase needs it, adding the line is one edit, and it lands with its importer. Deferred cleanup ("we'll strip unused exports at the end") does not happen: by the end nobody remembers which exports were speculative.
 
-Относится и к ревьюерам: экспорт без импортёра вне своего модуля — замечание типа `code`, а не заметка для будущей фазы.
+Applies to reviewers too: an export with no importer outside its module is a `code` finding, not a note for a future phase.
 
-**Единственное исключение — символ, который завершает контракт, определяемый самой фазой.** Когда фаза выносит существующее поведение из структуры (например, заменяет функциональное поле интерфейса простыми данными плюс свободная функция рядом), у свободной функции нет импортёра до следующей фазы — но отказ в экспорте оставил бы структуру, смысл которой нигде не описан. Это перенесённая реализация, а не спекулятивное «вдруг пригодится». Разработчик называет символ и причину в отчёте; ревьюер проверяет обоснование, а не только считает импортёров. Экспорт без импортёра и без такого обоснования остаётся замечанием `code`.
+**The one exception — a symbol that completes the contract the phase itself defines.** When a phase moves an existing behaviour out of a structure (e.g. replaces a function-valued field on an interface with plain data plus a free function next to it), the free function has no importer until the next phase — yet withholding the export would hand over a structure whose meaning is described nowhere. That is a transferred implementation, not a speculative "might be useful". The developer names the symbol and the reason in the report; the reviewer checks the justification rather than only counting importers. An export with neither an importer nor such a justification stays a `code` finding.
 
-## Размер компонента
+## Component size
 
-**Держите компоненты тонкими.** Тело рендера компонента — это JSX плюс тривиальная обвязка. Загрузка данных, вывод производных значений, преобразования и нетривиальная вспомогательная логика принадлежат соседнему хуку (`_use<Name>.ts`) или `_helpers.ts`, но никогда не телу рендера. `.tsx`, в теле которого значительная не-JSX логика или который превышает ~150–200 строк, — это запах: вынесите логику, а затем разместите её по лестнице выше.
+**Keep components thin.** A component's render body is JSX + trivial glue. Data fetching, derivation, transforms, and non-trivial helper logic belong in the colocated hook (`_use<Name>.ts`) or `_helpers.ts`, never inline in the render body. A `.tsx` whose body carries substantial non-JSX logic — or runs past ~150–200 lines — is a smell: extract it, then place it by the ladder above.
 
-(Норма проекта: почти каждый компонент короче 200 строк; новый компонент длиннее требует обоснования.)
+(Project norm: nearly every component is < 200 lines; a new one over that needs justification.)

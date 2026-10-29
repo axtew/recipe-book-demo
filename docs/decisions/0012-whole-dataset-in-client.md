@@ -27,4 +27,4 @@ Clarifications (2026-09-08):
 
 - Search is instant and works offline; there are no server search endpoints at all. A phase that adds a filtered backend query contradicts the architecture rather than optimising it.
 - Search by ingredient is by product names only; variant names ("Prostokvashino") are not searched.
-- How this looks in practice — [`architecture.md`](../agents/architecture.md).
+- How this looks in practice — [`architecture.md`](../architecture.md).

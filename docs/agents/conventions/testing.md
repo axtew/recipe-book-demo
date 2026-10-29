@@ -1,5 +1,5 @@
-# Тесты
+# Tests
 
-`pnpm test` запускает vitest. Модуль расчёта КБЖУ (`src/domain/nutrition/`) должен проходить тесты в Node без DOM — он не импортирует React, Supabase и Mantine ([`data.md`](data.md) → «Чистота доменного модуля»).
+`pnpm test` runs vitest. The nutrition calculation module (`src/domain/nutrition/`) must pass its tests in Node without a DOM — it imports no React, Supabase or Mantine ([`data.md`](data.md) → "Purity of the domain module").
 
-Пайплайн проверяет `pnpm lint` и `pnpm build`; есть тесты — проходит и `pnpm test` ([`AGENTS.md`](../../../AGENTS.md)).
+The pipeline verifies against `pnpm lint` and `pnpm build`; if there are tests, `pnpm test` passes too ([`AGENTS.md`](../../../AGENTS.md)).

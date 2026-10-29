@@ -1,10 +1,10 @@
-# Стек зафиксирован — берите то, что уже есть
+# The stack is fixed — reach for what is already here
 
-Стек и скрипты — в `package.json`; список здесь не дублируется. Решения по стеку и их обоснования — [`docs/decisions/`](../../decisions/README.md) (ADR 0003–0009).
+The stack and the scripts are in `package.json`; the list is not duplicated here. The stack decisions and their reasons are in [`docs/decisions/`](../../decisions/README.md) (ADR 0003–0009).
 
-Новая зависимость требует разрешения владельца ([`AGENTS.md`](../../../AGENTS.md)). Вот случаи, в которых потянуться за библиотекой заманчиво, но неверно:
+Adding a dependency requires the owner's permission ([`AGENTS.md`](../../../AGENTS.md)). These are the cases where reaching for a library is the tempting-but-wrong move:
 
-- **Формы** — собственный хук проекта. Не добавляйте `react-hook-form`, `formik` и подобное.
-- **Сортируемые списки** — `@dnd-kit/core` + `@dnd-kit/sortable`. Не пишите перетаскивание на pointer-событиях вручную и не используйте HTML5 drag-and-drop API — на сенсорных устройствах он не работает вовсе.
-- **Валидация** — `zod`. Схемы лежат в `src/domain/schemas/`, по модулю на сущность, и переиспользуются для валидации форм, для проверки импортируемого JSON-бэкапа и позже как схемы structured output. К ответам PostgREST они **не** применяются: эта форма задана нашей же схемой и уже типизирована сгенерированным файлом. Единственное исключение — колонка `jsonb`, чей сгенерированный тип — union `Json` без полей.
-- **Тяжёлый UI** — Mantine, для компонентов из списка в [`styling.md`](styling.md). Всё остальное — компоненты проекта.
+- **Forms** — the project's own hook. Do not add `react-hook-form`, `formik` or similar.
+- **Sortable lists** — `@dnd-kit/core` + `@dnd-kit/sortable`. Do not hand-roll pointer-event dragging, and do not use the HTML5 drag-and-drop API — it does not work on touch devices at all.
+- **Validation** — `zod`. Schemas live in `src/domain/schemas/`, one module per entity, and are reused for form validation, for validating an imported JSON backup, and later as structured-output schemas. They are **not** applied to PostgREST responses: that shape is fixed by our own schema and already typed by the generated file. The one exception is a `jsonb` column, whose generated type is the field-less `Json` union.
+- **Heavy UI** — Mantine, for the components listed in [`styling.md`](styling.md). Everything else is a project component.

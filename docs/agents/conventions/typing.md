@@ -1,13 +1,13 @@
-# Типизация
+# Typing
 
-## Сильные типы
+## Strong types
 
-Доменные типы и пропсы компонентов объявляют свои настоящие поля. `unknown` в любой позиции (`unknown`, `unknown[]`, `Record<string, unknown>`, поле типа `unknown`) означает, что форму не нашли, — найдите её и опишите вместо расширения типа. `unknown` допустим только в обобщённой утилите, которая по замыслу принимает любую форму; `any` и необъяснённые приведения `as` недопустимы нигде.
+Domain types and component props declare their real fields. `unknown` in any position (`unknown`, `unknown[]`, `Record<string, unknown>`, an `unknown` field) means the shape was not looked up — find it and type it instead of widening. `unknown` is acceptable only in a generic utility that accepts any shape by design; `any` and unexplained `as` assertions are not acceptable anywhere.
 
-**Где искать.** Формы БД лежат в сгенерированном `src/types/database.types.ts` (перегенерируется командой `pnpm db:types`, руками не правится); собственные интерфейсы сущностей проекта — в `src/types/<domain>.types.ts`. Один из этих двух источников отвечает на любой вопрос «какие поля у этого» о хранимых данных.
+**Where to look it up.** The database shapes live in the generated `src/types/database.types.ts` (regenerated with `pnpm db:types`, never hand-edited); the project's own entity interfaces live in `src/types/<domain>.types.ts`. One of the two answers every "what fields does this have" question about persisted data.
 
-**Единственное место, где это правило здесь легко нарушить:** колонка `jsonb` приходит в сгенерированных типах как рекурсивный union `Json`, у которого нет никаких полей. Расширить её до `unknown` или `Record<string, unknown>` и идти дальше — именно тот провал, который называет это правило: у такой колонки есть настоящая форма, она объявляется интерфейсом в `src/types/` и проверяется своей zod-схемой на границе.
+**The one place this rule is easy to break here:** a `jsonb` column arrives in the generated types as the recursive `Json` union, which carries no fields at all. Widening it to `unknown` or `Record<string, unknown>` and moving on is exactly the failure this rule names — such a column has a real shape, it is declared as an interface in `src/types/`, and it is validated with its zod schema at the boundary.
 
-Когда ключи словаря ограничены enum, типизируйте словарь как `Record<EEnumName, ValueType>` (или `Partial<Record<EEnumName, ValueType>>`, если присутствуют не все члены enum). По умолчанию предпочитайте записи, типизированные через enum, вместо `Record<string, X>`, когда enum существует. Придерживайтесь этого стиля для любого нового словаря цветов, категорий и справочников.
+When the keys of a map are bounded by an enum, type the map as `Record<EEnumName, ValueType>` (or `Partial<Record<EEnumName, ValueType>>` if not all enum members are present). Default to enum-typed records over `Record<string, X>` whenever an enum exists. Match this style for any new colour / category / lookup map.
 
-Где лежат глобальные и локальные типы — [`structure.md`](structure.md).
+Where global and local types live — [`structure.md`](structure.md).

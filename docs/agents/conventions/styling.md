@@ -1,21 +1,21 @@
-# Стили
+# Styling
 
-Styled Components. Локальные стили компонента лежат в `_styles.ts` рядом с ним. Styled-компоненты имеют префикс `S` (`SContainer`, `SHeader`).
+Styled Components. Component-local styles live in `_styles.ts` next to the component. Prefix styled components with `S` (`SContainer`, `SHeader`).
 
-## Правила CSS
+## CSS rules
 
-- **Цвета через тему.** Используйте токены палитры темы, а не литеральный hex. Литеральный hex допустим, только если цвета действительно нет в теме **и** план явно помечает его как исключение, специфичное для дизайна. Не копируйте сырой hex из инспектора дизайна — сначала сопоставьте его токену.
-- **Нормальный поток вместо `position: sticky` / `fixed`.** Следуйте ближайшему существующему лейауту. К `sticky` / `fixed` прибегайте, только когда задача явно требует закрепления при прокрутке или к этому по-настоящему вынуждает ограничение раскладки, — а не как к рефлекторной реакции на «верхнюю панель».
-- **Чисто декоративные узлы — псевдоэлементом.** Для чисто декоративного элемента без семантики и роли доступности, полностью определяемого состоянием родителя (например, подчёркивание вкладки), предпочитайте CSS `::before` / `::after` отдельному React/DOM-узлу. Отдельный узел оправдан, только когда у него собственное поведение, его нужно измерять независимо или это настоящий структурный элемент.
+- **Colours via theme.** Use theme palette tokens, not literal hex. A literal hex is allowed only when the colour genuinely isn't in the theme **and** the plan explicitly marks it a design-specific exception. Don't copy a raw hex out of a design inspector — map it to a token first.
+- **Normal flow over `position: sticky` / `fixed`.** Follow the nearest existing layout. Reach for `sticky` / `fixed` only when the task explicitly requires pinning on scroll, or a layout constraint genuinely needs it — not as a default reaction to "a top bar".
+- **Decorative-only nodes via pseudo-element.** For a purely decorative element with no semantics or accessibility role, fully determined by its parent's state (e.g. a tab underline), prefer a CSS `::before` / `::after` over a separate React/DOM node. A separate node is justified only when it has its own behaviour, must be measured independently, or is a real structural element.
 
-## Типографика
+## Typography
 
-Типографика — набор компонентов проекта в `src/components/Typography/`: `H1`–`H3`, `B1`–`B3`, `Caption1`–`Caption2`, `Numbers`. **Экран никогда сам не задаёт `font-size`** — с ровно одним исключением: поле ввода формы несёт `font-size: 16px`, потому что Safari на iOS приближает страницу, когда шрифт сфокусированного поля меньше. Это ограничение платформы, а не размер из шкалы; оно остаётся с комментарием об этом. Не «чините» его, пропуская через компонент типографики. Новый размер означает: сначала токен в `src/theme/_typography.ts`, затем компонент, затем использование — именно в таком порядке. Это и удерживает экраны выглядящими как одно приложение, а не как набор, где каждый изобретает свои заголовки.
+Typography is a set of project components in `src/components/Typography/` — `H1`–`H3`, `B1`–`B3`, `Caption1`–`Caption2`, `Numbers`. **A screen never sets `font-size` itself** — with exactly one exception: a form input carries `font-size: 16px`, because Safari on iOS zooms the page when a focused field's font is smaller than that. It is a platform constraint, not a size from the scale, and it stays with a comment saying so. Do not "fix" it by routing it through a typography component. A new size means: first a token in `src/theme/_typography.ts`, then a component, then usage — in that order. This is what keeps screens looking like one application instead of each one inventing its own headings.
 
-## Mantine и компоненты проекта
+## Mantine and project components
 
-Styled Components — для раскладки, карточек, заголовков и отступов, собственных у проекта. **Mantine — только для тяжёлых компонентов**: `Combobox`, `Drawer`, `DatePicker`, `Rating`, `NumberInput`, `Dropzone`, `Notifications`, `Skeleton`. Повышение специфичности над компонентом Mantine делается через `&&` в styled-обёртке — никогда через `!important`. Собственного UI-кита в репозитории нет: примитив — это либо Mantine (из списка выше), либо компонент проекта в `src/components/`.
+Styled Components for layout, cards, headings, spacing — the project's own. **Mantine only for heavy components**: `Combobox`, `Drawer`, `DatePicker`, `Rating`, `NumberInput`, `Dropzone`, `Notifications`, `Skeleton`. Raising specificity over a Mantine component goes through `&&` in the styled wrapper — never `!important`. There is no in-repo UI kit: a primitive is either Mantine (for the list above) or a project component under `src/components/`.
 
-## Мобильная раскладка, iOS
+## Mobile layout, iOS
 
-Mobile-first, одна колонка `max-width: 600px`; **эталонная платформа — iOS Safari**: `100dvh` (никогда `100vh`), `env(safe-area-inset-*)`, области нажатия ≥ 44px. Где платформы расходятся, выигрывает iOS: основной пользователь на iPhone.
+Mobile-first, single column `max-width: 600px`; **iOS Safari is the reference platform** — `100dvh` (never `100vh`), `env(safe-area-inset-*)`, tap targets ≥ 44px. Where platforms disagree, iOS wins: the primary user is on an iPhone.

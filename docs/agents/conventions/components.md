@@ -1,29 +1,29 @@
-# Компоненты
+# Components
 
-## Состояния загрузки
+## Loading states
 
-Секция, которая загружает свои данные, показывает явное состояние загрузки — `Skeleton` (Mantine) или собственный плейсхолдер проекта — пока запрос в полёте. **Не** рисуйте сначала `-` или пустые плейсхолдеры, а потом подменяйте их реальными значениями по приходу данных: такое «голые прочерки, затем скачок» — заметный дефект дёрганья. `-` предназначен для значения, которого *после* загрузки действительно нет, а не для «ещё не загрузилось». (Это сложившееся поведение проекта — данные рендерятся под прелоадерами.)
+A section that fetches its data shows an explicit loading state — a `Skeleton` (Mantine) or the project's own placeholder — while the request is in flight. Do **not** render `-` / empty placeholders first and swap real values in once they arrive: that bare-dashes-then-pop-in is a visible jank defect. `-` is for a value that is genuinely absent *after* loading, not for "not loaded yet". (This is the established project behaviour — data renders under preloaders.)
 
-## Составные компоненты — только для компонуемых оболочек
+## Compound components — for composable shells only
 
-Когда несколько экранов (или несколько вариантов одного экрана) делят раскладку, но различаются тем, **что в неё помещается**, выражайте общую часть **составным компонентом**: один корень плюс именованные подкомпоненты, прикреплённые как статические свойства и расставляемые собственным JSX потребителя. Первый прецедент создавайте осознанно; последующие следуют ему.
+When several screens (or several variants of one screen) share a layout but differ in **what is placed into it**, express the shared part as a **compound component**: one root plus named sub-components attached as static properties, arranged by the consumer's own JSX. Establish the first precedent deliberately; later ones follow it.
 
-**Состояние остаётся у потребителя.** Подкомпоненты — немая разметка; корень не прячет общее состояние во внутреннем контексте. `Accordion.Item` получает `isOpened` / `setIsOpened` снаружи, а `Table` не хранит состояния вовсе — делайте так же. Хук рядом с составным компонентом — правильное место для логики, которую иначе дублировали бы потребители.
+**State stays with the consumer.** Sub-components are dumb markup; the root does not hide shared state in an internal context. `Accordion.Item` takes `isOpened` / `setIsOpened` from outside and `Table` holds no state at all — match that. A hook next to the compound component is the right home for logic the consumers would otherwise duplicate.
 
-**Это исключение, а не умолчание.** Прибегайте к нему, только когда набор слотов действительно различается **между потребителями**. **Не** превращайте компонент в составной, когда:
+**This is the exception, not the default.** Reach for it only when the set of slots genuinely varies **between consumers**. Do **not** convert a component into a compound one when:
 
-- у него единственное место вызова или все места рендерят одну и ту же структуру — оставьте один компонент;
-- различие выражается пропсом-значением (`variant`, `size`, boolean, enum) — используйте проп;
-- различие — **единое внутреннее решение**, а не выбор потребителя. Канонический пример — состояния загрузки и пустоты: если каждый потребитель написал бы одну и ту же проверку `isPending` / `isEmpty`, эта логика принадлежит **внутрь** корня и управляется пропсами, а не выставляется подкомпонентами `.Preloader` / `.Empty`, которые каждый потребитель собирает заново.
+- it has a single call site, or all call sites render the same structure — keep it one component;
+- the variation is expressible as a value prop (`variant`, `size`, a boolean, an enum) — use the prop;
+- the variation is a **uniform internal decision** rather than a per-consumer choice. Loading and empty states are the canonical example: if every consumer would write the same `isPending` / `isEmpty` check, that logic belongs **inside** the root, driven by props — not exposed as `.Preloader` / `.Empty` sub-components for each consumer to re-assemble.
 
-**Небольшой `ReactNode` в пропе — это нормально и часто лучше.** Передача одного элемента через именованный проп — умолчание для единственной точки вставки. Используйте проп для одной хорошо названной точки вставки; к составному подкомпоненту прибегайте, когда потребителю нужно **расставить несколько** частей внутри оболочки, а не протащить один узел.
+**A small `ReactNode` in a prop is fine and often better.** Passing one element through a named prop is the default for a single injection point. Use a prop for a single well-named injection point; reach for a compound sub-component when the consumer needs to **arrange several** pieces inside the shell, not to smuggle one node in.
 
-**Именование.** Корень составного компонента не должен конфликтовать с существующим символом другой природы — в частности, с маршрутными лейаутами в `src/routes/layouts/` (они поставляют провайдеры контекста и `<Outlet />`): это отдельная ответственность от презентационных составных оболочек, и давать обоим одно имя нельзя.
+**Naming.** A compound root must not collide with an existing symbol of a different nature — in particular, route-level layouts under `src/routes/layouts/` (which provide context providers and `<Outlet />`) are a separate concern from presentational compound shells; do not give both the same name.
 
-## Расширяй существующее семейство, не заводи параллельное
+## Extend the existing family, don't open a parallel one
 
-Прежде чем вводить новый тип или форму конфигурации, поищите существующее семейство того же класса и добавьте в него члена: набор родственных строковых enum, сведённых в общий union и сужаемых guard-функциями проверки принадлежности; реестр однотипных записей; набор параллельных констант. Новая форма, поставленная рядом с таким семейством (объект там, где соседи — члены enum; второй список опций там, где один уже есть), заставляет каждого потребителя обрабатывать две формы и правит файлы, которых семейство само по себе не коснулось бы.
+Before introducing a new type or config shape, look for an existing family of the same class and add a member to it — a set of sibling string enums folded into a shared union and narrowed by membership-test guards, a registry of similar entries, a set of parallel constants. A new shape placed beside such a family (an object where the siblings are enum members, a second options list where one already exists) makes every consumer handle two forms and edits files the family alone would leave untouched.
 
-Вводите новую форму только если у сущности есть поля сверх идентификатора, по которому ключуется семейство.
+Introduce a new shape only when the entity carries fields beyond the identifier the family keys on.
 
-Когда план подсовывает параллельную форму, а семейство уже есть: следуйте семейству и назовите расхождение в отчёте — не делайте ни то ни другое молча. Если форма из плана несущая (под неё написаны следующие фазы), остановитесь и спросите, а не решайте в одиночку.
+When a plan hands you a parallel shape and a family already exists: follow the family, and name the divergence in the report — do not silently do either one. If the plan's shape is load-bearing (later phases are written against it), stop and ask instead of deciding alone.

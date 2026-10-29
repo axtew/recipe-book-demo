@@ -1,84 +1,87 @@
-# Планы
+# Plans
 
-Проект разрабатывается через агентный пайплайн: план → фаза (developer) → статическое ревью → ревью владельца → коммит.
-Здесь — все его артефакты, чтобы процесс можно было проследить.
+The project is developed through an agent pipeline: plan → phase (developer) → static review → owner review → commit.
+All its artifacts are here, so the process can be traced.
 
-| Задача | Статус | Обсуждение | План | Журнал |
+New plans, reports and reviews are written in English ([ADR 0033](../docs/decisions/0033-english-repository-language.md)). The existing working logs are not translated and stay in Russian; sections appended to them stay Russian too.
+
+| Task | Status | Discussion | Plan | Log |
 |---|---|---|---|---|
-| `recipe-book-v1` — первая версия приложения | выполнено: обязательные фазы 1–12; фаза 13 (этикетка по фото) условная, после v1 | — | [plan.md](recipe-book-v1/plan.md) (схема БД, доменные типы, контракт модуля расчёта, карта экранов, фазы) | [EXECUTION.md](recipe-book-v1/EXECUTION.md) |
-| `publication` — публичная версия и демо-стенд | в работе: фаза P1 (документация), затем P2–P5 | `publication/brainstorm.md` (только в рабочем репозитории) | `publication/plan.md` (только в рабочем репозитории) | `publication/EXECUTION.md` (только в рабочем репозитории) |
+| `recipe-book-v1` — the first version of the app | done: mandatory phases 1–12; phase 13 (nutrition from a label photo) is conditional, after v1 | — | [plan.md](recipe-book-v1/plan.md) (DB schema, domain types, the nutrition module contract, the screen map, the phases) | [EXECUTION.md](recipe-book-v1/EXECUTION.md) |
+| `publication` — the public version and the demo | done: phases P1–P5 | `publication/brainstorm.md` (working repository only) | `publication/plan.md` (working repository only) | `publication/EXECUTION.md` (working repository only) |
+| `localization` — English as the main language, Russian second | in progress: phases L1–L8 | — | [plan.md](localization/plan.md) | [EXECUTION.md](localization/EXECUTION.md) |
 
-Идеи сверх плана — в [BACKLOG.md](../BACKLOG.md). Принятые решения — [docs/decisions/](../docs/decisions/README.md).
+Ideas beyond the plans are in [BACKLOG.md](../BACKLOG.md). Accepted decisions are in [docs/decisions/](../docs/decisions/README.md).
 
-## Как устроена разработка
+## How development works
 
-1. **План.** Владелец и оркестратор обсуждают подход (`brainstorm.md`), затем пишется `plan.md` с фазами и критериями приёмки («Проверка» у каждой фазы).
-   Решения по ходу работы дописываются в раздел «Дополнения» плана.
-2. **Фаза.** Исполнитель (developer-агент) выполняет одну фазу плана, снимает baseline `lint`/`build`, пишет код и отчёт `DEV-REPORT.md`.
-3. **Статическое ревью.** Reviewer-агент читает диф и отчёт и пишет `REVIEW.md` со статусом (`APPROVED` / `NEEDS_CHANGES`) и источником замечаний (`code` / `plan` / `both`).
-   При `NEEDS_CHANGES` владелец выбирает: поправить план, переделать план или пропустить замечание; исполнитель идёт на следующую итерацию.
-4. **Ревью владельца.** Владелец смотрит изменения в рабочем дереве.
-5. **Коммит.** Коммитит владелец, не агенты. Формат сообщений — по существующей конвенции репозитория; следов инструментов в git нет.
+1. **Plan.** The owner and the orchestrator discuss the approach (`brainstorm.md`), then `plan.md` is written, with phases and acceptance criteria (the «Verification» of each phase).
+   Decisions made along the way are appended to the plan's «Amendments» section.
+2. **Phase.** The executor (a developer agent) carries out one phase of the plan, captures the `lint`/`build` baseline, writes the code and the report `DEV-REPORT.md`.
+3. **Static review.** A reviewer agent reads the diff and the report and writes `REVIEW.md` with a status (`APPROVED` / `NEEDS_CHANGES`) and the source of the findings (`code` / `plan` / `both`).
+   On `NEEDS_CHANGES` the owner chooses: amend the plan, redo the plan, or skip the finding; the executor goes to the next iteration.
+4. **Owner review.** The owner looks at the changes in the working tree.
+5. **Commit.** The owner commits, not the agents. The message format follows the existing convention of the repository; there are no traces of tools in git.
 
-### Протокол фазы
+### Phase protocol
 
-По умолчанию одна сессия — одна фаза.
+By default one session is one phase.
 
-**В обычной сессии** владелец может явно попросить несколько фаз подряд («сделай фазы 2–3») — тогда они выполняются последовательно, но правила ниже применяются к **каждой** отдельно: свой список файлов, свой прогон раздела «Проверка», своя запись в `EXECUTION.md`. Итог по каждой фазе — отдельным блоком, не одним общим «готово».
+**In an ordinary session** the owner may explicitly ask for several phases in a row («do phases 2–3») — they then run one after another, but the rules below apply to **each** separately: its own list of files, its own pass through the «Verification» section, its own entry in `EXECUTION.md`. The result for each phase is a separate block, not one common «done».
 
-**Через скилл `frontend-run`** — строго одна фаза за вызов, это заложено в самом скилле. Несколько фаз = несколько вызовов.
+**Through the `frontend-run` skill** — strictly one phase per call; this is built into the skill itself. Several phases = several calls.
 
-**Первая же непройденная проверка останавливает всю цепочку.** Не переходить к следующей фазе, чтобы «починить потом»: следующая будет строиться на сломанном основании, и разбирать придётся два слоя вместо одного.
+**The first failed check stops the whole chain.** Do not move to the next phase to «fix it later»: the next one would be built on a broken foundation, and two layers would have to be sorted out instead of one.
 
-1. Прочитать [решения](../docs/decisions/README.md) и раздел нужной фазы в плане целиком.
-2. Делать **только эту фазу**. Файлы, не перечисленные в её списке, не трогать. Заметил нужную правку за пределами фазы — сказать об этом, а не делать молча.
-3. В конце пройти по пунктам раздела **«Проверка»** этой фазы и отчитаться по каждому: выполнено или нет, с фактическим выводом команд. Не отчитываться об успехе там, где не проверял.
-4. **Не коммитить.** Изменения остаются в рабочем дереве — их смотрит и коммитит владелец проекта.
+1. Read the [decisions](../docs/decisions/README.md) and the section of the needed phase in the plan, in full.
+2. Do **only this phase**. Do not touch files that are not in its list. If you notice a needed change outside the phase, say so instead of silently making it.
+3. At the end go through the items of this phase's **«Verification»** section and report on each: done or not, with the actual command output. Do not report success where you did not check.
+4. **Do not commit.** The changes stay in the working tree — the project owner reviews and commits them.
 
-Если план расходится с реальностью (не существует того, на что он ссылается; шаг противоречит другому решению; выясняется, что задумка не работает) — **остановиться и спросить**. Не изобретать обходной путь молча: план правится осознанно, через дополнение в разделе «Дополнения».
+If the plan diverges from reality (what it refers to does not exist; a step contradicts another decision; it turns out the idea does not work) — **stop and ask**. Do not invent a workaround silently: the plan is fixed deliberately, through an addition in the «Amendments» section.
 
-Профиль пайплайна для агентов — [`docs/agents/pipeline-profile.md`](../docs/agents/pipeline-profile.md).
+The pipeline profile for the agents is [`docs/agents/pipeline-profile.md`](../docs/agents/pipeline-profile.md).
 
-## Раскладка артефактов
+## Artifact layout
 
 ```
-plans/<задача>/
-  plan.md                         фазы, критерии приёмки, раздел «Дополнения»
-  brainstorm.md                   разбор подхода (если был)
-  EXECUTION.md                    журнал прогона: одна запись на фазу
-  baseline/                       логи lint и build до правок (README.md — что уже было красным)
-  <фаза>/iter-<N>/                отчёты итерации: DEV-REPORT.md, REVIEW.md
+plans/<task>/
+  plan.md                         phases, acceptance criteria, the «Amendments» section
+  brainstorm.md                   the approach discussion (if there was one)
+  EXECUTION.md                    the run log: one entry per phase
+  baseline/                       lint and build logs before the changes (README.md — what was already red)
+  <phase>/iter-<N>/               iteration reports: DEV-REPORT.md, REVIEW.md
 ```
 
-## Старое имя → новое
+## Old name → new
 
-Артефакты `recipe-book-v1/` — записи о том, как было, и не правятся; их ссылки на прежние файлы читаются по таблицам ниже.
+The artifacts of `recipe-book-v1/` are records of how things were and are not edited; their references to former files are read by the tables below. The old files were in Russian: the section names in the tables are given in English translation.
 
-| Было | Стало |
+| Was | Now |
 |---|---|
-| `CLAUDE.md` | [`AGENTS.md`](../AGENTS.md); `CLAUDE.md` теперь одна строка `@AGENTS.md` |
-| `.github/copilot-instructions.md` (собирался из `.github/instructions/`) | [`docs/agents/conventions/`](../docs/agents/conventions/) по темам; генерация отменена |
-| `.github/instructions/00-project.md`, `30-conventions-generic.md`, `40-conventions-project.md` | то же (разделы — в таблице ниже) |
+| `CLAUDE.md` | [`AGENTS.md`](../AGENTS.md); `CLAUDE.md` is now a single line `@AGENTS.md` |
+| `.github/copilot-instructions.md` (assembled from `.github/instructions/`) | [`docs/agents/conventions/`](../docs/agents/conventions/) by topic; the generation is cancelled |
+| `.github/instructions/00-project.md`, `30-conventions-generic.md`, `40-conventions-project.md` | the same (sections — in the table below) |
 | `.github/pipeline-profile.md` | [`docs/agents/pipeline-profile.md`](../docs/agents/pipeline-profile.md) |
-| `.github/upstream-conventions-inbox.md` | удалён: очередь входящих правил из общего источника, в ней ничего не ожидало (`Pending: none`) |
-| `decisions.md` | [`docs/decisions/`](../docs/decisions/README.md) — ADR (разделы — в таблице ниже) |
+| `.github/upstream-conventions-inbox.md` | deleted: an inbox of rules from a shared source, nothing was waiting in it (`Pending: none`) |
+| `decisions.md` | [`docs/decisions/`](../docs/decisions/README.md) — ADRs (sections — in the table below) |
 | `recipe-app-v1-prompt.md` | [`docs/task.md`](../docs/task.md) |
-| `docs/how-it-works.md` | [`docs/agents/architecture.md`](../docs/agents/architecture.md) |
+| `docs/how-it-works.md` | [`docs/architecture.md`](../docs/architecture.md) |
 
-### `CLAUDE.md` и `.github/copilot-instructions.md` — разделы
+### `CLAUDE.md` and `.github/copilot-instructions.md` — sections
 
-| Раздел | Куда перенесён |
+| Section | Where it went |
 |---|---|
-| CLAUDE.md → «Обязательное чтение перед любой работой» и «Справочно» | [`AGENTS.md`](../AGENTS.md) → «Перед работой» |
-| CLAUDE.md → «Разделение работ» | [`AGENTS.md`](../AGENTS.md) → «Правила работы»; полный текст — [`conventions/data.md`](../docs/agents/conventions/data.md) → «Миграции и разделение работ»; решение — [ADR 0026](../docs/decisions/0026-work-split-lifted.md) |
-| CLAUDE.md → «Локальное окружение» | [`docs/agents/local-environment.md`](../docs/agents/local-environment.md) |
-| CLAUDE.md → «Как выполнять фазу» | «Протокол фазы» выше; кратко — [`AGENTS.md`](../AGENTS.md) → «Правила работы» |
-| CLAUDE.md → «Жёсткие инварианты» | [`AGENTS.md`](../AGENTS.md) → «Жёсткие инварианты» |
-| CLAUDE.md → «Конвенции кода» | заменён таблицей «Что читать под задачу» в [`AGENTS.md`](../AGENTS.md) |
-| CLAUDE.md → «Команды», «Чего в проекте нет» | [`AGENTS.md`](../AGENTS.md) → «Команды», «Чего в проекте нет» |
-| copilot-instructions → «Project Overview» | [`AGENTS.md`](../AGENTS.md) (шапка) |
-| copilot-instructions → «Build & environment» | [`AGENTS.md`](../AGENTS.md) → «Команды»; [`conventions/testing.md`](../docs/agents/conventions/testing.md) |
-| copilot-instructions → «Hard invariants» | [`AGENTS.md`](../AGENTS.md) → «Жёсткие инварианты» |
+| CLAUDE.md → «Required reading before any work» and «For reference» | [`AGENTS.md`](../AGENTS.md) → «Before work» |
+| CLAUDE.md → «Work split» | [`AGENTS.md`](../AGENTS.md) → «Working rules»; the full text — [`conventions/data.md`](../docs/agents/conventions/data.md) → «Migrations and the work split»; the decision — [ADR 0026](../docs/decisions/0026-work-split-lifted.md) |
+| CLAUDE.md → «Local environment» | [`docs/agents/local-environment.md`](../docs/agents/local-environment.md) |
+| CLAUDE.md → «How to carry out a phase» | «Phase protocol» above; in short — [`AGENTS.md`](../AGENTS.md) → «Working rules» |
+| CLAUDE.md → «Hard invariants» | [`AGENTS.md`](../AGENTS.md) → «Hard invariants» |
+| CLAUDE.md → «Code conventions» | replaced by the «What to read for a task» table in [`AGENTS.md`](../AGENTS.md) |
+| CLAUDE.md → «Commands», «What the project does not have» | [`AGENTS.md`](../AGENTS.md) → «Commands», «What the project does not have» |
+| copilot-instructions → «Project Overview» | [`AGENTS.md`](../AGENTS.md) (the header) |
+| copilot-instructions → «Build & environment» | [`AGENTS.md`](../AGENTS.md) → «Commands»; [`conventions/testing.md`](../docs/agents/conventions/testing.md) |
+| copilot-instructions → «Hard invariants» | [`AGENTS.md`](../AGENTS.md) → «Hard invariants» |
 | «File naming», «Placement», «Export discipline», «Component size» | [`conventions/structure.md`](../docs/agents/conventions/structure.md) |
 | «Equality», «Comments & docs language», «Comments — when, and what goes first» | [`conventions/code-style.md`](../docs/agents/conventions/code-style.md) |
 | «Strong typing» | [`conventions/typing.md`](../docs/agents/conventions/typing.md) |
@@ -89,24 +92,24 @@ plans/<задача>/
 | «Stack is fixed» | [`conventions/stack.md`](../docs/agents/conventions/stack.md) |
 | «Routes and pages are different layers» | [`conventions/routing.md`](../docs/agents/conventions/routing.md) |
 
-### `decisions.md` — разделы
+### `decisions.md` — sections
 
-Ссылки вида `decisions.md §N` в старых отчётах читаются так:
+References of the form `decisions.md §N` in old reports are read like this:
 
-| Раздел | ADR |
+| Section | ADR |
 |---|---|
-| §1 Продукт и рамки | [0001](../docs/decisions/0001-personal-app-for-two.md), [0002](../docs/decisions/0002-russian-ui-with-i18n.md) |
-| §2 Стек — фронтенд | [0003](../docs/decisions/0003-spa-pwa-on-vite.md), [0004](../docs/decisions/0004-styled-components-and-mantine.md), [0005](../docs/decisions/0005-tanstack-query-persisted-cache.md), [0006](../docs/decisions/0006-tanstack-router-code-based.md), [0007](../docs/decisions/0007-zod-and-own-form-hook.md), [0008](../docs/decisions/0008-dnd-kit-for-sorting.md), [0009](../docs/decisions/0009-pnpm-package-manager.md) |
-| §3 Стек — бэкенд и хостинг | [0010](../docs/decisions/0010-supabase-without-own-backend.md), [0011](../docs/decisions/0011-manual-accounts-signup-off.md), [0012](../docs/decisions/0012-whole-dataset-in-client.md), [0005](../docs/decisions/0005-tanstack-query-persisted-cache.md) (офлайн), [0013](../docs/decisions/0013-cloudflare-hosting.md) |
-| §4 Модель данных | [0014](../docs/decisions/0014-archiving-instead-of-deletes.md), [0015](../docs/decisions/0015-grant-plus-rls.md), [0016](../docs/decisions/0016-variants-and-active-variant.md), [0017](../docs/decisions/0017-nutrition-module-purity.md), [0018](../docs/decisions/0018-cook-log-snapshot-and-dates.md), [0019](../docs/decisions/0019-dish-categories-many-to-many.md), [0020](../docs/decisions/0020-recipe-content-and-backup.md), [0025](../docs/decisions/0025-code-structure-and-conventions.md) (перенос конвенций) |
+| §1 Product and boundaries | [0001](../docs/decisions/0001-personal-app-for-two.md), [0002](../docs/decisions/0002-russian-ui-with-i18n.md) |
+| §2 Stack — frontend | [0003](../docs/decisions/0003-spa-pwa-on-vite.md), [0004](../docs/decisions/0004-styled-components-and-mantine.md), [0005](../docs/decisions/0005-tanstack-query-persisted-cache.md), [0006](../docs/decisions/0006-tanstack-router-code-based.md), [0007](../docs/decisions/0007-zod-and-own-form-hook.md), [0008](../docs/decisions/0008-dnd-kit-for-sorting.md), [0009](../docs/decisions/0009-pnpm-package-manager.md) |
+| §3 Stack — backend and hosting | [0010](../docs/decisions/0010-supabase-without-own-backend.md), [0011](../docs/decisions/0011-manual-accounts-signup-off.md), [0012](../docs/decisions/0012-whole-dataset-in-client.md), [0005](../docs/decisions/0005-tanstack-query-persisted-cache.md) (offline), [0013](../docs/decisions/0013-cloudflare-hosting.md) |
+| §4 Data model | [0014](../docs/decisions/0014-archiving-instead-of-deletes.md), [0015](../docs/decisions/0015-grant-plus-rls.md), [0016](../docs/decisions/0016-variants-and-active-variant.md), [0017](../docs/decisions/0017-nutrition-module-purity.md), [0018](../docs/decisions/0018-cook-log-snapshot-and-dates.md), [0019](../docs/decisions/0019-dish-categories-many-to-many.md), [0020](../docs/decisions/0020-recipe-content-and-backup.md), [0025](../docs/decisions/0025-code-structure-and-conventions.md) (moving the conventions) |
 | §5 UX | [0021](../docs/decisions/0021-mobile-first-ux.md) |
-| §6 Локальная LLM — задел | [0028](../docs/decisions/0028-local-llm-assistant-deferred.md) |
-| §6.5 Внешние источники КБЖУ | [0027](../docs/decisions/0027-external-nutrition-sources.md) |
-| §6.7 Вес блюда | [0020](../docs/decisions/0020-recipe-content-and-backup.md) |
-| §6.8 Мультиарендность и открытая регистрация | [0029](../docs/decisions/0029-multi-tenancy-deferred.md) |
-| §7 Бытовые покупки | [0030](../docs/decisions/0030-household-purchases-deferred.md) |
-| §7.5 Архитектура репозитория | [0022](../docs/decisions/0022-data-access-path-and-services.md), [0025](../docs/decisions/0025-code-structure-and-conventions.md), [0006](../docs/decisions/0006-tanstack-router-code-based.md) |
-| §7.6 Слой данных | [0022](../docs/decisions/0022-data-access-path-and-services.md), [0023](../docs/decisions/0023-rpc-for-multi-step-writes.md), [0024](../docs/decisions/0024-no-external-state-store.md), [0012](../docs/decisions/0012-whole-dataset-in-client.md), [0007](../docs/decisions/0007-zod-and-own-form-hook.md), [0026](../docs/decisions/0026-work-split-lifted.md) |
-| §7.7 Разделение работ снято | [0026](../docs/decisions/0026-work-split-lifted.md) |
-| §8 Р-1 / Р-2 / Р-3 / Р-4 / Р-5 | [0004](../docs/decisions/0004-styled-components-and-mantine.md) / [0008](../docs/decisions/0008-dnd-kit-for-sorting.md) / [0010](../docs/decisions/0010-supabase-without-own-backend.md) / [0001](../docs/decisions/0001-personal-app-for-two.md) / [0019](../docs/decisions/0019-dish-categories-many-to-many.md) |
-| §9 Журнал изменений | не перенесён: даты и содержание записей — в самих ADR, остальное — история git |
+| §6 Local LLM — a reserve | [0028](../docs/decisions/0028-local-llm-assistant-deferred.md) |
+| §6.5 External nutrition sources | [0027](../docs/decisions/0027-external-nutrition-sources.md) |
+| §6.7 Dish weight | [0020](../docs/decisions/0020-recipe-content-and-backup.md) |
+| §6.8 Multi-tenancy and open sign-up | [0029](../docs/decisions/0029-multi-tenancy-deferred.md) |
+| §7 Household purchases | [0030](../docs/decisions/0030-household-purchases-deferred.md) |
+| §7.5 Repository architecture | [0022](../docs/decisions/0022-data-access-path-and-services.md), [0025](../docs/decisions/0025-code-structure-and-conventions.md), [0006](../docs/decisions/0006-tanstack-router-code-based.md) |
+| §7.6 The data layer | [0022](../docs/decisions/0022-data-access-path-and-services.md), [0023](../docs/decisions/0023-rpc-for-multi-step-writes.md), [0024](../docs/decisions/0024-no-external-state-store.md), [0012](../docs/decisions/0012-whole-dataset-in-client.md), [0007](../docs/decisions/0007-zod-and-own-form-hook.md), [0026](../docs/decisions/0026-work-split-lifted.md) |
+| §7.7 The work split is lifted | [0026](../docs/decisions/0026-work-split-lifted.md) |
+| §8 R-1 / R-2 / R-3 / R-4 / R-5 | [0004](../docs/decisions/0004-styled-components-and-mantine.md) / [0008](../docs/decisions/0008-dnd-kit-for-sorting.md) / [0010](../docs/decisions/0010-supabase-without-own-backend.md) / [0001](../docs/decisions/0001-personal-app-for-two.md) / [0019](../docs/decisions/0019-dish-categories-many-to-many.md) |
+| §9 Change log | not carried over: the dates and content of the entries are in the ADRs themselves, the rest is git history |

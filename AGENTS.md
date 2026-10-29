@@ -1,76 +1,76 @@
-# Книга рецептов — инструкции для агентов
+# Recipe Book — instructions for agents
 
-Личное mobile-first PWA для двух человек: справочник продуктов, рецепты с расчётом КБЖУ, поиск, журнал готовки. Интерфейс на русском, единственный язык ([ADR 0002](docs/decisions/0002-russian-ui-with-i18n.md)). Исходное ТЗ — [`docs/task.md`](docs/task.md).
+A personal mobile-first PWA for two people: a product reference, recipes with nutrition (kcal, protein, fat, carbs) calculation, search, a cooking log. The UI is in English and Russian and follows the browser language ([ADR 0034](docs/decisions/0034-bilingual-ui-by-browser-language.md)). The original brief is [`docs/task.md`](docs/task.md).
 
-## Перед работой
+## Before work
 
-1. `STATUS.md` (только в рабочем репозитории, в публичной копии его нет) — где мы сейчас: закрытые фазы, следующий шаг, открытые вопросы. Начинать с него.
-2. [`docs/decisions/`](docs/decisions/README.md) — принятые решения (ADR): стек, модель данных, границы продукта. При расхождении с чем угодно приоритет у них.
-3. [`plans/README.md`](plans/README.md) — как устроена разработка и протокол фазы; план нужной задачи — `plans/<задача>/plan.md` (для v1 — [`plans/recipe-book-v1/plan.md`](plans/recipe-book-v1/plan.md): схема БД, доменные типы, контракт модуля расчёта, карта экранов, фазы).
-4. Файлы из таблицы ниже — по тому, что трогает задача.
+1. `STATUS.md` (working repository only, it is not in the public copy) — where we are now: closed phases, the next step, open questions. Start there.
+2. [`docs/decisions/`](docs/decisions/README.md) — accepted decisions (ADRs): the stack, the data model, the product boundaries. On any conflict they take priority.
+3. [`plans/README.md`](plans/README.md) — how development is organized and the phase protocol; the plan of a task is `plans/<task>/plan.md` (for v1 — [`plans/recipe-book-v1/plan.md`](plans/recipe-book-v1/plan.md): DB schema, domain types, the nutrition module contract, the screen map, the phases).
+4. The files from the table below, depending on what the task touches.
 
-Справочно: `DEPLOY.md` (только в рабочем репозитории; для своего развёртывания — раздел [«Deploy your own»](README.md#deploy-your-own) в README) — деплой, переменные окружения, порядок работы с миграциями в проде, чек-лист релиза. [`BACKLOG.md`](BACKLOG.md) — идеи по развитию и техдолг.
+For reference: `DEPLOY.md` (working repository only; for your own deployment see [«Deploy your own»](README.md#deploy-your-own) in the README) — deployment, environment variables, the order of work with migrations in production, the release checklist. [`BACKLOG.md`](BACKLOG.md) — ideas for development and tech debt.
 
-## Что читать под задачу
+## What to read for a task
 
-| Задача трогает | Читать |
+| The task touches | Read |
 |---|---|
-| любой код в `src/` | [`conventions/code-style.md`](docs/agents/conventions/code-style.md), [`conventions/structure.md`](docs/agents/conventions/structure.md), [`conventions/typing.md`](docs/agents/conventions/typing.md), [`conventions/stack.md`](docs/agents/conventions/stack.md) |
-| компоненты, страницы, лейауты | + [`conventions/components.md`](docs/agents/conventions/components.md), [`conventions/styling.md`](docs/agents/conventions/styling.md) |
-| пользовательские тексты, `public/dictionaries/` | + [`conventions/i18n.md`](docs/agents/conventions/i18n.md) |
-| `src/routes/`, навигацию, guard авторизации | + [`conventions/routing.md`](docs/agents/conventions/routing.md) |
-| `src/api/`, `src/domain/`, миграции, `supabase/`, кэш | + [`conventions/data.md`](docs/agents/conventions/data.md), [`architecture.md`](docs/agents/architecture.md) |
-| тесты | + [`conventions/testing.md`](docs/agents/conventions/testing.md) |
-| живую проверку (Docker, локальный Supabase, дев-пользователь) | [`local-environment.md`](docs/agents/local-environment.md) |
-| откуда на экране берутся данные, кэш, PWA | [`architecture.md`](docs/agents/architecture.md) |
-| план, ревью, фазу пайплайна | [`pipeline-profile.md`](docs/agents/pipeline-profile.md), [`plans/README.md`](plans/README.md) + всё, что трогает фаза |
-| деплой, релиз | `DEPLOY.md` (только в рабочем репозитории); для своего развёртывания — [«Deploy your own»](README.md#deploy-your-own) в README |
+| any code in `src/` | [`conventions/code-style.md`](docs/agents/conventions/code-style.md), [`conventions/structure.md`](docs/agents/conventions/structure.md), [`conventions/typing.md`](docs/agents/conventions/typing.md), [`conventions/stack.md`](docs/agents/conventions/stack.md) |
+| components, pages, layouts | + [`conventions/components.md`](docs/agents/conventions/components.md), [`conventions/styling.md`](docs/agents/conventions/styling.md) |
+| user-facing texts, `public/dictionaries/` | + [`conventions/i18n.md`](docs/agents/conventions/i18n.md) |
+| `src/routes/`, navigation, the auth guard | + [`conventions/routing.md`](docs/agents/conventions/routing.md) |
+| `src/api/`, `src/domain/`, migrations, `supabase/`, the cache | + [`conventions/data.md`](docs/agents/conventions/data.md), [`architecture.md`](docs/architecture.md) |
+| tests | + [`conventions/testing.md`](docs/agents/conventions/testing.md) |
+| a live check (Docker, local Supabase, the dev user) | [`local-environment.md`](docs/agents/local-environment.md) |
+| where the data on the screen comes from, the cache, the PWA | [`architecture.md`](docs/architecture.md) |
+| a plan, a review, a pipeline phase | [`pipeline-profile.md`](docs/agents/pipeline-profile.md), [`plans/README.md`](plans/README.md) + everything the phase touches |
+| deployment, a release | `DEPLOY.md` (working repository only); for your own deployment see [«Deploy your own»](README.md#deploy-your-own) in the README |
 
-## Команды
+## Commands
 
 ```
-pnpm dev            # дев-сервер против локального Supabase
-pnpm dev:prod       # дев-сервер против облака — только смотреть
-pnpm dev:demo       # демо-режим (плашка, готовый логин, без загрузки фото) против локального стека
-pnpm build:demo     # демо-сборка (.env.demo)
-pnpm deploy:demo    # сборка и выкатка демо-стенда — запускает владелец
-pnpm build          # прод-сборка (vite build && tsc -b)
-pnpm preview        # локальный просмотр собранного билда
-pnpm lint           # линт
-pnpm prettier       # форматирование всего репозитория
-pnpm format         # форматирование src/
+pnpm dev            # dev server against the local Supabase
+pnpm dev:prod       # dev server against the cloud — look only
+pnpm dev:demo       # demo mode (banner, ready login, no photo upload) against the local stack
+pnpm build:demo     # demo build (.env.demo)
+pnpm deploy:demo    # build and deploy the demo — run by the owner
+pnpm build          # production build (vite build && tsc -b)
+pnpm preview        # preview the built bundle locally
+pnpm lint           # lint
+pnpm prettier       # format the whole repository
+pnpm format         # format src/
 pnpm test           # vitest
-pnpm db:reset       # пересоздать локальную БД из миграций + seed
-pnpm db:types       # перегенерировать src/types/database.types.ts
+pnpm db:reset       # recreate the local DB from migrations + seed
+pnpm db:types       # regenerate src/types/database.types.ts
 ```
 
-Готово = `pnpm lint` и `pnpm build` проходят; если есть тесты, проходит и `pnpm test`. После правки схемы БД **всегда** перегенерировать типы — руками `database.types.ts` не редактировать.
+Done = `pnpm lint` and `pnpm build` pass; if there are tests, `pnpm test` passes too. After any change to the DB schema **always** regenerate the types — never edit `database.types.ts` by hand.
 
-## Жёсткие инварианты
+## Hard invariants
 
-Нарушение любого из них — дефект, даже если код работает; ревьюер квалифицирует каждое как `Issue source: code`.
+Violating any of them is a defect even if the code works; the reviewer classifies each as `Issue source: code`.
 
-- **Вся арифметика КБЖУ — только в `src/domain/nutrition/`.** Модуль не импортирует React, Supabase и Mantine. Округление — только при отображении ([`data.md`](docs/agents/conventions/data.md), [ADR 0017](docs/decisions/0017-nutrition-module-purity.md)).
-- **Удалений нет.** Только `archived_at`; никаких `DELETE` из приложения ([ADR 0014](docs/decisions/0014-archiving-instead-of-deletes.md)).
-- **Молчаливых нулей не бывает.** Продукт без КБЖУ — запись в `incompleteProducts` и видимое предупреждение в UI, а не ноль в сумме.
-- **Сгенерированная форма строки не выходит за слой сервисов** (`src/api/services/`); числовые колонки сверяются с фактическим ответом ([`data.md`](docs/agents/conventions/data.md)).
-- **Даты `cooked_at` / `finished_at`** — строки `YYYY-MM-DD`, никаких `Date` и часовых поясов.
-- **Приоритет у iOS:** `100dvh`, `env(safe-area-inset-*)`, tap targets ≥44px ([`styling.md`](docs/agents/conventions/styling.md)).
-- **Новые зависимости — только с разрешения.** Стек зафиксирован в [ADR 0003–0009](docs/decisions/README.md).
-- **Данные загружаются в клиент целиком:** ни серверного поиска, ни пагинации, ни фильтрации на стороне БД ([ADR 0012](docs/decisions/0012-whole-dataset-in-client.md)).
+- **All nutrition arithmetic lives only in `src/domain/nutrition/`.** The module does not import React, Supabase or Mantine. Rounding happens only at display ([`data.md`](docs/agents/conventions/data.md), [ADR 0017](docs/decisions/0017-nutrition-module-purity.md)).
+- **There are no deletes.** Only `archived_at`; no `DELETE` from the app ([ADR 0014](docs/decisions/0014-archiving-instead-of-deletes.md)).
+- **There are no silent zeros.** A product without nutrition is an entry in `incompleteProducts` and a visible warning in the UI, not a zero in the sum.
+- **The generated row shape does not leave the service layer** (`src/api/services/`); numeric columns are checked against the actual response ([`data.md`](docs/agents/conventions/data.md)).
+- **The dates `cooked_at` / `finished_at`** are `YYYY-MM-DD` strings: no `Date`, no time zones.
+- **iOS has priority:** `100dvh`, `env(safe-area-inset-*)`, tap targets ≥44px ([`styling.md`](docs/agents/conventions/styling.md)).
+- **New dependencies only with permission.** The stack is fixed in [ADR 0003–0009](docs/decisions/README.md).
+- **The data is loaded into the client whole:** no server-side search, pagination or filtering in the database ([ADR 0012](docs/decisions/0012-whole-dataset-in-client.md)).
 
-## Правила работы
+## Working rules
 
-- **Облако — рабочая база семьи; тестовые данные туда не пишутся никогда.** Живая проверка — только на локальном стеке ([`local-environment.md`](docs/agents/local-environment.md)). Запрещены `npx supabase db push` и `npx supabase stop --no-backup`.
-- **За владельцем:** `npx supabase db push` в облако, файлы `.env*`, дашборды Supabase и Cloudflare. Исполнитель пишет всё остальное, включая миграции, применяет их только к локальной базе и сообщает, что миграцию пора выкатить ([ADR 0026](docs/decisions/0026-work-split-lifted.md)).
-- **Многошаговые записи — функцией в базе через `rpc`**, а не цепочкой запросов. **Применённую миграцию не редактировать** — только новая. **Новая таблица** — `enable row level security`, политика, `grant`. **Форма сущности в кэше изменилась** — поднять `CACHE_BUSTER`. **Схема ввода и интерфейс сущности** связаны через `satisfies z.ZodType<…>`. Подробности — [`data.md`](docs/agents/conventions/data.md).
-- **Фаза:** одна сессия — одна фаза; делать только её; в конце пройти по пунктам «Проверка» и отчитаться по каждому; первая же непройденная проверка останавливает цепочку. Протокол — [`plans/README.md`](plans/README.md).
-- **Расхождение плана с реальностью** (нет того, на что план ссылается; шаг противоречит другому решению; задумка не работает) — остановиться и спросить, не изобретать обходной путь молча. План правится через дополнение в разделе «Дополнения».
-- **Коммиты делает владелец** после своего ревью; агенты не коммитят. Никаких следов инструментов в git: ни `Co-Authored-By`, ни ссылок на сессии, ни пометок «сгенерировано» в сообщениях коммитов, описаниях PR, названиях веток и тегов.
-- **Идея на будущее** — в [`BACKLOG.md`](BACKLOG.md), а не в текущую задачу. Прежде чем предлагать «полезное», проверьте раздел «Отклонённое» там же.
-- **Текст интерфейса не привязан к полу** — безличные, страдательные формы, множественное число ([`i18n.md`](docs/agents/conventions/i18n.md)).
-- **Язык — русский** везде, включая комментарии, документацию и прозу в `plans/` ([ADR 0031](docs/decisions/0031-russian-language-of-repository.md)). Заголовки, статусы и ключи из шаблонов пайплайна не переводятся — их читают скиллы.
+- **The cloud is the family's working database; test data is never written there.** A live check runs only on the local stack ([`local-environment.md`](docs/agents/local-environment.md)). `npx supabase db push` and `npx supabase stop --no-backup` are forbidden.
+- **The owner's:** `npx supabase db push` to the cloud, the `.env*` files, the Supabase and Cloudflare dashboards. The executor writes everything else, migrations included, applies them to the local database only and reports that the migration is ready to be rolled out ([ADR 0026](docs/decisions/0026-work-split-lifted.md)).
+- **Multi-step writes are a database function called through `rpc`**, not a chain of requests. **Never edit an applied migration** — only add a new one. **A new table** — `enable row level security`, a policy, `grant`. **The shape of an entity in the cache changed** — raise `CACHE_BUSTER`. **The input schema and the entity interface** are tied with `satisfies z.ZodType<…>`. Details — [`data.md`](docs/agents/conventions/data.md).
+- **A phase:** one session — one phase; do only that phase; at the end go through the «Verification» items and report on each; the first failed check stops the chain. The protocol is in [`plans/README.md`](plans/README.md).
+- **A plan that diverges from reality** (what the plan refers to does not exist; a step contradicts another decision; the idea does not work) — stop and ask, do not invent a workaround silently. The plan is fixed through an addition in its «Amendments» section.
+- **Commits are made by the owner** after their review; agents do not commit. No traces of tools in git: no `Co-Authored-By`, no session links, no «generated» notes in commit messages, PR descriptions, branch names and tags.
+- **An idea for the future** goes to [`BACKLOG.md`](BACKLOG.md), not into the current task. Before suggesting something «useful», check its «Rejected» section.
+- **The interface text is not tied to gender** — the rule is about Russian text: impersonal and passive forms, the plural ([`i18n.md`](docs/agents/conventions/i18n.md)).
+- **Language:** English for instructions, ADRs, code comments, developer-facing messages (`throw new Error(...)`, `console.*`), test names, commit messages and new files in `plans/` ([ADR 0033](docs/decisions/0033-english-repository-language.md)). Reference docs are bilingual; `plans/` history, `STATUS.md` and the root `DEPLOY.md` stay Russian. Agent instructions get no Russian copies ([ADR 0035](docs/decisions/0035-no-russian-copies-of-agent-instructions.md)). Headings, statuses and keys from the pipeline templates are not translated — the skills read them.
 
-## Чего в проекте нет
+## What the project does not have
 
-Не предлагать и не добавлять по своей инициативе: SSR, серверный код помимо Supabase Edge Functions, мультипользовательность и роли, миллилитры и конверсии единиц, десктопный layout (одна колонка `max-width: 600px`), офлайн-запись. Обоснования — в [`docs/decisions/`](docs/decisions/README.md).
+Do not suggest or add on your own initiative: SSR, server code other than Supabase Edge Functions, multi-user mode and roles, milliliters and unit conversions, a desktop layout (one column with `max-width: 600px`), offline writes. The reasons are in [`docs/decisions/`](docs/decisions/README.md).

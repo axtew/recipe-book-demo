@@ -19,4 +19,4 @@ We need an app that installs to the phone home screen, opens without an address 
 ## Consequences
 
 - There is no SSR and none is planned: there is no own server, and adding one for rendering would mean giving up the whole architecture ([ADR 0010](0010-supabase-without-own-backend.md)); offline reading in the kitchen is provided precisely by the PWA.
-- How this works in practice (service worker, Cache Storage) is in [`architecture.md`](../agents/architecture.md).
+- How this works in practice (service worker, Cache Storage) is in [`architecture.md`](../architecture.md).

@@ -1,51 +1,51 @@
-# Данные — путь к бэкенду, сервисы, миграции, домен
+# Data — the path to the backend, services, migrations, the domain
 
-## Доступ к данным — единственный путь к бэкенду
+## Data access — the only path to the backend
 
-Серверного приложения нет: клиент говорит с Supabase (PostgREST + GoTrue + Storage) напрямую. Транспорт — `@supabase/supabase-js`; проект **не** оборачивает его в HTTP-сервис и никогда не шлёт сырой `fetch` в PostgREST.
+There is no application server: the client talks to Supabase (PostgREST + GoTrue + Storage) directly. The transport is `@supabase/supabase-js`; the project does **not** wrap it in an HTTP service and never issues raw `fetch` at PostgREST.
 
-Путь зафиксирован, и каждый его шаг обязателен:
+The path is fixed, and every step of it is mandatory:
 
 ```
-компонент → хук TanStack Query (src/api/queries|mutations) → сервис (src/api/services) → клиент supabase
+component → TanStack Query hook (src/api/queries|mutations) → service (src/api/services) → supabase client
 ```
 
-- **Компонент никогда не импортирует клиент Supabase.** Ни для «быстрого» чтения, ни в `useEffect`. Компонент, которому нужны данные, использует query-хук; тот, что пишет, — mutation-хук. Прямой `supabase.from(...)` вне `src/api/services/` — дефект.
-- **Сервисы — единственное место, которое знает PostgREST.** Имена таблиц и строки `select()` со встроенными связями живут там и нигде больше.
-- **Сервисы — граница типов.** Сервис отображает сгенерированный тип строки в собственный интерфейс сущности проекта: имена в camelCase, только поля, нужные потребителям, вложенные связи разрешены. Сгенерированная форма строки не выходит за этот слой. Один раз сверьте рантайм-тип каждой колонки `numeric` с сгенерированным типом и приведите, если они расходятся; числовая строка за этой границей — дефект.
-- **Сгенерированные типы — это контракт.** `src/types/database.types.ts` содержит реальный набор колонок, допустимость `null` и формы row / insert / update для каждой таблицы — прочитайте его перед объявлением типа для чего-либо, пришедшего из БД, вместо вывода формы по месту вызова (см. [`typing.md`](typing.md)). Он перегенерируется командой `pnpm db:types` после каждой миграции и никогда не правится руками.
-- **Один файл на домен**, как в `Carbon-spa`: `products.service.ts`, `recipes.service.ts`, `cookLogs.service.ts`, `categories.service.ts`. Обычные экспортируемые функции, **не** класс с методами: состояния на домен, которое надо внедрять, нет, а `supabase-js` уже и есть клиент.
-- **Ключи запросов и хуки** лежат в `src/api/queries/` и `src/api/mutations/`, по модулю на домен. Мутация инвалидирует по ключу; ручных вызовов refetch из компонентов нет.
-- **Архивные строки загружаются тоже.** Датасет должен быть внутренне согласован: модуль расчёта питательности бросает исключение на висячую ссылку, а рецепт вполне может указывать на архивный продукт. Фильтрация `archived_at` в запросе уронила бы экран такого рецепта. Архивные строки скрывают селекторы и экраны, которые что-то перечисляют, а не запрос.
-- **Весь датасет загружается заранее.** Серверного поиска, пагинации и фильтрации на стороне БД нет — поиск и фильтрация идут по датасету в памяти. Фаза, добавляющая фильтрованный запрос к бэкенду, противоречит архитектуре, а не оптимизирует её.
+- **A component never imports the Supabase client.** Not for a "quick" read, not in a `useEffect`. A component that needs data uses a query hook; one that writes uses a mutation hook. A direct `supabase.from(...)` outside `src/api/services/` is a defect.
+- **Services are the only place that knows PostgREST.** Table names and `select()` strings with embedded relations live there and nowhere else.
+- **Services are the type boundary.** A service maps the generated row type into the project's own entity interface — camelCase names, only the fields consumers need, nested relations resolved. The generated row shape does not leave this layer. Verify the runtime type of every `numeric` column once against the generated type and convert if they disagree; a numeric string past this boundary is a defect.
+- **The generated types are the contract.** `src/types/database.types.ts` holds the real column set, nullability and row / insert / update shapes for every table — read it before declaring a type for anything that comes out of the database, instead of inferring the shape from a call site (see [`typing.md`](typing.md)). It is regenerated with `pnpm db:types` after every migration and is never edited by hand.
+- **One file per domain**, as in `Carbon-spa`: `products.service.ts`, `recipes.service.ts`, `cookLogs.service.ts`, `categories.service.ts`. Plain exported functions, **not** a class with methods — there is no per-domain state to inject, and `supabase-js` is already the client.
+- **Query keys and hooks** live in `src/api/queries/` and `src/api/mutations/`, one module per domain. A mutation invalidates by key; no manual refetch calls from components.
+- **Archived rows are loaded too.** The dataset must be internally consistent: the nutrition module throws on a dangling reference, and a recipe may well point at an archived product. Filtering `archived_at` in the query would crash that recipe's screen. Archived rows are hidden by the selectors and screens that list things, not by the query.
+- **The whole dataset is loaded up front.** No server-side search, no pagination, no filtering pushed to the database — searching and filtering run over the in-memory dataset. A phase that adds a filtered request to the backend is contradicting the architecture, not optimising it.
 
-Решения за этими правилами: [ADR 0012](../../decisions/0012-whole-dataset-in-client.md), [0022](../../decisions/0022-data-access-path-and-services.md), [0024](../../decisions/0024-no-external-state-store.md), [0014](../../decisions/0014-archiving-instead-of-deletes.md).
+The decisions behind these rules: [ADR 0012](../../decisions/0012-whole-dataset-in-client.md), [0022](../../decisions/0022-data-access-path-and-services.md), [0024](../../decisions/0024-no-external-state-store.md), [0014](../../decisions/0014-archiving-instead-of-deletes.md).
 
-## Миграции и разделение работ
+## Migrations and the work split
 
-**Исполнители пишут весь слой данных** — миграции, сервисы, query- и mutation-хуки, zod-схемы (с 2026-10-18, [ADR 0026](../../decisions/0026-work-split-lifted.md)). За владельцем остаются два дела: `npx supabase db push` в облачный проект и файлы `.env*`. Фаза, добавляющая миграцию, применяет её **локально** (`npx supabase migration up`), перегенерирует типы (`pnpm db:types`) и сообщает, что миграцию нужно выкатить.
+**Executors write the whole data layer** — migrations, services, query and mutation hooks, zod schemas (since 2026-10-18, [ADR 0026](../../decisions/0026-work-split-lifted.md)). Two things stay with the owner: `npx supabase db push` to the cloud project, and the `.env*` files. A phase that adds a migration applies it **locally** (`npx supabase migration up`), regenerates the types (`pnpm db:types`), and reports that the migration must be rolled out.
 
-Исполнитель может: писать миграции в `supabase/migrations/`, применять их **к локальной** базе, перегенерировать `src/types/database.types.ts` командой `pnpm db:types`, писать сервисы, хуки запросов и мутаций, схемы zod.
+The executor may: write migrations in `supabase/migrations/`, apply them **to the local** database, regenerate `src/types/database.types.ts` with `pnpm db:types`, write services, query and mutation hooks, zod schemas.
 
-Что остаётся за владельцем:
+What stays with the owner:
 
-- `npx supabase db push` — выкатка миграций в облако. Это рабочая база семьи; исполнитель останавливается и сообщает, что миграцию пора выкатить.
-- `.env`, `.env.development`, `.env.production`, `.env.test` — адреса и ключи окружений.
-- `.env.demo` — адрес и publishable key демо-проекта Supabase; значения подставляет владелец при создании проекта (`supabase/demo/DEPLOY.md`). `.env.demo-local` — демо-режим против локального стека, значения те же для любой машины, файл коммитится и правке не подлежит.
-- Дашборды Supabase и Cloudflare.
+- `npx supabase db push` — rolling migrations out to the cloud. This is the family's working database; the executor stops and reports that the migration is ready to be rolled out.
+- `.env`, `.env.development`, `.env.production`, `.env.test` — the addresses and keys of the environments.
+- `.env.demo` — the address and publishable key of the demo Supabase project; the demo project's deployment is described in `supabase/demo/DEPLOY.md`. `.env.demo-local` is the demo mode against the local stack; its values are the same on any machine, the file is committed and not to be edited.
+- The Supabase and Cloudflare dashboards.
 
-Правила, которые не отменяются вместе с разделением:
+Rules that are not cancelled together with the split:
 
-- **Многошаговые записи — функцией в базе через `rpc`**, а не цепочкой запросов ([ADR 0023](../../decisions/0023-rpc-for-multi-step-writes.md)): PostgREST даёт одну транзакцию на запрос, и отказ посередине оставляет половину записи. Запись, которая затрагивает больше одной таблицы или требует нескольких последовательных запросов, — это функция PL/pgSQL, вызываемая через `rpc`, и никогда не цепочка клиентских запросов. Образец — `supabase/migrations/20260919051102_create_product_with_variant.sql`: `security invoker`, `set search_path = ''`, имена таблиц с указанием схемы, `revoke execute … from public, anon`, `grant execute … to authenticated`.
-- **Применённую миграцию не редактировать** — только новая миграция. Проверить, применена ли: `npx supabase migration list`.
-- **Новая таблица — три пункта:** `enable row level security`, политика, `grant` ([ADR 0015](../../decisions/0015-grant-plus-rls.md)). Удаление (`DELETE`) для архивируемых сущностей не выдаётся.
-- **Форма сущности в кэше изменилась — поднять `CACHE_BUSTER`** в `src/constants/caching.constants.ts`.
-- **Схема ввода и интерфейс сущности связаны через `satisfies z.ZodType<…>`.**
+- **Multi-step writes are a database function called through `rpc`**, not a chain of requests ([ADR 0023](../../decisions/0023-rpc-for-multi-step-writes.md)): PostgREST gives one transaction per request, and a failure half-way leaves half a record behind. A write that touches more than one table or needs several sequential requests is a PL/pgSQL function called through `rpc`, never a chain of client requests. The model is `supabase/migrations/20260919051102_create_product_with_variant.sql`: `security invoker`, `set search_path = ''`, schema-qualified table names, `revoke execute … from public, anon`, `grant execute … to authenticated`.
+- **Never edit an applied migration** — only add a new one. To check whether one is applied: `npx supabase migration list`.
+- **A new table — three items:** `enable row level security`, a policy, `grant` ([ADR 0015](../../decisions/0015-grant-plus-rls.md)). `DELETE` is not granted for archivable entities.
+- **The shape of an entity in the cache changed — raise `CACHE_BUSTER`** in `src/constants/caching.constants.ts`.
+- **The input schema and the entity interface are tied with `satisfies z.ZodType<…>`.**
 
-После правки схемы БД **всегда** перегенерировать типы — руками `database.types.ts` не редактировать.
+After any change to the DB schema **always** regenerate the types — never edit `database.types.ts` by hand.
 
-## Чистота доменного модуля
+## Purity of the domain module
 
-`src/domain/nutrition/` содержит каждую арифметическую операцию над значениями питательности и должен запускаться в Node без DOM. Он **ничего** не импортирует из React, Supabase или Mantine — чистые функции над простыми данными. Ни компонент, ни хук, ни сервис сам питательность не считает ([ADR 0017](../../decisions/0017-nutrition-module-purity.md)).
+`src/domain/nutrition/` holds every arithmetic operation on nutrition values, and it must run in Node with no DOM. It imports **nothing** from React, Supabase or Mantine — pure functions over plain data. No component, hook or service computes nutrition itself ([ADR 0017](../../decisions/0017-nutrition-module-purity.md)).
 
-Модуль возвращает сырые числа; округление — дело UI (ккал до целых, БЖУ до одного знака). Вызов округления внутри доменного модуля — дефект.
+The module returns raw numbers; rounding is the UI's job (kcal to integers, macros to one decimal). A rounding call inside the domain module is a defect.

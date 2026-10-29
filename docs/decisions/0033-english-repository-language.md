@@ -1,6 +1,6 @@
 # 0033. English is the repository language, Russian is the second language of reference docs
 
-- Status: accepted
+- Status: accepted; partly superseded by ADR 0035
 - Date: 2026-10-25
 - Supersedes: [ADR 0031](0031-russian-language-of-repository.md)
 

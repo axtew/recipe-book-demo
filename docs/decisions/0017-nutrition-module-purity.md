@@ -25,4 +25,4 @@ Nutrition calculation and scaling are the heart of the app. The numbers must be 
 
 - No component, hook or service calculates nutrition itself — [`conventions/data.md`](../agents/conventions/data.md) → "Purity of the domain module".
 - The module is covered by tests before any interface ([`conventions/testing.md`](../agents/conventions/testing.md)).
-- What the calculation means for a recipe — [`architecture.md`](../agents/architecture.md).
+- What the calculation means for a recipe — [`architecture.md`](../architecture.md).

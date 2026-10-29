@@ -1,7 +1,7 @@
-# Роутинг — маршруты и страницы — разные слои
+# Routing — routes and pages are different layers
 
-Роутинг — TanStack Router в **code-based** режиме: дерево маршрутов выписано явно, кодогенерации и `routeTree.gen.ts` нет ([ADR 0006](../../decisions/0006-tanstack-router-code-based.md)).
+Routing is TanStack Router in **code-based** mode — the route tree is written out explicitly, there is no codegen and no `routeTree.gen.ts` ([ADR 0006](../../decisions/0006-tanstack-router-code-based.md)).
 
-- `src/routes/` — дерево и ничего кроме него: `_paths.ts` (каждый путь — именованной константой; строковых литералов путей в компонентах нет), `_routes.tsx` (`commonRoutes` / `protectedRoutes`), `AppRouter.tsx` (сборка дерева + `createRouter`), `layouts/` (обёртки уровня маршрута). Разметки здесь нет.
-- **Auth-guard — это `beforeLoad` на защищённом layout-маршруте**, а не компонент `<ProtectedRoute>`: он выполняется до рендера, поэтому защищённый экран не мелькает до редиректа.
-- `src/pages/<Name>Page/` — сам экран, подчиняющийся конвенциям компонентов выше. Подкомпоненты страницы лежат в её `_internal/`; вложенные части компонента — в `_internal/`.
+- `src/routes/` — the tree and nothing else: `_paths.ts` (every path as a named constant — no path string literals in components), `_routes.tsx` (`commonRoutes` / `protectedRoutes`), `AppRouter.tsx` (tree assembly + `createRouter`), `layouts/` (route-level wrappers). Markup does not live here.
+- **The auth guard is `beforeLoad` on the protected layout route**, not a `<ProtectedRoute>` component: it runs before render, so there is no flash of a protected screen before the redirect.
+- `src/pages/<Name>Page/` — the screen itself, following the component conventions above. Sub-components of a page go in its `_internal/`; nested parts of a component go in `_internal/`.

@@ -25,4 +25,4 @@ Server state must be cached, invalidated by keys and survive a dropped network. 
 - The `idb-keyval` package was installed by the executor without asking, against the rule about new dependencies. The choice was right, the process was violated. To prevent a repeat, a closed list of dependencies per phase was added to the plan: it is now a check against the list, not the executor's judgement of what counts as a new dependency.
 - `@tanstack/query-persist-client-core` in the direct dependencies is most likely redundant — it is transitive for the two packages above. Not a blocker, to be cleaned up when convenient.
 - Unstable connectivity is the second argument for a persisted cache (and for the Singapore region, [ADR 0010](0010-supabase-without-own-backend.md)).
-- How this works — [`architecture.md`](../agents/architecture.md).
+- How this works — [`architecture.md`](../architecture.md).

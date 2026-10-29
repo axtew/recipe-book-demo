@@ -1,19 +1,19 @@
 # Pipeline profile — recipe-book
 
-Машиночитаемые факты, которые глобальный фронтенд-пайплайн (скиллы `frontend-plan` / `frontend-run` / `brainstorming`, агенты `frontend-developer` / `frontend-reviewer`) читает первыми. Ищется через Glob `**/pipeline-profile.md`; корень репозитория — `repo_root` ниже (не родитель этого файла).
+Machine-readable facts that the global frontend pipeline (the skills `frontend-plan` / `frontend-run` / `brainstorming`, the agents `frontend-developer` / `frontend-reviewer`) reads first. It is found with Glob `**/pipeline-profile.md`; the repository root is `repo_root` below (not the parent of this file).
 
-<!-- validation_protocol отсутствует намеренно: матрица нужна только при ≥2 независимых runtime-проверках, а визуального прохода здесь нет. -->
+<!-- validation_protocol is absent on purpose: the matrix is needed only for ≥2 independent runtime checks, and there is no visual pass here. -->
 
-**`EXECUTION.md` уже существует** — `plans/recipe-book-v1/EXECUTION.md`, в нём запись по Фазе 1, выполненной владельцем вручную; для задачи `publication` журнал — `plans/publication/EXECUTION.md`. Оркестратор **дописывает** в журнал задачи, а не инициализирует заново: перезапись затрёт историю.
+**`EXECUTION.md` already exists** — `plans/recipe-book-v1/EXECUTION.md` has the entry for Phase 1, done by the owner by hand; for the `publication` task the log is `plans/publication/EXECUTION.md`, for `localization` — `plans/localization/EXECUTION.md`. The orchestrator **appends** to the task's log and does not initialize it anew: overwriting would erase the history.
 
-**`pipeline_spec: none`.** Разделы, на которые ссылается `frontend-run` («Status & routing vocabulary», «Artifact layout», «Review scopes»), скилл описывает у себя по тексту, а «Commit & EXECUTION.md protocol» здесь не нужен — при `commit_policy: owner` в пайплайне никто не коммитит. Если на первом прогоне чего-то не хватит — завести минимальный `pipeline-spec.md` и прописать путь сюда.
+**`pipeline_spec: none`.** The sections that `frontend-run` refers to («Status & routing vocabulary», «Artifact layout», «Review scopes») are described by the skill in its own text, and «Commit & EXECUTION.md protocol» is not needed here — with `commit_policy: owner` nobody commits in the pipeline. If something is missing on the first run, create a minimal `pipeline-spec.md` and put its path here.
 
-**Живые проверки — только на локальном стеке Supabase.** `pnpm dev` смотрит в него сам (`.env.development`); облако — рабочая база, писать туда нельзя. Если Docker или стек не запущены — поднять самостоятельно, порядок и учётные данные дев-пользователя в [`local-environment.md`](local-environment.md).
+**Live checks run only on the local Supabase stack.** `pnpm dev` points at it by itself (`.env.development`); the cloud is a working database and must not be written to. If Docker or the stack is not running, bring it up yourself; the order and the dev user credentials are in [`local-environment.md`](local-environment.md).
 
 ```yaml
 project: recipe-book
-repo_root: C:/Users/stevv/Desktop/recipe-book   # frontend-run читает этот ключ явно; при переносе папки поправить
-conventions: AGENTS.md                             # короткая карта; агенты идут по её таблице «Задача трогает → читать» в docs/agents/
+repo_root: C:/Users/stevv/Desktop/recipe-book   # frontend-run reads this key explicitly; fix it if the folder is moved
+conventions: AGENTS.md                             # a short map; agents follow its «The task touches → read» table into docs/agents/
 pipeline_spec: none                                # no pipeline-spec.md here: status vocabulary and commit protocol come from the skills' defaults
 plans_dir: plans/                                  # plans/<slug>/plan.md, baseline/, <phase>/iter-<N>/
 commands:
@@ -27,8 +27,8 @@ design:
 visual_verification:
   enabled: false                                   # no frontend-visual-reviewer; phases write `Visual Verification: N/A`
 i18n:
-  enabled: true                                    # один словарь ru.json; инфраструктура заложена, чтобы тексты сразу жили в одном месте
+  enabled: true                                    # two dictionaries, en.json and ru.json; every key lives in both
   dictionaries: public/dictionaries/
-comments_language: ru
-commit_policy: owner                               # agents never commit (AGENTS.md → «Правила работы»); frontend-run skips its commit step
+comments_language: en
+commit_policy: owner                               # agents never commit (AGENTS.md → «Working rules»); frontend-run skips its commit step
 ```
