@@ -1,8 +1,8 @@
--- Порядок категорий: одна функция вместо построчных запросов с клиента.
+-- Category order: one function instead of per-row queries from the client.
 --
--- Пишет только sort_order, поэтому перестановка не может затереть имя, которое
--- в это же время переименовали отдельным запросом. Весь список — один
--- оператор, а значит одна транзакция: порядок не бывает переставлен наполовину.
+-- It writes only sort_order, so a reorder cannot overwrite a name that was
+-- renamed by a separate request at the same time. The whole list is a single
+-- statement, hence one transaction: the order is never left half-reordered.
 
 create or replace function public.reorder_categories(p_kind text, p_ids uuid[])
 returns void

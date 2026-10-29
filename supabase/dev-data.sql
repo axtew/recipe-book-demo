@@ -1,23 +1,23 @@
--- Временные данные для разработки и приёмки Фаз 6-10.
+-- Temporary data for development and acceptance of Phases 6-10.
 --
--- НЕ миграция и не seed.sql: лежит рядом, применяется руками, удаляется парным
--- dev-data-cleanup.sql. Через db push в прод не попадает.
+-- NOT a migration and not seed.sql: lies alongside, applied by hand, removed by its
+-- paired dev-data-cleanup.sql. Does not reach production via db push.
 --
--- Все строки имеют фиксированные id с префиксом dddddddd- — по нему cleanup
--- находит их точно, независимо от того, переименовали их потом в интерфейсе или
--- нет. Повторный запуск безопасен (on conflict do nothing).
+-- All rows have fixed ids with the prefix dddddddd- — cleanup uses it to find them
+-- exactly, regardless of whether they were renamed in the interface later or not.
+-- Re-running is safe (on conflict do nothing).
 --
--- Набор подобран под проверки фаз, а не чтобы просто заполнить экран:
---   * продукт с одним вариантом   -> вложенность не показывается
---   * с двумя и с тремя           -> список вариантов, переключение активного
---   * продукт без КБЖУ            -> предупреждение о неполных данных
---   * архивированный продукт      -> не виден в списках и автодополнении
---   * рецепт с ингредиентами      -> блок «где используется» не пустой
---   * опциональный ингредиент     -> исключается из расчёта
---   * закреплённый вариант        -> показывается в карточке рецепта
+-- The set is chosen for the phase checks, not just to fill the screen:
+--   * a product with one variant   -> nesting is not shown
+--   * with two and with three      -> variant list, switching the active one
+--   * a product without nutrition  -> warning about incomplete data
+--   * an archived product          -> invisible in lists and autocomplete
+--   * a recipe with ingredients    -> the "used in" block is not empty
+--   * an optional ingredient       -> excluded from the calculation
+--   * a pinned variant             -> shown in the recipe card
 --
--- КБЖУ указано для продукта в том виде, в каком его взвешивают: крупы сухие,
--- мясо сырое.
+-- Nutrition (kcal/protein/fat/carbs) is given for the product as it is weighed:
+-- cereals dry, meat raw.
 
 begin;
 
@@ -50,16 +50,16 @@ where id = 'dddddddd-0000-4000-8000-00000000010d' and archived_at is null;
 
 insert into product_variants
   (id, product_id, name, kcal_100, protein_100, fat_100, carbs_100, is_approximate, source) values
-  -- три варианта: список вариантов и переключение активного
+  -- three variants: the variant list and switching the active one
   ('dddddddd-0000-4000-8000-000000000201', 'dddddddd-0000-4000-8000-00000000010b', 'Подсолнечное', 899.0,  0.0,  99.9,  0.0, false, 'label'),
   ('dddddddd-0000-4000-8000-000000000202', 'dddddddd-0000-4000-8000-00000000010b', 'Оливковое',    898.0,  0.0,  99.8,  0.0, false, 'label'),
   ('dddddddd-0000-4000-8000-000000000203', 'dddddddd-0000-4000-8000-00000000010b', 'Кунжутное',    884.0,  0.0, 100.0,  0.0, false, 'label'),
-  -- два варианта
+  -- two variants
   ('dddddddd-0000-4000-8000-000000000204', 'dddddddd-0000-4000-8000-000000000101', '3.2%',          60.0,  2.9,   3.2,  4.7, false, 'label'),
   ('dddddddd-0000-4000-8000-000000000205', 'dddddddd-0000-4000-8000-000000000101', '3.5%',          64.0,  3.0,   3.5,  4.7, false, 'label'),
   ('dddddddd-0000-4000-8000-000000000206', 'dddddddd-0000-4000-8000-000000000109', 'Жасминовый',   345.0,  7.0,   0.6, 78.0, true,  'seed'),
   ('dddddddd-0000-4000-8000-000000000207', 'dddddddd-0000-4000-8000-000000000109', 'Басмати',      350.0,  8.0,   0.9, 77.0, true,  'seed'),
-  -- по одному варианту: вложенность не показывается
+  -- one variant each: nesting is not shown
   ('dddddddd-0000-4000-8000-000000000208', 'dddddddd-0000-4000-8000-000000000102', null,           204.0,  2.8,  20.0,  3.2, false, 'label'),
   ('dddddddd-0000-4000-8000-000000000209', 'dddddddd-0000-4000-8000-000000000103', null,           157.0, 12.7,  11.5,  0.7, true,  'seed'),
   ('dddddddd-0000-4000-8000-00000000020a', 'dddddddd-0000-4000-8000-000000000104', null,           113.0, 23.6,   1.9,  0.4, true,  'seed'),
@@ -69,7 +69,7 @@ insert into product_variants
   ('dddddddd-0000-4000-8000-00000000020e', 'dddddddd-0000-4000-8000-000000000108', null,            41.0,  1.4,   0.2,  8.2, true,  'seed'),
   ('dddddddd-0000-4000-8000-00000000020f', 'dddddddd-0000-4000-8000-00000000010a', null,           343.0, 13.3,   3.4, 62.1, true,  'seed'),
   ('dddddddd-0000-4000-8000-000000000210', 'dddddddd-0000-4000-8000-00000000010d', null,            23.0,  2.1,   0.5,  3.7, true,  'seed'),
-  -- КБЖУ не заполнено: проверка предупреждения о неполных данных
+  -- nutrition not filled in: check of the incomplete-data warning
   ('dddddddd-0000-4000-8000-000000000211', 'dddddddd-0000-4000-8000-00000000010c', null,            null,  null,  null, null, false, 'manual')
 on conflict (id) do nothing;
 
@@ -78,8 +78,8 @@ from product_variants v
 where v.product_id = p.id
   and p.id::text like 'dddddddd-%'
   and p.active_variant_id is null
-  -- order by ... limit 1, а не min(): агрегаты min/max не работают с uuid
-  -- в PostgreSQL до 18-й версии.
+  -- order by ... limit 1, not min(): the min/max aggregates do not work with uuid
+  -- in PostgreSQL before version 18.
   and v.id = (
     select v2.id from product_variants v2
     where v2.product_id = p.id
@@ -87,8 +87,8 @@ where v.product_id = p.id
     limit 1
   );
 
--- Рецепт: блок «где используется» перестаёт быть пустым, плюс опциональный
--- ингредиент, закреплённый вариант и продукт без КБЖУ в одном месте.
+-- A recipe: the "used in" block stops being empty, plus an optional
+-- ingredient, a pinned variant and a product without nutrition data in one place.
 insert into recipes (id, name, servings_base, yield_grams, cook_time_min, freezable, fridge_days, notes) values
   ('dddddddd-0000-4000-8000-000000000301', 'Омлет с помидорами', 2, 380.0, 15, false, 2, 'Тестовый рецепт из dev-data.sql')
 on conflict (id) do nothing;

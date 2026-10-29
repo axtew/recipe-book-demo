@@ -1,21 +1,23 @@
--- Сохранение рецепта целиком: рецепт, шаги, состав и категории блюда одной транзакцией.
+-- Save a whole recipe: recipe, steps, ingredients and dish categories in one transaction.
 --
--- Одна функция на создание и на редактирование. `insert … on conflict (id) do update`
--- закрывает три случая: id не передан — рецепт создаётся с новым id; передан id
--- существующего рецепта — он обновляется; передан id, которого ещё нет, — рецепт
--- создаётся именно с ним. Третий случай нужен клиенту: фото кладётся в Storage по
--- пути `<id рецепта>/cover.webp` ДО сохранения, поэтому id нового рецепта известен
--- заранее и повторная отправка после сбоя сети не плодит дубли.
+-- One function for both create and edit. `insert … on conflict (id) do update`
+-- covers three cases: no id passed — the recipe is created with a new id; the id
+-- of an existing recipe passed — it is updated; an id that does not exist yet
+-- passed — the recipe is created with exactly that id. The third case is needed
+-- by the client: the photo is put into Storage at the path `<recipe id>/cover.webp`
+-- BEFORE saving, so the id of a new recipe is known in advance and resending after
+-- a network failure does not create duplicates.
 --
--- Дочерние строки перезаписываются целиком: delete + insert нового набора. Право
--- DELETE у recipe_steps / recipe_ingredients / recipe_dish_categories выдано; у самих
--- рецептов его нет, и функция его не использует. Любой отказ внутри откатывает всё,
--- включая удаление старого состава.
+-- Child rows are overwritten wholesale: delete + insert of the new set. The DELETE
+-- right on recipe_steps / recipe_ingredients / recipe_dish_categories is granted;
+-- recipes themselves have none, and the function does not use it. Any failure
+-- inside rolls everything back, including the deletion of the old composition.
 --
--- Порядок шагов и ингредиентов (sort_order) берётся из позиции в массиве, а не из
--- поля: после перетаскивания клиенту не нужно ничего перенумеровывать.
+-- The order of steps and ingredients (sort_order) is taken from the position in
+-- the array, not from a field: after drag-and-drop the client does not need to
+-- renumber anything.
 --
--- Формы массивов:
+-- Array shapes:
 --   p_dish_category_ids  ["<uuid>", …]
 --   p_steps              [{"text": "…"}, …]
 --   p_ingredients        [{"product_id": "<uuid>", "pinned_variant_id": "<uuid>" | null,

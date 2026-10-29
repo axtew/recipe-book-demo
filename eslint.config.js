@@ -23,9 +23,9 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       eqeqeq: ["error", "always"],
-      // Порядок импортов: побочные эффекты, внешние пакеты, алиас `@/`, относительные.
-      // Группы перечислены явно, потому что по умолчанию плагин считает `@/...`
-      // внешним пакетом и смешивает его с зависимостями.
+      // Import order: side effects, external packages, the `@/` alias, relative.
+      // The groups are listed explicitly because by default the plugin treats `@/...`
+      // as an external package and mixes it with the dependencies.
       "simple-import-sort/imports": [
         "error",
         {
@@ -36,8 +36,8 @@ export default tseslint.config(
     },
   },
   {
-    // Модули дерева роутов экспортируют рядом с компонентами фабрики роутов и сам
-    // `router` — предупреждение здесь неустранимо самим устройством файла.
+    // Route tree modules export route factories alongside components, and the
+    // `router` itself — the warning here cannot be avoided by the file's structure.
     files: ["src/routes/**/*.tsx"],
     rules: {
       "react-refresh/only-export-components": "off",

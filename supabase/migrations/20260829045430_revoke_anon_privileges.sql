@@ -1,28 +1,28 @@
--- Отобрать у роли anon все права на схему public.
+-- Revoke all privileges on schema public from the anon role.
 --
--- Зачем, если RLS и так не отдаёт данные. Доступ держится на двух независимых
--- рубежах: сначала грант («можно ли вообще обращаться к таблице»), затем
--- политика RLS («какие строки видны»). В локальном образе anon отбивался ещё
--- грантом, а в облачном проекте у него оказался SELECT — то есть там работал
--- только один рубеж. Забытая RLS на будущей таблице означала бы открытые
--- данные, а не пустой ответ.
+-- Why, if RLS already hides the data. Access rests on two independent lines of
+-- defence: first the grant ("may the table be touched at all"), then the RLS
+-- policy ("which rows are visible"). In the local image anon was also rejected by
+-- the grant, but in the cloud project it turned out to have SELECT — so only one
+-- line of defence worked there. A forgotten RLS on a future table would have
+-- meant exposed data, not an empty response.
 --
--- Анонимный доступ в этом приложении не предусмотрен ни к одной таблице.
+-- Anonymous access is not intended for any table in this application.
 --
--- На регистрацию и будущие семейные группы это не влияет: зарегистрированные
--- пользователи обращаются к данным как authenticated, а сама регистрация идёт
--- через GoTrue по /auth/v1, мимо PostgREST и этих грантов.
+-- Sign-up and future family groups are unaffected: registered users access data
+-- as authenticated, and sign-up itself goes through GoTrue at /auth/v1,
+-- bypassing PostgREST and these grants.
 --
--- Если когда-нибудь понадобится публичная ссылка на рецепт без логина —
--- выдать anon SELECT точечно на нужную таблицу вместе с политикой вида
--- using (is_public = true), а не возвращать доступ целиком.
+-- If a public recipe link without login is ever needed — grant anon SELECT
+-- narrowly on the required table together with a policy like
+-- using (is_public = true), rather than returning the access wholesale.
 
 revoke all on all tables    in schema public from anon;
 revoke all on all sequences in schema public from anon;
 
--- Для таблиц, которые будут созданы будущими миграциями (они выполняются от
--- имени postgres). Привилегии по умолчанию привязаны к роли-создателю, поэтому
--- набор, заданный ролью supabase_admin, этим не отменяется — гарантию даёт не
--- эта строка, а проверка из чек-листа новой таблицы в phase-1-tutorial.md.
+-- For tables that future migrations will create (they run as postgres). Default
+-- privileges are bound to the creating role, so the set defined by the
+-- supabase_admin role is not cancelled by this — the guarantee comes not from
+-- this line but from the new-table checklist in phase-1-tutorial.md.
 alter default privileges in schema public revoke all on tables    from anon;
 alter default privileges in schema public revoke all on sequences from anon;

@@ -1,18 +1,18 @@
--- Бэкап базы: выгрузка всех таблиц одним JSON и восстановление из него.
+-- Database backup: export of all tables as a single JSON and restore from it.
 --
--- Выгрузка — одна функция, а не девять запросов с клиента: один SELECT видит
--- одно согласованное состояние базы (девять отдельных запросов могли бы поймать
--- запись посередине и дать файл с висящими ссылками), и PostgREST не обрезает
--- результат по max_rows (1000 строк) — скаляр jsonb это одна строка.
+-- The export is one function rather than nine client queries: a single SELECT sees
+-- one consistent database state (nine separate queries could catch a write in the
+-- middle and produce a file with dangling references), and PostgREST does not
+-- truncate the result by max_rows (1000 rows) — a jsonb scalar is one row.
 --
--- Импорт — одна транзакция. Он пишет сразу в девять таблиц, а отказ посередине
--- не должен оставлять половину данных. Проверка «база пуста» стоит внутри
--- функции: вынесенная на клиент, она не защищала бы от записи, случившейся
--- между проверкой и вставкой.
+-- The import is one transaction. It writes to nine tables at once, and a failure
+-- midway must not leave half of the data behind. The "database is empty" check
+-- lives inside the function: moved to the client, it would not protect against a
+-- write that happens between the check and the insert.
 --
--- Формат файла — строки таблиц под именами их колонок. Версия формата и схема
--- файла живут в `src/domain/backup/`; добавил колонку в таблицу — обнови схему
--- и поднимай версию там.
+-- The file format is table rows under their column names. The format version and
+-- the file schema live in `src/domain/backup/`; when you add a column to a table,
+-- update the schema and bump the version there.
 
 create or replace function public.export_backup()
 returns jsonb
@@ -64,24 +64,27 @@ $$;
 revoke execute on function public.export_backup() from public, anon;
 grant execute on function public.export_backup() to authenticated;
 
--- Восстановление из файла, который уже прошёл схему на клиенте.
+-- Restore from a file that has already passed the schema check on the client.
 --
--- «Пустая база» — нет ни продуктов и вариантов, ни рецептов, ни записей
--- журнала. Категории пользовательскими данными не считаются: категории блюд
--- есть в любой свежей базе (миграция reference_data), а категории продуктов
--- могли завести руками до импорта. Их файл не отвергает, а согласуется с ними:
---   - строка с тем же id обновляется (имя, порядок);
---   - иначе строка с тем же именем получает id из файла — ссылки из файла на
---     категорию остаются верными, а стартовые «Завтраки» не удваиваются;
---   - иначе категория добавляется.
--- Категории базы, которых в файле нет, остаются: права DELETE на них нет, и это
--- не данные, которые нужно терять. Переименование id безопасно, потому что на
--- категории ссылаются только продукты и рецепты, а их в пустой базе нет.
+-- "Empty database" means no products and variants, no recipes, no cook log
+-- entries. Categories do not count as user data: dish categories exist in any
+-- fresh database (the reference_data migration), and product categories may have
+-- been created by hand before the import. The file does not reject them but
+-- reconciles with them:
+--   - a row with the same id is updated (name, order);
+--   - otherwise a row with the same name takes the id from the file — references
+--     in the file to the category stay valid, and the starter dish categories are
+--     not duplicated;
+--   - otherwise the category is added.
+-- Categories in the database that are not in the file stay: there is no DELETE
+-- right on them, and they are not data that should be lost. Changing an id is safe
+-- because only products and recipes reference categories, and an empty database
+-- has none.
 --
--- Отказ при непустой базе — исключение с текстом `backup_target_not_empty`;
--- клиент отличает его от прочих ошибок по тексту.
+-- Refusal on a non-empty database is an exception with the text
+-- `backup_target_not_empty`; the client tells it apart from other errors by the text.
 --
--- Возвращает число импортированных записей по трём главным таблицам.
+-- Returns the number of imported records for the three main tables.
 
 create or replace function public.import_backup(p_backup jsonb)
 returns jsonb
@@ -96,8 +99,8 @@ declare
   v_recipes integer;
   v_cook_logs integer;
 begin
-  -- Блокировка закрывает гонку между проверкой и вставкой: пока она держится,
-  -- чужая запись в эти таблицы ждёт, а второй импорт увидит уже заполненную базу.
+  -- The lock closes the race between the check and the insert: while it is held,
+  -- another write to these tables waits, and a second import sees an already filled database.
   lock table public.products, public.product_variants, public.recipes, public.cook_logs
     in share row exclusive mode;
 
@@ -171,8 +174,8 @@ begin
     v_existing_id := null;
   end loop;
 
-  -- products ↔ product_variants ссылаются друг на друга; составной FK продукта
-  -- отложен до конца транзакции, поэтому порядок вставки между ними не важен.
+  -- products <-> product_variants reference each other; the product's composite FK
+  -- is deferred to the end of the transaction, so the insert order between them does not matter.
   insert into public.products
   select * from jsonb_populate_recordset(null::public.products, p_backup -> 'products');
   get diagnostics v_products = row_count;

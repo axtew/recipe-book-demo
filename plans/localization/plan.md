@@ -562,3 +562,11 @@ Reference docs exist as an English main file plus a Russian `.ru.md`; `BACKLOG.m
 ### Phase L8 — added 2026-10-29 (CLAUDE.md)
 **Trigger:** owner, 2026-10-29 — `CLAUDE.md` (a single line `@AGENTS.md`) is redundant: Claude Code reads `AGENTS.md` on its own (verified by the orchestrator 2026-10-29 with Claude Code 2.1.312 in a directory holding only `AGENTS.md`).
 **Fix:** L8 deletes `CLAUDE.md`. In `plans/README.md` the row `CLAUDE.md` → «`CLAUDE.md` is now a single line `@AGENTS.md`» says instead that `CLAUDE.md` is removed and the tools read `AGENTS.md` directly; the section-mapping table below it stays (it is history). Grep `CLAUDE\.md` outside `plans/**` history afterwards — no remaining reference that implies the file exists.
+
+### Phase L7 — added 2026-10-29
+**Trigger:** L7 iter-1 review (`plans/localization/l7/iter-1/REVIEW.md`), `Issue source: plan` — three developer-facing `raise` messages are Russian (`supabase/demo/setup.sql:29`, `:132`; `supabase/dev-data-cleanup.sql:35`). The language rule says they are English, but strip-and-compare forbids any non-comment change, so the contract contradicted itself.
+**Fix (owner, 2026-10-29):**
+- Translate the three messages. Keep the `%` placeholders, their order and the exception/warning level; `demo_seed_not_loaded` and other non-Russian messages stay as they are.
+- Strip-and-compare stays strict for all 8 migrations and `dev-data.sql`. For `setup.sql` and `dev-data-cleanup.sql` (not applied migrations: a re-runnable demo script and a local helper) the allowed difference is exactly these three string literals; the DEV-REPORT shows the remaining diff after stripping is limited to them.
+- `supabase/demo/DEPLOY.md:61,204,205,209` refer to these messages in Russian (e.g. «это не демо-проект»): name the new English message text there instead; the surrounding text stays Russian until L8 translates the file (L8 keeps the English message text in both `DEPLOY.md` and `DEPLOY.ru.md`). Grep the repository outside `plans/**` for other quotes of the old texts.
+- `setup.sql` on the demo project need not be re-run for this: the messages update at its next run. Re-running it is optional and is done by the orchestrator under the demo access grant.

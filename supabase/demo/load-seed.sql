@@ -1,5 +1,5 @@
--- Загрузка эталона в демо-проект. Файл собирается генератором из `seed.json`, руками не правится.
--- Порядок применения — `supabase/demo/DEPLOY.md`; пересборка — `README.md` рядом.
+-- Loading the seed into the demo project. The file is built by the generator from `seed.json` and is not edited by hand.
+-- Order of application — `supabase/demo/DEPLOY.md`; rebuild — `README.md` alongside.
 insert into demo.seed (id, data)
 values (1, $seed${
   "version": 1,

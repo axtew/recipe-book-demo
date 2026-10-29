@@ -17,8 +17,8 @@ const LOAD_SQL_PATH = fileURLToPath(new URL("../load-seed.sql", import.meta.url)
 const MANIFEST_PATH = fileURLToPath(new URL("../photos.json", import.meta.url));
 const PHOTOS_DIR = fileURLToPath(new URL("../photos/", import.meta.url));
 
-// Пересборка эталона: `WRITE_DEMO_SEED=1 pnpm vitest run supabase/demo` (см. README рядом).
-// Без переменной тест только сверяет файл с исходниками.
+// Rebuilding the seed: `WRITE_DEMO_SEED=1 pnpm vitest run supabase/demo` (see the README alongside).
+// Without the variable the test only compares the file with the sources.
 const seed = buildSeed();
 const seedText = `${JSON.stringify(seed, null, 2)}\n`;
 
@@ -31,20 +31,20 @@ if (process.env.WRITE_DEMO_SEED === "1") {
   writeFileSync(MANIFEST_PATH, manifestText, "utf-8");
 }
 
-// При `core.autocrlf` git может вернуть файл с CRLF; `.gitattributes` это запрещает,
-// а нормализация не даёт тесту упасть на таком файле.
+// With `core.autocrlf` git may return a file with CRLF; `.gitattributes` forbids that,
+// and the normalization keeps the test from failing on such a file.
 const fileText = readFileSync(SEED_PATH, "utf-8").replace(/\r\n/g, "\n");
 
 describe("seed.json", () => {
-  it("совпадает с тем, что собирает генератор из исходников", () => {
+  it("matches what the generator builds from the sources", () => {
     expect(fileText).toBe(seedText);
   });
 
-  it("лежит в load-seed.sql ровно в том виде, который собирает генератор", () => {
+  it("is stored in load-seed.sql exactly as the generator builds it", () => {
     expect(readFileSync(LOAD_SQL_PATH, "utf-8").replace(/\r\n/g, "\n")).toBe(loadSqlText);
   });
 
-  it("держит в photos.json пути, совпадающие с photo_path рецептов эталона", () => {
+  it("keeps paths in photos.json that match the photo_path of the seed recipes", () => {
     const manifestFile = readFileSync(MANIFEST_PATH, "utf-8").replace(/\r\n/g, "\n");
     const manifest: { file: string; path: string }[] = JSON.parse(manifestFile);
 
@@ -57,13 +57,13 @@ describe("seed.json", () => {
     expect(manifest.every((item) => existsSync(`${PHOTOS_DIR}${item.file}`))).toBe(true);
   });
 
-  it("проходит схему бэкапа и проверку ссылочной целостности", () => {
+  it("passes the backup schema and the referential integrity check", () => {
     const result = parseBackup(fileText);
 
     expect(result).toMatchObject({ status: "ok" });
   });
 
-  it("укладывается в состав, заявленный для демо", () => {
+  it("fits the composition declared for the demo", () => {
     const usedCategories = new Set(
       seed.recipe_dish_categories.map((link) => link.dish_category_id),
     );
@@ -93,7 +93,7 @@ describe("seed.json", () => {
     expect(withSeveralCategories.length).toBeGreaterThan(0);
   });
 
-  it("содержит каждый случай, который демо должно показывать", () => {
+  it("contains every case the demo is meant to show", () => {
     const variantCountByProduct = new Map<string, number>();
 
     for (const variant of seed.product_variants) {
@@ -133,7 +133,7 @@ describe("seed.json", () => {
     expect(seed.recipes.some((recipe) => recipe.freezable)).toBe(true);
   });
 
-  it("у каждого рецепта есть состав и шаги, а его фото лежит в photos/", () => {
+  it("every recipe has ingredients and steps, and its photo is in photos/", () => {
     for (const recipe of seed.recipes) {
       expect(seed.recipe_ingredients.some((row) => row.recipe_id === recipe.id)).toBe(true);
       expect(seed.recipe_steps.some((row) => row.recipe_id === recipe.id)).toBe(true);
@@ -148,7 +148,7 @@ describe("seed.json", () => {
     }
   });
 
-  it("не держит в photos/ лишних фото и описывает источник каждого в CREDITS.md", () => {
+  it("keeps no extra photos in photos/ and describes the source of each in CREDITS.md", () => {
     const used = new Set(RECIPES.map((recipe) => recipe.photo));
     const files = readdirSync(PHOTOS_DIR).filter((name) => name.endsWith(".webp"));
     const credits = readFileSync(`${PHOTOS_DIR}CREDITS.md`, "utf-8");
@@ -161,13 +161,13 @@ describe("seed.json", () => {
     }
   });
 
-  it("задаёт видео у двух рецептов по роликам", () => {
+  it("sets video links on two recipes", () => {
     const withVideo = seed.recipes.filter((recipe) => recipe.video_urls.length > 0);
 
     expect(withVideo.map((recipe) => recipe.name).sort()).toEqual(["Блины", "Овсяное печенье"]);
   });
 
-  it("держит журнал в окне последних месяцев и после даты добавления рецепта", () => {
+  it("keeps the log within the window of recent months and after the recipe's added date", () => {
     const recipesById = new Map(seed.recipes.map((recipe) => [recipe.id, recipe]));
 
     for (const log of seed.cook_logs) {
@@ -180,7 +180,7 @@ describe("seed.json", () => {
     }
   });
 
-  it("хранит в журнале снимки, совпадающие с расчётом доменного модуля", () => {
+  it("stores snapshots in the log that match the domain module's calculation", () => {
     const products = seed.products.map((product) => ({
       id: product.id,
       name: product.name,
@@ -221,7 +221,7 @@ describe("seed.json", () => {
     }
   });
 
-  it("показывает предупреждение о неполном КБЖУ ровно в рецептах с продуктом без цифр", () => {
+  it("shows the incomplete-nutrition warning exactly in recipes with a product that has no figures", () => {
     const incomplete = seed.cook_logs.filter(
       (log) => log.snapshot.nutrition.incompleteProducts.length > 0,
     );

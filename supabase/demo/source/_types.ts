@@ -1,18 +1,18 @@
 import type { TBackup } from "@/domain/backup";
 
-/** Ккал, белки, жиры, углеводы на 100 г. */
+/** Kcal, protein, fat, carbs per 100 g. */
 type TPer100 = [kcal: number, protein: number, fat: number, carbs: number];
 
 type TVariantSource = TBackup["product_variants"][number]["source"];
 
 interface IDemoVariant {
-  /** Название варианта (марка, жирность). У продукта с единственным вариантом не задаётся. */
+  /** Variant name (brand, fat content). Not set for a product with a single variant. */
   name?: string;
-  /** `null` — КБЖУ не заполнено: рецепт с таким продуктом покажет предупреждение о неполном расчёте. */
+  /** `null` — nutrition not filled in: a recipe with such a product shows the incomplete-calculation warning. */
   per100: TPer100 | null;
-  /** Помечается как «усреднённое». */
+  /** Marked as "approximate". */
   approximate?: true;
-  /** По умолчанию `seed` — цифры из общих таблиц питательности. */
+  /** Defaults to `seed` — figures from general nutrition tables. */
   source?: TVariantSource;
   note?: string;
 }
@@ -20,9 +20,9 @@ interface IDemoVariant {
 interface IDemoProduct {
   name: string;
   note?: string;
-  /** Архивный продукт: в списках скрыт, но остаётся в старых рецептах. */
+  /** Archived product: hidden in lists but stays in old recipes. */
   archived?: true;
-  /** Первый вариант становится активным. */
+  /** The first variant becomes the active one. */
   variants: IDemoVariant[];
 }
 
@@ -32,9 +32,9 @@ export interface IDemoProductCategory {
 }
 
 interface IDemoIngredient {
-  /** Название продукта из `products.ts`. */
+  /** Product name from `products.ts`. */
   product: string;
-  /** Название варианта этого продукта, если он закреплён за ингредиентом. */
+  /** Name of this product's variant, if it is pinned to the ingredient. */
   variant?: string;
   grams: number;
   optional?: true;
@@ -43,39 +43,39 @@ interface IDemoIngredient {
 
 export interface IDemoRecipe {
   name: string;
-  /** Названия категорий блюд; пусто — рецепт без категории. */
+  /** Dish category names; empty — the recipe has no category. */
   categories: string[];
-  /** Дата добавления, `YYYY-MM-DD`. */
+  /** Date added, `YYYY-MM-DD`. */
   addedAt: string;
   servings: number;
-  /** Вес готового блюда; без него КБЖУ на 100 г считается по весу сырья. */
+  /** Weight of the finished dish; without it nutrition per 100 g is computed from the raw weight. */
   yieldGrams?: number;
   cookTimeMin: number;
   fridgeDays?: number;
-  /** Заданное число суток — рецепт помечается как замораживаемый. */
+  /** A set number of days — the recipe is marked as freezable. */
   freezerDays?: number;
   notes?: string;
   /**
-   * Имя файла из `supabase/demo/photos/` (например, `syrniki.webp`).
-   * Без него у рецепта нет фото.
+   * File name from `supabase/demo/photos/` (for example, `syrniki.webp`).
+   * Without it the recipe has no photo.
    */
   photo?: string;
-  /** Ссылки на ролики; рецепт по видео пересказывается своими словами. */
+  /** Links to videos; a recipe based on a video is retold in own words. */
   videoUrls?: string[];
   ingredients: IDemoIngredient[];
   steps: string[];
 }
 
 export interface IDemoCookLog {
-  /** Название рецепта из `recipes.ts`. */
+  /** Recipe name from `recipes.ts`. */
   recipe: string;
-  /** Дата готовки, `YYYY-MM-DD`. */
+  /** Cooking date, `YYYY-MM-DD`. */
   cookedAt: string;
-  /** Во сколько раз порция больше базовой; по умолчанию 1. */
+  /** How many times the portion is larger than the base one; defaults to 1. */
   multiplier?: number;
   yieldGrams?: number;
   containers?: number;
-  /** Дата, когда «доели», `YYYY-MM-DD`. */
+  /** Date when it was "finished", `YYYY-MM-DD`. */
   finishedAt?: string;
   rating?: 1 | 2 | 3 | 4 | 5;
   note?: string;

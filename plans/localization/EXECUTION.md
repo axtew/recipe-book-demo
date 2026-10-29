@@ -109,3 +109,17 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 
 - **Status:** completed — spec/plan references dropped from two comments, `_UsedInRecipes.tsx` comment made true (names are plain text), long and ragged comment wraps fixed, doubled quote in `ProductPicker` comments. AST check 0 differences; lint, build, test (129) green.
 - **Review iteration 2:** APPROVED (`plans/localization/l6/iter-2/REVIEW.md`).
+- **Committed:** `592e084` (not pushed).
+
+## L7, iteration 1
+
+- **Date:** 2026-10-29
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** English comments in 8 migrations, `dev-data.sql`, `dev-data-cleanup.sql`, `setup.sql`, demo tooling (`keepalive.ts`, `_build.ts`, `upload-photos.mjs`, `source/_types.ts`, `seed.test.ts` names) and `eslint.config.js`; `load-seed.sql` header regenerated (data byte-identical). Quotes of changed messages updated in `supabase/demo/DEPLOY.md` and `README.md`. Three Russian `raise` messages left in `setup.sql` / `dev-data-cleanup.sql` — open question for the owner.
+- **Checks:** strip-and-compare identical for 13 `.sql`; `pnpm db:reset` + dev data restored; lint, build, test (129) green.
+- **Review iteration 1:** NEEDS_CHANGES, `Issue source: plan` — three Russian `raise` messages vs strip-and-compare (`plans/localization/l7/iter-1/REVIEW.md`). Owner chose: amend the plan («Phase L7 — added 2026-10-29») and re-run.
+
+## L7, iteration 2 (amendment)
+
+- **Status:** completed — three `raise` messages in English (`setup.sql` ×2, `dev-data-cleanup.sql`); strip-and-compare: migrations and `dev-data.sql` identical, `setup.sql` / `dev-data-cleanup.sql` differ only in those literals; `supabase/demo/DEPLOY.md` 61, 204, 205, 209 quote the English messages (prose Russian until L8). lint, build, test (129) green. Header comments in `supabase/demo/source/{products,recipes,cookLogs}.ts` left for L9.
+- **Review iteration 2:** APPROVED (`plans/localization/l7/iter-2/REVIEW.md`). Note: the L9 contract should name the file-header comments in `supabase/demo/source/*.ts` explicitly.

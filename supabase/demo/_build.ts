@@ -13,11 +13,11 @@ import { COOK_LOGS } from "./source/cookLogs";
 import { PRODUCT_CATEGORIES } from "./source/products";
 import { RECIPES } from "./source/recipes";
 
-// Собирает файл бэкапа версии 1 из читаемых исходников в `source/`: раздаёт
-// детерминированные id, связывает строки по названиям и считает снимки КБЖУ
-// для журнала доменным модулем. Результат записывается в `seed.json`.
+// Builds a version 1 backup file from the readable sources in `source/`: assigns
+// deterministic ids, links rows by name and computes the nutrition snapshots
+// for the log with the domain module. The result is written to `seed.json`.
 
-/** Категории блюд совпадают с теми, что создаёт миграция `reference_data`: импорт сопоставляет их по названию. */
+/** Dish categories match those created by the `reference_data` migration: the import matches them by name. */
 const DISH_CATEGORIES = ["Завтраки", "Обеды", "Ужины", "Супы", "Выпечка", "Десерты", "Заготовки"];
 
 const EXPORTED_AT = "2026-10-21T08:00:00.000000+00:00";
@@ -45,7 +45,7 @@ const ID_PREFIX: Record<TIdKind, string> = {
   cookLog: "08",
 };
 
-/** Идентификатор вида `de000003-0000-4000-8000-000000000007`: по префиксу видно тип строки, порядок стабилен между запусками. */
+/** An id like `de000003-0000-4000-8000-000000000007`: the prefix shows the row type, the order is stable between runs. */
 function makeId(kind: TIdKind, index: number): string {
   return `de0000${ID_PREFIX[kind]}-0000-4000-8000-${index.toString(16).padStart(12, "0")}`;
 }
@@ -56,7 +56,7 @@ function timestamp(date: string, time: string): string {
 
 function must<T>(value: T | undefined, description: string): T {
   if (value === undefined) {
-    throw new Error(`В исходниках демо-данных не найдено: ${description}`);
+    throw new Error(`Not found in the demo data sources: ${description}`);
   }
 
   return value;
@@ -104,7 +104,7 @@ function buildCatalog(): {
 
     for (const product of category.products) {
       if (productIdByName.has(product.name)) {
-        throw new Error(`Продукт «${product.name}» объявлен дважды`);
+        throw new Error(`Product "${product.name}" is declared twice`);
       }
 
       const productId = makeId("product", productIdByName.size + 1);
@@ -115,7 +115,7 @@ function buildCatalog(): {
         const key = `${product.name}/${variant.name ?? ""}`;
 
         if (variantIdByKey.has(key)) {
-          throw new Error(`Вариант «${key}» объявлен дважды`);
+          throw new Error(`Variant "${key}" is declared twice`);
         }
 
         variantIdByKey.set(key, variantId);
@@ -156,7 +156,7 @@ function buildCatalog(): {
   return { rows, productIdByName, variantIdByKey, activeVariantIdByProduct };
 }
 
-/** Расчёт и снимок рецепта в том виде, в каком их строит карточка рецепта в приложении. */
+/** The recipe calculation and snapshot as the recipe card in the app builds them. */
 function buildRecipeSnapshot(
   recipe: IDemoRecipe,
   ingredients: INutritionIngredient[],
@@ -173,7 +173,7 @@ function buildRecipeSnapshot(
   return buildSnapshot(nutrition, resolved, recipe.servings);
 }
 
-/** Эталон демо-данных в формате бэкапа версии 1. */
+/** The demo data seed in the version 1 backup format. */
 export function buildSeed(): TBackup {
   const catalog = buildCatalog();
   const { productIdByName, variantIdByKey } = catalog;
@@ -204,7 +204,8 @@ export function buildSeed(): TBackup {
     const recipeId = makeId("recipe", index + 1);
     const createdAt = timestamp(recipe.addedAt, "09:00:00");
 
-    if (recipeIdByName.has(recipe.name)) throw new Error(`Рецепт «${recipe.name}» объявлен дважды`);
+    if (recipeIdByName.has(recipe.name))
+      throw new Error(`Recipe "${recipe.name}" is declared twice`);
     recipeIdByName.set(recipe.name, recipeId);
     addedAtByRecipe.set(recipe.name, recipe.addedAt);
 
@@ -232,7 +233,7 @@ export function buildSeed(): TBackup {
     for (const categoryName of recipe.categories) {
       const category = must(
         catalog.rows.dish_categories.find(({ name }) => name === categoryName),
-        `категория блюд «${categoryName}»`,
+        `dish category "${categoryName}"`,
       );
 
       recipeCategoryRows.push({ recipe_id: recipeId, dish_category_id: category.id });
@@ -251,14 +252,14 @@ export function buildSeed(): TBackup {
       (ingredient, ingredientIndex) => {
         const productId = must(
           productIdByName.get(ingredient.product),
-          `продукт «${ingredient.product}» (рецепт «${recipe.name}»)`,
+          `product "${ingredient.product}" (recipe "${recipe.name}")`,
         );
         const pinnedVariantId =
           ingredient.variant === undefined
             ? null
             : must(
                 variantIdByKey.get(`${ingredient.product}/${ingredient.variant}`),
-                `вариант «${ingredient.product}/${ingredient.variant}» (рецепт «${recipe.name}»)`,
+                `variant "${ingredient.product}/${ingredient.variant}" (recipe "${recipe.name}")`,
               );
         const id = makeId("ingredient", ingredientRows.length + 1);
 
@@ -290,11 +291,13 @@ export function buildSeed(): TBackup {
   });
 
   const cookLogRows: TBackup["cook_logs"] = COOK_LOGS.map((log, index) => {
-    const recipeId = must(recipeIdByName.get(log.recipe), `рецепт «${log.recipe}» (журнал)`);
+    const recipeId = must(recipeIdByName.get(log.recipe), `recipe "${log.recipe}" (log)`);
     const addedAt = must(addedAtByRecipe.get(log.recipe), log.recipe);
 
     if (log.cookedAt < addedAt) {
-      throw new Error(`Запись журнала ${log.cookedAt} раньше добавления рецепта «${log.recipe}»`);
+      throw new Error(
+        `Log entry ${log.cookedAt} is earlier than the recipe "${log.recipe}" was added`,
+      );
     }
 
     return {
@@ -330,21 +333,19 @@ export function buildSeed(): TBackup {
 const SEED_QUOTE = "$seed$";
 
 /**
- * SQL, который кладёт эталон в таблицу `demo.seed`: файл целиком в dollar-кавычках
- * одним INSERT. В отличие от вставки JSON в SQL Editor, его можно выполнить из
- * командной строки (`supabase db query -f`), когда файл слишком велик для редактора.
- * Повторное выполнение заменяет эталон и не трогает время последнего сброса.
+ * SQL that puts the seed into the `demo.seed` table: the whole file in dollar quotes
+ * as a single INSERT. Unlike pasting JSON into the SQL Editor, it can be run from the
+ * command line (`supabase db query -f`) when the file is too large for the editor.
+ * Re-running replaces the seed and does not touch the time of the last reset.
  */
 export function buildSeedLoadSql(seedText: string): string {
   if (seedText.includes(SEED_QUOTE)) {
-    throw new Error(
-      `В эталоне встретилась последовательность ${SEED_QUOTE} — она закрыла бы строку`,
-    );
+    throw new Error(`The seed contains the sequence ${SEED_QUOTE} — it would close the string`);
   }
 
   return [
-    "-- Загрузка эталона в демо-проект. Файл собирается генератором из `seed.json`, руками не правится.",
-    "-- Порядок применения — `supabase/demo/DEPLOY.md`; пересборка — `README.md` рядом.",
+    "-- Loading the seed into the demo project. The file is built by the generator from `seed.json` and is not edited by hand.",
+    "-- Order of application — `supabase/demo/DEPLOY.md`; rebuild — `README.md` alongside.",
     "insert into demo.seed (id, data)",
     `values (1, ${SEED_QUOTE}${seedText.trimEnd()}${SEED_QUOTE}::jsonb)`,
     "on conflict (id) do update set data = excluded.data, loaded_at = now();",
@@ -353,9 +354,9 @@ export function buildSeedLoadSql(seedText: string): string {
 }
 
 /**
- * Куда какой файл из `photos/` кладётся в Storage: путь объекта в бакете
- * `recipe-photos` совпадает с `photo_path` рецепта в эталоне. По этому списку
- * работает `upload-photos.mjs`.
+ * Where each file from `photos/` goes in Storage: the object path in the `recipe-photos`
+ * bucket matches the recipe's `photo_path` in the seed. `upload-photos.mjs` works
+ * from this list.
  */
 export function buildPhotoManifest(): { file: string; path: string }[] {
   return RECIPES.flatMap((recipe, index) =>

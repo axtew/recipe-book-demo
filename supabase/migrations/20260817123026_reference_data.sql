@@ -25,7 +25,7 @@ from (values
   ('Яйцо куриное',     'Молочное'),
   ('Куриное филе',     'Мясо и птица'),
   ('Рис белый',        'Крупы и макароны')
-  -- ... остальные
+  -- ... the rest
 ) as p(name, category)
 join product_categories c on c.name = p.category;
 
@@ -38,7 +38,7 @@ from (values
   ('Яйцо куриное', 157.0, 12.7, 11.5,  0.7),
   ('Куриное филе', 113.0, 23.6,  1.9,  0.4),
   ('Рис белый',    344.0,  6.7,  0.7, 78.9)
-  -- ... остальные
+  -- ... the rest
 ) as v(name, kcal, protein, fat, carbs)
 join products pr on pr.name = v.name;
 

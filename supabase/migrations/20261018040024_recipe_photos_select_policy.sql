@@ -1,13 +1,13 @@
--- Чтение объектов бакета recipe-photos ролью authenticated.
+-- Reading objects of the recipe-photos bucket by the authenticated role.
 --
--- Замена обложки рецепта — загрузка с upsert поверх того же пути
--- `<id рецепта>/cover.webp`. Postgres выполняет её как `insert … on conflict do
--- update`, а для конфликтной ветки нужно право читать существующую строку;
--- без политики select загрузка с upsert падает с 403 «new row violates row-level
--- security policy», хотя политики на insert и update есть.
+-- Replacing a recipe cover is an upload with upsert over the same path
+-- `<recipe id>/cover.webp`. Postgres executes it as `insert … on conflict do
+-- update`, and the conflict branch needs the right to read the existing row;
+-- without a select policy an upload with upsert fails with 403 "new row violates
+-- row-level security policy", even though insert and update policies exist.
 --
--- Публичные ссылки на фото от этой политики не зависят — бакет публичный.
--- Роли anon доступ не выдаётся.
+-- Public photo links do not depend on this policy — the bucket is public.
+-- The anon role gets no access.
 
 create policy "authenticated can read photos" on storage.objects
   for select to authenticated

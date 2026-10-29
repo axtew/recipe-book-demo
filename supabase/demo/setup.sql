@@ -1,49 +1,50 @@
--- Настройка демо-проекта Supabase: эталон, ночной сброс, закрытая запись в Storage.
+-- Demo Supabase project setup: seed, nightly reset, closed write access to Storage.
 --
--- Этот файл применяется ТОЛЬКО к демо-проекту и сознательно лежит вне
--- `supabase/migrations/`: миграции общие для рабочей базы и демо, а функция,
--- которая стирает все таблицы, не должна попасть в рабочую базу ни при каком
--- `db push`. Порядок применения — `supabase/demo/DEPLOY.md`.
+-- This file is applied ONLY to the demo project and deliberately lives outside
+-- `supabase/migrations/`: migrations are shared by the working database and the
+-- demo, and the function that wipes all tables must not reach the working
+-- database under any `db push`. Order of application — `supabase/demo/DEPLOY.md`.
 --
--- Повторный запуск безопасен: таблицы и схема создаются «если нет», функции
--- пересоздаются, расписание перезаписывается по имени, политики удаляются «если есть».
--- Эталон (данные из `seed.json`) файл не трогает — его кладёт `load-seed.sql`.
+-- Re-running is safe: tables and the schema are created "if not exists", functions
+-- are recreated, the schedule is overwritten by name, policies are dropped "if exists".
+-- The seed (data from `seed.json`) is not touched by this file — `load-seed.sql` loads it.
 --
--- Запуск в psql — только с `-v ON_ERROR_STOP=1`: без него psql после ошибки идёт
--- дальше, и проверка ниже ничего не защитит. SQL Editor выполняет файл одним
--- запросом, то есть одной транзакцией: ошибка откатывает всё.
+-- Run in psql only with `-v ON_ERROR_STOP=1`: without it psql goes on after an
+-- error, and the check below protects nothing. The SQL Editor runs the file as a
+-- single query, that is one transaction: an error rolls everything back.
 
--- Защита от запуска не в тот проект. Файл удаляет политики записи в Storage и
--- заводит ночное задание, которое стирает таблицы приложения; в рабочей базе
--- этого быть не должно. Пользователя с демо-почтой владелец заводит в демо-проекте
--- до запуска файла (шаг 1 в DEPLOY.md), в рабочей базе его нет. Почта — та же, что
--- в `c_email` функции `demo.reset()` и в запоминании пользователя ниже: поменял там — поменяй везде.
--- Проверка стоит до первого изменения.
+-- Guard against running in the wrong project. The file drops the Storage write
+-- policies and creates a nightly job that wipes the application tables; the
+-- working database must have neither. The owner creates the user with the demo
+-- email in the demo project before running the file (step 1 in DEPLOY.md); the
+-- working database has none. The email is the same as `c_email` in `demo.reset()`
+-- and in the user-remembering step below: change it there — change it everywhere.
+-- The check comes before the first change.
 do $$
 declare
   c_email constant text := 'demo@recipe-book.example';
 begin
   if not exists (select 1 from auth.users u where u.email = c_email) then
     raise exception
-      'setup.sql: в проекте нет пользователя % — это не демо-проект (или не выполнен шаг 1 из DEPLOY.md). Ничего не изменено.',
+      'setup.sql: no user % in this project - this is not the demo project (or step 1 of DEPLOY.md was skipped). Nothing was changed.',
       c_email;
   end if;
 end;
 $$;
 
--- Схема `demo` не входит в список схем PostgREST, поэтому ни таблица эталона, ни
--- сама функция сброса не вызываются через REST ни при каких грантах. Наружу
--- (роли anon) выставлена одна функция в `public` — `demo_last_reset` ниже.
+-- The `demo` schema is not in the PostgREST schema list, so neither the seed table
+-- nor the reset function itself can be called over REST under any grants. One
+-- function in `public` is exposed outward (to the anon role) — `demo_last_reset` below.
 create schema if not exists demo;
 revoke all on schema demo from public;
 
 create extension if not exists pgcrypto with schema extensions;
 create extension if not exists pg_cron with schema pg_catalog;
 
--- Эталон. Одна строка (`id = 1`): файл бэкапа версии 1 целиком, как его принимает
--- `public.import_backup`. Грантов нет ни у anon, ни у authenticated, RLS включена
--- сверху — таблица доступна только владельцу (роли postgres, под которой работает
--- `pg_cron` и SQL Editor).
+-- The seed. A single row (`id = 1`): the whole version 1 backup file, as
+-- `public.import_backup` accepts it. Neither anon nor authenticated has grants, RLS
+-- is enabled on top — the table is available only to the owner (the postgres role,
+-- under which `pg_cron` and the SQL Editor run).
 create table if not exists demo.seed (
   id         integer primary key check (id = 1),
   data       jsonb not null,
@@ -54,9 +55,9 @@ create table if not exists demo.seed (
 alter table demo.seed enable row level security;
 revoke all on demo.seed from public, anon, authenticated;
 
--- Какой пользователь auth.users — демо-учётка. `demo.reset()` находит её по почте,
--- а если посетитель успел сменить почту, — по этому идентификатору. Запоминается
--- при каждом запуске файла (ниже), пока почта ещё верная.
+-- Which auth.users user is the demo account. `demo.reset()` finds it by email,
+-- and if a visitor managed to change the email — by this identifier. It is
+-- remembered on every run of the file (below), while the email is still correct.
 create table if not exists demo.account (
   id       integer primary key check (id = 1),
   user_id  uuid not null
@@ -65,22 +66,22 @@ create table if not exists demo.account (
 alter table demo.account enable row level security;
 revoke all on demo.account from public, anon, authenticated;
 
--- Сброс к эталону. Возвращает то же, что `import_backup`: сколько продуктов,
--- рецептов и записей журнала залито.
+-- Reset to the seed. Returns the same as `import_backup`: how many products,
+-- recipes and cook log entries were loaded.
 --
--- security definer: нужны права владельца на TRUNCATE и на таблицы `auth`.
--- Вызывают её только `pg_cron` и владелец проекта из SQL Editor.
+-- security definer: owner rights are needed for TRUNCATE and for the `auth` tables.
+-- Only `pg_cron` and the project owner from the SQL Editor call it.
 --
--- Таблицы пользовательских данных очищаются целиком, включая обе таблицы
--- категорий: посетитель мог добавить свои, а эталон приносит собственные
--- (в `seed.json` у категорий блюд свои id, и импорт сопоставляет их по названию).
--- Заливка идёт существующей функцией `import_backup`, логика импорта не
--- дублируется; она же требует пустую базу, что после TRUNCATE выполнено.
+-- User data tables are cleared entirely, including both category tables: a visitor
+-- could have added their own, and the seed brings its own (in `seed.json` dish
+-- categories have their own ids, and the import matches them by name).
+-- The load goes through the existing `import_backup` function, so the import logic
+-- is not duplicated; it also requires an empty database, which is satisfied after TRUNCATE.
 --
--- Учётка демо-пользователя возвращается к значениям ниже: посетитель с открытой
--- консолью мог сменить пароль или почту. Это публичные значения — они написаны в
--- README и лежат в `.env.demo`. Поменял там — поменяй и здесь (в том числе в
--- проверке в начале файла), перезапусти файл.
+-- The demo user's account is returned to the values below: a visitor with an open
+-- console could have changed the password or email. These are public values — they
+-- are written in the README and live in `.env.demo`. Change it there — change it
+-- here too (including in the check at the start of the file), and re-run the file.
 create or replace function demo.reset()
 returns jsonb
 language plpgsql
@@ -94,7 +95,7 @@ declare
   v_result jsonb;
   v_user_id uuid;
 begin
-  -- Два сброса подряд (cron и ручной вызов) не должны идти одновременно.
+  -- Two resets in a row (cron and a manual call) must not run concurrently.
   perform pg_advisory_xact_lock(hashtext('demo.reset'));
 
   select s.data into v_seed from demo.seed s where s.id = 1;
@@ -102,8 +103,8 @@ begin
     raise exception 'demo_seed_not_loaded';
   end if;
 
-  -- Одним оператором: циклические ссылки products <-> product_variants и связи
-  -- рецептов проверять не нужно, когда очищаются все таблицы вместе.
+  -- In one statement: the circular references products <-> product_variants and the
+  -- recipe links need not be checked when all tables are cleared together.
   truncate table
     public.cook_logs,
     public.recipe_ingredients,
@@ -117,8 +118,8 @@ begin
 
   v_result := public.import_backup(v_seed);
 
-  -- Демо-пользователь: по почте; если почту сменили — по идентификатору,
-  -- запомненному в `demo.account`. Чужих пользователей функция не трогает.
+  -- Demo user: by email; if the email was changed — by the identifier
+  -- remembered in `demo.account`. The function does not touch other users.
   select u.id into v_user_id from auth.users u where u.email = c_email;
   if v_user_id is null then
     select u.id into v_user_id
@@ -128,7 +129,7 @@ begin
   end if;
 
   if v_user_id is null then
-    raise warning 'demo.reset: демо-пользователь не найден (удалён?), учётка не восстановлена. Создайте его заново и перезапустите setup.sql';
+    raise warning 'demo.reset: demo user not found (deleted?), account not restored. Create it again and re-run setup.sql';
   else
     update auth.users u
     set email = c_email,
@@ -159,15 +160,15 @@ $$;
 
 revoke execute on function demo.reset() from public, anon, authenticated;
 
--- Запоминаем демо-пользователя (проверка в начале файла гарантирует, что он есть).
+-- Remember the demo user (the check at the start of the file guarantees it exists).
 insert into demo.account (id, user_id)
 select 1, u.id from auth.users u where u.email = 'demo@recipe-book.example'
 on conflict (id) do update set user_id = excluded.user_id;
 
--- Пинг для бесплатного проекта. Проект Supabase засыпает после недели без
--- активности, а собственный `pg_cron` активностью не считается. Cron Trigger демо-
--- Worker раз в несколько дней вызывает эту функцию через REST — запрос доходит
--- до Postgres и возвращает 200. Отдаёт только время последнего сброса.
+-- Ping for the free project. A Supabase project falls asleep after a week without
+-- activity, and its own `pg_cron` does not count as activity. The demo Worker's
+-- Cron Trigger calls this function over REST every few days — the request reaches
+-- Postgres and returns 200. It returns only the time of the last reset.
 create or replace function public.demo_last_reset()
 returns timestamptz
 language sql
@@ -181,14 +182,15 @@ $$;
 revoke execute on function public.demo_last_reset() from public;
 grant execute on function public.demo_last_reset() to anon, authenticated;
 
--- Ночной сброс. `pg_cron` работает в UTC: полночь UTC — три часа ночи по Москве.
--- `cron.schedule` с тем же именем перезаписывает задание, а не плодит второе.
+-- Nightly reset. `pg_cron` runs in UTC: midnight UTC is 03:00 in Moscow.
+-- `cron.schedule` with the same name overwrites the job rather than creating a second one.
 select cron.schedule('demo-nightly-reset', '0 0 * * *', 'select demo.reset()');
 
--- Storage: в демо-бакете остаётся только чтение. Политики записи из миграции
--- `init` удаляются; политика чтения и публичность бакета не затрагиваются, фото
--- по-прежнему отдаются. Загружает файлы владелец ключом secret, в обход политик.
--- В рабочей базе эти политики остаются — файл к ней не применяется.
+-- Storage: only reading stays in the demo bucket. The write policies from the `init`
+-- migration are dropped; the read policy and the bucket's public status are
+-- untouched, photos are still served. The owner uploads files with the secret key,
+-- bypassing policies. In the working database these policies stay — the file is not
+-- applied to it.
 drop policy if exists "authenticated can upload photos" on storage.objects;
 drop policy if exists "authenticated can update photos" on storage.objects;
 drop policy if exists "authenticated can delete photos" on storage.objects;

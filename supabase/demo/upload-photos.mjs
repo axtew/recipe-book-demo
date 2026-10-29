@@ -1,13 +1,13 @@
-// Загрузка фото демо-рецептов в Storage: файлы из `photos/` по путям из `photos.json`
-// (они совпадают с `photo_path` в `seed.json`). Запускает владелец один раз при
-// настройке демо-проекта; повторный запуск перезаписывает те же объекты.
+// Upload of the demo recipe photos to Storage: files from `photos/` to the paths from `photos.json`
+// (they match `photo_path` in `seed.json`). The owner runs it once when setting up
+// the demo project; a repeated run overwrites the same objects.
 //
-// Нужен ключ secret проекта: политик записи в демо-бакете нет, и обычный вход
-// загрузить файл не может. Ключ передаётся только через переменную окружения и
-// нигде не сохраняется.
+// The project's secret key is needed: there are no write policies in the demo bucket, and an
+// ordinary sign-in cannot upload a file. The key is passed only through an environment
+// variable and is not stored anywhere.
 //
 //   SUPABASE_URL         https://<ref>.supabase.co
-//   SUPABASE_SECRET_KEY  ключ secret демо-проекта (sb_secret_...)
+//   SUPABASE_SECRET_KEY  secret key of the demo project (sb_secret_...)
 
 import { readFile } from "node:fs/promises";
 
@@ -17,9 +17,7 @@ const url = process.env.SUPABASE_URL?.replace(/\/+$/, "");
 const key = process.env.SUPABASE_SECRET_KEY;
 
 if (!url || !key) {
-  console.error(
-    "Задайте SUPABASE_URL и SUPABASE_SECRET_KEY (см. supabase/demo/DEPLOY.md).",
-  );
+  console.error("Set SUPABASE_URL and SUPABASE_SECRET_KEY (see supabase/demo/DEPLOY.md).");
   process.exit(1);
 }
 
@@ -43,9 +41,9 @@ for (const { file, path } of manifest) {
     console.log(`ok    ${file} -> ${path}`);
   } else {
     failed += 1;
-    console.error(`ОШИБКА ${file} -> ${path}: ${response.status} ${await response.text()}`);
+    console.error(`ERROR ${file} -> ${path}: ${response.status} ${await response.text()}`);
   }
 }
 
-console.log(`Загружено ${manifest.length - failed} из ${manifest.length}.`);
+console.log(`Uploaded ${manifest.length - failed} of ${manifest.length}.`);
 if (failed > 0) process.exit(1);

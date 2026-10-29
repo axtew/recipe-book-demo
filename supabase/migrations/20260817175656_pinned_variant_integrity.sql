@@ -1,19 +1,19 @@
--- Закрепление варианта за ингредиентом: гарантировать, что закреплённый вариант
--- принадлежит тому же продукту, что и сам ингредиент.
+-- Pinning a variant to an ingredient: guarantee that the pinned variant belongs
+-- to the same product as the ingredient itself.
 --
--- Было: pinned_variant_id ссылался на product_variants(id) обычным внешним
--- ключом. Такой ключ проверяет только «такой вариант существует», поэтому за
--- ингредиентом «Огурцы» можно было закрепить вариант сливочного масла — и в
--- рецепт поехало бы КБЖУ масла. Ровно та дыра, которая у products
--- .active_variant_id закрыта составным ключом.
+-- Before: pinned_variant_id referenced product_variants(id) with a plain foreign
+-- key. Such a key checks only "that variant exists", so an ingredient "Cucumbers"
+-- could be pinned to a butter variant — and the butter's nutrition would end up
+-- in the recipe. Exactly the hole that is closed on products
+-- .active_variant_id by a composite key.
 --
--- Приём тот же: ссылаемся парой (продукт, вариант) на пару (продукт, вариант)
--- в таблице вариантов. Совпадение найдётся только если вариант принадлежит
--- этому продукту.
+-- Same technique: reference a (product, variant) pair to a (product, variant)
+-- pair in the variants table. A match is found only if the variant belongs to
+-- this product.
 
--- Внешний ключ может ссылаться только на набор столбцов, объявленный
--- уникальным. Существующее уq_variant_product — это (id, product_id), а нам
--- нужен обратный порядок: ведущим должен быть product_id.
+-- A foreign key can only reference a set of columns declared unique. The existing
+-- uq_variant_product is (id, product_id), but we need the reverse order:
+-- product_id must lead.
 alter table product_variants
   add constraint uq_variant_product_reversed unique (product_id, id);
 
@@ -26,12 +26,12 @@ alter table recipe_ingredients
   references product_variants(product_id, id)
   on delete restrict;
 
--- Отсрочка (deferrable) здесь не нужна, в отличие от active_variant_id:
--- круговой ссылки нет — к моменту добавления ингредиента и продукт, и его
--- вариант уже существуют.
+-- Deferrable is not needed here, unlike active_variant_id: there is no circular
+-- reference — by the time an ingredient is added, both the product and its
+-- variant already exist.
 --
--- pinned_variant_id остаётся nullable, и это работает: по стандарту SQL, если
--- хотя бы один столбец составного внешнего ключа равен null, ограничение
--- считается выполненным и не проверяется. То есть ингредиент без закреплённого
--- варианта (обычный случай — берётся активный вариант продукта) проходит
--- свободно.
+-- pinned_variant_id stays nullable, and that works: per the SQL standard, if at
+-- least one column of a composite foreign key is null, the constraint is
+-- considered satisfied and is not checked. So an ingredient without a pinned
+-- variant (the usual case — the product's active variant is taken) passes
+-- freely.

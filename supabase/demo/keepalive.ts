@@ -1,18 +1,19 @@
-// Скрипт демо-Worker: раз в несколько дней по Cron Trigger дёргает REST демо-проекта.
+// Demo Worker script: every few days, on a Cron Trigger, it pokes the demo project's REST API.
 //
-// Бесплатный проект Supabase встаёт на паузу после недели без активности, а
-// собственный `pg_cron` активностью не считается. Нужен запрос, который доходит до
-// Postgres: `rpc` функции `demo_last_reset` из `setup.sql` (выдана роли anon).
+// A free Supabase project is paused after a week without activity, and its own
+// `pg_cron` does not count as activity. A request that reaches Postgres is needed:
+// the `rpc` of the `demo_last_reset` function from `setup.sql` (granted to the anon role).
 //
-// Статику Worker обычно отдаёт сам, без вызова скрипта; `fetch` ниже — запасной
-// путь для запросов, которые до статики не дошли (например, не навигация браузера
-// по адресу вложенного экрана): они уходят в ту же раздачу.
+// The Worker usually serves static files itself, without calling the script; the
+// `fetch` below is a fallback path for requests that did not reach the static files
+// (for example, not a browser navigation to the address of a nested screen):
+// they go to the same asset serving.
 //
-// Адрес и publishable key приходят из `vars` в `wrangler.demo.jsonc`; ключ не
-// секрет — он и так лежит в бандле приложения.
+// The URL and the publishable key come from `vars` in `wrangler.demo.jsonc`; the key
+// is not a secret — it is already in the app bundle.
 
-// Типы Workers (`@cloudflare/workers-types`) в проект не подключены, поэтому
-// описана только та часть окружения, которой пользуется скрипт.
+// The Workers types (`@cloudflare/workers-types`) are not connected to the project, so
+// only the part of the environment the script uses is described.
 interface IKeepAliveEnv {
   ASSETS: { fetch: (request: Request) => Promise<Response> };
   SUPABASE_URL: string;
@@ -31,7 +32,9 @@ export default {
       env.SUPABASE_URL.includes(PLACEHOLDER) ||
       env.SUPABASE_PUBLISHABLE_KEY.includes(PLACEHOLDER)
     ) {
-      throw new Error("В wrangler.demo.jsonc не заполнены SUPABASE_URL и SUPABASE_PUBLISHABLE_KEY");
+      throw new Error(
+        "SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY are not set in wrangler.demo.jsonc",
+      );
     }
 
     const response = await fetch(`${env.SUPABASE_URL}/rest/v1/rpc/demo_last_reset`, {
@@ -43,9 +46,9 @@ export default {
       body: "{}",
     });
 
-    // Ошибка в логах Cloudflare — единственный способ узнать, что пинг не дошёл.
+    // An error in the Cloudflare logs is the only way to learn that the ping did not arrive.
     if (!response.ok) {
-      throw new Error(`Пинг демо-проекта вернул ${response.status}`);
+      throw new Error(`Demo project ping returned ${response.status}`);
     }
   },
 };
