@@ -2,7 +2,7 @@
 
 # Recipe Book
 
-> **This is the public copy of my working repository.** The working one is private: I use the app myself. This copy is synced from it by hand with a script (`git filter-repo` plus a few checks) that leaves out working notes, learning materials and deployment credentials, so commit hashes differ from the private repository. The app, the demo data, the working documentation and the logs under `plans/` are in Russian for now; an English interface is planned.
+> **This is the public copy of my working repository.** The working one is private: I use the app myself. This copy is synced from it by hand with a script (`git filter-repo` plus a few checks) that leaves out working notes, learning materials and deployment credentials, so commit hashes differ from the private repository. The interface is in English and Russian (the app follows the browser language), and the reference docs have English and Russian versions; the demo data and the logs under `plans/` are still in Russian.
 
 A personal mobile-first PWA: a product reference with nutrition values, recipes with an automatic calorie and macro calculation (kcal, protein, fat, carbs), search, and a cooking log.
 
@@ -24,7 +24,7 @@ A personal mobile-first PWA: a product reference with nutrition values, recipes 
 - **Cooking log** with a nutrition snapshot, rating, yield and how long a batch lasted; recipe cards show the history and averages.
 - Backup export and import as JSON; archiving instead of deleting.
 
-The full walkthrough is in [`docs/user-guide.md`](docs/user-guide.md) (in Russian).
+The full walkthrough is in [`docs/user-guide.md`](docs/user-guide.md).
 
 ## How it was made
 
@@ -55,7 +55,7 @@ npx supabase start      # local Supabase, needs Docker running
 pnpm dev                # dev server against the local database (.env.development)
 ```
 
-Sample data and a local dev user are described in [`docs/agents/local-environment.md`](docs/agents/local-environment.md) (in Russian); the dev data script is `supabase/dev-data.sql`. To see the demo mode locally (banner, prefilled login) run `pnpm dev:demo`.
+Sample data and a local dev user are described in [`docs/agents/local-environment.md`](docs/agents/local-environment.md); the dev data script is `supabase/dev-data.sql`. To see the demo mode locally (banner, prefilled login) run `pnpm dev:demo`.
 
 | Command           | What it does                                                       |
 | ----------------- | ------------------------------------------------------------------ |
@@ -80,7 +80,7 @@ Sample data and a local dev user are described in [`docs/agents/local-environmen
 3. Copy [`.env.example`](.env.example) to `.env.production` and fill in the project URL and the publishable key. Only the publishable key goes into the build; the secret key and the database password never do.
 4. `pnpm build`, then host `dist/`. The repository ships a Cloudflare Workers static-assets config (`wrangler.jsonc`): `npx wrangler deploy`.
 
-A full stand like the live demo (separate project, shared login, nightly reset, keep-alive for the free tier) is described step by step in [`supabase/demo/DEPLOY.md`](supabase/demo/DEPLOY.md) (in Russian).
+A full stand like the live demo (separate project, shared login, nightly reset, keep-alive for the free tier) is described step by step in [`supabase/demo/DEPLOY.md`](supabase/demo/DEPLOY.md).
 
 ## Known limitations
 
@@ -88,4 +88,4 @@ A full stand like the live demo (separate project, shared login, nightly reset, 
 - Writes need a network connection; offline, previously loaded data can only be read.
 - The whole dataset is loaded on start: no server-side search, pagination or filtering, by design for this data size.
 - Accounts are created by hand, there is no registration, no roles and no sharing between households.
-- The interface and the demo content are in Russian only for now.
+- The demo content is in Russian for now.

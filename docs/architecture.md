@@ -1,3 +1,5 @@
+[Русский](architecture.ru.md) · **English**
+
 # Architecture
 
 How the app is put together: where the data on the screen comes from, what the browser stores, and how the PWA works offline. The decisions behind it are in [`decisions/`](decisions/README.md).

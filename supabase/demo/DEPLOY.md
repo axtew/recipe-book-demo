@@ -1,103 +1,105 @@
-# Демо-стенд: развернуть у себя
+[Русский](DEPLOY.ru.md) · **English**
 
-Как поднять собственный демо-стенд: отдельный проект Supabase, демо-сборка приложения и Cloudflare Worker, который не даёт бесплатному проекту уйти на паузу. Если у вас есть отдельный рабочий проект Supabase, ничего из ниже перечисленного его не затрагивает: на время шагов 2 и 4 CLI привязывается к демо-проекту, а в конце — обратно к рабочему.
+# Demo environment: deploy your own
 
-Команды приведены в двух вариантах: сначала PowerShell 7, затем bash. Если команда одинакова для обоих — блок подписан «PowerShell и bash». Все команды выполняются из корня репозитория.
+How to bring up your own demo environment: a separate Supabase project, the demo build of the app and a Cloudflare Worker that keeps the free project from being paused. If you have a separate working Supabase project, nothing listed below touches it: for steps 2 and 4 the CLI is linked to the demo project, and at the end it is linked back to the working one.
 
-**Секреты в репозиторий не попадают.** Пароль базы CLI спрашивает сам при `supabase link` и хранит у вас на машине; ключ secret — только в переменной окружения текущего терминала (шаг 4). `.env.demo` и `wrangler.demo.jsonc` получают только адрес проекта и publishable key: он публичен и так уезжает в бандл.
+The commands are given in two variants: PowerShell 7 first, then bash. If a command is the same for both, the block is labelled "PowerShell and bash". All commands are run from the repository root.
 
-## Что в итоге получится
+**Secrets do not get into the repository.** The CLI asks for the database password itself at `supabase link` and keeps it on your machine; the secret key lives only in an environment variable of the current terminal (step 4). `.env.demo` and `wrangler.demo.jsonc` get only the project address and the publishable key: it is public and ends up in the bundle anyway.
 
-- Проект Supabase (в примерах `recipe-book-demo`) с теми же миграциями, что и рабочий, регистрацией выключенной и одним общим пользователем.
-- В базе схема `demo` с эталоном и функцией сброса; `pg_cron` раз в сутки (00:00 UTC) возвращает данные и учётку пользователя к эталону. Через REST схема `demo` недоступна.
-- В бакете `recipe-photos` фото рецептов; запись в бакет закрыта для всех пользователей, только чтение.
-- Worker `recipe-book-demo` на Cloudflare: статика демо-сборки плюс Cron Trigger (понедельник и четверг, 06:00 UTC), который раз в несколько дней вызывает функцию `demo_last_reset` по REST. Это нужно, чтобы бесплатный проект Supabase не ушёл на паузу после недели без активности: собственный `pg_cron` активностью, по всей видимости, не считается.
+## What you will get
 
-## Перед началом
+- A Supabase project (called `recipe-book-demo` in the examples) with the same migrations as the working one, sign-ups switched off and one shared user.
+- A `demo` schema in the database with the reference data and a reset function; `pg_cron` returns the data and the user account to the reference once a day (00:00 UTC). The `demo` schema is not available over REST.
+- The recipe photos in the `recipe-photos` bucket; writing to the bucket is closed for all users, read only.
+- The `recipe-book-demo` Worker on Cloudflare: the static files of the demo build plus a Cron Trigger (Monday and Thursday, 06:00 UTC) that calls the `demo_last_reset` function over REST once every few days. This is needed so that the free Supabase project is not paused after a week without activity: its own `pg_cron` apparently does not count as activity.
 
-1. Если у вас есть рабочий проект и Supabase CLI привязан к нему, запишите две вещи — они понадобятся в конце:
-   - его ref: `npx supabase projects list` — привязанный проект отмечен `●` в колонке `LINKED`, ref — в колонке `REFERENCE ID`;
-   - его состояние: `npx supabase migration list` (команда только читает). Запомните последнюю строку списка.
-2. Войдите в Cloudflare из CLI, если ещё не входили: `npx wrangler login`.
+## Before you start
 
-## 1. Создать проект и пользователя
+1. If you have a working project and the Supabase CLI is linked to it, write down two things — you will need them at the end:
+   - its ref: `npx supabase projects list` — the linked project is marked with `●` in the `LINKED` column, the ref is in the `REFERENCE ID` column;
+   - its state: `npx supabase migration list` (the command only reads). Remember the last row of the list.
+2. Log in to Cloudflare from the CLI, if you have not yet: `npx wrangler login`.
 
-1. В [дашборде Supabase](https://supabase.com/dashboard) создайте проект с именем `recipe-book-demo` (бесплатный план). Пароль базы сохраните в менеджере паролей, в репозиторий он не попадает. Совет: задайте пароль из букв и цифр, без спецсимволов, — так его не придётся кодировать в строке подключения (шаг 2).
-2. **Выключите регистрацию:** Authentication → Sign In / Providers → блок **User Signups** в самом верху страницы → переключатель **«Allow new users to sign up»** → выключить → Save. Без этого любой, кто найдёт адрес проекта, заведёт аккаунт.
-   - **Провайдера Email ниже на той же странице (Auth Providers → Email) не выключайте:** это вход по почте и паролю, без него демо-пользователь не сможет войти.
-3. **Заведите пользователя:** Authentication → Users → Add user → Create new user.
-   - Email `demo@recipe-book.example`, пароль `demo-recipe-book` — это временная учётка из `.env.demo`, подставляемая на экране входа.
-   - Отметьте «Auto Confirm User».
-   - Если хотите другие логин и пароль — поменяйте их в трёх местах: `VITE_DEMO_EMAIL` и `VITE_DEMO_PASSWORD` в `.env.demo`; в `supabase/demo/setup.sql` — все вхождения почты `demo@recipe-book.example` (проверка в начале файла, константа `c_email` функции `demo.reset` и запоминание пользователя перед функцией пинга) и константу `c_password`; затем применяйте `setup.sql` (шаг 3) уже с новыми значениями. Иначе ночной сброс вернёт учётку к старым значениям.
+## 1. Create the project and the user
 
-## 2. Выкатить миграции в демо
+1. In the [Supabase dashboard](https://supabase.com/dashboard) create a project named `recipe-book-demo` (free plan). Save the database password in a password manager; it does not go into the repository. Tip: set a password of letters and digits without special characters, so it does not need to be encoded in the connection string (step 2).
+2. **Switch off sign-ups:** Authentication → Sign In / Providers → the **User Signups** block at the very top of the page → the **"Allow new users to sign up"** toggle → switch off → Save. Without this anyone who finds the project address can create an account.
+   - **Do not switch off the Email provider lower on the same page (Auth Providers → Email):** it is the email and password sign-in, and without it the demo user cannot sign in.
+3. **Create the user:** Authentication → Users → Add user → Create new user.
+   - Email `demo@recipe-book.example`, password `demo-recipe-book` — this is the throwaway account from `.env.demo` that is filled in on the sign-in screen.
+   - Tick "Auto Confirm User".
+   - If you want a different login and password, change them in three places: `VITE_DEMO_EMAIL` and `VITE_DEMO_PASSWORD` in `.env.demo`; in `supabase/demo/setup.sql` — all occurrences of the email `demo@recipe-book.example` (the check at the start of the file, the `c_email` constant of the `demo.reset` function and remembering the user before the ping function) and the `c_password` constant; then apply `setup.sql` (step 3) with the new values. Otherwise the nightly reset returns the account to the old values.
 
-**Привязать CLI к демо-проекту.** CLI привязан к одному проекту на каталог репозитория; переключиться — значит выполнить `supabase link` с другим ref. Ref демо-проекта — в адресе его страницы в дашборде (`supabase.com/dashboard/project/<ref>`) или в Project Settings → General → Project ID. PowerShell и bash:
+## 2. Roll out the migrations to the demo
+
+**Link the CLI to the demo project.** The CLI is linked to one project per repository directory; switching means running `supabase link` with another ref. The ref of the demo project is in the address of its dashboard page (`supabase.com/dashboard/project/<ref>`) or in Project Settings → General → Project ID. PowerShell and bash:
 
 ```
-npx supabase link --project-ref <ref демо-проекта>
+npx supabase link --project-ref <demo project ref>
 ```
 
-CLI спросит пароль базы — тот, что задан при создании демо-проекта. Убедитесь, что привязан именно демо: `npx supabase projects list` — отметка `●` в колонке `LINKED` у `recipe-book-demo`.
+The CLI asks for the database password — the one set when the demo project was created. Make sure the demo one is linked: `npx supabase projects list` — the `●` mark in the `LINKED` column is on `recipe-book-demo`.
 
-Сначала сухой прогон: он должен перечислить **все** миграции из `supabase/migrations/` (сверьте число с содержимым каталога) — демо-база пока пустая. Если список пуст, CLI смотрит в уже обновлённый рабочий проект — остановитесь и повторите `link`. PowerShell и bash:
+First a dry run: it must list **all** the migrations from `supabase/migrations/` (compare the number with the contents of the directory) — the demo database is still empty. If the list is empty, the CLI is looking at the already updated working project — stop and repeat `link`. PowerShell and bash:
 
 ```
 npx supabase db push --dry-run
 ```
 
-Теперь сама выкатка:
+Now the rollout itself:
 
 ```
 npx supabase db push
 ```
 
-**Если перепутать проекты, рабочей базе это не вредит:** миграции общие, и рабочему проекту они нужны те же; а демо-команды шага 4 на рабочей базе просто упадут — схемы `demo` там нет. Опасен только `setup.sql`, поэтому он идёт через SQL Editor с проверкой (шаг 3).
+**If you mix up the projects, the working database is not harmed:** the migrations are shared and the working project needs the same ones; and the demo commands of step 4 simply fail on the working database — there is no `demo` schema there. Only `setup.sql` is dangerous, which is why it goes through the SQL Editor with a check (step 3).
 
-## 3. Применить `setup.sql`
+## 3. Apply `setup.sql`
 
-> **Внимание: файл только для демо-проекта.** Он удаляет политики записи в Storage и заводит ночное задание, стирающее таблицы приложения. Перед запуском проверьте имя проекта в шапке дашборда (вверху слева): там должен быть демо-проект (`recipe-book-demo`), а не ваш рабочий. В рабочем проекте файл не запускайте.
+> **Warning: the file is for the demo project only.** It drops the Storage write policies and creates a nightly job that wipes the app tables. Before running it, check the project name in the dashboard header (top left): it must be the demo project (`recipe-book-demo`), not your working one. Do not run the file in the working project.
 >
-> Как страховка в начале файла стоит проверка: если в проекте нет пользователя с демо-почтой (шаг 1), файл прерывается с ошибкой «this is not the demo project» до первого изменения. Увидев её, не торопитесь создавать пользователя и запускать файл снова — сначала убедитесь, что открыт именно демо-проект.
+> As a safeguard there is a check at the start of the file: if the project has no user with the demo email (step 1), the file aborts with the error "this is not the demo project" before the first change. When you see it, do not hurry to create the user and run the file again — first make sure the demo project is the one that is open.
 
-1. Откройте файл `supabase/demo/setup.sql`, скопируйте целиком.
-2. Демо-проект в дашборде → SQL Editor → New query → вставить → Run. Supabase предупредит о «potentially destructive operations» (в файле `drop policy` и функция с `truncate`) — подтвердите.
-3. Ожидаемый результат: без ошибок, в конце результат `cron.schedule` с одной строкой. Файл можно запускать повторно.
-4. Если на `create extension pg_cron` ошибка о правах — включите расширение в Database → Extensions → `pg_cron` и запустите файл ещё раз.
+1. Open the file `supabase/demo/setup.sql` and copy it whole.
+2. The demo project in the dashboard → SQL Editor → New query → paste → Run. Supabase warns about "potentially destructive operations" (the file has `drop policy` and a function with `truncate`) — confirm.
+3. Expected result: no errors, and at the end the `cron.schedule` result with one row. The file can be run again.
+4. If `create extension pg_cron` fails with a permissions error, enable the extension in Database → Extensions → `pg_cron` and run the file once more.
 
-Файл создаёт схему `demo`, таблицы эталона и учётки, функцию `demo.reset()`, функцию `public.demo_last_reset()` для пинга, расписание и удаляет политики записи в Storage (в рабочей базе они остаются).
+The file creates the `demo` schema, the reference and account tables, the `demo.reset()` function, the `public.demo_last_reset()` function for the ping and the schedule, and it drops the Storage write policies (in the working database they stay).
 
-**После будущих миграций** (миграции общие для рабочей и демо-базы): если миграция заводит новую таблицу приложения, добавьте её в список `truncate` в `demo.reset()` (`supabase/demo/setup.sql`), иначе она переживёт ночной сброс; если миграция пересоздаёт или добавляет политики записи Storage, добавьте их в `drop policy` в конце файла. После правки запустите `setup.sql` в демо ещё раз.
+**After future migrations** (the migrations are shared by the working and the demo database): if a migration creates a new app table, add it to the `truncate` list in `demo.reset()` (`supabase/demo/setup.sql`), otherwise it survives the nightly reset; if a migration recreates or adds Storage write policies, add them to `drop policy` at the end of the file. After the edit run `setup.sql` in the demo once more.
 
-## 4. Загрузить эталон и фото
+## 4. Load the reference and the photos
 
-### Эталон
+### The reference
 
-`supabase/demo/load-seed.sql` — один `INSERT` на 327 КБ, слишком велик для SQL Editor, поэтому его выполняет CLI (`db query` принимает ровно один оператор, этот файл подходит). CLI всё ещё привязан к демо (шаг 2). PowerShell и bash:
+`supabase/demo/load-seed.sql` is one `INSERT` of 327 KB, too large for the SQL Editor, so the CLI runs it (`db query` accepts exactly one statement, and this file fits). The CLI is still linked to the demo (step 2). PowerShell and bash:
 
 ```
 npx supabase db query --linked -f supabase/demo/load-seed.sql
 ```
 
-Если команда откажет из-за размера запроса — выполните тот же файл по строке подключения (приложение в конце).
+If the command refuses because of the query size, run the same file through the connection string (the appendix at the end).
 
-Теперь первый сброс: он очищает таблицы приложения, заливает эталон и возвращает учётку демо-пользователя. Ожидаемый ответ: `{"recipes": 20, "products": 65, "cook_logs": 39}`.
+Now the first reset: it clears the app tables, loads the reference and restores the demo user account. Expected response: `{"recipes": 20, "products": 65, "cook_logs": 39}`.
 
 ```
 npx supabase db query --linked "select demo.reset()"
 ```
 
-То же можно выполнить в SQL Editor: `select demo.reset();`.
+The same can be run in the SQL Editor: `select demo.reset();`.
 
-### Фото
+### The photos
 
-Нужен ключ secret демо-проекта: дашборд → Project Settings → API Keys → `secret` (не publishable). Он обходит политики Storage и никуда не записывается. Ключ вводится без отображения на экране (в PowerShell `-MaskInput` — PowerShell 7.1+).
+You need the secret key of the demo project: dashboard → Project Settings → API Keys → `secret` (not publishable). It bypasses the Storage policies and is not written anywhere. The key is entered without being shown on the screen (in PowerShell `-MaskInput` is PowerShell 7.1+).
 
 PowerShell:
 
 ```powershell
 $env:SUPABASE_URL = 'https://<ref>.supabase.co'
-$env:SUPABASE_SECRET_KEY = Read-Host -MaskInput "Ключ secret демо-проекта"
+$env:SUPABASE_SECRET_KEY = Read-Host -MaskInput "Secret key of the demo project"
 node supabase/demo/upload-photos.mjs
 Remove-Item Env:SUPABASE_SECRET_KEY
 ```
@@ -106,68 +108,68 @@ bash:
 
 ```bash
 export SUPABASE_URL='https://<ref>.supabase.co'
-read -rsp "Ключ secret демо-проекта: " SUPABASE_SECRET_KEY && export SUPABASE_SECRET_KEY
+read -rsp "Secret key of the demo project: " SUPABASE_SECRET_KEY && export SUPABASE_SECRET_KEY
 node supabase/demo/upload-photos.mjs
 unset SUPABASE_SECRET_KEY
 ```
 
-Скрипт кладёт 20 файлов из `supabase/demo/photos/` в бакет `recipe-photos` по путям `<id рецепта>/cover.webp` (список — `supabase/demo/photos.json`). Ожидаемый итог: `Uploaded 20 of 20.` Повторный запуск безопасен.
+The script puts the 20 files from `supabase/demo/photos/` into the `recipe-photos` bucket under the paths `<recipe id>/cover.webp` (the list is `supabase/demo/photos.json`). Expected result: `Uploaded 20 of 20.` Running it again is safe.
 
-### Вернуть CLI к рабочему проекту
+### Link the CLI back to the working project
 
-Если у вас есть рабочий проект — привяжите CLI обратно (ref записан в «Перед началом»), иначе следующий обычный `db push` уйдёт в демо. PowerShell и bash:
+If you have a working project, link the CLI back (the ref is written down in "Before you start"), otherwise the next regular `db push` goes to the demo. PowerShell and bash:
 
 ```
-npx supabase link --project-ref <ref рабочего проекта>
+npx supabase link --project-ref <working project ref>
 npx supabase projects list
 ```
 
-Отметка `●` должна стоять у рабочего проекта.
+The `●` mark must be on the working project.
 
-## 5. Прописать адрес и ключ
+## 5. Fill in the address and the key
 
-Адрес проекта и publishable key: дашборд → Project Settings → API. Значения нужны в двух файлах:
+The project address and the publishable key: dashboard → Project Settings → API. The values are needed in two files:
 
-- `.env.demo` — `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` (на месте заглушек `REPLACE-ME`);
-- `wrangler.demo.jsonc` — `vars.SUPABASE_URL`, `vars.SUPABASE_PUBLISHABLE_KEY` (те же значения; скрипт пинга читает их отсюда, потому что `.env.demo` Worker не видит).
+- `.env.demo` — `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` (in place of the `REPLACE-ME` stubs);
+- `wrangler.demo.jsonc` — `vars.SUPABASE_URL`, `vars.SUPABASE_PUBLISHABLE_KEY` (the same values; the ping script reads them from here, because the Worker does not see `.env.demo`).
 
-Оба значения публичны, оба файла коммитятся. Секретные ключи — ни в один из них.
+Both values are public, both files are committed. Secret keys go into neither of them.
 
-## 6. Собрать и выкатить
+## 6. Build and roll out
 
-Одна команда: `deploy:demo` сама вызывает `build:demo`. PowerShell и bash:
+One command: `deploy:demo` calls `build:demo` itself. PowerShell and bash:
 
 ```
 pnpm deploy:demo
 ```
 
-Первый запуск создаст Worker `recipe-book-demo` на вашем поддомене `workers.dev` и зарегистрирует Cron Trigger. Адрес выведет wrangler.
+The first run creates the `recipe-book-demo` Worker on your `workers.dev` subdomain and registers the Cron Trigger. wrangler prints the address.
 
-> **Предупреждение. `VITE_DEMO` не должна попасть в сборку рабочего Worker.** Vite подхватывает `VITE_*` из переменных окружения процесса и они приоритетнее файлов `.env.*`. Не добавляйте `VITE_DEMO` (и `VITE_DEMO_EMAIL` / `VITE_DEMO_PASSWORD`) в Cloudflare → рабочий Worker → Settings → Build → Variables and secrets и не задавайте их в терминале перед рабочей сборкой: рабочее приложение превратится в демо с плашкой и закрытой загрузкой фото. Демо собирается и выкатывается только командой `pnpm deploy:demo` с вашей машины, а автосборки из репозитория у него нет.
+> **Warning. `VITE_DEMO` must not get into the build of the working Worker.** Vite picks up `VITE_*` from the process environment variables, and they take priority over the `.env.*` files. Do not add `VITE_DEMO` (and `VITE_DEMO_EMAIL` / `VITE_DEMO_PASSWORD`) to Cloudflare → the working Worker → Settings → Build → Variables and secrets, and do not set them in the terminal before a working build: the working app would turn into the demo with a banner and closed photo upload. The demo is built and rolled out only by the `pnpm deploy:demo` command from your machine, and it has no auto-build from the repository.
 
-## Как проверить
+## How to check
 
-1. **Демо открывается.** Адрес из вывода `deploy:demo`: видна плашка «Демо-версия…», на экране входа логин и пароль уже подставлены, «Войти» входит одним нажатием, в списке 20 рецептов с фото.
-2. **Сброс работает.** В приложении измените что-нибудь (например, название рецепта), затем вызовите сброс (команда из шага 4) и обновите страницу: данные вернулись. Демо-логин после сброса по-прежнему входит.
-3. **Задание `pg_cron` в списке.** SQL Editor демо-проекта:
+1. **The demo opens.** The address from the `deploy:demo` output: the "Demo version…" banner is visible (in the language of the browser; the banner text is in `public/dictionaries/`), the sign-in screen already has the login and password filled in, "Sign in" signs in with one tap, and the list has 20 recipes with photos.
+2. **The reset works.** Change something in the app (for example, a recipe name), then call the reset (the command from step 4) and refresh the page: the data is back. The demo login still signs in after the reset.
+3. **The `pg_cron` job is in the list.** SQL Editor of the demo project:
 
    ```sql
    select jobid, jobname, schedule, active from cron.job;
    ```
 
-   Ожидается одна строка `demo-nightly-reset`, `0 0 * * *`, `active = t`. На следующий день проверьте, что оно отработало:
+   Expected: one row `demo-nightly-reset`, `0 0 * * *`, `active = t`. The next day check that it ran:
 
    ```sql
    select status, return_message, start_time from cron.job_run_details order by start_time desc limit 5;
    ```
 
-4. **Запись в Storage закрыта, чтение работает.** Фото открывается по публичной ссылке (подставьте любой путь из `supabase/demo/photos.json`). PowerShell и bash:
+4. **Writing to Storage is closed, reading works.** The photo opens by the public link (substitute any path from `supabase/demo/photos.json`). PowerShell and bash:
 
    ```
-   curl.exe -sI "https://<ref>.supabase.co/storage/v1/object/public/recipe-photos/<id рецепта>/cover.webp"
+   curl.exe -sI "https://<ref>.supabase.co/storage/v1/object/public/recipe-photos/<recipe id>/cover.webp"
    ```
 
-   Ожидается `HTTP/2 200` в первой строке. (В bash вместо `curl.exe` годится обычный `curl`.) Загрузка от имени демо-пользователя должна отклоняться.
+   Expected: `HTTP/2 200` in the first line. (In bash the plain `curl` works instead of `curl.exe`.) An upload on behalf of the demo user must be rejected.
 
    PowerShell:
 
@@ -183,60 +185,60 @@ pnpm deploy:demo
    curl -s -X POST "https://<ref>.supabase.co/storage/v1/object/recipe-photos/check/cover.webp" -H "apikey: <publishable key>" -H "Authorization: Bearer $TOKEN" -H "Content-Type: image/webp" --data-binary "@supabase/demo/photos/syrniki.webp" -w "\nHTTP %{http_code}\n"
    ```
 
-   Ожидается ответ с `403` и `new row violates row-level security policy`. Если вместо этого пришёл `Successfully uploaded`, политики записи не удалились — перезапустите `setup.sql` и удалите объект `check/cover.webp` в дашборде.
+   Expected: a response with `403` and `new row violates row-level security policy`. If `Successfully uploaded` came instead, the write policies were not dropped — re-run `setup.sql` and delete the object `check/cover.webp` in the dashboard.
 
-5. **Пинг доходит до Postgres.** PowerShell и bash (publishable key — из шага 5):
+5. **The ping reaches Postgres.** PowerShell and bash (the publishable key is from step 5):
 
    ```
    curl.exe -s -X POST "https://<ref>.supabase.co/rest/v1/rpc/demo_last_reset" -H "apikey: <publishable key>" -H "Content-Type: application/json" -d "{}" -w "\nHTTP %{http_code}\n"
    ```
 
-   Ожидается время последнего сброса в кавычках (после первого сброса) или `null`, и строка `HTTP 200`. Cron Trigger виден в Cloudflare → Workers → `recipe-book-demo` → Settings → Triggers (`0 6 * * 1,4`); отработавшие запуски — во вкладке Logs.
+   Expected: the time of the last reset in quotes (after the first reset) or `null`, and the line `HTTP 200`. The Cron Trigger is visible in Cloudflare → Workers → `recipe-book-demo` → Settings → Triggers (`0 6 * * 1,4`); the runs that completed are in the Logs tab.
 
-6. **Рабочая база не изменилась** (если она у вас есть). CLI снова привязан к рабочему проекту (`npx supabase projects list`), и `npx supabase migration list` выдаёт тот же список, что и в «Перед началом»: без новых строк.
+6. **The working database did not change** (if you have one). The CLI is linked to the working project again (`npx supabase projects list`), and `npx supabase migration list` gives the same list as in "Before you start": no new rows.
 
-7. **Через две недели после запуска.** Убедитесь, что письма Supabase «project will be paused» не приходило. Если пришло — пинг по Cron Trigger не считается активностью: замените его другим способом (например, плановым запуском GitHub Actions, который дёргает тот же `rpc`).
+7. **Two weeks after the launch.** Make sure the Supabase email "project will be paused" did not arrive. If it did, the ping from the Cron Trigger does not count as activity: replace it with another way (for example, a scheduled GitHub Actions run that calls the same `rpc`).
 
-## Если что-то пошло не так
+## If something went wrong
 
-- `db push --dry-run` показывает пустой или короткий список — CLI привязан не к демо. Ничего не применяйте, проверьте `npx supabase projects list` и повторите `link` (шаг 2).
-- Обычный `db push` после всех шагов «ничего не делает» в рабочем проекте — CLI остался привязан к демо; верните его (конец шага 4).
-- `setup.sql` прерывается ошибкой «this is not the demo project» — открыт не тот проект или не заведён пользователь из шага 1.
-- `setup.sql` снова прерывается ошибкой «this is not the demo project», хотя проект верный, — посетитель сменил почту демо-пользователя до ночного сброса. Сначала выполните `select demo.reset();` (вернёт почту), затем перезапустите `setup.sql`.
-- Демо входит, но данных нет — не выполнен шаг 4 (эталон и первый сброс).
-- Демо входит, но фото не грузятся (пустые карточки) — не выполнена загрузка фото или бакет называется иначе, чем `recipe-photos`.
-- Сброс жалуется `demo_seed_not_loaded` — таблица эталона пуста, повторите загрузку эталона.
-- Сброс предупреждает «demo user not found», то есть демо-пользователь не найден, — его удалили или сменили почту и пользователь потерян; создайте его заново (шаг 1) и перезапустите `setup.sql`.
-- В журнале `wrangler` пинг падает с «SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY are not set in wrangler.demo.jsonc» — шаг 5 не сделан для `wrangler.demo.jsonc`.
+- `db push --dry-run` shows an empty or short list — the CLI is not linked to the demo. Do not apply anything, check `npx supabase projects list` and repeat `link` (step 2).
+- A regular `db push` after all the steps "does nothing" in the working project — the CLI stayed linked to the demo; link it back (the end of step 4).
+- `setup.sql` aborts with the error "this is not the demo project" — the wrong project is open, or the user from step 1 was not created.
+- `setup.sql` aborts again with the error "this is not the demo project" although the project is right — a visitor changed the email of the demo user before the nightly reset. First run `select demo.reset();` (it restores the email), then re-run `setup.sql`.
+- The demo signs in but there is no data — step 4 (the reference and the first reset) was not done.
+- The demo signs in but the photos do not load (empty cards) — the photo upload was not done, or the bucket is named differently from `recipe-photos`.
+- The reset complains `demo_seed_not_loaded` — the reference table is empty, repeat loading the reference.
+- The reset warns "demo user not found" — the demo user was deleted, or its email was changed and the user is lost; create it again (step 1) and re-run `setup.sql`.
+- In the `wrangler` log the ping fails with "SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY are not set in wrangler.demo.jsonc" — step 5 was not done for `wrangler.demo.jsonc`.
 
-## Приложение: строка подключения вместо `link`
+## Appendix: a connection string instead of `link`
 
-Запасной путь — если `db query --linked` отказывает на большом файле или CLI не хочется перепривязывать. CLI получает полный адрес демо-базы через `--db-url`.
+The fallback — if `db query --linked` refuses a large file or you do not want to re-link the CLI. The CLI gets the full address of the demo database through `--db-url`.
 
-**Где взять строку:**
+**Where to get the string:**
 
-1. Откройте демо-проект в дашборде и нажмите кнопку **Connect** в верхней панели страницы проекта. Если её не видно — Project Settings → Database.
-2. Выберите **Session pooler**. Не Direct connection: на бесплатном плане прямое подключение работает только по IPv6. Не Transaction pooler: у него порт 6543, нужен 5432.
-3. Скопируйте строку целиком: `postgresql://postgres.<ref>:[YOUR-PASSWORD]@aws-<N>-<регион>.pooler.supabase.com:5432/postgres`. Хост копируйте как есть — цифру `<N>` не угадать.
-4. Замените `[YOUR-PASSWORD]` вместе со скобками на пароль базы.
+1. Open the demo project in the dashboard and press the **Connect** button in the top bar of the project page. If it is not visible — Project Settings → Database.
+2. Choose **Session pooler**. Not Direct connection: on the free plan the direct connection works only over IPv6. Not Transaction pooler: it has port 6543, and 5432 is needed.
+3. Copy the whole string: `postgresql://postgres.<ref>:[YOUR-PASSWORD]@aws-<N>-<region>.pooler.supabase.com:5432/postgres`. Copy the host as is — the digit `<N>` cannot be guessed.
+4. Replace `[YOUR-PASSWORD]` together with the brackets with the database password.
 
-**Пароль со спецсимволами.** Пароль стоит внутри адреса, поэтому символы вроде `@`, `:`, `/`, `#` ломают строку. Если в пароле только буквы и цифры — пропустите абзац. Иначе проще сменить пароль на буквенно-цифровой (Project Settings → Database → Reset database password) или закодировать символы: `%` → `%25` (первым), пробел → `%20`, `!` → `%21`, `#` → `%23`, `$` → `%24`, `&` → `%26`, `'` → `%27`, `+` → `%2B`, `/` → `%2F`, `:` → `%3A`, `?` → `%3F`, `@` → `%40`.
+**A password with special characters.** The password sits inside the address, so characters like `@`, `:`, `/`, `#` break the string. If the password has only letters and digits, skip this paragraph. Otherwise it is easier to change the password to an alphanumeric one (Project Settings → Database → Reset database password) or to encode the characters: `%` → `%25` (first), space → `%20`, `!` → `%21`, `#` → `%23`, `$` → `%24`, `&` → `%26`, `'` → `%27`, `+` → `%2B`, `/` → `%2F`, `:` → `%3A`, `?` → `%3F`, `@` → `%40`.
 
-Строку — в переменную окружения, **в одинарных кавычках** (в двойных PowerShell подставит `$`-переменные, а bash раскроет `!`). Все команды — в том же окне терминала. **Пустая переменная опасна:** `--db-url` с пустым значением означает привязанный проект, поэтому команды ниже проверяют, что она задана.
+Put the string into an environment variable, **in single quotes** (in double quotes PowerShell substitutes `$` variables, and bash expands `!`). All commands go in the same terminal window. **An empty variable is dangerous:** `--db-url` with an empty value means the linked project, so the commands below check that it is set.
 
 PowerShell:
 
 ```powershell
-$env:DEMO_DB_URL = 'postgresql://postgres.<ref>:<ПАРОЛЬ>@<хост из строки>:5432/postgres'
-if (-not $env:DEMO_DB_URL) { throw "DEMO_DB_URL не задана" }
+$env:DEMO_DB_URL = 'postgresql://postgres.<ref>:<PASSWORD>@<host from the string>:5432/postgres'
+if (-not $env:DEMO_DB_URL) { throw "DEMO_DB_URL is not set" }
 npx supabase db query --db-url $env:DEMO_DB_URL -f supabase/demo/load-seed.sql
 ```
 
 bash:
 
 ```bash
-export DEMO_DB_URL='postgresql://postgres.<ref>:<ПАРОЛЬ>@<хост из строки>:5432/postgres'
-npx supabase db query --db-url "${DEMO_DB_URL:?DEMO_DB_URL не задана}" -f supabase/demo/load-seed.sql
+export DEMO_DB_URL='postgresql://postgres.<ref>:<PASSWORD>@<host from the string>:5432/postgres'
+npx supabase db query --db-url "${DEMO_DB_URL:?DEMO_DB_URL is not set}" -f supabase/demo/load-seed.sql
 ```
 
-Так же — с `--db-url` вместо `--linked` или вместо привязки — работают `db push` (шаг 2) и `select demo.reset()` (шаг 4).
+In the same way — with `--db-url` instead of `--linked` or instead of linking — `db push` (step 2) and `select demo.reset()` (step 4) work.

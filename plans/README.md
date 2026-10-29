@@ -59,7 +59,7 @@ The artifacts of `recipe-book-v1/` are records of how things were and are not ed
 
 | Was | Now |
 |---|---|
-| `CLAUDE.md` | [`AGENTS.md`](../AGENTS.md); `CLAUDE.md` is now a single line `@AGENTS.md` |
+| `CLAUDE.md` | [`AGENTS.md`](../AGENTS.md); `CLAUDE.md` is removed, the tools read `AGENTS.md` directly |
 | `.github/copilot-instructions.md` (assembled from `.github/instructions/`) | [`docs/agents/conventions/`](../docs/agents/conventions/) by topic; the generation is cancelled |
 | `.github/instructions/00-project.md`, `30-conventions-generic.md`, `40-conventions-project.md` | the same (sections — in the table below) |
 | `.github/pipeline-profile.md` | [`docs/agents/pipeline-profile.md`](../docs/agents/pipeline-profile.md) |

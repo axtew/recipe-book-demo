@@ -1,76 +1,79 @@
-# Ручные проверки перед релизом v1
+[Русский](manual-checks.ru.md) · **English**
 
-Что автоматическая проверка не покрыла: исполнители проверяли в headless-браузере на компьютере, а не на iPhone. Пройти один раз на телефоне, **из PWA, установленного на домашний экран** — там поведение отличается от вкладки Safari. Нашлась проблема — записать сюда под пунктом и сказать в сессии.
+# Manual checks before the v1 release
 
-Составлено 2026-10-21 по отчётам Фаз 8–12. Обновлять, когда проверка пройдена или появилась новая.
+What the automated checks did not cover: the executors tested in a headless browser on a computer, not on an iPhone. Go through this once on the phone, **from the PWA installed on the home screen** — its behaviour differs from a Safari tab. If a problem is found, write it here under the item and say so in the session.
 
-## 0. До проверок — выкатка
+Drawn up on 2026-10-21 from the reports of Phases 8–12. Update it when a check is passed or a new one appears.
 
-- [x] `npx supabase db push` — две миграции Фазы 12: `20261021090000_backup_export_import.sql` и `20261021120000_reorder_categories.sql`. Без них экспорт, импорт и порядок категорий в облаке не работают.
-- [x] Выкатить фронт (`DEPLOY.md` → «Обычный цикл выкатки»).
-- [x] **Пробный экспорт на проде** сразу после выкатки. Выгрузка строго проверяет каждую строку; если какая-то старая запись в боевой базе в схему не впишется, экспорт упадёт — лучше узнать сейчас.
-- [ ] Остальной чек-лист `DEPLOY.md` → «Чек-лист перед первым релизом».
+## 0. Before the checks — rollout
 
-## 1. Установка, вход, общее
+- [x] `npx supabase db push` — the two migrations of Phase 12: `20261021090000_backup_export_import.sql` and `20261021120000_reorder_categories.sql`. Without them export, import and category order do not work in the cloud.
+- [x] Roll out the frontend (`DEPLOY.md` → "The regular rollout cycle").
+- [x] **A trial export on production** right after the rollout. The export checks every row strictly; if some old record in the production database does not fit the schema, the export fails — better to learn that now.
+- [ ] The rest of the `DEPLOY.md` checklist → "Checklist before the first release".
 
-- [ ] Ставится на домашний экран, открывается без адресной строки.
-- [ ] Сессия переживает закрытие приложения, повторный вход не нужен.
-- [ ] Таб-бар не перекрывается системной полосой жестов и клавиатурой.
-- [ ] После обновления приложения со старым кэшем (смена `CACHE_BUSTER`) данные загружаются заново, без ошибок.
-- [ ] Без сети: «Не удалось загрузить данные» → «Повторить» с вернувшейся сетью загружает данные.
+## 1. Installation, sign-in, general
 
-## 2. Навигация «Назад»
+- [ ] It installs on the home screen and opens without the address bar.
+- [ ] The session survives closing the app, no new sign-in is needed.
+- [ ] The tab bar is not covered by the system gesture bar or the keyboard.
+- [ ] After the app is updated with an old cache (a `CACHE_BUSTER` change), the data loads again without errors.
+- [ ] Without a connection: "Couldn’t load the data" → "Retry" with the connection back loads the data.
 
-Работает по истории браузера; в установленном PWA её поведение — главное, что нужно проверить.
+## 2. "Back" navigation
 
-- [ ] Список с поиском → рецепт → «Назад»: поиск и фильтры на месте.
-- [ ] Рецепт → «Редактировать» → сохранить → «Назад» ведёт в список, а не на прежнюю карточку.
-- [ ] Новый рецепт → сохранить → открылась карточка → «Назад» ведёт в список.
-- [ ] Продукт → «Назад»; журнал → рецепт → «Назад» возвращает в журнал.
-- [ ] Ссылка на рецепт, открытая заново (после перезапуска PWA), — «Назад» ведёт в список, а не «никуда».
+It works through the browser history; in an installed PWA its behaviour is the main thing to check.
 
-## 3. Список рецептов
+- [ ] List with a search → recipe → "← Back": the search and the filters are in place.
+- [ ] Recipe → "Edit" → save → "← Back" leads to the list, not to the previous card.
+- [ ] New recipe → save → the card opened → "← Back" leads to the list.
+- [ ] Product → "← Back"; log → recipe → "← Back" returns to the log.
+- [ ] A recipe link opened anew (after restarting the PWA) — "← Back" leads to the list, not "nowhere".
 
-- [ ] Кнопка «＋» не перекрывает последнюю карточку и не заезжает на таб-бар.
-- [ ] Лист фильтров выглядит нормально, закрывается.
-- [ ] Быстрый набор в поиске: поле не «откатывает» уже набранные буквы.
+## 3. Recipe list
 
-## 4. Редактор рецепта
+- [ ] The "＋" button does not cover the last card and does not run onto the tab bar.
+- [ ] The filter sheet looks fine and closes.
+- [ ] Fast typing in the search: the field does not "roll back" the letters already typed.
 
-- [ ] Перетаскивание ингредиентов и шагов пальцем; список при этом не скроллится сам по себе.
-- [ ] Фото: выбор из галереи и съёмка камерой, сжатие, сохранение.
-- [ ] Замена обложки: после сохранения сразу видно новое фото, а не старое.
-- [ ] Клавиатура: «Готово»/Enter в однострочном поле убирает клавиатуру, форма не отправляется; в заметках Enter переносит строку.
-- [ ] Поля не увеличивают страницу при фокусе (зум iOS).
-- [ ] Создание продукта прямо из выбора ингредиента: лист, название подставилось из поиска, кнопка активна.
-- [ ] Плашка черновика: начать рецепт, уйти без сохранения, вернуться — «Восстановить черновик» и «Начать заново».
+## 4. Recipe editor
 
-## 5. Карточка рецепта
+- [ ] Dragging ingredients and steps with a finger; the list does not scroll by itself meanwhile.
+- [ ] Photo: choosing from the gallery and taking with the camera, compression, saving.
+- [ ] Replacing the cover: after saving the new photo is shown at once, not the old one.
+- [ ] Keyboard: "Done"/Enter in a single-line field hides the keyboard and does not submit the form; in the notes Enter inserts a line break.
+- [ ] Fields do not zoom the page on focus (iOS zoom).
+- [ ] Creating a product right from the ingredient picker: the sheet opens, the name is filled in from the search, the button is enabled.
+- [ ] The draft prompt: start a recipe, leave without saving, come back — "Restore draft" and "Start over".
 
-- [ ] Ссылка на видео открывается во внешнем приложении/браузере.
-- [ ] «Пересчитать» (если у рецепта есть значения, введённые вручную).
+## 5. Recipe card
 
-## 6. Продукты
+- [ ] A video link opens in an external app/browser.
+- [ ] "Recalculate" (if the recipe has manually entered values).
 
-- [ ] «Сделать активным» у варианта; КБЖУ рецептов с этим продуктом меняется.
-- [ ] Архивация продукта: лист подтверждения, продукт пропал из справочника.
+## 6. Products
 
-## 7. Журнал
+- [ ] "Make active" on a variant; the nutrition of the recipes with this product changes.
+- [ ] Archiving a product: the confirmation sheet, the product is gone from the product list.
 
-- [ ] «Записать готовку» в два нажатия.
-- [ ] Календарь поверх листа: открывается, день выбирается пальцем, на узком экране не упирается в края так, что неудобно.
-- [ ] Ввод «1,5» в поле множителя вручную (промежуточное «1,» может сбрасываться).
-- [ ] Звёзды и «Сбросить оценку».
-- [ ] «Доели» и «Другая дата»: лист закрывается плавно, без обрыва анимации.
+## 7. Log
 
-## 8. Настройки
+- [ ] "Log a cook" in two taps.
+- [ ] The calendar over the sheet: it opens, a day is picked with a finger, on a narrow screen it does not hit the edges in an inconvenient way.
+- [ ] Entering "1,5" in the multiplier field by hand (the intermediate "1," may be reset).
+- [ ] Stars and "Clear rating".
+- [ ] "Finished" and "Other date": the sheet closes smoothly, without a cut-off animation.
 
-- [ ] «Скачать бэкап»: файл сохраняется на iPhone (в «Файлы» или через лист «Поделиться»), из PWA тоже. Если из PWA не скачивается — сказать: запасной путь — Web Share API.
-- [ ] Импорт: выбор файла открывает «Файлы»; на непустой базе — понятный отказ, ничего не меняется.
-- [ ] Категории: переименование с клавиатурой, «Выше»/«Ниже», порядок сохраняется.
-- [ ] «Выйти» — экран входа, повторный вход загружает данные.
+## 8. Settings
 
-## 9. Внешний вид после Фазы 11.5
+- [ ] "Download backup": the file is saved on the iPhone (in "Files" or through the "Share" sheet), from the PWA too. If it does not download from the PWA — say so: the fallback is the Web Share API.
+- [ ] Import: choosing a file opens "Files"; on a non-empty database — a clear refusal, nothing changes.
+- [ ] Categories: renaming with the keyboard, "Up"/"Down", the order is kept.
+- [ ] Language: the switcher changes the interface language at once, numbers and dates change with it, the choice survives a restart of the PWA.
+- [ ] "Sign out" — the sign-in screen, signing in again loads the data.
 
-- [ ] Кнопки во всех листах одинаковые, ни одна не меньше пальца.
-- [ ] Поля без стрелок ▲▼, числа вводятся с цифровой клавиатуры.
+## 9. Appearance after Phase 11.5
+
+- [ ] The buttons in all sheets are the same, none is smaller than a finger.
+- [ ] The fields have no ▲▼ arrows, numbers are entered from the numeric keyboard.

@@ -123,3 +123,24 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 
 - **Status:** completed — three `raise` messages in English (`setup.sql` ×2, `dev-data-cleanup.sql`); strip-and-compare: migrations and `dev-data.sql` identical, `setup.sql` / `dev-data-cleanup.sql` differ only in those literals; `supabase/demo/DEPLOY.md` 61, 204, 205, 209 quote the English messages (prose Russian until L8). lint, build, test (129) green. Header comments in `supabase/demo/source/{products,recipes,cookLogs}.ts` left for L9.
 - **Review iteration 2:** APPROVED (`plans/localization/l7/iter-2/REVIEW.md`). Note: the L9 contract should name the file-header comments in `supabase/demo/source/*.ts` explicitly.
+- **Committed:** `b72d99a` (not pushed).
+
+## L8, iteration 1
+
+- **Date:** 2026-10-29
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** English main + Russian `.ru.md` for `docs/{user-guide,manual-checks,task,architecture}.md`, `supabase/demo/{DEPLOY,README}.md`, `supabase/demo/photos/CREDITS.md`; `BACKLOG.md` English (ADR-quoted section names, «Second UI language» done, «Demo data per UI language» deferred) + `BACKLOG-ru.md` (literal path in `scripts/publish-exclude.txt`); `CLAUDE.md` deleted, `plans/README.md` row updated.
+- **Checks:** Cyrillic search data-only; heading counts per pair equal; links resolve; publish dry run on a temp clone green; lint green.
+- **Deviation:** `BACKLOG.md` has no link to `BACKLOG-ru.md` (contract step 6 and the publish link check); only the Russian copy links back.
+- **Review iteration 1:** NEEDS_CHANGES, `Issue source: both` (`plans/localization/l8/iter-1/REVIEW.md`) — plan: the public `README.md` / `README.ru.md` are in no phase and now carry false statements («(in Russian)» markers, «English interface is planned», «interface Russian only»); the BACKLOG one-way link needs a line in the plan. Code: `docs/user-guide.md:21,23` present category names as on-screen labels.
+- **Owner:** amend the plan («Phase L8, L9 — added 2026-10-29 (README, BACKLOG link)») and re-run; commit on approval without another stop.
+
+## L8, iteration 2 (amendment)
+
+- **Status:** completed — README pair: «(in Russian)» markers dropped, line 5 rewritten (bilingual UI and docs; demo data and `plans/` logs Russian), line 91 keeps the demo-content clause, `README.ru.md` links the `.ru.md` pairs; `docs/user-guide.md` category names framed as examples; `docs/user-guide.ru.md` «Recipe Book». Links resolve; publish dry run on a temp clone green; lint clean.
+- **Review iteration 2:** NEEDS_CHANGES, `Issue source: code` (`plans/localization/l8/iter-2/REVIEW.md`) — README line 5 «the documentation is in English and Russian» overclaims (agent docs and ADRs are English-only). Note: `README.ru.md:15` links the English `CREDITS.md` — folded into the fix.
+
+## L8, iteration 3 (fix)
+
+- **Status:** completed — README line 5 narrowed (bilingual interface; reference docs in English and Russian; demo data and `plans/` logs Russian); `README.ru.md:15` links `CREDITS.ru.md`. Links resolve; lint exit 0.
+- **Review iteration 3:** APPROVED (`plans/localization/l8/iter-3/REVIEW.md`). Carried to L9: `README.md:15` and the line-91 clause, ADR 0034 English-seed line, «Russian for now» sentences in `supabase/demo/README.md` and `CREDITS.md`.

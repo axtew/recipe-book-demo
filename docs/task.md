@@ -1,41 +1,43 @@
-# Исходное ТЗ
+[Русский](task.ru.md) · **English**
 
-Ниже — исходное ТЗ дословно. Это историческая справка: часть его решений позже отменена или уточнена, действующими считаются [ADR](decisions/README.md). Что именно изменилось:
+# The original brief
 
-- Пользователи: не один (жена), а двое; десктопа в v1 нет — [ADR 0001](decisions/0001-personal-app-for-two.md).
-- «Стек, хостинг, деплой не заданы» — решены: [ADR 0003](decisions/0003-spa-pwa-on-vite.md)–[0013](decisions/0013-cloudflare-hosting.md).
-- Единицы: только граммы, без миллилитров; `ProductVariant.is_active` убран (активный вариант — `Product.active_variant_id`); КБЖУ варианта nullable; добавлены `is_approximate` и `source`; предзаполняются только категории блюд, а не 50–80 продуктов — [ADR 0016](decisions/0016-variants-and-active-variant.md).
-- Удалений нет, только `archived_at` — [ADR 0014](decisions/0014-archiving-instead-of-deletes.md).
-- У рецепта несколько категорий блюд вместо одной (`dish_category_id` убран) — [ADR 0019](decisions/0019-dish-categories-many-to-many.md).
-- Шаги — отдельная таблица, фото одно, вес блюда — без новых полей, экспорт в JSON с первой версии — [ADR 0020](decisions/0020-recipe-content-and-backup.md).
-- `CookLog` хранит снимок КБЖУ, даты — строки `YYYY-MM-DD` — [ADR 0018](decisions/0018-cook-log-snapshot-and-dates.md).
-- Формулировки ТЗ написаны в женском роде; текст интерфейса не привязан к полу — [`conventions/i18n.md`](agents/conventions/i18n.md).
+Below is the original brief, word for word. The Russian text ([`task.ru.md`](task.ru.md)) is the source of truth; this English file is a faithful translation of it. This is a historical reference: some of its decisions were later cancelled or refined, and the [ADRs](decisions/README.md) are the ones in force. What exactly changed:
 
----
-
-# Задача: приложение «Книга рецептов» — версия 1
-
-## Контекст
-
-Личное приложение для одного пользователя (моя жена). Язык интерфейса — русский. Основной сценарий использования — телефон, поэтому mobile-first.
-
-Конечная цель проекта (НЕ в этой версии, но структуру данных закладываем под неё): планирование меню на две недели вперёд под batch cooking — готовим один день много, замораживаем, две недели едим — и автоматическая генерация списка покупок с суммарными граммовками.
-
-Версия 1 — это фундамент: справочник продуктов, рецепты, поиск и журнал готовки. Задача v1 — дать возможность реально набить базу рецептов и начать копить статистику. Планирование и список покупок придут в v2.
-
-**Стек, хостинг, деплой не заданы — обсуди это со мной отдельно перед началом работы.** Ниже только функциональные требования.
+- Users: not one (my wife) but two; there is no desktop in v1 — [ADR 0001](decisions/0001-personal-app-for-two.md).
+- "The stack, hosting and deployment are not set" — decided: [ADR 0003](decisions/0003-spa-pwa-on-vite.md)–[0013](decisions/0013-cloudflare-hosting.md).
+- Units: grams only, no milliliters; `ProductVariant.is_active` is removed (the active variant is `Product.active_variant_id`); the nutrition of a variant is nullable; `is_approximate` and `source` are added; only the dish categories are pre-filled, not 50–80 products — [ADR 0016](decisions/0016-variants-and-active-variant.md).
+- There are no deletes, only `archived_at` — [ADR 0014](decisions/0014-archiving-instead-of-deletes.md).
+- A recipe has several dish categories instead of one (`dish_category_id` is removed) — [ADR 0019](decisions/0019-dish-categories-many-to-many.md).
+- Steps are a separate table, there is one photo, the weight of the dish needs no new fields, the JSON export exists from the first version — [ADR 0020](decisions/0020-recipe-content-and-backup.md).
+- `CookLog` stores a nutrition snapshot, the dates are `YYYY-MM-DD` strings — [ADR 0018](decisions/0018-cook-log-snapshot-and-dates.md).
+- The wording of the brief is in the feminine gender (in Russian); the interface text is not tied to gender — [`conventions/i18n.md`](agents/conventions/i18n.md).
 
 ---
 
-## Модель данных
+# Task: the "Recipe Book" app — version 1
 
-### Справочник продуктов — двухуровневый
+## Context
 
-Ключевое архитектурное решение. Продукт (`Product`) — это обобщённая сущность: «Сливочное масло», «Куриное филе», «Огурцы». Внутри продукта — конкретные варианты покупки (`ProductVariant`): «Простоквашино 82.5%», «Экомилк 72.5%». КБЖУ хранится на уровне варианта, не продукта.
+A personal app for one user (my wife). The interface language is Russian. The main usage scenario is the phone, so mobile-first.
 
-У продукта есть **активный вариант** — тот, что сейчас в холодильнике. Купили масло другой марки → добавили новый вариант, отметили активным → калорийность во всех рецептах пересчиталась автоматически, сами рецепты трогать не нужно.
+The final goal of the project (NOT in this version, but the data structure is laid out for it): planning the menu two weeks ahead for batch cooking — cook a lot in one day, freeze, eat for two weeks — and automatic generation of a shopping list with total weights.
 
-Структура одинакова для всех продуктов, но если у продукта единственный вариант (огурцы, соль), интерфейс вложенность не показывает — карточка выглядит как обычный простой продукт. Никаких двух веток логики, разница только в отображении.
+Version 1 is the foundation: a product reference, recipes, search and a cooking log. The goal of v1 is to make it possible to actually fill the recipe base and start accumulating statistics. Planning and the shopping list come in v2.
+
+**The stack, hosting and deployment are not set — discuss this with me separately before starting work.** Below are only the functional requirements.
+
+---
+
+## Data model
+
+### The product reference — two levels
+
+The key architectural decision. A product (`Product`) is a generalized entity: "Butter", "Chicken fillet", "Cucumbers". Inside a product there are concrete purchase variants (`ProductVariant`): "Prostokvashino 82.5%", "Ekomilk 72.5%". The nutrition (kcal, protein, fat, carbs) is stored at the variant level, not the product level.
+
+A product has an **active variant** — the one that is in the fridge right now. Bought butter of another brand → added a new variant, marked it active → the calories in all recipes recalculated automatically, the recipes themselves do not need to be touched.
+
+The structure is the same for all products, but if a product has a single variant (cucumbers, salt), the interface does not show the nesting — the card looks like a regular simple product. No two branches of logic, the difference is only in the display.
 
 ```
 ProductCategory
@@ -45,149 +47,149 @@ Product
   id, name, category_id, active_variant_id, note
 
 ProductVariant
-  id, product_id, name (может быть пустым для единственного варианта),
+  id, product_id, name (may be empty for a single variant),
   kcal_100, protein_100, fat_100, carbs_100,
   is_active, note, created_at
 
 DishCategory
   id, name, sort_order
-  (завтраки, обеды, ужины, супы, выпечка, десерты — список редактируемый)
+  (breakfasts, lunches, dinners, soups, baking, desserts — the list is editable)
 
 Recipe
   id, name, dish_category_id,
-  servings_base            — на сколько порций записан рецепт
-  yield_grams              — вес готового блюда, nullable
+  servings_base            — how many servings the recipe is written for
+  yield_grams              — weight of the cooked dish, nullable
   cook_time_min, photo, notes,
-  video_urls[]             — несколько ссылок
-  freezable                — можно ли морозить
-  freezer_days, fridge_days — сроки хранения
-  kcal_100_override, protein_100_override, fat_100_override, carbs_100_override — nullable, ручная правка
+  video_urls[]             — several links
+  freezable                — whether it can be frozen
+  freezer_days, fridge_days — storage periods
+  kcal_100_override, protein_100_override, fat_100_override, carbs_100_override — nullable, manual edit
   created_at, updated_at
 
 RecipeIngredient
   id, recipe_id, product_id,
-  pinned_variant_id        — nullable, зафиксировать конкретную марку для этого рецепта
+  pinned_variant_id        — nullable, pin a specific brand for this recipe
   amount_grams, is_optional, note, sort_order
 
 CookLog
   id, recipe_id, cooked_at,
-  multiplier               — во сколько раз готовила относительно базового рецепта
-  actual_yield_grams       — сколько вышло по факту, nullable
-  containers               — сколько контейнеров получилось, nullable
-  finished_at              — когда доели, nullable
+  multiplier               — how many times she cooked relative to the base recipe
+  actual_yield_grams       — how much actually came out, nullable
+  containers               — how many containers it made, nullable
+  finished_at              — when it ran out, nullable
   rating, note
 ```
 
-### Единицы измерения
+### Units of measurement
 
-Только граммы и миллилитры. Никаких ложек, стаканов и штук — вводим чистый вес. Не усложняй конверсиями.
-
----
-
-## Расчёт КБЖУ
-
-Считается автоматически, но с возможностью ручного переопределения (поля `*_override`).
-
-Алгоритм:
-
-1. Для каждого ингредиента берём КБЖУ из `pinned_variant_id`, если он задан, иначе из активного варианта продукта.
-2. Суммируем по всем ингредиентам: `kcal_100 * amount_grams / 100`. Получаем КБЖУ всего блюда.
-3. Вес сырья = сумма `amount_grams` всех ингредиентов.
-4. **КБЖУ на 100 г**: если задан `yield_grams` — делим на него; если не задан — делим на вес сырья. При отсутствии `yield_grams` показывать в интерфейсе ненавязчивую подсказку, что расчёт по весу сырья и не учитывает уварку.
-5. **КБЖУ на порцию** = КБЖУ блюда / `servings_base`.
-6. Ингредиенты с `is_optional = true` в расчёт не входят.
-
-**Важно:** если у какого-то продукта в рецепте не заполнено КБЖУ, не подставляй нули молча. Показывай в карточке рецепта явное предупреждение с перечислением проблемных продуктов и ссылкой на их редактирование. Неверные цифры хуже отсутствующих.
-
-Если заполнены `*_override` — показываем их, но рядом даём кнопку «пересчитать» и помечаем, что значение введено вручную.
+Only grams and milliliters. No spoons, cups or pieces — we enter pure weight. Do not complicate things with conversions.
 
 ---
 
-## Экраны и UX
+## Nutrition calculation
 
-### 1. Список рецептов (главный экран)
+It is calculated automatically, but with the possibility of a manual override (the `*_override` fields).
 
-- Группировка по категориям блюд с возможностью свернуть категорию.
-- Карточка в списке: фото (или плейсхолдер), название, время готовки, ккал на 100 г, иконка снежинки если можно морозить.
-- Поиск сверху — работает и по названию рецепта, **и по ингредиенту**. Запрос «курица» должен находить все блюда, где есть куриное филе. Это отдельный частый сценарий: «что приготовить из того, что есть».
-- Фильтры: только замораживаемые, по времени готовки.
+The algorithm:
 
-### 2. Карточка рецепта
+1. For each ingredient take the nutrition from `pinned_variant_id` if it is set, otherwise from the active variant of the product.
+2. Sum over all ingredients: `kcal_100 * amount_grams / 100`. This gives the nutrition of the whole dish.
+3. The raw weight = the sum of `amount_grams` of all ingredients.
+4. **Nutrition per 100 g**: if `yield_grams` is set — divide by it; if it is not set — divide by the raw weight. When `yield_grams` is missing, show in the interface an unobtrusive hint that the calculation is by raw weight and does not account for cooking loss.
+5. **Nutrition per serving** = nutrition of the dish / `servings_base`.
+6. Ingredients with `is_optional = true` are not included in the calculation.
 
-Порядок блоков сверху вниз:
+**Important:** if some product in a recipe has no nutrition filled in, do not silently substitute zeros. Show in the recipe card an explicit warning listing the problem products and a link to edit them. Wrong numbers are worse than missing ones.
 
-- Фото, название, категория, время готовки.
-- КБЖУ: крупно на 100 г, рядом мельче — на порцию и на всё блюдо.
-- Блок хранения: можно ли морозить, сроки в морозилке и в холодильнике. Показывать только если `freezable`.
-- Ингредиенты: продукт + граммы. Рядом с каждым — мелким шрифтом название используемого варианта, если у продукта их больше одного.
-- Шаги приготовления — нумерованный список.
-- Видео — кнопками, открываются во внешнем приложении.
-- Заметки.
-- Кнопка **«Готовила»** — открывает быстрое добавление в журнал.
-
-### 3. Добавление и редактирование рецепта
-
-Это экран, на котором приложение живёт или умирает. Жена будет переносить сюда несколько десятков рецептов из скриншотов, роликов и с сайтов — если процесс мучительный, приложением просто не будут пользоваться.
-
-Требования:
-
-- Строка ингредиента: поле поиска продукта с автодополнением + поле граммовки. Ничего лишнего.
-- **Если продукта нет в справочнике — создать его прямо здесь, не покидая экран рецепта.** Компактная модалка: название, категория, КБЖУ на 100 г. Сохранил → продукт подставился в строку → продолжаешь заполнять рецепт. Это критично, переходы в отдельный раздел справочника посреди ввода рецепта недопустимы.
-- Аналогично можно добавить новый вариант к существующему продукту, не выходя из рецепта.
-- Черновик не должен теряться при случайном закрытии — автосохранение.
-- Шаги приготовления: добавление/удаление/перетаскивание.
-- Ингредиенты: перетаскивание для смены порядка.
-- КБЖУ пересчитывается на лету по мере ввода ингредиентов — видно сразу, а не после сохранения.
-
-### 4. Справочник продуктов
-
-- Список по категориям продуктов.
-- Карточка продукта: варианты списком, у активного — отметка. Переключение активного в один тап.
-- У каждого варианта — КБЖУ и дата добавления.
-- В карточке продукта: список рецептов, где он используется.
-- Удаление продукта, который используется в рецептах, блокируется с объяснением.
-
-### 5. Журнал готовки
-
-- Добавление записи максимум в два-три тапа: дата (по умолчанию сегодня), множитель (×1, ×2, ×3, ×4 кнопками + произвольное значение), фактический выход в граммах и/или количество контейнеров, заметка.
-- Позже — отметка «доели» с датой.
-- В карточке рецепта: сколько раз готовила, когда в последний раз, средний фактический выход, на сколько дней в среднем хватало.
-
-Эти данные — основа для планирования в v2, поэтому собирать их надо с самого начала, даже если пока они просто отображаются.
+If the `*_override` fields are filled in, show them, but give a "recalculate" button next to them and mark that the value was entered manually.
 
 ---
 
-## Что НЕ делаем в v1
+## Screens and UX
 
-Явный список, чтобы не расползлось:
+### 1. Recipe list (the main screen)
 
-- Планирование меню на две недели.
-- Генерация списка покупок.
-- Режим готовки с таймерами и защитой от гашения экрана.
-- Импорт рецептов по ссылке, из скриншотов, распознавание.
-- Учёт остатков продуктов дома.
-- Мультипользовательность, шаринг, роли.
-- Встроенное воспроизведение видео (только внешние ссылки).
+- Grouping by dish categories with the ability to collapse a category.
+- A card in the list: photo (or a placeholder), name, cooking time, kcal per 100 g, a snowflake icon if it can be frozen.
+- Search at the top — works both by the recipe name **and by the ingredient**. The query "chicken" must find all dishes that contain chicken fillet. This is a separate frequent scenario: "what to cook from what I have".
+- Filters: freezable only, by cooking time.
 
-## Что заложить на будущее
+### 2. Recipe card
 
-- `sort_order` у категорий продуктов = порядок отделов в магазине, для группировки будущего списка покупок.
-- Ингредиенты хранятся структурно, никогда одной текстовой строкой.
-- Расчёт КБЖУ и масштабирование количеств — отдельным изолированным модулем, он же будет использоваться при планировании.
-- Экспорт всей базы в JSON — нужен с первой версии, для бэкапа.
+The order of blocks from top to bottom:
+
+- Photo, name, category, cooking time.
+- Nutrition: large per 100 g, next to it smaller — per serving and for the whole dish.
+- The storage block: whether it can be frozen, the periods in the freezer and in the fridge. Show it only if `freezable`.
+- Ingredients: product + grams. Next to each one — in small type the name of the variant used, if the product has more than one.
+- Cooking steps — a numbered list.
+- Video — as buttons, opened in an external app.
+- Notes.
+- The **"Cooked it"** button — opens a quick add to the log.
+
+### 3. Adding and editing a recipe
+
+This is the screen where the app lives or dies. My wife will be moving several dozen recipes here from screenshots, videos and websites — if the process is painful, the app simply will not be used.
+
+Requirements:
+
+- An ingredient row: a product search field with autocomplete + a grams field. Nothing extra.
+- **If the product is not in the reference, create it right here without leaving the recipe screen.** A compact modal: name, category, nutrition per 100 g. Saved → the product is substituted into the row → you continue filling in the recipe. This is critical, going to a separate reference section in the middle of entering a recipe is unacceptable.
+- Likewise, a new variant can be added to an existing product without leaving the recipe.
+- A draft must not be lost on an accidental close — autosave.
+- Cooking steps: add/remove/drag.
+- Ingredients: drag to change the order.
+- The nutrition is recalculated on the fly as the ingredients are entered — visible at once, not after saving.
+
+### 4. Product reference
+
+- A list by product categories.
+- A product card: the variants as a list, the active one has a mark. Switching the active one in one tap.
+- Each variant has its nutrition and the date it was added.
+- In the product card: the list of recipes where it is used.
+- Deleting a product that is used in recipes is blocked with an explanation.
+
+### 5. Cooking log
+
+- Adding an entry in two or three taps at most: date (today by default), multiplier (×1, ×2, ×3, ×4 as buttons + an arbitrary value), actual yield in grams and/or number of containers, a note.
+- Later — a "finished" mark with a date.
+- In the recipe card: how many times she cooked it, when she cooked it last, the average actual yield, how many days it lasted on average.
+
+This data is the basis for planning in v2, so it has to be collected from the very beginning, even if for now it is just displayed.
 
 ---
 
-## Стартовые данные
+## What we do NOT do in v1
 
-Предзаполнить справочник 50–80 базовыми продуктами с усреднённым КБЖУ (яйцо, молоко, мука, сахар, соль, растительное масло, рис, гречка, картофель, лук, морковь и т. п.), разложенными по категориям. Пометить такие варианты как усреднённые, чтобы было понятно, что их стоит заменить на реальные покупки.
+An explicit list so that it does not sprawl:
 
-Категории продуктов: молочное, мясо и птица, рыба, овощи, фрукты, крупы и макароны, мука и выпечка, масла и соусы, специи, орехи и сухофрукты, консервы, напитки, прочее.
+- Planning the menu for two weeks.
+- Generating a shopping list.
+- Cooking mode with timers and screen-sleep protection.
+- Importing recipes from a link or screenshots, recognition.
+- Tracking the stock of products at home.
+- Multi-user mode, sharing, roles.
+- Built-in video playback (external links only).
+
+## What to lay out for the future
+
+- `sort_order` of the product categories = the order of the store departments, for grouping the future shopping list.
+- Ingredients are stored structurally, never as one text string.
+- The nutrition calculation and the scaling of amounts — as a separate isolated module, it will also be used in planning.
+- Export of the whole database to JSON — needed from the first version, for backup.
 
 ---
 
-## Порядок работы
+## Starting data
 
-Прежде чем писать код: предложи мне схему базы данных и краткое описание экранов с навигацией, дождись подтверждения. Стек тоже сначала обсуждаем.
+Pre-fill the reference with 50–80 basic products with averaged nutrition (egg, milk, flour, sugar, salt, vegetable oil, rice, buckwheat, potatoes, onion, carrots, etc.), arranged by categories. Mark such variants as averaged, so that it is clear they should be replaced with real purchases.
 
-При реализации иди слоями: сначала справочник продуктов с вариантами, потом рецепты с расчётом КБЖУ, потом списки и поиск, в конце журнал готовки. После каждого слоя — рабочее состояние, которое можно посмотреть.
+Product categories: dairy, meat and poultry, fish, vegetables, fruit, grains and pasta, flour and baking, oils and sauces, spices, nuts and dried fruit, canned goods, drinks, other.
+
+---
+
+## Order of work
+
+Before writing code: propose to me a database schema and a short description of the screens with the navigation, and wait for confirmation. We discuss the stack first too.
+
+When implementing, go in layers: first the product reference with variants, then recipes with the nutrition calculation, then lists and search, and the cooking log at the end. After each layer — a working state that can be looked at.

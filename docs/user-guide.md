@@ -1,74 +1,77 @@
-# Как пользоваться
+[Русский](user-guide.ru.md) · **English**
 
-Книга рецептов — приложение для телефона. В нём хранятся продукты с КБЖУ и рецепты, приложение само считает калорийность блюд и ведёт журнал: что, когда и сколько приготовили. Интерфейс рассчитан на одну руку и экран iPhone, на компьютере открывается одной узкой колонкой.
+# How to use the app
 
-## Установка и вход
+Recipe Book is a phone app. It stores products with their nutrition (kcal, protein, fat, carbs) and recipes, calculates the nutrition of dishes by itself and keeps a log of what was cooked, when and how much. The interface is made for one hand and an iPhone screen; on a computer it opens as one narrow column.
 
-Приложение открывается в браузере, но удобнее поставить его на домашний экран (Safari → «Поделиться» → «На экран „Домой“»). Тогда оно запускается как обычное приложение, без адресной строки.
+## Installation and sign-in
 
-Вход — по email и паролю. Регистрации в приложении нет: аккаунты заводятся заранее. Сессия запоминается, повторно входить не нужно.
+The app opens in a browser, but it is more convenient on the home screen (Safari → "Share" → "Add to Home Screen"). Then it starts like a regular app, without the address bar.
 
-Данные загружаются целиком при запуске и сохраняются на телефоне. Поэтому поиск мгновенный, а уже открытые рецепты видны и без сети. Изменения без сети не сохраняются: приложение предупредит об ошибке.
+Sign-in is by email and password. There is no registration in the app: the accounts are created in advance. The session is remembered, so there is no need to sign in again.
 
-## Навигация
+The data is loaded as a whole at start and stored on the phone. That is why search is instant and the recipes that were already opened are visible without a connection. Changes made without a connection are not saved: the app warns about the error.
 
-Внизу экрана четыре вкладки: **Рецепты**, **Продукты**, **Журнал**, **Настройки**. Кнопка «← Назад» на внутренних экранах возвращает туда, откуда пришли, вместе с поиском и фильтрами.
+## Navigation
 
-## Рецепты
+There are four tabs at the bottom of the screen: **Recipes**, **Products**, **Log**, **Settings**. The "← Back" link on inner screens returns to where you came from, together with the search and the filters.
 
-Главный экран — все рецепты, сгруппированные по категориям блюд («Завтраки», «Супы» и так далее).
+## Recipes
 
-- **Группы сворачиваются** нажатием на заголовок, приложение запоминает, какие свёрнуты. Рецепт из нескольких категорий виден в каждой из них, рецепты без категории идут последней группой.
-- **Карточка в списке** показывает фото, название, время готовки, калорийность на 100 г и значок, если блюдо можно замораживать.
-- **Поиск** ищет по названию рецепта и по продуктам в составе: запрос «курица» найдёт и рецепт, где в ингредиентах куриное филе. Регистр и «ё»/«е» не важны, несколько слов в запросе должны найтись все.
-- **Фильтры:** только замораживаемые блюда и время готовки (до 15, 30, 60 минут или дольше). Поиск и фильтры сохраняются в адресе страницы.
-- Кнопка **«＋»** в правом нижнем углу открывает новый рецепт.
+The main screen shows all recipes grouped by dish categories (the category names are your own, for example "Breakfasts" or "Soups").
 
-## Карточка рецепта
+- **Groups collapse** when you tap the heading; the app remembers which ones are collapsed. A recipe in several categories is visible in each of them, recipes without a category go into the last group ("Uncategorized").
+- **A card in the list** shows the photo, the name, the cooking time, the calories per 100 g and a mark if the dish can be frozen.
+- **Search** looks through the recipe names and the products in the composition: the query "chicken" also finds a recipe whose ingredients include chicken fillet. Letter case does not matter, and when the query has several words, all of them must be found.
+- **Filters:** only freezable dishes and cooking time (up to 15, 30, 60 minutes or longer). The search and the filters are kept in the page address.
+- The **"＋"** button in the lower right corner opens a new recipe.
 
-Открывается нажатием на рецепт в списке.
+## Recipe card
 
-- **КБЖУ** на 100 г, на порцию и на всё блюдо. Если указан выход готового блюда, расчёт идёт по нему, иначе — по весу сырья, и карточка об этом предупреждает.
-- **Неполное КБЖУ.** Если у какого-то продукта не заполнены калории или БЖУ, он не попадает в сумму, а карточка показывает предупреждение и список таких продуктов. Молчаливых нулей нет.
-- **Значения, введённые вручную,** помечены, кнопка «Пересчитать» возвращает расчёт по ингредиентам.
-- **Ингредиенты** с граммами, пометками «по желанию» и закреплённым вариантом продукта; **шаги**; **хранение** (морозилка, холодильник); **ссылки на видео**; **заметки**.
-- **История готовки:** сколько раз готовили, когда в последний раз, средний выход и на сколько дней обычно хватало.
-- **«Записать готовку»** — запись в журнал (см. ниже).
-- **«Редактировать»** открывает редактор.
+It opens when you tap a recipe in the list.
 
-## Редактор рецепта
+- **Nutrition** per 100 g, per serving and for the whole dish. If the yield of the cooked dish is set, the calculation uses it; otherwise it uses the raw weight, and the card warns about that.
+- **Incomplete nutrition.** If a product has no calories or protein/fat/carbs filled in, it is left out of the total, and the card shows a warning and the list of such products. There are no silent zeros.
+- **Values entered manually** are marked; the "Recalculate" button returns the calculation from the ingredients.
+- **Ingredients** with grams, the "optional" marks and the pinned product variant; **steps**; **storage** (freezer, fridge); **video links**; **notes**.
+- **Cooking history:** how many times it was cooked, when it was cooked last, the average yield and how many days it usually lasted.
+- **"Log a cook"** adds an entry to the log (see below).
+- **"Edit"** opens the editor.
 
-Один и тот же экран для нового рецепта и для правки.
+## Recipe editor
 
-- Название, время, число порций, выход готового блюда в граммах, заметки, категории блюда, фото.
-- **Фото** выбирается из галереи или снимается камерой и сжимается на телефоне перед загрузкой.
-- **Ингредиенты.** Продукт выбирается поиском по справочнику. Если такого продукта нет, его можно создать прямо отсюда — пункт «Создать „…“». Для каждого ингредиента — граммы, а в меню: необязательный (в КБЖУ не входит), конкретный вариант продукта, заметка вроде «мелко нарезать».
-- **Шаги** и **ингредиенты** переставляются перетаскиванием.
-- **КБЖУ считается сразу**, пока вводятся ингредиенты, — снизу видно, сколько получается на 100 г и на порцию.
-- **Черновик.** Если уйти, не сохранив, приложение запомнит введённое и при следующем открытии предложит восстановить черновик или начать заново.
+The same screen is used for a new recipe and for editing.
 
-## Продукты
+- Name, time, number of servings, yield of the cooked dish in grams, notes, dish categories, photo.
+- **The photo** is chosen from the gallery or taken with the camera and compressed on the phone before upload.
+- **Ingredients.** A product is chosen by searching the product list. If there is no such product, it can be created right here with the "Create “…”" item. For each ingredient there are the grams, and in the menu: optional (not counted in nutrition), a specific product variant, a note such as "finely chopped".
+- **Steps** and **ingredients** are reordered by dragging.
+- **Nutrition is calculated at once**, while the ingredients are being entered: the bottom bar shows how much it comes to per 100 g and per serving.
+- **Draft.** If you leave without saving, the app remembers what was entered and, the next time you open the editor, offers to restore the draft ("Restore draft") or to start over ("Start over").
 
-Справочник всех продуктов, сгруппированный по категориям, с поиском по названию. Новые продукты появляются из редактора рецепта, когда их добавляют в ингредиенты.
+## Products
 
-**Варианты продукта.** У одного продукта может быть несколько вариантов с разным КБЖУ — например, творог разных марок. Один вариант активный: по нему считаются все рецепты, где вариант не закреплён явно. Вариант с усреднёнными цифрами помечен — его стоит заменить данными с упаковки.
+The list of all products grouped by categories, with search by name. New products appear from the recipe editor, when they are added to the ingredients.
 
-**Карточка продукта** показывает КБЖУ на 100 г по каждому варианту, позволяет сделать другой вариант активным и показывает, в каких рецептах продукт используется. Смена активного варианта сразу меняет КБЖУ этих рецептов.
+**Product variants.** One product can have several variants with different nutrition, for example cottage cheese of different brands. One variant is active: it is used for every recipe where the variant is not pinned explicitly. A variant with averaged numbers is marked ("averaged, should be replaced"): it is worth replacing with the data from the package.
 
-**Архивация.** Продукт можно убрать в архив: он пропадёт из справочника и из выбора, но останется в рецептах, где уже используется. Удаления в приложении нет — ни для продуктов, ни для рецептов.
+**The product card** shows the nutrition per 100 g for each variant, lets you make another variant active ("Make active") and shows the recipes the product is used in. Changing the active variant immediately changes the nutrition of those recipes.
 
-## Журнал
+**Archiving.** A product can be moved to the archive ("Archive product"): it disappears from the product list and from the picker but stays in the recipes that already use it. There is no deletion in the app, neither for products nor for recipes.
 
-Лента всех готовок, новые сверху, по месяцам.
+## Log
 
-- **Запись** делается из карточки рецепта кнопкой «Записать готовку». По умолчанию — сегодняшняя дата и один рецепт (×1), так что достаточно двух нажатий. По желанию: множитель (×2, ×3, ×4 или своё число), фактический выход в граммах, число контейнеров, оценка звёздами, заметка.
-- **КБЖУ в записи** фиксируется на момент готовки. Если потом поменять рецепт или вариант продукта, старые записи останутся с прежними цифрами.
-- **«Доели»** отмечает, когда блюдо закончилось: одним нажатием — сегодня, или «Другая дата» с выбором в календаре. Из этих отметок карточка рецепта считает, на сколько дней обычно хватает.
-- Нажатие на запись открывает рецепт.
+The feed of all cooks, newest first, by months.
 
-## Настройки
+- **An entry** is made from the recipe card with the "Log a cook" button. By default it is today's date and one recipe (×1), so two taps are enough. Optionally: a multiplier (×2, ×3, ×4 or your own number), the actual yield in grams, the number of containers, a star rating, a note.
+- **The nutrition in an entry** is fixed at the time of cooking. If the recipe or the product variant is changed later, the old entries keep their old numbers.
+- **"Finished"** marks when the dish ran out: one tap for today, or "Other date" with a choice in the calendar. From these marks the recipe card calculates how many days it usually lasts.
+- Tapping an entry opens the recipe.
 
-- **Экспорт** — скачать бэкап: все продукты, рецепты, категории и журнал одним файлом JSON. Фото в файл не входят, остаются только ссылки на них.
-- **Импорт** — восстановить базу из такого файла. Работает только на пустой базе: если в ней уже есть продукты, рецепты или записи журнала, импорт откажет и ничего не изменит. Повреждённый или чужой файл тоже отклоняется с объяснением, без частичной записи.
-- **Категории** продуктов и блюд: переименование и порядок (кнопки «Выше» и «Ниже»). Порядок категорий — это порядок групп в списках.
-- **Выйти** — выход из аккаунта; данные, сохранённые на телефоне, при этом стираются.
+## Settings
+
+- **Export** — download a backup: all products, recipes, categories and the log in one JSON file ("Download backup"). Photos are not included in the file, only the links to them remain.
+- **Import** — restore the database from such a file ("Choose file"). It works only on an empty database: if it already has products, recipes or log entries, the import refuses and changes nothing. A damaged or foreign file is rejected too, with an explanation and without a partial write.
+- **Categories** of products and dishes: renaming and order (the "Up" and "Down" buttons). The order of the categories is the order of the groups in the lists.
+- **Language** — the interface language, English or Русский. By default the app follows the browser language: a Russian browser gets the Russian interface, any other gets English. The choice made here is stored on the phone and replaces the automatic detection. Numbers and dates switch together with the language (`1,234.5` and `25 Oct 2026` in English, `1 234,5` and `25.10.2026` in Russian).
+- **Sign out** — leave the account; the data stored on the phone is erased at that point.
