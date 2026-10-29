@@ -157,3 +157,10 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 - **Summary:** demo sources, `DISH_CATEGORIES`, seed test in English (exact-string mapping, order and numbers untouched); `seed.json` / `load-seed.sql` regenerated, `photos.json` byte-identical; demo README / CREDITS pairs, README pair, ADR 0034 Update line, BACKLOG pair updated.
 - **Checks:** structural comparison 8209 nodes / 0 problems (only text fields); Cyrillic = 0 in demo sources and generated files; local import of the seed checked in the English UI, dev data restored (counts identical); lint, build, test (129) green.
 - **Review iteration 1:** APPROVED (`plans/localization/l9/iter-1/REVIEW.md`). Wording notes skipped by the owner (Known issues in the plan).
+- **Committed:** `29199cb` (not pushed).
+
+## L9, rollout (2026-10-29)
+
+- Target confirmed as the demo (`demo.seed` present, demo user exists); `db query --linked --project-ref qersprdozmbposznfdmj -f supabase/demo/load-seed.sql`, then `select demo.reset()` → `{"recipes": 20, "products": 65, "cook_logs": 39}`; 7 dish categories (English), 20 recipes with `photo_path`. The CLI stays linked to prod.
+- `pnpm deploy:demo` (frontend changed since `89c65af`: English developer messages): version `0c8dd4b1-8bf8-4014-932b-099e0deaef09`.
+- Live check: title «Recipe Book», English UI, 20 recipes with English names, incomplete-nutrition warning on «Chili con carne», no Cyrillic on the list; every cover returns 200.
