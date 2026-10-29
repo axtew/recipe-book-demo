@@ -8,7 +8,7 @@ interface IProps {
   fridgeDays: number | null;
 }
 
-/** Сроки хранения; рисуется родителем только для замораживаемого рецепта. */
+/** Storage times; rendered by the parent only for a freezable recipe. */
 export function StorageBlock({ freezerDays, fridgeDays }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard.storage);
 

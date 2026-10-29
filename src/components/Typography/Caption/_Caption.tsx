@@ -5,7 +5,7 @@ import { SCaption1, SCaption2 } from "./_styles";
 
 interface ICaptionProps extends PropsWithChildren, HTMLAttributes<HTMLParagraphElement> {
   color?: TTextColor;
-  /** Позволяет отрендерить текст другим тегом — например, `span` внутри ссылки. */
+  /** Allows rendering the text with another tag — for example, `span` inside a link. */
   as?: ElementType;
 }
 

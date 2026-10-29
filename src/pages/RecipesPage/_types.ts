@@ -1,17 +1,17 @@
 import type { IRecipe } from "@/types/recipes.types";
 
-/** Рецепт в виде, готовом для списка: посчитанное КБЖУ и тексты для поиска. */
+/** A recipe in a form ready for the list: calculated nutrition and texts for search. */
 export interface IRecipeListItem {
   recipe: IRecipe;
-  /** Нормализованные название рецепта и названия продуктов состава. */
+  /** Normalized recipe name and names of the ingredient products. */
   searchTexts: string[];
-  /** Ккал на 100 г; `null`, если считать не из чего. */
+  /** Kcal per 100 g; `null` if there is nothing to calculate from. */
   kcal100: number | null;
-  /** Есть продукты без КБЖУ — цифра занижена, и карточка обязана это показать. */
+  /** Some products have no nutrition — the number is understated, and the card must show it. */
   isNutritionIncomplete: boolean;
 }
 
-/** Категория со своими рецептами; `name === null` — группа «Без категории». */
+/** A category with its recipes; `name === null` — the “No category” group. */
 export interface IRecipeGroup {
   id: string;
   name: string | null;

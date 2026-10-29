@@ -5,7 +5,7 @@ import { MonthGroup } from "./_internal/MonthGroup";
 import { SPage, SPlaceholder } from "./_styles";
 import { useLogPage } from "./_useLogPage";
 
-/** Журнал готовки: лента записей по убыванию даты, сгруппированная по месяцам. */
+/** Cook log: a feed of entries by descending date, grouped by month. */
 export function LogPage() {
   const l = useI18nSelector(({ l }) => ({ ...l.cookLog, navigation: l.navigation }));
   const { groups, recipeNames, isEmpty } = useLogPage();

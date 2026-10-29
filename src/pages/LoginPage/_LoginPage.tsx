@@ -7,7 +7,7 @@ import { env } from "@/utils/env";
 import { SField, SForm, SWrapper } from "./_styles";
 import { useLoginForm } from "./_useLoginForm";
 
-/** Экран входа. Регистрации нет — аккаунты заводятся в дашборде Supabase. */
+/** Sign-in screen. There is no registration — accounts are created in the Supabase dashboard. */
 export function LoginPage() {
   const l = useI18nSelector(({ l }) => l.auth.login);
   const { email, password, isSubmitDisabled, hasError, setEmail, setPassword, handleSubmit } =

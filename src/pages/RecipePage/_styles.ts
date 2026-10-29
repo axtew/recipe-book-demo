@@ -55,7 +55,7 @@ export const SSection = styled.section`
   gap: 12px;
 `;
 
-/** Заметки хранят переносы строк, как их ввели. */
+/** Notes keep line breaks as they were entered. */
 export const SNotes = styled.div`
   white-space: pre-wrap;
 `;

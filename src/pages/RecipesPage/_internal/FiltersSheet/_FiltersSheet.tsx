@@ -17,9 +17,9 @@ interface IProps {
 }
 
 /**
- * Лист фильтров: «только замораживаемые» и время готовки.
+ * Filters sheet: “freezable only” and cooking time.
  *
- * Изменения применяются сразу, по мере выбора; «Готово» только закрывает лист.
+ * Changes apply immediately as they are chosen; “Done” only closes the sheet.
  */
 export function FiltersSheet({ isOpened, freezable, time, onChange, onClose }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeList.filters);

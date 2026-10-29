@@ -12,7 +12,7 @@ interface IExportResult {
   isError: boolean;
 }
 
-/** Выгрузка бэкапа, скачивание файла и итоговое сообщение под кнопкой. */
+/** Exporting the backup, downloading the file and the resulting message under the button. */
 export function useExportBlock() {
   const l = useI18nSelector(({ l }) => l.settings.exportBlock);
   const { mutate, isPending } = useExportBackupMutation();

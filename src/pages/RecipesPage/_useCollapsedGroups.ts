@@ -15,9 +15,9 @@ function readCollapsed(): string[] {
 }
 
 /**
- * Свёрнутые группы списка рецептов: переживают перезагрузку через localStorage.
+ * Collapsed groups of the recipe list: survive a reload via localStorage.
  *
- * Недоступное хранилище не ломает экран — группы просто не запоминаются.
+ * Unavailable storage does not break the screen — the groups are simply not remembered.
  */
 export function useCollapsedGroups() {
   const [collapsed, setCollapsed] = useState(readCollapsed);
@@ -32,7 +32,7 @@ export function useCollapsedGroups() {
     try {
       localStorage.setItem(COLLAPSED_GROUPS_STORAGE_KEY, JSON.stringify(next));
     } catch {
-      // Хранилище недоступно — состояние живёт до закрытия вкладки.
+      // Storage is unavailable — the state lives until the tab is closed.
     }
   };
 

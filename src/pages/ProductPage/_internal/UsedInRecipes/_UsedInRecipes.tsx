@@ -9,10 +9,9 @@ interface IProps {
 }
 
 /**
- * Рецепты, где встречается продукт.
+ * Recipes that contain the product.
  *
- * Названия пока без ссылок: роута карточки рецепта ещё нет, он появляется
- * вместе с самим экраном.
+ * The recipe names are plain text, not links to the recipe card.
  */
 export function UsedInRecipes({ recipes }: IProps) {
   const l = useI18nSelector(({ l }) => l.products.card);

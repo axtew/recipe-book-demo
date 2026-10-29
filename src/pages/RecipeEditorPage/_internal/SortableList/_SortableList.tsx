@@ -17,17 +17,17 @@ import type { ReactNode } from "react";
 import { SList } from "./_styles";
 
 interface IProps {
-  /** Ключи строк в текущем порядке. */
+  /** Row keys in the current order. */
   keys: string[];
   onMove: (activeKey: string, overKey: string) => void;
   children: ReactNode;
 }
 
 /**
- * Вертикальный список с перетаскиванием за ручку мышью, пальцем и с клавиатуры.
+ * A vertical list with dragging by a handle with mouse, finger and keyboard.
  *
- * Стратегия вертикального списка, а не сеточная: строки разной высоты (шаги с
- * многострочным текстом) переставляются по реальным размерам.
+ * A vertical-list strategy, not a grid one: rows of different height (steps with multi-line text)
+ * are reordered by their real sizes.
  */
 export function SortableList({ keys, onMove, children }: IProps) {
   const sensors = useSensors(

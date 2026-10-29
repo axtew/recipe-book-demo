@@ -12,11 +12,11 @@ interface IProps {
 }
 
 /**
- * Варианты продукта с переключением активного в один тап.
+ * Product variants with switching the active one in a single tap.
  *
- * Продукт с единственным вариантом показывается как простой: вложенность не
- * несёт информации, пока выбирать не из чего. Архивные варианты не показываются
- * вовсе — они остаются только в старых рецептах.
+ * A product with a single variant is shown as a simple one: nesting carries no information while
+ * there is nothing to choose from. Archived variants are not shown at all — they remain only in old
+ * recipes.
  */
 export function VariantList({ product }: IProps) {
   const l = useI18nSelector(({ l }) => l.products.card);

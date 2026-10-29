@@ -13,12 +13,12 @@ import type { IProductFormSheetProps } from "./_types";
 import { useProductForm } from "./_useProductForm";
 
 /**
- * Bottom sheet быстрого создания продукта с первым вариантом.
+ * Bottom sheet for quickly creating a product with its first variant.
  *
- * Одна форма — две сущности: продукт и вариант создаются одним вызовом
- * `useCreateProductWithVariantMutation` (функция в базе, одна транзакция).
- * Все четыре числа КБЖУ необязательны — продукт с пустым вариантом валиден и
- * попадает в «неполное КБЖУ» на экране рецепта.
+ * One form, two entities: the product and the variant are created by a single call to
+ * `useCreateProductWithVariantMutation` (a database function, one transaction). All four nutrition
+ * numbers are optional — a product with an empty variant is valid and lands in “incomplete
+ * nutrition” on the recipe screen.
  */
 export function ProductFormSheet({
   isOpened,

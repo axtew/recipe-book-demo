@@ -15,16 +15,16 @@ import { SHeader, SItem, SMeta, SNote, SRecipeLink } from "./_styles";
 
 interface IProps {
   log: ICookLog;
-  /** Название рецепта; `null`, если рецепта с таким id в данных нет. */
+  /** Recipe name; `null` if there is no recipe with that id in the data. */
   recipeName: string | null;
 }
 
 /**
- * Запись журнала: рецепт со ссылкой на карточку, дата, множитель, выход,
- * контейнеры, оценка, заметка и КБЖУ на 100 г из снимка записи.
+ * A log entry: the recipe with a link to its card, date, multiplier, yield, containers, rating,
+ * note and nutrition per 100 g from the entry snapshot.
  *
- * У записи без даты «доели» — кнопка «Доели», ставящая сегодняшнюю дату одним
- * тапом, и «Другая дата» для выбора вручную.
+ * An entry without a “finished” date gets a “Finished” button that sets today's date in one tap,
+ * and “Other date” for picking one manually.
  */
 export function LogEntry({ log, recipeName }: IProps) {
   const l = useI18nSelector(({ l }) => ({ ...l.cookLog, nutrients: l.nutrients }));
@@ -39,8 +39,8 @@ export function LogEntry({ log, recipeName }: IProps) {
     ...(log.containers === null ? [] : [`${l.containersLabel}: ${log.containers}`]),
   ];
 
-  // КБЖУ берётся из снимка записи, а не из текущего рецепта: смена активного
-  // варианта продукта историю не переписывает.
+  // Nutrition is taken from the entry snapshot, not from the current recipe: changing the product's
+  // active variant does not rewrite the history.
   const nutrition = log.snapshot?.nutrition ?? null;
   const isSnapshotIncomplete = nutrition !== null && nutrition.incompleteProducts.length > 0;
   const snapshotLine =

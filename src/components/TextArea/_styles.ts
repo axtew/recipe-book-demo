@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { textFieldStyles } from "@/components/TextInput";
 
-/** Многострочное текстовое поле: вид общий с `STextInput`, отличаются отступы и ресайз. */
+/** Multi-line text field: looks the same as `STextInput`, only the padding and resize differ. */
 export const STextArea = styled.textarea`
   ${textFieldStyles}
   min-height: 88px;

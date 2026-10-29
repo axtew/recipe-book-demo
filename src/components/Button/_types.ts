@@ -1,12 +1,12 @@
 import type { ComponentPropsWithoutRef } from "react";
 
 /**
- * Вид кнопки по роли действия:
- * - `primary` — главное действие;
- * - `primaryOutline` — заметное, но не главное;
- * - `secondary` — нейтральное (отмена, «Сбросить»);
- * - `danger` — подтверждение разрушающего действия;
- * - `dangerOutline` — разрушающее действие, которое ещё предстоит подтвердить.
+ * Button kind by the role of the action:
+ * - `primary` — the main action;
+ * - `primaryOutline` — prominent but not the main one;
+ * - `secondary` — neutral (cancel, “Reset”);
+ * - `danger` — confirmation of a destructive action;
+ * - `dangerOutline` — a destructive action that is yet to be confirmed.
  */
 export type TButtonVariant =
   "primary" | "primaryOutline" | "secondary" | "danger" | "dangerOutline";
@@ -16,8 +16,8 @@ export interface IButtonProps extends Omit<
   "className" | "style" | "type"
 > {
   variant: TButtonVariant;
-  /** Тип задаётся явно: кнопка без него внутри формы отправляет её. */
+  /** The type is set explicitly: a button without it inside a form submits the form. */
   type: "button" | "submit";
-  /** Кнопка по ширине содержимого, а не на всю ширину колонки. */
+  /** Button as wide as its content rather than the full column width. */
   isInline?: boolean;
 }

@@ -11,7 +11,7 @@ interface IProps {
   onOpenFilters: () => void;
 }
 
-/** Поле поиска и кнопка фильтров со счётчиком включённых. */
+/** A search field and a filters button with a counter of the enabled ones. */
 export function SearchBar({ query, activeFiltersCount, onQueryChange, onOpenFilters }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeList);
 

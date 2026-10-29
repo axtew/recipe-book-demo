@@ -10,7 +10,7 @@ interface IProps {
   children: ReactNode;
 }
 
-/** Строка сортируемого списка: ручка слева, содержимое справа. */
+/** A sortable list row: a handle on the left, the content on the right. */
 export function SortableItem({ id, handleLabel, children }: IProps) {
   const {
     attributes,

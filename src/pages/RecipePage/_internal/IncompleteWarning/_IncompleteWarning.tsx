@@ -10,8 +10,8 @@ interface IProps {
 }
 
 /**
- * Предупреждение над цифрами КБЖУ: продукты без КБЖУ в сумму не вошли, и каждый
- * назван ссылкой на свою карточку, где цифры заполняются. Без продуктов — ничего.
+ * Warning above the nutrition numbers: products without nutrition were left out of the total, and
+ * each is named by a link to its own card, where the numbers are filled in. No products — nothing.
  */
 export function IncompleteWarning({ products }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard.incomplete);

@@ -16,12 +16,12 @@ import type { ICookLogSheetProps } from "./_types";
 import { useCookLogForm } from "./_useCookLogForm";
 
 /**
- * Bottom sheet быстрой записи готовки.
+ * Bottom sheet for quickly logging a cook.
  *
- * Обязательны только дата и множитель, и оба уже заполнены (сегодня, ×1), так
- * что запись создаётся в два тапа: открыть лист и подтвердить. Выход,
- * контейнеры, оценка и заметка — по желанию. Снимок КБЖУ приходит снаружи и
- * уходит в запись без пересчёта.
+ * Only the date and the multiplier are required, and both are already filled in (today, ×1), so an
+ * entry is created in two taps: open the sheet and confirm. Yield, containers, rating and note are
+ * optional. The nutrition snapshot comes from outside and goes into the entry without
+ * recalculation.
  */
 export function CookLogSheet({ isOpened, recipeId, snapshot, onClose }: ICookLogSheetProps) {
   const l = useI18nSelector(({ l }) => l.cookLogSheet);

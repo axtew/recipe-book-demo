@@ -5,7 +5,7 @@ import { useI18nSelector } from "@/context/I18nContext";
 import { Section } from "../Section";
 import { useExportBlock } from "./_useExportBlock";
 
-/** Скачивание бэкапа всей базы одним JSON-файлом. */
+/** Downloading a backup of the whole database as a single JSON file. */
 export function ExportBlock() {
   const l = useI18nSelector(({ l }) => l.settings.exportBlock);
   const { handleExport, isPending, message, isError } = useExportBlock();

@@ -17,11 +17,11 @@ interface IProps {
 const MACRO_FIELDS = ["protein", "fat", "carbs"] as const;
 
 /**
- * КБЖУ рецепта: крупно на 100 г, мельче на порцию и на всё блюдо.
+ * Recipe nutrition: large per 100 g, smaller per serving and per whole dish.
  *
- * Значения, введённые вручную, помечены звёздочкой, под цифрами названы, а
- * кнопка «Пересчитать» возвращает расчёт по составу. Без выхода блюда рядом
- * с цифрой на 100 г стоит подсказка, что считано по весу сырья.
+ * Manually entered values are marked with an asterisk, named under the numbers, and the
+ * “Recalculate” button returns the calculation from the ingredients. Without a dish yield, next to
+ * the per-100 g number there is a hint that it was calculated from the raw weight.
  */
 export function NutritionBlock({ recipeId, nutrition }: IProps) {
   const l = useI18nSelector(({ l }) => ({ ...l.recipeCard.nutrition, nutrients: l.nutrients }));

@@ -9,7 +9,7 @@ interface IProps {
   children: ReactNode;
 }
 
-/** Блок экрана настроек: заголовок и содержимое колонкой. */
+/** A block of the settings screen: a heading and the content in a column. */
 export function Section({ title, children }: IProps) {
   return (
     <SSection>

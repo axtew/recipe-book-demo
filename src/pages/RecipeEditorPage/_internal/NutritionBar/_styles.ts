@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { TAB_BAR_HEIGHT_PX } from "@/components/TabBar";
 
 /**
- * Плашка прилипает к низу экрана над таб-баром: пока форма прокручивается,
- * цифры остаются на виду. Отступ слева и справа возвращает ширину страницы.
+ * The bar sticks to the bottom of the screen above the tab bar: while the form scrolls, the numbers
+ * stay in view. The left and right offset restores the page width.
  */
 export const SBar = styled.div`
   position: sticky;

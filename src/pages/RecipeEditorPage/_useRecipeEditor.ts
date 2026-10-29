@@ -16,12 +16,12 @@ import { useRecipeNutrition } from "./_useRecipeNutrition";
 import { useRecipeSave } from "./_useRecipeSave";
 
 /**
- * Состояние редактора: скалярные поля в `useForm`, списки рядом, черновик в
- * localStorage, КБЖУ на лету и отправка.
+ * Editor state: scalar fields in `useForm`, lists alongside, the draft in localStorage, nutrition
+ * on the fly and submission.
  *
- * Списки не лежат в `useForm`: его поля — строки, числа и флаги. По той же
- * причине автосохранение черновика не опирается на `saveOnChange` формы — оно
- * видело бы только скалярные поля и пропускало правки состава и шагов.
+ * Lists are not kept in `useForm`: its fields are strings, numbers and flags. For the same reason
+ * the draft autosave does not rely on the form's `saveOnChange` — it would see only the scalar
+ * fields and miss edits to ingredients and steps.
  */
 export function useRecipeEditor({
   recipeId,
@@ -30,8 +30,8 @@ export function useRecipeEditor({
   saveDraft,
   finishDraft,
 }: IRecipeFormProps) {
-  // Id нового рецепта выдаётся заранее: по нему фото ляжет в Storage до
-  // сохранения, а повторная отправка после сбоя обновит тот же рецепт.
+  // The id of a new recipe is issued in advance: the photo goes to Storage under it before saving,
+  // and a retry after a failure updates the same recipe.
   const [savedRecipeId] = useState(() => recipeId ?? createId());
 
   const { form, onChange, updateFieldValue } = useForm<TRecipeFields>(draftToFields(initialDraft));

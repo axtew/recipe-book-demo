@@ -15,7 +15,7 @@ interface IProps {
   onMove: (activeKey: string, overKey: string) => void;
 }
 
-/** Состав рецепта: переставляемые строки и кнопка добавления. */
+/** Recipe ingredients: reorderable rows and an add button. */
 export function IngredientList({ ingredients, onAdd, onChange, onRemove, onMove }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.ingredients);
 

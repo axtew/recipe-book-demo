@@ -13,8 +13,8 @@ interface IProps {
 }
 
 /**
- * Категории блюда: рецепт может не иметь ни одной или несколько — блины это
- * и завтрак, и десерт, поэтому выбор переключателями-чипами, а не списком.
+ * Dish categories: a recipe may have none or several — pancakes are both breakfast and dessert,
+ * hence the choice is by toggle chips, not a list.
  */
 export function DishCategoryField({ selectedIds, setSelectedIds }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.dishCategories);

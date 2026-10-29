@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSignOut } from "@/hooks/useAuth.hook";
 import { routerPaths } from "@/routes/_paths";
 
-/** Выход из аккаунта: после него — экран входа и пустой кэш данных. */
+/** Signing out: afterwards comes the sign-in screen and an empty data cache. */
 export function useSettingsPage() {
   const { signOut, isPending } = useSignOut();
   const navigate = useNavigate();
@@ -20,11 +20,12 @@ export function useSettingsPage() {
       return;
     }
 
-    // Сначала уходим с защищённого экрана: пока он смонтирован, очистка кэша
-    // запустила бы повторную загрузку данных уже без сессии.
+    // First leave the protected screen: while it is mounted, clearing the cache would trigger a
+    // data reload, this time without a session.
     await navigate({ to: routerPaths.login, search: { redirect: routerPaths.home } });
 
-    // Данные семьи не должны оставаться в кэше и в IndexedDB на устройстве, с которого вышли.
+    // The family's data must not stay in the cache and in IndexedDB on the device that was signed
+    // out.
     queryClient.clear();
   }
 

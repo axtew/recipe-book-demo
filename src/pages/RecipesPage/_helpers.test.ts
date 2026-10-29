@@ -41,9 +41,9 @@ function createItem(overrides: Partial<IRecipe> & { id: string }): IRecipeListIt
 }
 
 const categories: IDishCategory[] = [
-  { id: "dessert", name: "Десерты", sortOrder: 2 },
-  { id: "breakfast", name: "Завтраки", sortOrder: 1 },
-  { id: "empty", name: "Пустая", sortOrder: 3 },
+  { id: "dessert", name: "Desserts", sortOrder: 2 },
+  { id: "breakfast", name: "Breakfasts", sortOrder: 1 },
+  { id: "empty", name: "Empty", sortOrder: 3 },
 ];
 
 describe("filterListItems", () => {
@@ -56,26 +56,26 @@ describe("filterListItems", () => {
 
   const ids = (found: IRecipeListItem[]) => found.map(({ recipe }) => recipe.id);
 
-  it("фильтры сочетаются по «и»", () => {
+  it("filters combine with AND", () => {
     expect(ids(filterListItems(items, { freezable: true, time: "upTo60" }))).toEqual(["a", "b"]);
   });
 
-  it("границы времени: до 15, до 60 включительно, дольше 60 строго", () => {
+  it("time bounds: up to 15, up to 60 inclusive, longer than 60 strictly", () => {
     expect(ids(filterListItems(items, { time: "upTo15" }))).toEqual(["a"]);
     expect(ids(filterListItems(items, { time: "over60" }))).toEqual(["c"]);
   });
 
-  it("рецепт без времени не проходит фильтр по времени", () => {
+  it("a recipe without a time does not pass the time filter", () => {
     expect(ids(filterListItems(items, { time: "over60", freezable: true }))).toEqual([]);
   });
 
-  it("запрос сочетается с фильтрами", () => {
+  it("the query combines with the filters", () => {
     expect(ids(filterListItems(items, { q: "b", freezable: true }))).toEqual(["b"]);
   });
 });
 
 describe("groupListItems", () => {
-  it("рецепт попадает в каждую свою категорию, группы идут по sortOrder", () => {
+  it("a recipe lands in each of its categories, groups go by sortOrder", () => {
     const groups = groupListItems(
       [createItem({ id: "pancakes", dishCategoryIds: ["dessert", "breakfast"] })],
       categories,
@@ -84,7 +84,7 @@ describe("groupListItems", () => {
     expect(groups.map(({ id }) => id)).toEqual(["breakfast", "dessert"]);
   });
 
-  it("рецепты без категорий — в последней группе, пустые группы не создаются", () => {
+  it("recipes without categories go in the last group, empty groups are not created", () => {
     const groups = groupListItems(
       [
         createItem({ id: "x" }),
@@ -142,7 +142,7 @@ describe("buildListItems", () => {
 
   const products = [createProduct("rice", "Рис", 200), createProduct("honey", "Мёд", null)];
 
-  it("архивный рецепт в список не попадает", () => {
+  it("an archived recipe does not make it into the list", () => {
     const items = buildListItems(
       [
         createRecipe({ id: "alive" }),
@@ -154,20 +154,20 @@ describe("buildListItems", () => {
     expect(items.map(({ recipe }) => recipe.id)).toEqual(["alive"]);
   });
 
-  it("без веса сырья и без ручных значений ккал на 100 г нет", () => {
+  it("without a raw weight and without manual values there is no kcal per 100 g", () => {
     const [item] = buildListItems([createRecipe({ id: "empty" })], products);
 
     expect(item.kcal100).toBeNull();
     expect(item.isNutritionIncomplete).toBe(false);
   });
 
-  it("ручное значение ккал задаёт цифру и без состава", () => {
+  it("a manual kcal value sets the number even without ingredients", () => {
     const [item] = buildListItems([createRecipe({ id: "manual", kcal100Override: 120 })], products);
 
     expect(item.kcal100).toBe(120);
   });
 
-  it("ккал на 100 г считается доменным модулем по составу", () => {
+  it("kcal per 100 g is calculated by the domain module from the ingredients", () => {
     const [item] = buildListItems(
       [createRecipe({ id: "rice", ingredients: [createIngredient("rice", 100)] })],
       products,
@@ -177,7 +177,7 @@ describe("buildListItems", () => {
     expect(item.isNutritionIncomplete).toBe(false);
   });
 
-  it("продукт без КБЖУ помечает рецепт неполным", () => {
+  it("a product without nutrition marks the recipe as incomplete", () => {
     const [item] = buildListItems(
       [createRecipe({ id: "honey", ingredients: [createIngredient("honey", 50)] })],
       products,
@@ -186,7 +186,7 @@ describe("buildListItems", () => {
     expect(item.isNutritionIncomplete).toBe(true);
   });
 
-  it("тексты для поиска нормализованы: название рецепта и названия продуктов состава", () => {
+  it("search texts are normalized: the recipe name and the names of the ingredient products", () => {
     const [item] = buildListItems(
       [
         createRecipe({

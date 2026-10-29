@@ -20,14 +20,14 @@ export const SStep = styled.li`
   align-items: baseline;
   gap: 12px;
 
-  /* Текст шага сохраняет переносы строк, как их ввели. */
+  /* Step text keeps line breaks as they were entered. */
   & > :last-child {
     min-width: 0;
     white-space: pre-wrap;
   }
 `;
 
-/** Номер шага: фиксированная ширина держит тексты шагов на одной вертикали. */
+/** Step number: a fixed width keeps the step texts on one vertical line. */
 export const SNumber = styled.span`
   flex: none;
   min-width: 24px;

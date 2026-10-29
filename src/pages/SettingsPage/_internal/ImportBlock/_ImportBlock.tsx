@@ -8,7 +8,10 @@ import { Section } from "../Section";
 import { SFileInput } from "./_styles";
 import { useImportBlock } from "./_useImportBlock";
 
-/** Восстановление базы из файла бэкапа: выбор файла, проверка, импорт в пустую базу. */
+/**
+ * Restoring the database from a backup file: picking the file, validation, import into an empty
+ * database.
+ */
 export function ImportBlock() {
   const l = useI18nSelector(({ l }) => l.settings.importBlock);
   const { handleFileChange, isPending, message, isError } = useImportBlock();

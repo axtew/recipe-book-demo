@@ -6,7 +6,7 @@ import { SB1, SB2, SB3 } from "./_styles";
 interface IBodyProps extends PropsWithChildren, HTMLAttributes<HTMLParagraphElement> {
   color?: TTextColor;
   textAlign?: CSSProperties["textAlign"];
-  /** Позволяет отрендерить текст другим тегом — например, `span` внутри кнопки. */
+  /** Allows rendering the text with another tag — for example, `span` inside a button. */
   as?: ElementType;
 }
 

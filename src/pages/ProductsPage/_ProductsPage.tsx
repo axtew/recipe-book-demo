@@ -6,7 +6,7 @@ import { ProductListItem } from "./_internal/ProductListItem";
 import { SGroup, SList, SPage, SPlaceholder } from "./_styles";
 import { useProductsList } from "./_useProductsList";
 
-/** Справочник продуктов: поиск по названию и список, сгруппированный по категориям. */
+/** Product directory: search by name and a list grouped by category. */
 export function ProductsPage() {
   const l = useI18nSelector(({ l }) => l.products.list);
   const { query, setQuery, groups, hasProducts } = useProductsList();

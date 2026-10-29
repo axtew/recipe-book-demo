@@ -8,7 +8,7 @@ export const SSwitchLabel = styled.label`
   min-height: 44px;
 `;
 
-/** Переключатель на нативном чекбоксе: доступность и состояние от браузера, вид — свой. */
+/** A switch on a native checkbox: accessibility and state from the browser, the look is custom. */
 export const SSwitch = styled.input`
   appearance: none;
   position: relative;

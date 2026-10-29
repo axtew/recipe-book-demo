@@ -11,7 +11,7 @@ interface IProps {
   onToggle: (groupId: string) => void;
 }
 
-/** Категория блюд со счётчиком и списком рецептов; заголовок сворачивает список. */
+/** A dish category with a counter and a list of recipes; the heading collapses the list. */
 export function CategoryGroup({ group, isCollapsed, onToggle }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeList);
 

@@ -12,10 +12,10 @@ interface IImportResult {
 }
 
 /**
- * Импорт бэкапа из выбранного файла.
+ * Importing a backup from the chosen file.
  *
- * Файл читается и проверяется целиком до первого обращения к базе: битый файл
- * дальше этого шага не уходит, поэтому записать из него нечего.
+ * The file is read and validated in full before the first call to the database: a broken file does
+ * not get past this step, so there is nothing to write from it.
  */
 export function useImportBlock() {
   const l = useI18nSelector(({ l }) => l.settings.importBlock);
@@ -25,7 +25,7 @@ export function useImportBlock() {
   async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
 
-    // Сброс позволяет выбрать тот же файл ещё раз после отказа.
+    // The reset allows picking the same file again after a rejection.
     event.target.value = "";
 
     if (file === undefined) return;

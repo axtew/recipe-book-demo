@@ -1,10 +1,10 @@
 import type { IRecipe } from "@/types/recipes.types";
 
 /**
- * Рецепты, в составе которых встречается продукт.
+ * Recipes that contain the product.
  *
- * Архивные рецепты не показываются: они не всплывают ни в одном списке, и в
- * предупреждении при архивировании были бы шумом, а не аргументом.
+ * Archived recipes are not shown: they do not surface in any list, and in the archiving warning
+ * they would be noise rather than an argument.
  */
 export function findRecipesUsingProduct(recipes: IRecipe[], productId: string): IRecipe[] {
   return recipes.filter(

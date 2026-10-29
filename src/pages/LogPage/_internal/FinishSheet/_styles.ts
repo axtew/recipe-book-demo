@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 /**
- * Календарь по ширине листа. Месяц из ячеек по 44px занимает около 312px, а у листа на экране
- * шириной 320px внутри отступов остаётся 288px, поэтому календарь выходит в поля листа.
+ * Calendar at the sheet width. A month of 44px cells takes about 312px, while a sheet on a screen
+ * 320px wide has 288px left inside the paddings, so the calendar extends into the sheet margins.
  */
 export const SPicker = styled.div`
   display: flex;

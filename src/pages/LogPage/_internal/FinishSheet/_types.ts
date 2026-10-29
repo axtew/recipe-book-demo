@@ -1,7 +1,7 @@
 export interface IFinishSheetProps {
   isOpened: boolean;
   logId: string;
-  /** Дата готовки: раньше неё «доели» быть не может. */
+  /** Cooking date: “finished” cannot be earlier than it. */
   cookedAt: string;
   onClose: () => void;
 }

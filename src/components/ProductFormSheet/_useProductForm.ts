@@ -6,7 +6,10 @@ import { useForm } from "@/hooks/useForm";
 
 import type { IUseProductFormProps, IUseProductFormResult, TProductFields } from "./_types";
 
-/** Состояние формы создания продукта с первым вариантом и сброс при открытии листа. */
+/**
+ * State of the form for creating a product with its first variant, and its reset when the sheet
+ * opens.
+ */
 export function useProductForm({
   isOpened,
   initialName,
@@ -17,8 +20,8 @@ export function useProductForm({
   const { mutateAsync } = useCreateProductWithVariantMutation();
   const [error, setError] = useState<string | null>(null);
 
-  // Баннер общей ошибки формы живёт вне useForm — переживает открытие/закрытие
-  // листа отдельно от полей, сбрасывается тем же сравнением во время рендера.
+  // The form-level error banner lives outside useForm — it survives the sheet opening/closing
+  // separately from the fields and is reset by the same render-time comparison.
   const [wasOpened, setWasOpened] = useState(isOpened);
   if (isOpened !== wasOpened) {
     setWasOpened(isOpened);
@@ -55,10 +58,9 @@ export function useProductForm({
 
       if (!productResult.success || !variantResult.success) {
         setError(validationError);
-        // Бросаем, чтобы useForm не пометил форму «сохранённой» — иначе
-        // повторная отправка тех же (всё ещё невалидных) значений ничего не
-        // отправит, пока пользователь не поменяет хоть одно поле.
-        throw new Error("Продукт или вариант не прошли валидацию");
+        // Throw so useForm does not mark the form as “saved” — otherwise resubmitting the same
+        // (still invalid) values would send nothing until the user changes at least one field.
+        throw new Error("The product or variant failed validation");
       }
 
       try {

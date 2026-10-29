@@ -19,11 +19,11 @@ interface IProps {
 }
 
 /**
- * Главный экран: рецепты по категориям блюд, поиск по названию и составу,
- * фильтры и кнопка создания рецепта.
+ * The main screen: recipes by dish category, search by name and ingredients, filters and a
+ * create-recipe button.
  *
- * Пока идёт поиск, свёрнутые группы показываются раскрытыми: иначе найденное
- * пряталось бы под заголовком и выглядело как «ничего не нашлось».
+ * While a search is running, collapsed groups are shown expanded: otherwise what was found would
+ * hide under a heading and look like “nothing found”.
  */
 export function RecipesPage({ search, onSearchChange }: IProps) {
   const l = useI18nSelector(({ l }) => ({ ...l.recipeList, navigation: l.navigation }));

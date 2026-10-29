@@ -14,13 +14,13 @@ interface IProps {
   onRemove: () => void;
 }
 
-/** Шаг: номер, текст, растущий вместе с содержимым, и кнопка удаления. */
+/** A step: number, text that grows with its content, and a delete button. */
 export function StepRow({ number, text, onChange, onRemove }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.steps);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Высота подгоняется под содержимое: фиксированная область со скроллом
-  // внутри длинного шага неудобна на телефоне.
+  // The height adapts to the content: a fixed scrollable area inside a long step is inconvenient on
+  // a phone.
   useLayoutEffect(() => {
     const element = textareaRef.current;
     if (element === null) return;

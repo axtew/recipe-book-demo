@@ -93,3 +93,19 @@ Plan: `plans/localization/plan.md`. Commit policy: owner — agents never commit
 
 - **Status:** completed — `DEPLOY.md:114` quotes the new `env.ts` message; old-text grep over the repo outside `src/` for every changed message (only that hit); two comment wordings; `"плов"` → `"pilaf"` in `recipes.test.ts`. AST check 61 files / 0 differences; lint, build, test (129) green.
 - **Review iteration 2:** APPROVED (`plans/localization/l5/iter-2/REVIEW.md`).
+- **Committed:** `2f29ea5`; pushed to origin (`89c65af..2f29ea5`, with L4 `489e839`). Public copy not synced yet (needs `-Force` once — exclude list changed in L4).
+
+## L6, iteration 1
+
+- **Date:** 2026-10-29
+- **Status:** completed (not committed — awaiting review)
+- **Summary:** 116 files in `src/components` and `src/pages`: comments, `Error` messages and test names in English; test data translated where the test does not check Russian text. Remaining Cyrillic: `src/pages/RecipesPage/_helpers.test.ts` (Russian normalization). Old-text grep for changed messages — no quotes outside `src/`.
+- **Checks:** AST check 116 files / 0 differences (46 string literals); lint, build, test (129) green. Developer's patch tooling removed from the artifact folder by the orchestrator.
+- **Review iteration 1:** APPROVED (`plans/localization/l6/iter-1/REVIEW.md`). Notes: pre-existing comments referencing the spec/plan (`_RecipePage.tsx:33`, `_RecipeForm.tsx:22`) and a stale reason in `_UsedInRecipes.tsx:14`; 23 comment lines over 100 chars.
+
+## L6, iteration 2 (fix)
+
+
+
+- **Status:** completed — spec/plan references dropped from two comments, `_UsedInRecipes.tsx` comment made true (names are plain text), long and ragged comment wraps fixed, doubled quote in `ProductPicker` comments. AST check 0 differences; lint, build, test (129) green.
+- **Review iteration 2:** APPROVED (`plans/localization/l6/iter-2/REVIEW.md`).

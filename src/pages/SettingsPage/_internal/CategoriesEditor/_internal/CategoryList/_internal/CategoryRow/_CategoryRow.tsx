@@ -14,7 +14,7 @@ interface IProps {
   onMoveDown: () => void;
 }
 
-/** Строка категории: название редактируется на месте, рядом стрелки порядка. */
+/** A category row: the name is edited in place, with order arrows next to it. */
 export function CategoryRow({
   kind,
   category,

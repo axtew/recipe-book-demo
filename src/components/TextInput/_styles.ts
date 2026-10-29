@@ -1,13 +1,13 @@
 import styled, { css } from "styled-components";
 
-/** Общий вид текстовых полей: рамка, шрифт, фокус. */
+/** Common look of text fields: border, font, focus. */
 export const textFieldStyles = css`
   min-height: 44px;
   padding: 0 12px;
   border: 1px solid ${({ theme }) => theme.palette.border};
   border-radius: 8px;
-  /* 16px — иначе Safari на iOS зумит страницу при фокусе на поле. Не токен
-     типографики: техническое ограничение платформы, а не размер из шкалы. */
+  /* 16px — otherwise Safari on iOS zooms the page when the field is focused. Not a
+     typography token: a technical platform constraint, not a size from the scale. */
   font-size: 16px;
   color: ${({ theme }) => theme.palette.text};
   background: ${({ theme }) => theme.palette.surface};
@@ -18,7 +18,7 @@ export const textFieldStyles = css`
   }
 `;
 
-/** Однострочное текстовое поле со стилями проекта. */
+/** Single-line text field with the project styles. */
 export const STextInput = styled.input`
   ${textFieldStyles}
 `;

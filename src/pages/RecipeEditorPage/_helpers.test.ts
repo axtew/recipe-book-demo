@@ -8,11 +8,11 @@ import { areDraftsEqual, createEmptyDraft, createId } from "./_helpers";
 function createDraft(): IRecipeDraft {
   return {
     ...createEmptyDraft(),
-    name: "Борщ",
+    name: "Borscht",
     servingsBase: 4,
     steps: [
-      { key: "s1", text: "Нарезать" },
-      { key: "s2", text: "Варить" },
+      { key: "s1", text: "Chop" },
+      { key: "s2", text: "Boil" },
     ],
     ingredients: [
       {
@@ -35,7 +35,7 @@ function createDraft(): IRecipeDraft {
   };
 }
 
-/** Тот же черновик с другим порядком ключей — на всех уровнях вложенности. */
+/** The same draft with a different key order — at all nesting levels. */
 function reverseKeys<T>(value: T): T {
   if (Array.isArray(value)) return value.map(reverseKeys) as T;
   if (typeof value === "object" && value !== null) {
@@ -50,29 +50,29 @@ function reverseKeys<T>(value: T): T {
 }
 
 describe("areDraftsEqual", () => {
-  it("равны при разном порядке ключей, в том числе во вложенных объектах", () => {
+  it("returns true with a different key order, including in nested objects", () => {
     const draft = createDraft();
 
     expect(areDraftsEqual(draft, reverseKeys(draft))).toBe(true);
   });
 
-  it("не равны, если переставлены две строки состава", () => {
+  it("returns false if two ingredient rows are swapped", () => {
     const draft = createDraft();
     const swapped = { ...draft, ingredients: [...draft.ingredients].reverse() };
 
     expect(areDraftsEqual(draft, swapped)).toBe(false);
   });
 
-  it("не равны, если переставлены два шага", () => {
+  it("returns false if two steps are swapped", () => {
     const draft = createDraft();
     const swapped = { ...draft, steps: [...draft.steps].reverse() };
 
     expect(areDraftsEqual(draft, swapped)).toBe(false);
   });
 
-  it("undefined в поле и отсутствующее поле равны", () => {
+  it("treats undefined in a field and a missing field as equal", () => {
     const draft = createDraft();
-    // Черновик из localStorage может не содержать необязательное поле целиком.
+    // A draft from localStorage may lack an optional field entirely.
     const withoutNotes = Object.fromEntries(
       Object.entries(draft).filter(([key]) => key !== "notes"),
     ) as IRecipeDraft;
@@ -82,7 +82,7 @@ describe("areDraftsEqual", () => {
     ).toBe(true);
   });
 
-  it("не равны при отличии в одном вложенном поле (граммы ингредиента)", () => {
+  it("returns false when one nested field differs (ingredient grams)", () => {
     const draft = createDraft();
     const changed = {
       ...draft,
@@ -98,7 +98,7 @@ describe("createId", () => {
     vi.unstubAllGlobals();
   });
 
-  it("без randomUUID отдаёт валидный UUID, два вызова различаются", () => {
+  it("without randomUUID returns a valid UUID, two calls differ", () => {
     vi.stubGlobal("crypto", { getRandomValues: crypto.getRandomValues.bind(crypto) });
 
     const first = createId();
@@ -109,7 +109,7 @@ describe("createId", () => {
     expect(first).not.toBe(second);
   });
 
-  it("с randomUUID отдаёт его результат", () => {
+  it("with randomUUID returns its result", () => {
     expect(z.uuid().safeParse(createId()).success).toBe(true);
   });
 });

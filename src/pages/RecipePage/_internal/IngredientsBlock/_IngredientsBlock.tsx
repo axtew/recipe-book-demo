@@ -16,11 +16,10 @@ interface IProps {
 }
 
 /**
- * Состав рецепта: продукт и граммы.
+ * Recipe ingredients: product and grams.
  *
- * Название варианта мелким шрифтом под продуктом показывается, только когда у
- * продукта больше одного варианта: при единственном оно ничего не различает.
- * Закреплённый вариант отмечен значком.
+ * The variant name in small type under the product is shown only when the product has more than one
+ * variant: with a single one it tells nothing apart. A pinned variant is marked with an icon.
  */
 export function IngredientsBlock({ ingredients, resolved, productsById }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard.ingredients);
@@ -43,7 +42,7 @@ export function IngredientsBlock({ ingredients, resolved, productsById }: IProps
             const product = productsById.get(ingredient.productId);
 
             if (resolvedIngredient === undefined || product === undefined) {
-              throw new Error(`Ингредиент ${ingredient.id} не разрешён: нет продукта или варианта`);
+              throw new Error(`Ingredient ${ingredient.id} is not resolved: no product or variant`);
             }
 
             const showVariant =

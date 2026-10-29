@@ -17,10 +17,10 @@ interface IProps {
 }
 
 /**
- * Строка состава: выбор продукта, граммы и меню действий над строкой.
+ * An ingredient row: product choice, grams and a menu of actions on the row.
  *
- * После выбора (или инлайн-создания) продукта фокус уходит на поле граммов —
- * ингредиент вводится без лишних тапов, экран рецепта не покидается.
+ * After a product is chosen (or created inline), focus moves to the grams field — an ingredient is
+ * entered without extra taps, and the recipe screen is not left.
  */
 export function IngredientRow({ ingredient, onChange, onRemove }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.ingredient);
@@ -35,8 +35,8 @@ export function IngredientRow({ ingredient, onChange, onRemove }: IProps) {
 
   function handleProductChange(productId: string) {
     onChange({ productId, pinnedVariantId: null });
-    // Фокус переносится после коммита: к этому моменту выпадающий список или
-    // лист создания продукта уже закрыт и не перехватывает его обратно.
+    // Focus is moved after the commit: by then the dropdown or the product creation sheet is
+    // already closed and does not grab it back.
     setTimeout(() => gramsRef.current?.focus(), 0);
   }
 

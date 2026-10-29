@@ -5,7 +5,7 @@ import { filterProducts } from "@/utils/helpers/products";
 
 import { groupProducts } from "./_helpers";
 
-/** Поиск по справочнику и раскладка результата по категориям. */
+/** Search over the directory and laying the result out by category. */
 export function useProductsList() {
   const products = useProducts();
   const categories = useProductCategories();
@@ -20,7 +20,10 @@ export function useProductsList() {
     query,
     setQuery,
     groups,
-    /** В справочнике нет ни одного неархивного продукта — не путать с пустой выдачей поиска. */
+    /**
+     * The directory has no non-archived product at all — not to be confused with an empty search
+     * result.
+     */
     hasProducts: products.some((product) => product.archivedAt === null),
   };
 }

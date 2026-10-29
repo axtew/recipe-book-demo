@@ -2,11 +2,11 @@ import { Drawer } from "@mantine/core";
 import styled from "styled-components";
 
 /**
- * Нижний лист под высоту содержимого.
+ * Bottom sheet that fits its content height.
  *
- * Mantine задаёт нижнему `Drawer` фиксированную высоту из своей шкалы размеров
- * (`--drawer-size-md`), а листы в приложении бывают и короткими, и длинными.
- * Специфичность поднимается через `&&`, как и для любого переопределения кита.
+ * Mantine gives a bottom `Drawer` a fixed height from its size scale (`--drawer-size-md`), while
+ * sheets in the app are both short and long. Specificity is raised with `&&`, as for any UI kit
+ * override.
  */
 export const SBottomSheetDrawer = styled(Drawer)`
   && .mantine-Drawer-content {

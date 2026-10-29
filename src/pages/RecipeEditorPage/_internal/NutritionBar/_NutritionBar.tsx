@@ -12,9 +12,9 @@ interface IProps {
 }
 
 /**
- * Липкая плашка КБЖУ над таб-баром: на 100 г и на порцию, пересчитывается по
- * мере ввода. Продукты без КБЖУ названы под цифрами — ноль на их месте был бы
- * неотличим от настоящего.
+ * A sticky nutrition bar above the tab bar: per 100 g and per serving, recalculated as the user
+ * types. Products without nutrition are named under the numbers — a zero in their place would be
+ * indistinguishable from a real one.
  */
 export function NutritionBar({ nutrition, hasCountedIngredients, isServingsValid }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.nutritionBar);

@@ -15,7 +15,7 @@ interface IProps {
   onMove: (activeKey: string, overKey: string) => void;
 }
 
-/** Шаги приготовления: переставляемые строки с нумерацией и кнопка добавления. */
+/** Cooking steps: reorderable rows with numbering and an add button. */
 export function StepList({ steps, onAdd, onChange, onRemove, onMove }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.steps);
 

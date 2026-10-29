@@ -9,7 +9,7 @@ interface IProps {
   onDiscard: () => void;
 }
 
-/** Вопрос при открытии редактора, когда в localStorage нашёлся несохранённый черновик. */
+/** The question on opening the editor when an unsaved draft was found in localStorage. */
 export function DraftPrompt({ onRestore, onDiscard }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.draftPrompt);
 

@@ -14,12 +14,11 @@ import { SPage, SPlaceholder } from "./_styles";
 import type { IRecipeEditorPageProps, TDraftChoice } from "./_types";
 
 /**
- * Редактор рецепта: один экран и для создания (`recipeId === null`), и для правки.
+ * Recipe editor: one screen for both creating (`recipeId === null`) and editing.
  *
- * Если в localStorage есть несохранённый черновик, сначала спрашивает, что с
- * ним делать, — форма монтируется уже с выбранным начальным состоянием. Роут
- * монтирует экран с `key`, равным id рецепта, поэтому смена рецепта пересоздаёт
- * всё состояние.
+ * If localStorage holds an unsaved draft, it first asks what to do with it — the form is mounted
+ * with the chosen initial state. The route mounts the screen with a `key` equal to the recipe id,
+ * so switching recipes recreates all the state.
  */
 export function RecipeEditorPage({ recipeId }: IRecipeEditorPageProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor);

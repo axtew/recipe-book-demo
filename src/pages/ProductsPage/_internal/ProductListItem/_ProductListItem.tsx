@@ -10,7 +10,10 @@ interface IProps {
   product: IProduct;
 }
 
-/** Строка справочника: название, КБЖУ активного варианта и число вариантов, если их больше одного. */
+/**
+ * A directory row: name, nutrition of the active variant and the number of variants, if more than
+ * one.
+ */
 export function ProductListItem({ product }: IProps) {
   const l = useI18nSelector(({ l }) => l.products.list);
 

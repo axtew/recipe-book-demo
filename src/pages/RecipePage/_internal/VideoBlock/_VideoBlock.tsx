@@ -9,8 +9,8 @@ interface IProps {
 }
 
 /**
- * Ссылки на видео кнопками. Открываются в новой вкладке, а на телефоне
- * ссылку подхватывает приложение площадки.
+ * Video links as buttons. They open in a new tab, and on a phone the platform's app picks the link
+ * up.
  */
 export function VideoBlock({ urls }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard.video);

@@ -5,7 +5,7 @@ import type { INutritionSnapshot } from "@/domain/nutrition";
 export interface ICookLogSheetProps {
   isOpened: boolean;
   recipeId: string;
-  /** КБЖУ и состав рецепта на текущий момент — уходит в запись как есть. */
+  /** The recipe's nutrition and ingredients at the current moment — goes into the entry as is. */
   snapshot: INutritionSnapshot;
   onClose: () => void;
 }

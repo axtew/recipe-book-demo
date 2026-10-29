@@ -23,10 +23,10 @@ interface IProps {
 }
 
 /**
- * Меню строки состава: необязательность, закреплённый вариант, заметка, удаление.
+ * Ingredient row menu: optionality, pinned variant, note, deletion.
  *
- * Оформлено нижним листом, а не выпадающим меню: на телефоне это крупные
- * цели нажатия и системная клавиатура для заметки без борьбы за место.
+ * Styled as a bottom sheet rather than a dropdown menu: on a phone these are large tap targets and
+ * the system keyboard for the note without fighting for space.
  */
 export function IngredientOptionsSheet({
   isOpened,

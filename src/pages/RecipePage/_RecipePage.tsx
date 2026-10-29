@@ -29,8 +29,8 @@ interface IProps {
 }
 
 /**
- * Карточка рецепта: фото, КБЖУ, хранение, состав, шаги, видео, заметки и
- * статистика из журнала — в порядке экрана из ТЗ.
+ * Recipe card: photo, nutrition, storage, ingredients, steps, videos, notes and statistics from the
+ * log — in this order on the screen.
  */
 export function RecipePage({ recipeId }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard);

@@ -4,11 +4,10 @@ interface IVideoLink {
 }
 
 /**
- * Ссылки на видео для показа: только `http(s)`. Остальные схемы
- * (`javascript:`, `data:` и т. п.) и нечитаемые адреса пропускаются, а не
- * превращаются в `href`.
+ * Video links for display: `http(s)` only. Other schemes (`javascript:`, `data:` and the like) and
+ * unreadable addresses are skipped rather than turned into an `href`.
  *
- * Подпись — адрес площадки без `www.`.
+ * The label is the platform address without `www.`.
  */
 export function getVideoLinks(urls: string[]): IVideoLink[] {
   return urls.flatMap((url) => {

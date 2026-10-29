@@ -12,7 +12,7 @@ interface IProps {
   categories: ICategory[];
 }
 
-/** Список категорий одного справочника с перестановкой стрелками. */
+/** A list of the categories of one directory, reordered with arrows. */
 export function CategoryList({ kind, title, categories }: IProps) {
   const l = useI18nSelector(({ l }) => l.settings.categories);
   const { moveCategory, isPending } = useCategoryList(kind, categories);
@@ -25,7 +25,8 @@ export function CategoryList({ kind, title, categories }: IProps) {
 
       <SList>
         {categories.map((category, index) => (
-          // Имя в ключе: после переименования строка пересоздаётся и берёт значение из данных.
+          // The name is in the key: after a rename the row is recreated and takes its value from
+          // the data.
           <CategoryRow
             key={`${category.id}:${category.name}`}
             kind={kind}

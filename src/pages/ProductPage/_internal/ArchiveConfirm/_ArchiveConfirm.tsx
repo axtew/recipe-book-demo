@@ -16,11 +16,10 @@ interface IProps {
 }
 
 /**
- * Подтверждение архивирования продукта.
+ * Confirmation of archiving a product.
  *
- * Использование в рецептах операцию не запрещает, а только предупреждает:
- * продукт остаётся в составе уже написанных рецептов и пропадает лишь из
- * списков и выбора.
+ * Being used in recipes does not forbid the operation, only warns: the product stays in the already
+ * written recipes and disappears only from lists and pickers.
  */
 export function ArchiveConfirm({ isOpened, productId, usedInRecipes, onClose }: IProps) {
   const l = useI18nSelector(({ l }) => l.products.archiveConfirm);

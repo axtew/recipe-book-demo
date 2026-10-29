@@ -16,18 +16,18 @@ interface IProps {
   recipeId: string;
   recipe: IRecipe | null;
   draft: IRecipeDraft;
-  /** Сжатое фото, выбранное в этой сессии и ещё не загруженное. */
+  /** A compressed photo chosen in this session and not yet uploaded. */
   photoFile: File | null;
   finishDraft: () => void;
 }
 
 /**
- * Отправка рецепта: проверка схемой, загрузка нового фото, сохранение целиком.
+ * Submitting a recipe: schema validation, uploading a new photo, saving it as a whole.
  *
- * Фото уходит в Storage до рецепта: отказ сохранения оставит безвредный файл без
- * владельца, а обратный порядок дал бы рецепт со ссылкой на несуществующий файл.
- * Ошибку мутации показывает общий `MutationCache` тостом; здесь она лишь
- * выставляет сообщение под кнопкой и не запирает форму для повтора.
+ * The photo goes to Storage before the recipe: a failed save leaves a harmless file without an
+ * owner, while the reverse order would give a recipe linking to a nonexistent file. The mutation
+ * error is shown by the common `MutationCache` as a toast; here it only sets the message under the
+ * button and does not lock the form against a retry.
  */
 export function useRecipeSave({ recipeId, recipe, draft, photoFile, finishDraft }: IProps) {
   const navigate = useNavigate();
@@ -42,9 +42,9 @@ export function useRecipeSave({ recipeId, recipe, draft, photoFile, finishDraft 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // Листы создания продукта и варианта лежат внутри строк состава и имеют свои
-    // формы. Портал выносит их в body, но событие submit всплывает по дереву
-    // React и дошло бы сюда — рецепт ушёл бы на сохранение вместо продукта.
+    // The product and variant creation sheets sit inside the ingredient rows and have their own
+    // forms. The portal moves them into body, but the submit event bubbles up the React tree and
+    // would reach here — the recipe would be saved instead of the product.
     if (event.target !== event.currentTarget) return;
 
     setError(null);
@@ -73,9 +73,9 @@ export function useRecipeSave({ recipeId, recipe, draft, photoFile, finishDraft 
 
       finishDraft();
 
-      // Правка — шаг назад на карточку, с которой открыли редактор, чтобы в истории
-      // не оставалось пары «карточка → редактор → карточка». Новый рецепт заменяет
-      // собой страницу создания: «назад» с его карточки ведёт туда, откуда пришли.
+      // When editing — a step back to the card the editor was opened from, so the history does not
+      // keep a “card → editor → card” pair. A new recipe replaces the creation page: “back” from
+      // its card leads to where the user came from.
       if (recipe !== null && canGoBack) {
         router.history.back();
       } else {

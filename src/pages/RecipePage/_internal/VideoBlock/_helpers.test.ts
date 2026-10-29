@@ -3,20 +3,20 @@ import { describe, expect, it } from "vitest";
 import { getVideoLinks } from "./_helpers";
 
 describe("getVideoLinks", () => {
-  it("оставляет http и https, подпись — хост без www", () => {
+  it("keeps http and https, the label is the host without www", () => {
     expect(getVideoLinks(["https://www.youtube.com/watch?v=1", "http://example.com/a"])).toEqual([
       { url: "https://www.youtube.com/watch?v=1", label: "youtube.com" },
       { url: "http://example.com/a", label: "example.com" },
     ]);
   });
 
-  it("пропускает другие схемы и нечитаемые адреса", () => {
+  it("skips other schemes and unreadable addresses", () => {
     expect(
-      getVideoLinks(["javascript:alert(1)", "data:text/html,x", "не ссылка", "https://ok.ru/v"]),
+      getVideoLinks(["javascript:alert(1)", "data:text/html,x", "not a link", "https://ok.ru/v"]),
     ).toEqual([{ url: "https://ok.ru/v", label: "ok.ru" }]);
   });
 
-  it("на пустом списке возвращает пустой список", () => {
+  it("returns an empty list for an empty list", () => {
     expect(getVideoLinks([])).toEqual([]);
   });
 });

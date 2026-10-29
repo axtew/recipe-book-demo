@@ -8,11 +8,11 @@ import { getTodayDate } from "@/utils/helpers/dates";
 import type { IUseCookLogFormProps, IUseCookLogFormResult, TCookLogFields } from "./_types";
 
 /**
- * Состояние формы записи готовки и сброс при открытии листа.
+ * State of the cook log form, and its reset when the sheet opens.
  *
- * Дата «сегодня» и множитель ×1 — осмысленный ввод сами по себе, поэтому их
- * `prevValue` задан пустым: форма считается изменённой с первого рендера, и
- * запись создаётся без единой правки полей.
+ * The “today” date and the ×1 multiplier are meaningful input on their own, so their `prevValue` is
+ * empty: the form counts as changed from the first render, and the entry is created without
+ * touching a single field.
  */
 export function useCookLogForm({
   isOpened,
@@ -25,7 +25,7 @@ export function useCookLogForm({
   const { mutateAsync } = useCreateCookLogMutation();
   const [error, setError] = useState<string | null>(null);
 
-  // Баннер ошибки живёт вне useForm и сбрасывается тем же сравнением во время рендера.
+  // The error banner lives outside useForm and is reset by the same render-time comparison.
   const [wasOpened, setWasOpened] = useState(isOpened);
   if (isOpened !== wasOpened) {
     setWasOpened(isOpened);
@@ -58,8 +58,8 @@ export function useCookLogForm({
 
       if (!result.success) {
         setError(validationError);
-        // Бросаем, чтобы useForm не пометил форму «сохранённой».
-        throw new Error("Запись журнала не прошла валидацию");
+        // Throw so useForm does not mark the form as “saved”.
+        throw new Error("The cook log entry failed validation");
       }
 
       try {

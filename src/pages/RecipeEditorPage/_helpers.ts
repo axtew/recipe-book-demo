@@ -8,17 +8,17 @@ import type { TRecipeFields, TValidationKey } from "./_types";
 type TIngredientDraft = IRecipeDraft["ingredients"][number];
 
 /**
- * Новый UUID v4.
+ * A new UUID v4.
  *
- * `crypto.randomUUID` есть только в безопасном контексте (HTTPS или localhost);
- * на дев-сервере по `http://<IP>` его нет, поэтому запасной путь собирает UUID
- * из `getRandomValues`, который доступен везде.
+ * `crypto.randomUUID` exists only in a secure context (HTTPS or localhost); on the dev server over
+ * `http://<IP>` it is absent, so the fallback path builds the UUID from `getRandomValues`, which is
+ * available everywhere.
  */
 export function createId(): string {
   if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
 
   const bytes = crypto.getRandomValues(new Uint8Array(16));
-  // Версия 4 и вариант RFC 4122.
+  // Version 4 and the RFC 4122 variant.
   bytes[6] = (bytes[6] & 0x0f) | 0x40;
   bytes[8] = (bytes[8] & 0x3f) | 0x80;
 
@@ -55,7 +55,7 @@ export function createEmptyIngredient(): TIngredientDraft {
   };
 }
 
-/** Рецепт из датасета в форму черновика; id строк становятся ключами списков. */
+/** A recipe from the dataset into the draft form; row ids become list keys. */
 export function recipeToDraft(recipe: IRecipe): IRecipeDraft {
   return {
     name: recipe.name,
@@ -81,7 +81,9 @@ export function recipeToDraft(recipe: IRecipe): IRecipeDraft {
   };
 }
 
-/** Поля, которые ведёт `useForm`: пустое число в форме — пустая строка, в черновике — null. */
+/**
+ * Fields driven by `useForm`: an empty number is an empty string in the form and null in the draft.
+ */
 export function draftToFields(draft: IRecipeDraft): TRecipeFields {
   return {
     name: draft.name,
@@ -130,13 +132,12 @@ function textOrNull(value: string): string | null {
 }
 
 /**
- * Кандидат для `recipeInputSchema` из черновика.
+ * A candidate for `recipeInputSchema` built from the draft.
  *
- * Полностью пустые строки (без продукта, граммов и заметки), шаги без текста и
- * пустые ссылки отбрасываются как лишние. Частично заполненная строка состава
- * остаётся и не пройдёт схему — молча выбросить введённые граммы нельзя. Сроки
- * хранения без «можно замораживать» не сохраняются: блок хранения для такого
- * рецепта не показывается.
+ * Completely empty rows (no product, grams or note), steps without text and empty links are dropped
+ * as superfluous. A partially filled ingredient row stays and will not pass the schema — entered
+ * grams cannot be silently thrown away. Storage times without “can be frozen” are not saved: the
+ * storage block is not shown for such a recipe.
  */
 export function buildRecipeCandidate(
   draft: IRecipeDraft,
@@ -193,17 +194,20 @@ const VALIDATION_KEYS: readonly TValidationKey[] = [
   "ingredients",
 ];
 
-/** Какой блок формы назвать пользователю по пути первой ошибки схемы. */
+/** Which form block to name to the user by the path of the first schema error. */
 export function getValidationKey(path: PropertyKey[]): TValidationKey {
   return VALIDATION_KEYS.find((key) => key === path[0]) ?? "generic";
 }
 
-/** Совпадают ли два черновика независимо от порядка ключей — запись в localStorage нужна только после правки. */
+/**
+ * Whether two drafts match regardless of key order — writing to localStorage is needed only after
+ * an edit.
+ */
 export function areDraftsEqual(first: IRecipeDraft, second: IRecipeDraft): boolean {
   return serializeSorted(first) === serializeSorted(second);
 }
 
-/** JSON с ключами объектов в алфавитном порядке: порядок ключей не влияет на результат. */
+/** JSON with object keys in alphabetical order: key order does not affect the result. */
 function serializeSorted(value: IRecipeDraft): string {
   return JSON.stringify(value, (_key, nested: unknown) =>
     typeof nested === "object" && nested !== null && !Array.isArray(nested)
@@ -213,8 +217,8 @@ function serializeSorted(value: IRecipeDraft): string {
 }
 
 /**
- * Ручные КБЖУ «на 100 г», заданные у рецепта. Редактор их не меняет — они
- * проходят сквозь сохранение как есть, иначе правка состава молча стёрла бы их.
+ * Manual “per 100 g” nutrition set on the recipe. The editor does not change it — it passes through
+ * saving as is, otherwise editing the ingredients would silently erase it.
  */
 export function getOverrideColumns(recipe: IRecipe | null) {
   return {
@@ -225,7 +229,7 @@ export function getOverrideColumns(recipe: IRecipe | null) {
   };
 }
 
-/** Те же ручные значения в форме входа расчёта: незаданное поле просто отсутствует. */
+/** The same manual values in the form of the calculation input: an unset field is simply absent. */
 export function getNutritionOverrides(recipe: IRecipe | null): Partial<INutrients> {
   const { kcal100Override, protein100Override, fat100Override, carbs100Override } =
     getOverrideColumns(recipe);
@@ -242,13 +246,12 @@ export function getNutritionOverrides(recipe: IRecipe | null): Partial<INutrient
 const NON_TEXT_INPUT_TYPES = new Set(["checkbox", "radio", "file", "button", "submit", "reset"]);
 
 /**
- * Enter в однострочном поле формы снимает с него фокус вместо отправки формы.
+ * Enter in a single-line form field blurs it instead of submitting the form.
  *
- * Неявная отправка по Enter (на iPhone — кнопка «Перейти») сохранила бы
- * недописанный рецепт. `textarea` не затрагивается: там Enter — перенос строки.
- * Листы создания продукта и варианта рендерятся порталом, но события клавиатуры
- * всплывают по дереву React; цель вне формы в DOM пропускается, чтобы в этих
- * листах Enter по-прежнему отправлял их собственные формы.
+ * Implicit submission on Enter (on iPhone the “Go” button) would save an unfinished recipe. A
+ * `textarea` is not affected: there Enter is a line break. The product and variant creation sheets
+ * render through a portal, but keyboard events bubble up the React tree; a target outside the form
+ * in the DOM is skipped so that in these sheets Enter still submits their own forms.
  */
 export function blurOnEnter(event: KeyboardEvent<HTMLFormElement>): void {
   const { target } = event;

@@ -4,7 +4,7 @@ import { useCookLogs, useRecipes } from "@/hooks/useAppData.hook";
 
 import { groupLogsByMonth } from "./_helpers";
 
-/** Данные экрана журнала: записи по месяцам и названия рецептов по id. */
+/** Data of the log screen: entries by month and recipe names by id. */
 export function useLogPage() {
   const cookLogs = useCookLogs();
   const recipes = useRecipes();

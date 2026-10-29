@@ -17,11 +17,11 @@ interface IProps {
 }
 
 /**
- * КБЖУ черновика рецепта на лету.
+ * Nutrition of the recipe draft on the fly.
  *
- * В расчёт попадают только строки с выбранным продуктом и положительными
- * граммами — недозаполненная строка не должна ни ломать расчёт, ни давать
- * вклад. Расчёт целиком в доменном модуле; здесь только подготовка входа.
+ * Only rows with a chosen product and positive grams take part in the calculation — an underfilled
+ * row must neither break the calculation nor contribute. The calculation is entirely in the domain
+ * module; here is only the input preparation.
  */
 export function useRecipeNutrition({ ingredients, servingsBase, yieldGrams, overrides }: IProps) {
   const products = useProducts();

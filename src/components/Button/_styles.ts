@@ -48,7 +48,7 @@ export const SButton = styled.button<{ $variant: TButtonVariant; $isInline?: boo
   }
 `;
 
-/** Ряд кнопок одинаковой ширины: отмена и подтверждение в листе, пара действий в карточке. */
+/** A row of equal-width buttons: cancel and confirm in a sheet, a pair of actions in a card. */
 export const SButtonRow = styled.div`
   display: flex;
   gap: 8px;

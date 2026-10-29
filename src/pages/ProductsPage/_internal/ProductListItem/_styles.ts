@@ -20,10 +20,10 @@ const SAnchor = styled.a`
 `;
 
 /**
- * Ссылка карточки продукта.
+ * Link of the product card.
  *
- * Собрана через `createLink`, а не `styled(Link)`: обёртка styled-components
- * стирает дженерики роутера, и типизированный `params` перестаёт проверяться.
+ * Built with `createLink` rather than `styled(Link)`: the styled-components wrapper erases the
+ * router generics, and the typed `params` stop being checked.
  */
 export const SLink = createLink(SAnchor);
 

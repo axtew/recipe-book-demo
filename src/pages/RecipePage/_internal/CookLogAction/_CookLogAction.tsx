@@ -11,7 +11,7 @@ interface IProps {
   snapshot: INutritionSnapshot;
 }
 
-/** Кнопка «Записать готовку» в конце карточки и лист, который она открывает. */
+/** The “Log a cook” button at the end of the card and the sheet it opens. */
 export function CookLogAction({ recipeId, snapshot }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard);
   const [isOpened, setIsOpened] = useState(false);

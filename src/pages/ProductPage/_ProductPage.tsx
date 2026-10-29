@@ -17,7 +17,7 @@ interface IProductPage {
   productId: string;
 }
 
-/** Карточка продукта: варианты, где используется, архивирование. */
+/** Product card: variants, where it is used, archiving. */
 export function ProductPage({ productId }: IProductPage) {
   const l = useI18nSelector(({ l }) => l.products.card);
   const productsById = useProductsById();

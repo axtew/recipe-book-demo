@@ -8,7 +8,7 @@ interface IProps {
   steps: IRecipe["steps"];
 }
 
-/** Нумерованный список шагов приготовления. */
+/** A numbered list of cooking steps. */
 export function StepsBlock({ steps }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard.steps);
 

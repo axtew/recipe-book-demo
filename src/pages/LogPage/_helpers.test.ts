@@ -20,11 +20,11 @@ function createLog(id: string, cookedAt: string): ICookLog {
 }
 
 describe("groupLogsByMonth", () => {
-  it("без записей даёт пустой список", () => {
+  it("returns an empty list when there are no entries", () => {
     expect(groupLogsByMonth([])).toEqual([]);
   });
 
-  it("складывает записи одного месяца в одну группу", () => {
+  it("puts the entries of one month into one group", () => {
     const groups = groupLogsByMonth([createLog("a", "2026-10-20"), createLog("b", "2026-10-03")]);
 
     expect(groups).toHaveLength(1);
@@ -32,7 +32,7 @@ describe("groupLogsByMonth", () => {
     expect(groups[0].logs.map(({ id }) => id)).toEqual(["a", "b"]);
   });
 
-  it("разделяет месяцы и годы, сохраняя порядок от свежего к давнему", () => {
+  it("separates months and years, keeping the order from newest to oldest", () => {
     const groups = groupLogsByMonth([
       createLog("a", "2026-10-20"),
       createLog("b", "2026-09-30"),
@@ -42,7 +42,7 @@ describe("groupLogsByMonth", () => {
     expect(groups.map(({ key }) => key)).toEqual(["2026-10", "2026-09", "2025-09"]);
   });
 
-  it("берёт месяц из строки даты: первое число не уезжает в предыдущий месяц", () => {
+  it("takes the month from the date string: the first day does not slip into the previous month", () => {
     expect(groupLogsByMonth([createLog("a", "2026-01-01")])[0]).toMatchObject({
       key: "2026-01",
       month: 1,

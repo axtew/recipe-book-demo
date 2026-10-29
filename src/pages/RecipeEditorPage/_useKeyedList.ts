@@ -6,8 +6,8 @@ interface IKeyed {
 }
 
 /**
- * Список строк со стабильными ключами: правка одной строки, удаление, добавление
- * и перестановка по ключам, а не по индексам — индекс меняется при перетаскивании.
+ * A list of rows with stable keys: editing one row, removing, adding and reordering by keys rather
+ * than by indices — the index changes when dragging.
  */
 export function useKeyedList<T extends IKeyed>(initialItems: T[]) {
   const [items, setItems] = useState(initialItems);

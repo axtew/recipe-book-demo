@@ -5,10 +5,10 @@ import { getTodayDate } from "@/utils/helpers/dates";
 import type { IUseFinishFormProps, TFinishFields } from "./_types";
 
 /**
- * Состояние формы выбора даты «доели» и сброс при открытии листа.
+ * State of the form for picking the “finished” date, and its reset when the sheet opens.
  *
- * Сегодняшняя дата сама по себе осмысленный ввод, поэтому `prevValue` пуст и
- * подтвердить можно без выбора. Ошибку записи показывает общий обработчик мутаций.
+ * Today's date is a meaningful input on its own, so `prevValue` is empty and it can be confirmed
+ * without picking. A save error is shown by the common mutation handler.
  */
 export function useFinishForm({ isOpened, logId, onSaved }: IUseFinishFormProps) {
   const { mutateAsync } = useFinishCookLogMutation();

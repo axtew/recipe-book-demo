@@ -12,13 +12,12 @@ interface IProps {
 }
 
 /**
- * Блок «ккал / Б / Ж / У» на 100 г.
+ * A “kcal / P / F / C” block per 100 g.
  *
- * Незаполненное значение показывается прочерком, а неполный набор — ещё и
- * предупреждением под строкой: ноль на месте отсутствующей цифры неотличим от
- * честного нуля, и именно это запрещает инвариант «молчаливых нулей не бывает».
- * Предупреждение решается внутри компонента, а не потребителем, — иначе каждый
- * экран писал бы одну и ту же проверку.
+ * An unfilled value is shown as a dash, and an incomplete set additionally gets a warning under the
+ * row: a zero in place of a missing number is indistinguishable from an honest zero, and this is
+ * exactly what the “no silent zeros” invariant forbids. The warning is decided inside the
+ * component, not by the consumer — otherwise every screen would write the same check.
  */
 export function NutrientsRow({ kcal, protein, fat, carbs }: IProps) {
   const l = useI18nSelector(({ l }) => l.nutrients);

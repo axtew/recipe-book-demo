@@ -5,7 +5,7 @@ import { Section } from "../Section";
 import { CategoryList } from "./_internal/CategoryList";
 import { SLists } from "./_styles";
 
-/** Названия и порядок категорий обоих справочников: продуктов и блюд. */
+/** Names and order of the categories of both directories: products and dishes. */
 export function CategoriesEditor() {
   const l = useI18nSelector(({ l }) => l.settings.categories);
   const productCategories = useProductCategories();

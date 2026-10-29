@@ -1,20 +1,19 @@
 import styled from "styled-components";
 
 /**
- * Нативный выпадающий список со стилями проекта.
+ * Native dropdown with the project styles.
  *
- * На iPhone нативный `<select>` открывает системное колесо-пикер — крупное,
- * с жестами и озвучкой, лучше кастомного дропдауна для короткого статичного
- * списка и не стоит ни байта JS. `Combobox` из Mantine остаётся там, где
- * нужен поиск по большому набору значений.
+ * On iPhone a native `<select>` opens the system wheel picker — large, with gestures and
+ * voice-over, better than a custom dropdown for a short static list and costs not a byte of JS.
+ * Mantine's `Combobox` stays where search over a large set of values is needed.
  */
 export const SSelect = styled.select`
   min-height: 44px;
   padding: 0 12px;
   border: 1px solid ${({ theme }) => theme.palette.border};
   border-radius: 8px;
-  /* Тот же технический порог, что у текстовых полей ввода: ниже него Safari
-     на iOS зумит страницу при фокусе. Не токен типографики. */
+  /* The same technical threshold as for text input fields: below it Safari
+     on iOS zooms the page on focus. Not a typography token. */
   font-size: 16px;
   color: ${({ theme }) => theme.palette.text};
   background: ${({ theme }) => theme.palette.surface};

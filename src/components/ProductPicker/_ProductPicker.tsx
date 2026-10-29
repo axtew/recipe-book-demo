@@ -18,12 +18,11 @@ interface IProps {
 }
 
 /**
- * Поиск продукта поверх датасета, уже загруженного в кэш, с инлайн-созданием.
+ * Product search over the dataset already loaded into the cache, with inline creation.
  *
- * Фильтрация идёт по списку продуктов в памяти — сеть не участвует. Если среди
- * неархивных продуктов совпадений нет, в выпадающем списке вместо пустоты
- * появляется пункт «Создать «{запрос}»», открывающий `ProductFormSheet` поверх
- * текущего экрана.
+ * Filtering runs over the in-memory product list — the network is not involved. If there are no
+ * matches among non-archived products, the dropdown shows, instead of emptiness, a
+ * `Create “{query}”` item that opens `ProductFormSheet` on top of the current screen.
  */
 export function ProductPicker({ value, onChange }: IProps) {
   const l = useI18nSelector(({ l }) => l.products.picker);
@@ -37,9 +36,9 @@ export function ProductPicker({ value, onChange }: IProps) {
   );
   const [isCreateOpened, setCreateOpened] = useState(false);
 
-  // Синхронизация текста поиска с внешним `value` — сравнение во время
-  // рендера, а не в эффекте: React рекомендует именно так подстраивать
-  // состояние под смену пропа, а не откатывать его после коммита.
+  // Syncing the search text with the external `value` — a comparison during render rather than in
+  // an effect: React recommends exactly this way of adjusting state to a prop change, instead of
+  // rolling it back after the commit.
   const [wasValue, setWasValue] = useState(value);
   if (value !== wasValue) {
     setWasValue(value);
@@ -48,8 +47,8 @@ export function ProductPicker({ value, onChange }: IProps) {
       setSearch("");
     } else {
       const product = products.find((item) => item.id === value);
-      // Продукта может ещё не быть в кэше (только что создан, инвалидация в
-      // процессе) — тогда текст уже выставлен вызывающим кодом, трогать не надо.
+      // The product may not be in the cache yet (just created, invalidation in progress) — then the
+      // text is already set by the calling code, nothing to do.
       if (product !== undefined) setSearch(product.name);
     }
   }

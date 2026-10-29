@@ -5,7 +5,7 @@ interface IProps {
   onClick: () => void;
 }
 
-/** Иконка-крестик в тап-цели 44px: убрать строку списка. */
+/** A cross icon in a 44px tap target: remove a list row. */
 export function RemoveButton({ label, onClick }: IProps) {
   return (
     <SButton type="button" aria-label={label} onClick={onClick}>

@@ -11,7 +11,7 @@ interface IProps {
   onChange: (urls: string[]) => void;
 }
 
-/** Ссылки на видео: список полей по одному на ссылку. Проверка адреса — при сохранении. */
+/** Video links: a list of fields, one per link. The address is validated on save. */
 export function VideoLinks({ urls, onChange }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.video);
 
@@ -20,8 +20,8 @@ export function VideoLinks({ urls, onChange }: IProps) {
       <H3>{l.title}</H3>
 
       {urls.map((url, index) => (
-        // Ссылки не переставляются и не имеют собственного id — индекс стабилен,
-        // пока строки только добавляются в конец и удаляются.
+        // Links are not reordered and have no id of their own — the index is stable as long as rows
+        // are only appended and removed.
         <SVideoRow key={index}>
           <STextInput
             type="url"

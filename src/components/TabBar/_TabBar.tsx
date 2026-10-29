@@ -4,7 +4,7 @@ import { routerPaths } from "@/routes/_paths";
 
 import { SBar, SLink } from "./_styles";
 
-/** Нижняя навигация с четырьмя вкладками, видна на всех основных экранах. */
+/** Bottom navigation with four tabs, visible on all main screens. */
 export function TabBar() {
   const l = useI18nSelector(({ l }) => l.navigation);
 

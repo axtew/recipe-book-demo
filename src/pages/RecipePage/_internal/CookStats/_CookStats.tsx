@@ -14,9 +14,8 @@ interface IProps {
 }
 
 /**
- * Статистика из журнала: сколько раз готовили, когда в последний раз, средний
- * фактический выход и на сколько дней в среднем хватало. Нет данных для
- * среднего — прочерк, а не ноль.
+ * Statistics from the log: how many times it was cooked, when last, the average actual yield and
+ * for how many days on average it lasted. No data for an average — a dash, not a zero.
  */
 export function CookStats({ cookLogs }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeCard.stats);

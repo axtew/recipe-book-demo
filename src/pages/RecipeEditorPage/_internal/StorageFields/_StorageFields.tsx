@@ -14,7 +14,7 @@ interface IProps {
   onChange: TUpdateField;
 }
 
-/** Блок хранения: переключатель «можно замораживать», при включении — сроки. */
+/** The storage block: a “can be frozen” switch, and when it is on — the storage times. */
 export function StorageFields({ freezable, freezerDays, fridgeDays, onChange }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.storage);
 

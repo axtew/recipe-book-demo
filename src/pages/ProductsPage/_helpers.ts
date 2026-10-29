@@ -1,6 +1,6 @@
 import type { IProduct, IProductCategory } from "@/types/products.types";
 
-/** Категория со своими продуктами — единица списка на экране. */
+/** A category with its products — a unit of the list on the screen. */
 interface IProductGroup {
   categoryId: string;
   categoryName: string;
@@ -8,10 +8,10 @@ interface IProductGroup {
 }
 
 /**
- * Раскладка продуктов по категориям в порядке `sortOrder`.
+ * Laying products out by category in `sortOrder` order.
  *
- * Пустые категории в список не попадают: справочник заполняется постепенно, и
- * десяток пустых заголовков сверху прятал бы то немногое, что уже заведено.
+ * Empty categories do not make it into the list: the directory is filled gradually, and a dozen
+ * empty headings at the top would hide the little that has already been added.
  */
 export function groupProducts(
   products: IProduct[],

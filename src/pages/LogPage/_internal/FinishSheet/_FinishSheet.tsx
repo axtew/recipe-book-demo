@@ -10,7 +10,7 @@ import { SPicker } from "./_styles";
 import type { IFinishSheetProps } from "./_types";
 import { useFinishForm } from "./_useFinishForm";
 
-/** Bottom sheet выбора даты «доели», когда сегодняшняя не подходит. */
+/** Bottom sheet for picking the “finished” date when today's does not fit. */
 export function FinishSheet({ isOpened, logId, cookedAt, onClose }: IFinishSheetProps) {
   const l = useI18nSelector(({ l }) => l.cookLog.finishSheet);
   const { finishedAt, isSubmitDisabled, setFinishedAt, handleSubmit } = useFinishForm({

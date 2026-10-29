@@ -11,11 +11,11 @@ import type { IVariantFormSheetProps } from "./_types";
 import { useVariantForm } from "./_useVariantForm";
 
 /**
- * Bottom sheet добавления ещё одного варианта уже существующему продукту.
+ * Bottom sheet for adding one more variant to an existing product.
  *
- * В отличие от `ProductFormSheet` категория не нужна — продукт уже есть,
- * добавляется только строка в `product_variants` (однотабличная мутация).
- * Название варианта и все четыре числа КБЖУ необязательны.
+ * Unlike `ProductFormSheet` no category is needed — the product already exists, only a row in
+ * `product_variants` is added (a single-table mutation). The variant name and all four nutrition
+ * numbers are optional.
  */
 export function VariantFormSheet({ isOpened, productId, onClose }: IVariantFormSheetProps) {
   const l = useI18nSelector(({ l }) => ({ ...l.products.addVariantSheet, nutrients: l.nutrients }));

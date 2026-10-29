@@ -14,8 +14,8 @@ export const SItem = styled.div<{ $isDragging: boolean }>`
 `;
 
 /**
- * Ручка захвата. `touch-action: none` обязателен: без него на телефоне жест
- * перетаскивания превращается в прокрутку страницы вместе с элементом.
+ * The grab handle. `touch-action: none` is required: without it on a phone the drag gesture turns
+ * into scrolling the page along with the element.
  */
 export const SHandle = styled.button`
   flex: none;

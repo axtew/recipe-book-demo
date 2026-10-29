@@ -11,20 +11,20 @@ import { SSection } from "../../_styles";
 import { SActions, SPlaceholder, SPreview } from "./_styles";
 
 interface IProps {
-  /** Адрес уже сохранённой обложки; null, если её нет или она убрана. */
+  /** Address of the already saved cover; null if there is none or it was removed. */
   savedUrl: string | null;
-  /** Новое фото, выбранное в этой сессии и ещё не загруженное. */
+  /** A new photo chosen in this session and not yet uploaded. */
   photoFile: File | null;
   onPick: (file: File) => void;
   onRemove: () => void;
 }
 
 /**
- * Обложка рецепта: выбор, сжатие, превью с заменой и удалением.
+ * Recipe cover: choosing, compression, a preview with replace and remove.
  *
- * Выбранный файл сжимается сразу (до 1200 px, WebP) и только затем попадает в
- * состояние: на сохранении в Storage уходит уже лёгкий файл. Само сохранение
- * фото — шаг отправки рецепта, не этого поля.
+ * The chosen file is compressed right away (up to 1200 px, WebP) and only then goes into the state:
+ * on save an already light file goes to Storage. Saving the photo itself is a step of submitting
+ * the recipe, not of this field.
  */
 export function PhotoField({ savedUrl, photoFile, onPick, onRemove }: IProps) {
   const l = useI18nSelector(({ l }) => l.recipeEditor.photo);
@@ -66,7 +66,7 @@ export function PhotoField({ savedUrl, photoFile, onPick, onRemove }: IProps) {
         <SPreview src={previewUrl} alt={l.alt} />
       )}
 
-      {/* В демо загрузка закрыта: уже сохранённое фото показывается, менять его нельзя. */}
+      {/* In the demo uploading is closed: a saved photo is shown but cannot be changed. */}
       {!env.isDemo && (
         <SActions>
           <FileInput

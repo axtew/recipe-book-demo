@@ -10,7 +10,7 @@ export const SPage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  /* Снизу — место под плавающую кнопку, чтобы она не накрывала последнюю карточку. */
+  /* At the bottom — room for the floating button so it does not cover the last card. */
   padding: 16px 16px calc(${FAB_SIZE_PX + 2 * FAB_OFFSET_PX}px + env(safe-area-inset-bottom));
 `;
 
@@ -33,8 +33,8 @@ export const SPlaceholder = styled.div`
 const SFabAnchor = styled.a`
   position: fixed;
   bottom: calc(${TAB_BAR_HEIGHT_PX}px + env(safe-area-inset-bottom) + ${FAB_OFFSET_PX}px);
-  /* Колонка приложения центрирована и ограничена по ширине, а кнопка зафиксирована
-     относительно окна: правый отступ считается от края колонки, а не экрана. */
+  /* The app column is centered and limited in width, while the button is fixed
+     relative to the window: the right offset is counted from the column edge, not the screen. */
   right: max(
     ${FAB_OFFSET_PX}px,
     calc((100vw - ${({ theme }) => theme.breakpoints.contentMaxWidth}) / 2 + ${FAB_OFFSET_PX}px)
@@ -50,8 +50,8 @@ const SFabAnchor = styled.a`
   box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
   text-decoration: none;
 
-  /* Плюс рисуется двумя полосами: подпись у кнопки в aria-label, а размера
-     шрифта из шкалы для значка нет. */
+  /* The plus is drawn with two bars: the button label is in aria-label, and there is no
+     font size from the scale for an icon. */
   &::before,
   &::after {
     content: "";

@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
 import styled from "styled-components";
 
-/** Ключи палитры, пригодные для цвета текста. */
+/** Palette keys suitable for the text color. */
 export type TTextColor = "text" | "textMuted" | "primary" | "danger";
 
-/** Общая база для всех компонентов типографики: цвет из палитры и выравнивание. */
+/** Common base for all typography components: palette color and alignment. */
 export const SBaseText = styled.p<{
   $color?: TTextColor;
   $textAlign?: CSSProperties["textAlign"];

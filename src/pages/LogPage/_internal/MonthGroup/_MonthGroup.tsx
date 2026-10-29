@@ -10,7 +10,7 @@ interface IProps {
   recipeNames: Map<string, string>;
 }
 
-/** Месяц с заголовком «Октябрь 2026» и записями журнала в нём. */
+/** A month with a heading like “October 2026” and the log entries in it. */
 export function MonthGroup({ group, recipeNames }: IProps) {
   const l = useI18nSelector(({ l }) => l.cookLog);
 

@@ -12,11 +12,11 @@ import {
 import { getNutritionOverrides } from "@/utils/helpers/recipes";
 
 /**
- * Данные карточки рецепта: сам рецепт, его КБЖУ и снимок для записи в журнал,
- * разрешённые варианты ингредиентов, строка с категориями, временем и порциями, записи журнала.
+ * Data of the recipe card: the recipe itself, its nutrition and a snapshot for a log entry, the
+ * resolved ingredient variants, a line with categories, time and servings, the log entries.
  *
- * Возвращает `null`, если рецепта с таким id нет. Расчёт целиком в доменном
- * модуле; здесь только подготовка входа.
+ * Returns `null` if there is no recipe with that id. The calculation is entirely in the domain
+ * module; here is only the input preparation.
  */
 export function useRecipeCard(recipeId: string) {
   const l = useI18nSelector(({ l }) => l.recipeCard);

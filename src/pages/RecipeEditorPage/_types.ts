@@ -1,21 +1,24 @@
 import type { IRecipe, IRecipeDraft } from "@/types/recipes.types";
 
 export interface IRecipeEditorPageProps {
-  /** Null — новый рецепт. */
+  /** Null — a new recipe. */
   recipeId: string | null;
 }
 
-/** Что пользователь решил про найденный черновик. */
+/** What the user decided about the found draft. */
 export type TDraftChoice = "pending" | "restored" | "discarded";
 
 export interface IRecipeFormProps {
-  /** Id, под которым рецепт будет сохранён: у существующего — его собственный, у нового — выданный заранее. */
+  /** The id the recipe is saved under: its own if it exists, issued in advance if it is new. */
   recipeId: string | null;
-  /** Исходный рецепт при редактировании; из него берутся не показываемые в форме поля (ручные КБЖУ). */
+  /**
+   * The original recipe when editing; fields not shown in the form (manual nutrition) are taken
+   * from it.
+   */
   recipe: IRecipe | null;
   initialDraft: IRecipeDraft;
   saveDraft: (draft: IRecipeDraft) => void;
-  /** Успешное сохранение: удаляет черновик и больше его не пишет. */
+  /** Successful save: deletes the draft and stops writing it. */
   finishDraft: () => void;
 }
 
@@ -29,7 +32,7 @@ type TRecipeFieldName =
   | "fridgeDays"
   | "notes";
 
-/** Скалярные поля формы. Списки (состав, шаги, ссылки, категории) живут вне `useForm`. */
+/** Scalar form fields. Lists (ingredients, steps, links, categories) live outside `useForm`. */
 export type TRecipeFields = {
   [K in TRecipeFieldName]: K extends "name" | "notes"
     ? string
@@ -50,10 +53,13 @@ export type TValidationKey =
   | "ingredients"
   | "generic";
 
-/** Что показать под кнопкой сохранения: блок формы, не прошедший проверку, либо отказ отправки. */
+/**
+ * What to show under the save button: the form block that failed validation, or a rejected
+ * submission.
+ */
 export type TSaveError = TValidationKey | "submit";
 
-/** Запись значения скалярного поля формы по имени — то, что отдаёт `useForm`. */
+/** Writing a value of a scalar form field by name — what `useForm` provides. */
 export type TUpdateField = (
   name: keyof TRecipeFields,
   value: TRecipeFields[keyof TRecipeFields],

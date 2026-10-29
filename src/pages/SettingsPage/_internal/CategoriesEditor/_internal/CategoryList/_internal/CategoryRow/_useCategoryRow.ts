@@ -4,10 +4,10 @@ import { useRenameCategoryMutation } from "@/api/mutations/categories.mutations"
 import type { ICategory, TCategoryKind } from "@/types/categories.types";
 
 /**
- * Переименование категории на месте.
+ * Renaming a category in place.
  *
- * Сохраняется при уходе из поля или по Enter; пустое название не сохраняется, а
- * откатывается к прежнему — у категории всегда есть имя.
+ * Saved when leaving the field or on Enter; an empty name is not saved but rolled back to the
+ * previous one — a category always has a name.
  */
 export function useCategoryRow(kind: TCategoryKind, category: ICategory) {
   const { mutate } = useRenameCategoryMutation(kind);

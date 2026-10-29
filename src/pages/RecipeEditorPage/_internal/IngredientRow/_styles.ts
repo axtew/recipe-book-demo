@@ -30,7 +30,7 @@ export const SMetaLine = styled.div`
   align-items: center;
   gap: 12px;
 
-  /* Граммы — фиксированной ширины, остальное место отдаётся подписям. */
+  /* Grams have a fixed width, the rest of the space goes to the labels. */
   & > :first-child {
     flex: none;
     width: 120px;

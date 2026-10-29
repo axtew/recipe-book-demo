@@ -19,8 +19,8 @@ import { StorageFields } from "../StorageFields";
 import { VideoLinks } from "../VideoLinks";
 
 /**
- * Форма рецепта в порядке экрана из плана: название, категории, время, порции,
- * выход, фото, состав, шаги, хранение, видео, заметки. Липкая плашка КБЖУ — в конце.
+ * The recipe form in screen order: name, categories, time, servings, yield, photo, ingredients,
+ * steps, storage, videos, notes. The sticky nutrition bar is at the end.
  */
 export function RecipeForm(props: IRecipeFormProps) {
   const l = useI18nSelector(({ l }) => ({
@@ -30,7 +30,8 @@ export function RecipeForm(props: IRecipeFormProps) {
   const editor = useRecipeEditor(props);
   const { form, onChange, updateFieldValue, save } = editor;
 
-  // Черновик хранит путь фото рецепта либо null: адрес рецепта верен, только пока путь не менялся.
+  // The draft stores the recipe's photo path or null: the recipe's address is valid only while the
+  // path has not changed.
   const savedPhotoUrl =
     props.recipe !== null && editor.photoPath === props.recipe.photoPath
       ? props.recipe.photoUrl

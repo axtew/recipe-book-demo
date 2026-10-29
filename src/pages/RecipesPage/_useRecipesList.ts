@@ -7,11 +7,11 @@ import { normalizeRecipesSearch } from "@/utils/helpers/recipes";
 import { buildListItems, countActiveFilters, filterListItems, groupListItems } from "./_helpers";
 
 /**
- * Данные главного экрана: строки списка, их раскладка по категориям и счётчики.
+ * Data of the main screen: list rows, their layout by category and the counters.
  *
- * Источник истины для поиска и фильтров — адрес. Набираемый текст дополнительно
- * держится локально, чтобы поле не ждало роутер, и подтягивается из адреса, когда
- * тот изменился снаружи: таб «Рецепты», шаг назад или вперёд по истории.
+ * The source of truth for search and filters is the address. The text being typed is additionally
+ * kept locally so the field does not wait for the router, and is pulled from the address when that
+ * changed from outside: the “Recipes” tab, a step back or forward in the history.
  */
 export function useRecipesList(
   search: IRecipesSearch,
@@ -30,7 +30,7 @@ export function useRecipesList(
     setQuery(urlQuery);
   }
 
-  // КБЖУ считается один раз на изменение данных, а не на каждую букву запроса.
+  // Nutrition is calculated once per data change, not on every letter of the query.
   const allItems = useMemo(() => buildListItems(recipes, products), [recipes, products]);
 
   const items = useMemo(
@@ -62,9 +62,11 @@ export function useRecipesList(
     time: search.time,
     activeFiltersCount,
     groups,
-    /** Число уникальных неархивных рецептов: попавший в несколько групп считается один раз. */
+    /**
+     * Number of unique non-archived recipes: one that falls into several groups is counted once.
+     */
     total: allItems.length,
-    /** Сколько уникальных рецептов осталось после поиска и фильтров. */
+    /** How many unique recipes remain after search and filters. */
     found: items.length,
     hasRecipes: allItems.length > 0,
     isSearching: query.trim() !== "",

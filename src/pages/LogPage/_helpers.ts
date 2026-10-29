@@ -1,20 +1,20 @@
 import type { ICookLog } from "@/types/cookLogs.types";
 
 export interface IMonthGroup {
-  /** `YYYY-MM` — ключ группы и порядок сортировки. */
+  /** `YYYY-MM` — the group key and the sort order. */
   key: string;
   year: string;
-  /** Номер месяца, 1–12. */
+  /** Month number, 1–12. */
   month: number;
   logs: ICookLog[];
 }
 
 /**
- * Раскладывает записи журнала по месяцам готовки.
+ * Lays out the log entries by the month of cooking.
  *
- * Порядок записей и групп сохраняется как пришёл — сервис отдаёт журнал по
- * убыванию `cooked_at`, поэтому первой идёт самая свежая группа. Месяц берётся
- * из строки даты, без `Date`.
+ * The order of entries and groups is kept as received — the service returns the log in descending
+ * `cooked_at` order, so the newest group comes first. The month is taken from the date string,
+ * without `Date`.
  */
 export function groupLogsByMonth(logs: ICookLog[]): IMonthGroup[] {
   const groups: IMonthGroup[] = [];

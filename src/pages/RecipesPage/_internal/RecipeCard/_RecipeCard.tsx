@@ -21,12 +21,10 @@ interface IProps {
 }
 
 /**
- * Строка списка: фото или плейсхолдер, название, время, снежинка для
- * замораживаемых и ккал на 100 г.
+ * A list row: photo or placeholder, name, time, a snowflake for freezable ones and kcal per 100 g.
  *
- * Неполное КБЖУ помечено тем же предупреждением, что и в строках справочника
- * продуктов: цифра без него выглядела бы как точная. Рецепт, у которого считать
- * не из чего, показывает прочерк.
+ * Incomplete nutrition is marked with the same warning as in the product directory rows: a number
+ * without it would look exact. A recipe with nothing to calculate from shows a dash.
  */
 export function RecipeCard({ item }: IProps) {
   const l = useI18nSelector(({ l }) => ({ ...l.recipeList.card, nutrients: l.nutrients }));

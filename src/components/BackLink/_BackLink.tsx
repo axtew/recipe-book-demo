@@ -11,16 +11,15 @@ import { SBackAnchor } from "./_styles";
 const SRouterBackLink = createLink(SBackAnchor);
 
 /**
- * Ссылка «назад» с тап-целью 44px.
+ * “Back” link with a 44px tap target.
  *
- * Если в истории приложения есть куда вернуться, делает шаг назад: так на экран
- * возвращаются адрес, поиск и фильтры, с которых пришли. Иначе — обычный переход
- * на адрес из пропов (прямая ссылка, перезапуск PWA). Адрес-запасной остаётся и в
- * `href`, поэтому «открыть в новой вкладке» и клик с модификатором работают как у
- * любой ссылки.
+ * If the app history has somewhere to go back to, steps back: this way the screen gets its address,
+ * search and filters back from where the user came. Otherwise a plain navigation to the address
+ * from the props (direct link, PWA restart). The fallback address stays in `href` too, so “open in
+ * a new tab” and a click with a modifier work like on any link.
  *
- * Собрана через `createLink` и приведена к его типу: иначе дженерики роутера
- * стираются, и `to`/`params` перестают проверяться типами.
+ * Built with `createLink` and cast to its type: otherwise the router generics are erased and
+ * `to`/`params` stop being type-checked.
  */
 export const BackLink = function BackLink(props: LinkComponentProps<"a">) {
   const router = useRouter();

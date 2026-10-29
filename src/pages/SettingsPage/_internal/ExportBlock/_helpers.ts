@@ -1,8 +1,8 @@
 /**
- * Отдаёт текст пользователю как скачиваемый файл.
+ * Hands the text to the user as a downloadable file.
  *
- * Через временную ссылку на Blob и невидимый `<a download>`: ни серверу, ни
- * зависимостям тут делать нечего.
+ * Through a temporary Blob link and an invisible `<a download>`: neither a server nor dependencies
+ * have any business here.
  */
 export function downloadTextFile(fileName: string, content: string, mimeType: string): void {
   const url = URL.createObjectURL(new Blob([content], { type: mimeType }));
@@ -14,6 +14,6 @@ export function downloadTextFile(fileName: string, content: string, mimeType: st
   link.click();
   link.remove();
 
-  // Safari начинает скачивание асинхронно: ссылку нельзя отзывать в том же тике.
+  // Safari starts the download asynchronously: the link must not be revoked in the same tick.
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

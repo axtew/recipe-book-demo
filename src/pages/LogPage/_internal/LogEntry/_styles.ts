@@ -26,7 +26,7 @@ const SAnchor = styled.a`
   text-decoration: none;
 `;
 
-/** Ссылка на карточку рецепта; `createLink` сохраняет типизацию `params` роутера. */
+/** Link to the recipe card; `createLink` keeps the router `params` typed. */
 export const SRecipeLink = createLink(SAnchor);
 
 export const SMeta = styled.div`
@@ -36,7 +36,7 @@ export const SMeta = styled.div`
   gap: 4px 12px;
 `;
 
-/** Заметки хранят переносы строк, как их ввели. */
+/** Notes keep line breaks as they were entered. */
 export const SNote = styled.div`
   white-space: pre-wrap;
 `;
