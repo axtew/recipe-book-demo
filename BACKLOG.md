@@ -40,6 +40,7 @@ A dump of ideas for development, so they do not get lost between conversations. 
 | ~~Public demo for the portfolio~~ | ✅ done — `plans/publication/plan.md` | M |
 | ~~Second UI language~~ | ✅ done — [ADR 0034](docs/decisions/0034-bilingual-ui-by-browser-language.md) | M |
 | [Closing sheets with a swipe down](#closing-sheets-with-a-swipe-down) | 💡 | S |
+| [Shared focus style for links](#shared-focus-style-for-links) | 💡 | S |
 | [Tests beyond the calculation module](#tests-beyond-the-calculation-module) | 💡 | M |
 | [Draft after a server-side edit under an open editor](#draft-after-a-server-side-edit-under-an-open-editor) | 💡 | S |
 | [Moving away from styled-components](#moving-away-from-styled-components) | ⏸ | M |
@@ -228,6 +229,10 @@ The test wrapper (`renderWithProviders`) will assemble the same providers with i
 ### Closing sheets with a swipe down
 
 💡 The bottom sheets (Mantine `Drawer`) close with a tap on the backdrop, a button and `Escape`, but not with a swipe down — Mantine has no such gesture. On an iPhone a swipe is expected by habit. The solution is a shared hook on `touchstart` / `touchmove` / `touchend` with a closing threshold, applied to the shared `SBottomSheetDrawer` and also to `ArchiveConfirm`, which still holds its own copy of the same height override. Taken out of the Phase 7 check as optional (2026-09-19).
+
+### Shared focus style for links
+
+💡 The recipe links in the product card's «Used in» block show a keyboard focus outline (`:focus-visible`, 2px `primary`, as in the recipe editor's storage fields), while the recipe list and the cook log links show none. The idea: one shared focus style for every link-row, so keyboard navigation looks the same everywhere. Noted by the reviewer of the «Used in» links task (2026-10-29).
 
 ### Automatic export backup
 

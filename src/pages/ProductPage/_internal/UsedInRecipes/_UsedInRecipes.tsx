@@ -1,17 +1,16 @@
 import { B1, B2 } from "@/components/Typography";
 import { useI18nSelector } from "@/context/I18nContext";
+import { routerPaths } from "@/routes/_paths";
 import type { IRecipe } from "@/types/recipes.types";
 
-import { SItem, SList } from "./_styles";
+import { SItem, SLink, SList } from "./_styles";
 
 interface IProps {
   recipes: IRecipe[];
 }
 
 /**
- * Recipes that contain the product.
- *
- * The recipe names are plain text, not links to the recipe card.
+ * Recipes that contain the product, each a link to the recipe card.
  */
 export function UsedInRecipes({ recipes }: IProps) {
   const l = useI18nSelector(({ l }) => l.products.card);
@@ -24,7 +23,9 @@ export function UsedInRecipes({ recipes }: IProps) {
     <SList>
       {recipes.map((recipe) => (
         <SItem key={recipe.id}>
-          <B1>{recipe.name}</B1>
+          <SLink to={routerPaths.recipeCard} params={{ recipeId: recipe.id }}>
+            <B1>{recipe.name}</B1>
+          </SLink>
         </SItem>
       ))}
     </SList>
